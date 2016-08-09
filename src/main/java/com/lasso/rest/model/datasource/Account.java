@@ -1,7 +1,9 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.datasource;
 
-import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,70 +18,80 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lasso.rest.model.api.request.AccountRegisterRequest;
 
 @Entity
 @Table(catalog = "art_design", name = "accounts")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public final class Account implements Serializable {
-
-	private static final long	serialVersionUID	= 2562795016649482666L;
+public final class Account {
 
 	@Column(name = "account_info")
 	@Type(type = "text")
-	private String				accountInfo;
+	private String	accountInfo;
 
 	@Column(length = 50, name = "activation_code")
-	private Integer				activationCode;
+	private Integer	activationCode;
 
 	@Column(length = 50, name = "alternative_contact")
-	private String				alternativeContact;
+	private String	alternativeContact;
 
 	@Column(length = 250, name = "image")
-	private String				avatar;
+	private String	avatar;
 
-	// @Column(length = 11, name = "country_id")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id")
-	private Country				country;
+	private Country	country;
 
 	@Column(length = 19, name = "created")
-	private Date				created;
+	private Date	created;
 
 	@Column(length = 50, name = "email")
-	private String				email;
+	private String	email;
 
 	@Id
 	@GeneratedValue
 	@Column(length = 11, name = "id")
-	private Integer				id;
+	private Integer	id;
 
 	@Column(length = 19, name = "modified")
-	private Date				modified;
+	private Date	modified;
 
 	@Column(length = 100, name = "name")
-	private String				name;
+	private String	name;
 
 	@Column(length = 40, name = "password")
-	private String				password;
+	private String	password;
 
 	@Column(length = 1, name = "payment_method")
-	private Byte				payment;
+	private Byte	payment;
 
 	@Column(length = 50, name = "handphone_number")
-	private String				phone;
+	private String	phone;
 
 	@Column(length = 1, name = "role")
-	private Byte				role;
+	private Byte	role;
 
 	@Column(length = 1, name = "status")
-	private Byte				status;
+	private Byte	status;
 
 	@Column(length = 1, name = "subscribe")
-	private Byte				subscribe;
+	private Byte	subscribe;
 
 	public Account() {
+	}
+
+	public Account(AccountRegisterRequest __accountRegister) {
+		this.alternativeContact = __accountRegister.getAlternativeContact();
+		this.avatar = "";
+		this.country = __accountRegister.getCountry();
+		this.created = new Date();
+		this.email = __accountRegister.getEmail();
+		this.name = __accountRegister.getName();
+		this.password = __accountRegister.getPassword();
+		this.payment = __accountRegister.getPayment();
+		this.phone = __accountRegister.getPhone();
+		this.role = __accountRegister.getRole();
 	}
 
 	public String getAccountInfo() {
@@ -154,7 +166,6 @@ public final class Account implements Serializable {
 		this.activationCode = __activationCode;
 	}
 
-	@JsonProperty("alt_contact")
 	public void setAlternativeContact(String __alternativeContact) {
 		this.alternativeContact = __alternativeContact;
 	}
@@ -171,7 +182,6 @@ public final class Account implements Serializable {
 		this.created = __created;
 	}
 
-	@JsonProperty("email")
 	public void setEmail(String __email) {
 		this.email = __email;
 	}
@@ -184,22 +194,18 @@ public final class Account implements Serializable {
 		this.modified = __modified;
 	}
 
-	@JsonProperty("name")
 	public void setName(String __name) {
 		this.name = __name;
 	}
 
-	@JsonProperty("password")
 	public void setPassword(String __password) {
 		this.password = __password;
 	}
 
-	@JsonProperty("payment")
 	public void setPayment(Byte __payment) {
 		this.payment = __payment;
 	}
 
-	@JsonProperty("phone")
 	public void setPhone(String __phone) {
 		this.phone = __phone;
 	}

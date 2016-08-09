@@ -1,6 +1,7 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.datasource;
-
-import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,19 +10,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(catalog = "art_design", name = "countries")
-public final class Country implements Serializable {
-
-	private static final long	serialVersionUID	= 1002184244894198112L;
+public final class Country {
 
 	@Id
 	@Column(length = 11, name = "id")
-	private Integer				id;
+	private Integer	id;
 
 	@Column(length = 2, name = "code")
-	private String				code;
+	private String	code;
 
 	@Column(length = 1, name = "status")
-	private Byte				status;
+	private Byte	status;
 
 	public Country() {
 	}

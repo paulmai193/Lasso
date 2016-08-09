@@ -11,6 +11,35 @@
 
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
+		
+	<!-- DAO Layer -->
+	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	
+	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<!-- Service Layer -->
+	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement">
+		<property name="accountDAO" ref="accountDAO"></property>
+	</bean>
+	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement">
+		<property name="countryDAO" ref="countryDAO"></property>
+	</bean>
+	
+	<!-- Controller Layer -->
+	<bean id="accountController" class="com.lasso.rest.controller.AccountController">
+		<property name="accountManagement" ref="accountManagement"></property>
+		<property name="genericManagement" ref="genericManagement"></property>
+	</bean>
+	
+	<!-- Utility -->
+	<bean id="emailUtil" class="com.lasso.util.EmailUtil">
+		<constructor-arg>
+			<value>classpath:config/email.properties</value>
+		</constructor-arg>
+	</bean>
 
 </beans>
