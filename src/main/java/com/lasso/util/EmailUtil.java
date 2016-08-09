@@ -4,10 +4,8 @@
 package com.lasso.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +30,15 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.springframework.core.io.Resource;
+
 public final class EmailUtil {
 
-	private File			propertyFile	= new File("email.properties");
+	private Resource propertyFile;
+
+	public void setPropertyFile(final Resource __propertyFile) {
+		this.propertyFile = __propertyFile;
+	}
 
 	/** The password. */
 	private String			password;
@@ -47,38 +51,36 @@ public final class EmailUtil {
 
 	public static EmailUtil	instance;
 
-	public EmailUtil(String __propertyFile)
-	        throws FileNotFoundException, IOException, URISyntaxException {
-		setPropertiesPath(__propertyFile);
-		initialized();
+	public EmailUtil() {
 	}
 
-	/**
-	 * Sets the properties path.
-	 *
-	 * @param __propertiesPath the new properties path
-	 */
-	public void setPropertiesPath(String __propertiesPath) {
-		propertyFile = new File(__propertiesPath);
-	}
-
-	/**
-	 * Sets the properties path.
-	 *
-	 * @param __propertiesURI the new properties path
-	 */
-	public void setPropertiesPath(URI __propertiesURI) {
-		propertyFile = new File(__propertiesURI);
-	}
-
-	/**
-	 * Sets the properties path.
-	 *
-	 * @param __propertiesFile the new properties path
-	 */
-	public void setPropertiesPath(File __propertiesFile) {
-		propertyFile = __propertiesFile;
-	}
+	// /**
+	// * Sets the properties path.
+	// *
+	// * @param __propertiesPath the new properties path
+	// */
+	//
+	// public void setPropertiesPath(String __propertiesPath) {
+	// propertyFile = new File(__propertiesPath);
+	// }
+	//
+	// /**
+	// * Sets the properties path.
+	// *
+	// * @param __propertiesURI the new properties path
+	// */
+	// public void setPropertiesPath(URI __propertiesURI) {
+	// propertyFile = new File(__propertiesURI);
+	// }
+	//
+	// /**
+	// * Sets the properties path.
+	// *
+	// * @param __propertiesFile the new properties path
+	// */
+	// public void setPropertiesPath(File __propertiesFile) {
+	// propertyFile = __propertiesFile;
+	// }
 
 	/**
 	 * Send email.
@@ -256,7 +258,7 @@ public final class EmailUtil {
 	 */
 	private void initialized() throws FileNotFoundException, IOException, URISyntaxException {
 		Properties _props = new Properties();
-		_props.load(new FileInputStream(propertyFile));
+		_props.load(this.propertyFile.getInputStream());
 		username = _props.containsKey("email.username") ? _props.getProperty("email.username")
 		        : "n/a";
 		password = _props.containsKey("email.password") ? _props.getProperty("email.password")

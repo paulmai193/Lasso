@@ -36,10 +36,9 @@
 	</bean>
 	
 	<!-- Utility -->
-	<bean id="emailUtil" class="com.lasso.util.EmailUtil">
-		<constructor-arg>
-			<value>classpath:config/email.properties</value>
-		</constructor-arg>
+	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized">
+		<property name="propertyFile" value="classpath:config/email.properties"></property>
+		<!-- <constructor-arg value="config/email.properties"></constructor-arg> -->
 	</bean>
 
 </beans>
