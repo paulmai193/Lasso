@@ -23,6 +23,14 @@ public interface AccountDAO {
 	public Integer createAccount(Account __account);
 
 	/**
+	 * Gets the account by email.
+	 *
+	 * @param __email the email
+	 * @return the account by email
+	 */
+	public Account getAccountByEmail(String __email);
+
+	/**
 	 * Gets the account by id.
 	 *
 	 * @param __id the id
@@ -31,17 +39,16 @@ public interface AccountDAO {
 	public Account getAccountById(Integer __id);
 
 	/**
-	 * Gets the accounts by email.
-	 *
-	 * @param __email the email
-	 * @return the accounts by email
-	 */
-	public List<Account> getAccountsByEmail(String __email);
-
-	/**
 	 * Gets all accounts in DB.
 	 *
 	 * @return the all
 	 */
 	public List<Account> getAll();
+
+	/**
+	 * Update account.
+	 *
+	 * @param __account the account
+	 */
+	void updateAccount(Account __account);
 }

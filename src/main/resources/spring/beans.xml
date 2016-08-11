@@ -24,6 +24,7 @@
 	<!-- Service Layer -->
 	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement">
 		<property name="accountDAO" ref="accountDAO"></property>
+		
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement">
 		<property name="countryDAO" ref="countryDAO"></property>
@@ -36,7 +37,7 @@
 	</bean>
 	
 	<!-- Utility -->
-	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized">
+	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized" factory-method="getInstance">
 		<property name="propertyFile" value="classpath:config/email.properties"></property>
 		<!-- <constructor-arg value="config/email.properties"></constructor-arg> -->
 	</bean>

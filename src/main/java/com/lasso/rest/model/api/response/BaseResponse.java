@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  *
  * @author Paul Mai
  */
-@JsonInclude(content = Include.NON_NULL)
+@JsonInclude(value = Include.NON_NULL)
 public class BaseResponse {
 
 	/** The detail. */

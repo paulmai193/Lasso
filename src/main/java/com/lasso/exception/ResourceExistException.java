@@ -3,12 +3,15 @@
  */
 package com.lasso.exception;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
+
 /**
  * The Class ResourceExistException.
  *
  * @author Paul Mai
  */
-public class ResourceExistException extends RuntimeException {
+public class ResourceExistException extends WebApplicationException {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6534731105219767339L;
@@ -26,7 +29,7 @@ public class ResourceExistException extends RuntimeException {
 	 * @param __message the message
 	 */
 	public ResourceExistException(String __message) {
-		super(__message);
+		super(__message, Status.CONFLICT);
 	}
 
 }

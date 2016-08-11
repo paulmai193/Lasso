@@ -37,7 +37,7 @@ public class GenericErrorHandler implements ExceptionMapper<Exception> {
 	public Response toResponse(Exception __exception) {
 		GenericErrorHandler.LOGGER.error(__exception.getMessage(), __exception);
 		BaseResponse _errorResponse = new BaseResponse(true, __exception.getMessage(),
-		        __exception.getCause() == null ? null : __exception.getCause().getMessage());
+				__exception.getCause() == null ? null : __exception.getCause().getMessage());
 		return Response.serverError().entity(_errorResponse).build();
 	}
 

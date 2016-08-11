@@ -17,7 +17,15 @@ import javax.crypto.spec.PBEParameterSpec;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
+/**
+ * The Class EncryptionUtil.
+ *
+ * @author Paul Mai
+ */
 public final class EncryptionUtil {
+
+	/** The Constant DEFAULT_PASSWORD. */
+	private static final String	DEFAULT_PASSWORD	= "phskyd5NjS";
 
 	/** The Constant ITERATION_COUNT. */
 	private final static int	ITERATION_COUNT		= 31;
@@ -27,21 +35,23 @@ public final class EncryptionUtil {
 
 	/** The Random Constant SALT. */
 	private static final byte[]	SALT				= { (byte) 0x24, (byte) 0x67, (byte) 0xD8,
-	        (byte) 0xF6, (byte) 0x83, (byte) 0xE4, (byte) 0xBB, (byte) 0x08, (byte) 0x0B,
-	        (byte) 0x39 };
-
-	private static final String	DEFAULT_PASSWORD	= "phskyd5NjS";
+			(byte) 0xF6, (byte) 0x83, (byte) 0xE4, (byte) 0xBB, (byte) 0x08 };
 
 	/**
-	 * Instantiates a new encryption utils.
+	 * Decode.
+	 *
+	 * @param __token the token
+	 * @return the string
 	 */
-	private EncryptionUtil() {
+	public static String decode(String __token) {
+		return EncryptionUtil.decode(__token, EncryptionUtil.DEFAULT_PASSWORD);
 	}
 
 	/**
 	 * Decode.
 	 *
 	 * @param __token the token
+	 * @param __password the password
 	 * @return the string
 	 */
 	public static String decode(String __token, String __password) {
@@ -51,17 +61,17 @@ public final class EncryptionUtil {
 		try {
 
 			String _input = __token.replace("%0A", "\n").replace("%25", "%").replace('_', '/')
-			        .replace('-', '+');
+					.replace('-', '+');
 
 			byte[] _dec = Base64.decodeBase64(_input.getBytes());
 
 			KeySpec _keySpec = new PBEKeySpec(__password.toCharArray(), EncryptionUtil.SALT,
-			        EncryptionUtil.ITERATION_COUNT);
+					EncryptionUtil.ITERATION_COUNT);
 			AlgorithmParameterSpec paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
-			        EncryptionUtil.ITERATION_COUNT);
+					EncryptionUtil.ITERATION_COUNT);
 
 			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
-			        .generateSecret(_keySpec);
+					.generateSecret(_keySpec);
 
 			Cipher _dcipher = Cipher.getInstance(_key.getAlgorithm());
 			_dcipher.init(Cipher.DECRYPT_MODE, _key, paramSpec);
@@ -79,14 +89,22 @@ public final class EncryptionUtil {
 		return null;
 	}
 
-	public static String decode(String __token) {
-		return decode(__token, DEFAULT_PASSWORD);
+	/**
+	 * Encode.
+	 *
+	 * @param __input the input
+	 * @return the string
+	 */
+	public static String encode(String __input) {
+		return EncryptionUtil.encode(__input, EncryptionUtil.DEFAULT_PASSWORD);
+
 	}
 
 	/**
 	 * Encode.
 	 *
 	 * @param __input the input
+	 * @param __password the password
 	 * @return the string
 	 */
 	public static String encode(String __input, String __password) {
@@ -96,12 +114,12 @@ public final class EncryptionUtil {
 		try {
 
 			KeySpec _keySpec = new PBEKeySpec(__password.toCharArray(), EncryptionUtil.SALT,
-			        EncryptionUtil.ITERATION_COUNT);
+					EncryptionUtil.ITERATION_COUNT);
 			AlgorithmParameterSpec _paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
-			        EncryptionUtil.ITERATION_COUNT);
+					EncryptionUtil.ITERATION_COUNT);
 
 			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
-			        .generateSecret(_keySpec);
+					.generateSecret(_keySpec);
 
 			Cipher _ecipher = Cipher.getInstance(_key.getAlgorithm());
 			_ecipher.init(Cipher.ENCRYPT_MODE, _key, _paramSpec);
@@ -111,7 +129,7 @@ public final class EncryptionUtil {
 			String _res = new String(Base64.encodeBase64(_enc));
 			// escapes for url
 			_res = _res.replace('+', '-').replace('/', '_').replace("%", "%25").replace("\n",
-			        "%0A");
+					"%0A");
 
 			return _res;
 
@@ -121,11 +139,6 @@ public final class EncryptionUtil {
 		}
 
 		return null;
-
-	}
-
-	public static String encode(String __input) {
-		return encode(__input, DEFAULT_PASSWORD);
 
 	}
 
@@ -159,6 +172,12 @@ public final class EncryptionUtil {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Instantiates a new encryption utils.
+	 */
+	private EncryptionUtil() {
 	}
 
 }
