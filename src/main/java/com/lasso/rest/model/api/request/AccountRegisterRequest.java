@@ -61,6 +61,11 @@ public class AccountRegisterRequest extends BaseRequest {
 		this.role = __role;
 	}
 
+	/**
+	 * Check country valid.
+	 *
+	 * @throws ObjectParamException the object param exception
+	 */
 	public void checkCountryValid() throws ObjectParamException {
 		if (this.country == null) {
 			throw new ObjectParamException("Illegal country code");

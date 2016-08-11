@@ -4,13 +4,18 @@
 package com.lasso.rest.service.impl;
 
 import java.text.MessageFormat;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -19,8 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.define.Constant;
-import com.lasso.exception.InActivateException;
-import com.lasso.exception.LoginFailException;
+import com.lasso.exception.AuthenticateException;
 import com.lasso.exception.ResourceExistException;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
@@ -40,9 +44,15 @@ public class ImplAccountManagement implements AccountManagement {
 
 	/** The account DAO. */
 	@Autowired
-	private AccountDAO				accountDAO;
+	private AccountDAO					accountDAO;
 
-	private Map<Integer, String>	mapUserToken;
+	/** The map Credentials of token. */
+	private Map<String, LoginResponse>	mapTokenOfUser;
+
+	/** The map user current Credentials. */
+	private Map<Integer, LoginResponse>	mapUserCurrentToken;
+
+	// private Map<String, Integer> map
 
 	/**
 	 * Instantiates a new impl account management.
@@ -76,11 +86,79 @@ public class ImplAccountManagement implements AccountManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.service.AccountManagement#changePassword(java.lang.String,
+	 * java.lang.String, com.lasso.rest.model.datasource.Account)
+	 */
+	@Override
+	public boolean changePassword(String __oldPassword, String __newPassword, Account __account) {
+		if (__oldPassword.equals(__account.getPassword())) {
+			__account.setPassword(__newPassword);
+			this.accountDAO.updateAccount(__account);
+			return true;
+		}
+		else {
+			return false;
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.service.AccountManagement#getAllAccounts()
 	 */
 	@Override
 	public List<Account> getAllAccounts() {
 		return this.accountDAO.getAll();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.AccountManagement#login(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public LoginResponse login(String __email, String __password) {
+		Account _account = this.accountDAO.getAccountByEmail(__email);
+		LoginResponse _response;
+		if (_account == null) {
+			throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
+		}
+		else if (!_account.getPassword().equals(__password)) {
+			if (_account.getActivationCode().equals(__password)) {
+				// In reset password case
+				_response = new LoginResponse(_account.getId(),
+				        RandomStringUtils.randomAlphanumeric(200), true);
+			}
+			else {
+				throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
+			}
+		}
+		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
+			throw new AuthenticateException("Email not activated", Status.FORBIDDEN);
+		}
+		else {
+			_response = new LoginResponse(_account.getId(),
+			        RandomStringUtils.randomAlphanumeric(200));
+		}
+
+		this.mapTokenOfUser.put(_response.getToken(), _response);
+		this.mapUserCurrentToken.put(_response.getIdAccount(), _response);
+
+		return _response;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.AccountManagement#logout(java.lang.Integer)
+	 */
+	@Override
+	public void logout(Integer __idAccount) {
+		LoginResponse __credentials = this.mapUserCurrentToken.remove(__idAccount);
+		if (__credentials != null) {
+			this.mapTokenOfUser.remove(__credentials.getToken());
+		}
 	}
 
 	/*
@@ -168,47 +246,69 @@ public class ImplAccountManagement implements AccountManagement {
 		this.accountDAO = __accountDAO;
 	}
 
-	public void setMapUserToken(Map<Integer, String> __mapUserToken) {
-		this.mapUserToken = __mapUserToken;
+	/**
+	 * Sets the map token of user.
+	 *
+	 * @param __mapTokenOfUser the map token of user
+	 */
+	public void setMapTokenOfUser(Map<String, LoginResponse> __mapTokenOfUser) {
+		this.mapTokenOfUser = __mapTokenOfUser;
 	}
 
+	/**
+	 * Sets the map user current token.
+	 *
+	 * @param __mapUserCurrentToken the map user current token
+	 */
+	public void setMapUserCurrentToken(Map<Integer, LoginResponse> __mapUserCurrentToken) {
+		this.mapUserCurrentToken = __mapUserCurrentToken;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.AccountManagement#validateAccountToken(java.lang.String)
+	 */
 	@Override
-	public LoginResponse login(String __email, String __password) {
-		Account _account = accountDAO.getAccountByEmail(__email);
-		LoginResponse _response;
-		if (_account == null) {
-			throw new LoginFailException();
-		}
-		else if (!_account.getPassword().equals(__password)) {
-			if (_account.getActivationCode().equals(__password)) {
-				// In reset password case
-				_response = new LoginResponse(_account.getId(),
-				        RandomStringUtils.randomAlphanumeric(100), true);
+	public Account validateAccountToken(String __token) {
+		try {
+			// Check token valid
+			LoginResponse _credentials = this.mapTokenOfUser.get(__token);
+			if (_credentials == null) {
+				// Not login
+				throw new AuthenticateException("Invalid token", Status.UNAUTHORIZED);
 			}
 			else {
-				throw new LoginFailException();
+				LoginResponse _currentCredentials = this.mapUserCurrentToken
+				        .get(_credentials.getIdAccount());
+				if (!_currentCredentials.getToken().equals(__token)) {
+					// Old token
+					throw new AuthenticateException("Token expired", Status.UNAUTHORIZED);
+				}
+				else if (_currentCredentials.getExpired().compareTo(new Date()) <= 0) {
+					// Old token
+					throw new AuthenticateException("Token expired", Status.UNAUTHORIZED);
+				}
+				else {
+					// True token
+					return this.accountDAO.getAccountById(_currentCredentials.getIdAccount());
+				}
 			}
 		}
-		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
-			throw new InActivateException();
-		}
-		else {
-			_response = new LoginResponse(_account.getId(),
-			        RandomStringUtils.randomAlphanumeric(100));
-		}
+		finally {
+			// TODO Scan mapTokenOfUser to remove 2-day-old-token
+			final Iterator<Entry<String, LoginResponse>> _it = this.mapTokenOfUser.entrySet()
+			        .iterator();
+			_it.forEachRemaining(new Consumer<Entry<String, LoginResponse>>() {
 
-		mapUserToken.put(_response.getIdAccount(), _response.getToken());
-
-		return _response;
-	}
-
-	@Override
-	public void verifyAccountToken(Integer __idAccount, String __token) {
-		if (mapUserToken.get(__idAccount).equals(__token)) {
-			System.out.println("OK");
-		}
-		else {
-			System.out.println("FAIL");
+				@Override
+				public void accept(Entry<String, LoginResponse> __t) {
+					if (new Date().getTime()
+			                - __t.getValue().getCreated().getTime() > (2 * 24 * 60 * 60 * 1000)) {
+						_it.remove();
+					}
+				}
+			});
 		}
 	}
 }

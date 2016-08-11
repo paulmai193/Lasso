@@ -1,7 +1,7 @@
 /*
  * 
  */
-package com.lasso.rest.errorhandler;
+package com.lasso.rest.controller.errorhandler;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;

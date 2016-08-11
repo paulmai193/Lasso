@@ -1,4 +1,4 @@
-package com.lasso.rest.errorhandler;
+package com.lasso.rest.controller.errorhandler;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -9,20 +9,34 @@ import org.apache.log4j.Logger;
 import com.lasso.exception.AuthenticateException;
 import com.lasso.rest.model.api.response.BaseResponse;
 
+/**
+ * The Class AuthenticateErrorHandler.
+ *
+ * @author Paul Mai
+ */
 @Provider
 public class AuthenticateErrorHandler implements ExceptionMapper<AuthenticateException> {
 
+	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(AuthenticateErrorHandler.class);
 
+	/**
+	 * Instantiates a new authenticate error handler.
+	 */
 	public AuthenticateErrorHandler() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
+	 */
 	@Override
 	public Response toResponse(AuthenticateException __exception) {
-		LOGGER.warn(__exception.getMessage());
+		AuthenticateErrorHandler.LOGGER.warn(__exception.getMessage());
 		BaseResponse _errorResponse = new BaseResponse(true, __exception.getMessage());
 		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse)
-		        .build();
+				.build();
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package com.lasso.rest.model.datasource;
 
+import java.security.Principal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,7 +31,7 @@ import com.lasso.rest.model.api.request.DesignerRegisterRequest;
 @Table(catalog = "art_design", name = "accounts")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public final class Account {
+public final class Account implements Principal {
 
 	/** The account info. */
 	@Column(name = "account_info")
@@ -398,6 +399,14 @@ public final class Account {
 	}
 
 	/**
+	 * <<<<<<< HEAD
+	 * Sets the modified.
+	 */
+	public void setModified() {
+		this.modified = new Date();
+	}
+
+	/**
 	 * Sets the modified.
 	 *
 	 * @param __modified the new modified
@@ -407,13 +416,8 @@ public final class Account {
 	}
 
 	/**
-	 * Sets the modified.
-	 */
-	public void setModified() {
-		this.modified = new Date();
-	}
-
-	/**
+	 * =======
+	 * >>>>>>> branch 'mai-bat-hu' of https://github.com/paulmai193/Lasso.git
 	 * Sets the name.
 	 *
 	 * @param __name the new name

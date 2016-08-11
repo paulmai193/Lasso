@@ -3,8 +3,6 @@
  */
 package com.lasso.rest.controller;
 
-import java.util.List;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +17,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
+import com.lasso.rest.model.api.request.ChangePasswordRequest;
 import com.lasso.rest.model.api.request.DesignerRegisterRequest;
 import com.lasso.rest.model.api.request.ForgotPasswordRequest;
 import com.lasso.rest.model.api.request.LoginRequest;
@@ -74,28 +75,55 @@ public class AccountController extends BaseController {
 	}
 
 	/**
-	 * Gets the all accounts.
+	 * Change password.
 	 *
-	 * @return the all accounts
+	 * @param __context the context
+	 * @param __changePasswordRequest the change password request
+	 * @return the response
 	 */
-	@GET
-	public List<Account> getAllAccounts() {
-		return this.accountManagement.getAllAccounts();
+	@POST
+	@Path("/change_password")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	public Response changePassword(@Context SecurityContext __context,
+	        ChangePasswordRequest __changePasswordRequest) {
+		__changePasswordRequest.checkNotNull();
+		Account _account = (Account) __context.getUserPrincipal();
+		if (this.accountManagement.changePassword(__changePasswordRequest.getOldPassword(),
+		        __changePasswordRequest.getNewPassword(), _account)) {
+			return this.success();
+		}
+		else {
+			return this.fail(new BaseResponse(true, "Current password not match."),
+			        Status.FORBIDDEN);
+		}
 	}
 
+	/**
+	 * Login.
+	 *
+	 * @param __loginRequest the login request
+	 * @return the login response
+	 */
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse login(LoginRequest __loginRequest) {
 		__loginRequest.checkNotNull();
-		return accountManagement.login(__loginRequest.getEmailParam().getValue(),
+		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
 		        __loginRequest.getPassword());
 	}
 
+	/**
+	 * Logout.
+	 *
+	 * @param __context the context
+	 */
 	@GET
-	@Path("/test")
-	public void testAccount(@QueryParam("id") Integer __id, @QueryParam("token") String __token) {
-		accountManagement.verifyAccountToken(__id, __token);
+	@Path("/logout")
+	@AccountAuthenticate
+	public void logout(@Context SecurityContext __context) {
+		this.accountManagement.logout(((Account) __context.getUserPrincipal()).getId());
 	}
 
 	/**
@@ -159,7 +187,7 @@ public class AccountController extends BaseController {
 	/**
 	 * Forgot password.
 	 *
-	 * @param __email the email
+	 * @param __forgotPasswordRequest the forgot password request
 	 * @return the response
 	 * @throws NotFoundException the not found exception
 	 * @throws AddressException the address exception
@@ -191,6 +219,19 @@ public class AccountController extends BaseController {
 	 */
 	public void setGenericManagement(GenericManagement __genericManagement) {
 		this.genericManagement = __genericManagement;
+	}
+
+	/**
+	 * Test account.
+	 *
+	 * @param __context the context
+	 * @return the response
+	 */
+	@GET
+	@Path("/test")
+	@AccountAuthenticate
+	public Response testAccount(@Context SecurityContext __context) {
+		return this.success();
 	}
 
 }

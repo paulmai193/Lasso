@@ -21,14 +21,6 @@ import com.lasso.rest.model.datasource.Account;
 public interface AccountManagement {
 
 	/**
-	 * Verify account token.
-	 *
-	 * @param __idAccount the id account
-	 * @param __token the token
-	 */
-	public void verifyAccountToken(Integer __idAccount, String __token);
-
-	/**
 	 * Activate account.
 	 *
 	 * @param __accountId the account id
@@ -36,6 +28,16 @@ public interface AccountManagement {
 	 * @return true, if successful
 	 */
 	public boolean activateAccount(Integer __accountId, int __code);
+
+	/**
+	 * Change password.
+	 *
+	 * @param __oldPassword the old password, required match with current password
+	 * @param __newPassword the new password wanna change
+	 * @param __account the account
+	 * @return true, if successful
+	 */
+	public boolean changePassword(String __oldPassword, String __newPassword, Account __account);
 
 	/**
 	 * Gets the all accounts.
@@ -52,6 +54,13 @@ public interface AccountManagement {
 	 * @return the login response
 	 */
 	public LoginResponse login(String __email, String __password);
+
+	/**
+	 * User Logout.
+	 *
+	 * @param __idAccount the id account
+	 */
+	public void logout(Integer __idAccount);
 
 	/**
 	 * Register user account.
@@ -82,4 +91,12 @@ public interface AccountManagement {
 	 */
 	public void sendActivationEmail(String __email, String __refLink)
 	        throws AddressException, MessagingException;
+
+	/**
+	 * Validate the token to verify secured account.
+	 *
+	 * @param __token the token
+	 * @return the verified account
+	 */
+	public Account validateAccountToken(String __token);
 }

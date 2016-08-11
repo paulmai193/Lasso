@@ -25,13 +25,21 @@
 
 	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement">
 		<property name="accountDAO" ref="accountDAO"></property>
-		<property name="mapUserToken">
-			<bean class="java.util.HashMap" ></bean>
+		<property name="mapUserCurrentToken">
+			<bean class="java.util.concurrent.ConcurrentHashMap"></bean>
+		</property>
+		<property name="mapTokenOfUser">
+			<bean class="java.util.concurrent.ConcurrentHashMap"></bean>
 		</property>
 
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement">
 		<property name="countryDAO" ref="countryDAO"></property>
+	</bean>
+
+	<!-- Filter Layer -->
+	<bean id="accountAuthenticateFilter" class="com.lasso.rest.controller.filter.AccountAuthenticateFilter">
+		<property name="accountManagement" ref="accountManagement"></property>
 	</bean>
 
 	<!-- Controller Layer -->

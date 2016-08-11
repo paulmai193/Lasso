@@ -29,12 +29,37 @@ public class LoginRequest extends BaseRequest {
 	}
 
 	/**
+	 * Check not null.
+	 *
+	 * @throws ObjectParamException the object param exception
+	 */
+	@Override
+	public void checkNotNull() throws ObjectParamException {
+		try {
+			Assert.notNull(this.email);
+			Assert.notNull(this.password);
+		}
+		catch (Exception _ex) {
+			throw new ObjectParamException("Email or password not valid");
+		}
+	}
+
+	/**
 	 * Gets the email param.
 	 *
 	 * @return the email param
 	 */
 	public EmailParam getEmailParam() {
 		return this.email;
+	}
+
+	/**
+	 * Gets the password.
+	 *
+	 * @return the password
+	 */
+	public String getPassword() {
+		return this.password;
 	}
 
 	/**
@@ -53,37 +78,12 @@ public class LoginRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the password.
-	 *
-	 * @return the password
-	 */
-	public String getPassword() {
-		return this.password;
-	}
-
-	/**
 	 * Sets the password.
 	 *
 	 * @param __password the new password
 	 */
 	public void setPassword(String __password) {
 		this.password = __password;
-	}
-
-	/**
-	 * Check not null.
-	 *
-	 * @throws ObjectParamException the object param exception
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		try {
-			Assert.notNull(email);
-			Assert.notNull(password);
-		}
-		catch (Exception _ex) {
-			throw new ObjectParamException("Email or password not valid");
-		}
 	}
 
 }
