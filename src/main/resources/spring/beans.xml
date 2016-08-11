@@ -26,7 +26,7 @@
 	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement">
 		<property name="accountDAO" ref="accountDAO"></property>
 		<property name="mapUserToken">
-			<bean class="java.util.HashMap" ></bean>
+			<bean class="java.util.HashMap"></bean>
 		</property>
 
 	</bean>

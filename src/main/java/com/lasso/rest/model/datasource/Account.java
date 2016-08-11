@@ -407,6 +407,7 @@ public final class Account {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Sets the modified.
 	 */
 	public void setModified() {
@@ -414,6 +415,8 @@ public final class Account {
 	}
 
 	/**
+=======
+>>>>>>> branch 'mai-bat-hu' of https://github.com/paulmai193/Lasso.git
 	 * Sets the name.
 	 *
 	 * @param __name the new name
