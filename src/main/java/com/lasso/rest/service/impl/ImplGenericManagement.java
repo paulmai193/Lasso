@@ -13,33 +13,48 @@ import com.lasso.rest.dao.CountryDAO;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.GenericManagement;
 
+/**
+ * The Class ImplGenericManagement.
+ *
+ * @author Paul Mai
+ */
 @Service
 @Transactional
 public class ImplGenericManagement implements GenericManagement {
 
+	/** The country DAO. */
 	@Autowired
 	private CountryDAO countryDAO;
 
-	public CountryDAO getCountryDAO() {
-		return this.countryDAO;
-	}
-
-	public void setCountryDAO(CountryDAO __countryDAO) {
-		this.countryDAO = __countryDAO;
-	}
-
+	/**
+	 * Instantiates a new impl generic management.
+	 */
 	public ImplGenericManagement() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.GenericManagement#getCountryIdByCode(java.lang.String)
+	 */
 	@Override
 	public Country getCountryIdByCode(String __countryCode) {
-		List<Country> _ids = countryDAO.getCountryIdsByCode(__countryCode);
+		List<Country> _ids = this.countryDAO.getCountryIdsByCode(__countryCode);
 		if (_ids.size() == 0 || _ids.size() > 1) {
-			throw new IllegalArgumentException("Illegal country code");
+			return null;
 		}
 		else {
 			return _ids.get(0);
 		}
+	}
+
+	/**
+	 * Sets the country DAO.
+	 *
+	 * @param __countryDAO the new country DAO
+	 */
+	public void setCountryDAO(CountryDAO __countryDAO) {
+		this.countryDAO = __countryDAO;
 	}
 
 }

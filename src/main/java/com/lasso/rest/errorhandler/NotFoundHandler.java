@@ -22,7 +22,7 @@ import com.lasso.rest.model.api.response.BaseResponse;
 public class NotFoundHandler implements ExceptionMapper<NotFoundException> {
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(GenericErrorHandler.class);
+	private static final Logger LOGGER = Logger.getLogger(NotFoundHandler.class);
 
 	/**
 	 * Instantiates a new data not found error handler.
@@ -38,7 +38,7 @@ public class NotFoundHandler implements ExceptionMapper<NotFoundException> {
 	@Override
 	public Response toResponse(NotFoundException __exception) {
 		NotFoundHandler.LOGGER.warn(__exception.getMessage(), __exception);
-		BaseResponse _errorResponse = new BaseResponse(true, "Request not found");
+		BaseResponse _errorResponse = new BaseResponse(true, __exception.getMessage());
 		return Response.status(Status.NOT_FOUND).entity(_errorResponse).build();
 	}
 

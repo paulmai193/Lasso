@@ -7,6 +7,11 @@ import java.util.regex.Pattern;
 
 import com.lasso.exception.ObjectParamException;
 
+/**
+ * The Class ContactParam.
+ *
+ * @author Paul Mai
+ */
 public class ContactParam extends AbstractParam<String> {
 
 	/** The Constant CONTACT_EMAIL. */
@@ -16,7 +21,7 @@ public class ContactParam extends AbstractParam<String> {
 	public static final byte		CONTACT_PHONE	= 2;
 
 	/** The Constant EMAIL_PATTERN. */
-	protected static final String	EMAIL_PATTERN	= "[^@]+@[^@]+";
+	protected static final String	EMAIL_PATTERN	= "[^@]+@[^@]+\\.[^@]+";
 
 	/** The Constant PHONE_PATTERN. */
 	protected static final String	PHONE_PATTERN	= "^[0\\+]+\\d+";
@@ -24,10 +29,30 @@ public class ContactParam extends AbstractParam<String> {
 	/** The contact type. */
 	protected byte					contactType;
 
+	/**
+	 * Instantiates a new contact param.
+	 *
+	 * @param __param the param
+	 * @throws ObjectParamException the object param exception
+	 */
 	public ContactParam(String __param) throws ObjectParamException {
 		super(__param);
 	}
 
+	/**
+	 * Gets the contact type.
+	 *
+	 * @return the contact type
+	 */
+	public byte getContactType() {
+		return this.contactType;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.variable.AbstractParam#parse(java.lang.String)
+	 */
 	@Override
 	protected String parse(String __param) throws Throwable {
 		if (Pattern.compile(ContactParam.EMAIL_PATTERN).matcher(__param).matches()) {
@@ -41,15 +66,6 @@ public class ContactParam extends AbstractParam<String> {
 		else {
 			throw new ObjectParamException("Not email or phone number format");
 		}
-	}
-
-	/**
-	 * Gets the contact type.
-	 *
-	 * @return the contact type
-	 */
-	public byte getContactType() {
-		return this.contactType;
 	}
 
 	/*

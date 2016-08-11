@@ -6,6 +6,7 @@ package com.lasso.rest.errorhandler;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +18,7 @@ import com.lasso.rest.model.api.response.BaseResponse;
  *
  * @author Paul Mai
  */
+@Provider
 public class ResourceExistHandler implements ExceptionMapper<ResourceExistException> {
 
 	/** The Constant LOGGER. */

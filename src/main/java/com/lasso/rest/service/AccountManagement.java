@@ -7,9 +7,11 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.ws.rs.NotFoundException;
 
+import com.lasso.rest.model.api.request.AccountRegisterRequest;
+import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
-import com.lasso.rest.model.variable.EmailParam;
 
 /**
  * The Interface AccountManagement.
@@ -19,12 +21,21 @@ import com.lasso.rest.model.variable.EmailParam;
 public interface AccountManagement {
 
 	/**
-	 * Check exist email.
+	 * Verify account token.
 	 *
-	 * @param __email the email
-	 * @return true, if this email exist
+	 * @param __idAccount the id account
+	 * @param __token the token
 	 */
-	public boolean checkExistEmail(EmailParam __email);
+	public void verifyAccountToken(Integer __idAccount, String __token);
+
+	/**
+	 * Activate account.
+	 *
+	 * @param __accountId the account id
+	 * @param __code the code
+	 * @return true, if successful
+	 */
+	public boolean activateAccount(Integer __accountId, int __code);
 
 	/**
 	 * Gets the all accounts.
@@ -34,12 +45,32 @@ public interface AccountManagement {
 	public List<Account> getAllAccounts();
 
 	/**
+	 * User login by email and password.
+	 *
+	 * @param __email the email
+	 * @param __password the password
+	 * @return the login response
+	 */
+	public LoginResponse login(String __email, String __password);
+
+	/**
 	 * Register user account.
 	 *
-	 * @param __newAccount the new account
+	 * @param __registerAccount the register account
 	 * @return the reference code to activate
 	 */
-	public String registerUserAccount(Account __newAccount);
+	public String registerUserAccount(AccountRegisterRequest __registerAccount);
+
+	/**
+	 * Request to reset password given by email.
+	 *
+	 * @param __email the email
+	 * @throws NotFoundException the not found exception
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	public void resetPassword(String __email)
+	        throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Send activation email.

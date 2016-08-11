@@ -27,24 +27,6 @@ public class ImplCountryDAO implements CountryDAO {
 	private SessionFactory sessionFactory;
 
 	/**
-	 * Gets the session factory.
-	 *
-	 * @return the session factory
-	 */
-	public SessionFactory getSessionFactory() {
-		return this.sessionFactory;
-	}
-
-	/**
-	 * Sets the session factory.
-	 *
-	 * @param __sessionFactory the new session factory
-	 */
-	public void setSessionFactory(SessionFactory __sessionFactory) {
-		this.sessionFactory = __sessionFactory;
-	}
-
-	/**
 	 * Instantiates a new impl country DAO.
 	 */
 	public ImplCountryDAO() {
@@ -58,9 +40,18 @@ public class ImplCountryDAO implements CountryDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Country> getCountryIdsByCode(String __code) {
-		Criteria _criteria = sessionFactory.getCurrentSession().createCriteria(Country.class);
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class);
 		_criteria.add(Restrictions.eq("code", __code));
 		return _criteria.list();
+	}
+
+	/**
+	 * Sets the session factory.
+	 *
+	 * @param __sessionFactory the new session factory
+	 */
+	public void setSessionFactory(SessionFactory __sessionFactory) {
+		this.sessionFactory = __sessionFactory;
 	}
 
 }

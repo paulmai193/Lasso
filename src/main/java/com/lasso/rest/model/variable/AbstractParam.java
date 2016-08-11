@@ -23,18 +23,19 @@ public abstract class AbstractParam<V> {
 	/**
 	 * Instantiates a new abstract param.
 	 *
-	 * @param param
-	 *        the param
-	 * @throws BadParamException
-	 *         the bad param exception
+	 * @param param the param
+	 * @throws ObjectParamException the object param exception
 	 */
 	public AbstractParam(String param) throws ObjectParamException {
 		this.originalParam = param;
 		try {
 			this.value = this.parse(param);
 		}
+		catch (ObjectParamException _ex) {
+			throw _ex;
+		}
 		catch (Throwable t) {
-			throw new ObjectParamException();
+			throw new ObjectParamException(t);
 		}
 	}
 

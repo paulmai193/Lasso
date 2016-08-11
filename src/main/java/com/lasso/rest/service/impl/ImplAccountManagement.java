@@ -5,23 +5,29 @@ package com.lasso.rest.service.impl;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.ws.rs.NotFoundException;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lasso.define.Constant;
+import com.lasso.exception.InActivateException;
+import com.lasso.exception.LoginFailException;
 import com.lasso.exception.ResourceExistException;
 import com.lasso.rest.dao.AccountDAO;
+import com.lasso.rest.model.api.request.AccountRegisterRequest;
+import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
-import com.lasso.rest.model.variable.EmailParam;
 import com.lasso.rest.service.AccountManagement;
 import com.lasso.util.EmailUtil;
-import com.lasso.util.EncryptionUtil;
 
 /**
  * The Class ImplAccountManagement.
@@ -34,30 +40,37 @@ public class ImplAccountManagement implements AccountManagement {
 
 	/** The account DAO. */
 	@Autowired
-	private AccountDAO accountDAO;
+	private AccountDAO				accountDAO;
 
-	/**
-	 * Gets the account DAO.
-	 *
-	 * @return the account DAO
-	 */
-	public AccountDAO getAccountDAO() {
-		return this.accountDAO;
-	}
-
-	/**
-	 * Sets the account DAO.
-	 *
-	 * @param __accountDAO the new account DAO
-	 */
-	public void setAccountDAO(AccountDAO __accountDAO) {
-		this.accountDAO = __accountDAO;
-	}
+	private Map<Integer, String>	mapUserToken;
 
 	/**
 	 * Instantiates a new impl account management.
 	 */
 	public ImplAccountManagement() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.AccountManagement#activateAccount(java.lang.Integer, int)
+	 */
+	@Override
+	public boolean activateAccount(Integer __accountId, int __code) {
+		Account _account = this.accountDAO.getAccountById(__accountId);
+		if (_account.getStatus().equals(Constant.ACC_ACTIVATE)) {
+			return true;
+		}
+		else if (_account.getActivationCode().equals(__code)) {
+			_account.setActivationCode(null);
+			_account.setStatus(Constant.ACC_ACTIVATE);
+			_account.setModified();
+			this.accountDAO.updateAccount(_account);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/*
@@ -78,34 +91,57 @@ public class ImplAccountManagement implements AccountManagement {
 	 * Account)
 	 */
 	@Override
-	public String registerUserAccount(Account __newAccount) {
-		// Check email account exist first
-		String _email = __newAccount.getEmail();
-		if (this.checkExistEmail(new EmailParam(_email))) {
-			throw new ResourceExistException("Email " + __newAccount.getEmail() + " was exist");
+	public String registerUserAccount(AccountRegisterRequest __registerAccount) {
+		// Check email account exist
+		String _email = __registerAccount.getEmail().getValue();
+		Account _account = this.accountDAO.getAccountByEmail(_email);
+		if (_account == null) {
+			_account = new Account(__registerAccount);
 		}
-		else {
-			// Request email available, create new account
-			Integer _id = this.accountDAO.createAccount(__newAccount);
-			Integer _uniqueCode = RandomUtils.nextInt(100000, 999999);
-			String _query = MessageFormat.format("?id={1}&code={1}", _id, _uniqueCode);
-			return EncryptionUtil.encode(_query);
+		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
+			_account.set(__registerAccount);
 		}
+		else if (_account.getStatus().equals(Constant.ACC_ACTIVATE)) {
+			// Check status of exist account
+			throw new ResourceExistException(
+			        "Email " + __registerAccount.getEmail() + " was exist");
+		}
+
+		// Request email available, create new account
+		Integer _uniqueCode = RandomUtils.nextInt(100000, 999999);
+		_account.setActivationCode(_uniqueCode);
+		_account.setModified();
+		Integer _id = this.accountDAO.createAccount(_account);
+		String _query = MessageFormat.format("/account/activate?id={0, number,#}&ref={1, number,#}",
+		        _id, _uniqueCode);
+		return _query;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.AccountManagement#checkExistEmail(com.lasso.rest.model.variable.
-	 * EmailParam)
+	 * @see com.lasso.rest.service.AccountManagement#resetPassword(java.lang.String)
 	 */
-	@Override
-	public boolean checkExistEmail(EmailParam __email) {
-		if (this.accountDAO.getAccountsByEmail(__email.getValue()).size() > 0) {
-			return true;
+	public void resetPassword(String __email)
+	        throws NotFoundException, AddressException, MessagingException {
+		Account _account = this.accountDAO.getAccountByEmail(__email);
+		if (_account == null) {
+			throw new NotFoundException("Email not exist");
 		}
 		else {
-			return false;
+			int _randomPassword = RandomUtils.nextInt(100000, 999999);
+
+			// Temporate save in activation code field
+			_account.setActivationCode(_randomPassword);
+			_account.setModified();
+			this.accountDAO.updateAccount(_account);
+
+			// Send random password to email
+			EmailUtil.getInstance().sendEmail(__email,
+			        _randomPassword + " là mật khẩu ứng dụng mới của bạn",
+			        "Hãy dùng mật khẩu <strong>" + _randomPassword
+			                + "</strong> để đăng nhập vào ứng dụng",
+			        RecipientType.TO);
 		}
 	}
 
@@ -118,8 +154,61 @@ public class ImplAccountManagement implements AccountManagement {
 	@Override
 	public void sendActivationEmail(String __email, String __refLink)
 	        throws AddressException, MessagingException {
-		EmailUtil.instance.sendEmail(__email, "Xác thực tài khoản",
+		EmailUtil.getInstance().sendEmail(__email, "Xác thực tài khoản",
 		        "Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
 		        RecipientType.TO);
+	}
+
+	/**
+	 * Sets the account DAO.
+	 *
+	 * @param __accountDAO the new account DAO
+	 */
+	public void setAccountDAO(AccountDAO __accountDAO) {
+		this.accountDAO = __accountDAO;
+	}
+
+	public void setMapUserToken(Map<Integer, String> __mapUserToken) {
+		this.mapUserToken = __mapUserToken;
+	}
+
+	@Override
+	public LoginResponse login(String __email, String __password) {
+		Account _account = accountDAO.getAccountByEmail(__email);
+		LoginResponse _response;
+		if (_account == null) {
+			throw new LoginFailException();
+		}
+		else if (!_account.getPassword().equals(__password)) {
+			if (_account.getActivationCode().equals(__password)) {
+				// In reset password case
+				_response = new LoginResponse(_account.getId(),
+				        RandomStringUtils.randomAlphanumeric(100), true);
+			}
+			else {
+				throw new LoginFailException();
+			}
+		}
+		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
+			throw new InActivateException();
+		}
+		else {
+			_response = new LoginResponse(_account.getId(),
+			        RandomStringUtils.randomAlphanumeric(100));
+		}
+
+		mapUserToken.put(_response.getIdAccount(), _response.getToken());
+
+		return _response;
+	}
+
+	@Override
+	public void verifyAccountToken(Integer __idAccount, String __token) {
+		if (mapUserToken.get(__idAccount).equals(__token)) {
+			System.out.println("OK");
+		}
+		else {
+			System.out.println("FAIL");
+		}
 	}
 }
