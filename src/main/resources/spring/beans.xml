@@ -31,7 +31,6 @@
 		<property name="mapTokenOfUser">
 			<bean class="java.util.concurrent.ConcurrentHashMap"></bean>
 		</property>
-
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement">
 		<property name="countryDAO" ref="countryDAO"></property>

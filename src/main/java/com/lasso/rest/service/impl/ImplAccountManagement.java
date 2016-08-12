@@ -52,8 +52,6 @@ public class ImplAccountManagement implements AccountManagement {
 	/** The map user current Credentials. */
 	private Map<Integer, LoginResponse>	mapUserCurrentToken;
 
-	// private Map<String, Integer> map
-
 	/**
 	 * Instantiates a new impl account management.
 	 */
