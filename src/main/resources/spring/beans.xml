@@ -22,7 +22,6 @@
 	</bean>
 
 	<!-- Service Layer -->
-
 	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement">
 		<property name="accountDAO" ref="accountDAO"></property>
 		<property name="mapUserCurrentToken">

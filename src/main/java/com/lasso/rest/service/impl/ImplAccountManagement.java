@@ -179,8 +179,7 @@ public class ImplAccountManagement implements AccountManagement {
 		}
 		else if (_account.getStatus().equals(Constant.ACC_ACTIVATE)) {
 			// Check status of exist account
-			throw new ResourceExistException(
-			        "Email " + __registerAccount.getEmail() + " was exist");
+			throw new ResourceExistException(__registerAccount.getEmail() + " was exist");
 		}
 
 		// Request email available, create new account

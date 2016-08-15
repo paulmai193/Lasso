@@ -27,7 +27,7 @@ public class BaseResponse {
 	 * Instantiates a new base response.
 	 */
 	public BaseResponse() {
-		this(false);
+		this(false, null, null);
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class BaseResponse {
 	 * @param __error the error
 	 */
 	public BaseResponse(boolean __error) {
-		this(__error, null);
+		this(__error, "Unknown Error");
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class BaseResponse {
 	 * @param __message the message
 	 */
 	public BaseResponse(boolean __error, String __message) {
-		this(__error, __message, null);
+		this(__error, __message, "");
 	}
 
 	/**
