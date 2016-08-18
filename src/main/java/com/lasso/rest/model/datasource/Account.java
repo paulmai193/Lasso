@@ -89,7 +89,7 @@ public final class Account implements Principal {
 	@Column(length = 50, name = "handphone_number")
 	private String	phone;
 
-	/** The role. */
+	/** The value. */
 	@Column(length = 1, name = "role")
 	private Byte	role;
 
@@ -263,9 +263,9 @@ public final class Account implements Principal {
 	}
 
 	/**
-	 * Gets the role.
+	 * Gets the value.
 	 *
-	 * @return the role
+	 * @return the value
 	 */
 	public Byte getRole() {
 		return this.role;
@@ -454,9 +454,9 @@ public final class Account implements Principal {
 	}
 
 	/**
-	 * Sets the role.
+	 * Sets the value.
 	 *
-	 * @param __role the new role
+	 * @param __role the new value
 	 */
 	public void setRole(Byte __role) {
 		this.role = __role;

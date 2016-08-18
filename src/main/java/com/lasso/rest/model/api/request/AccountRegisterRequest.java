@@ -45,7 +45,7 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The phone. */
 	private PhoneParam	phone;
 
-	/** The role. */
+	/** The value. */
 	private Byte		role;
 
 	/** The subscribe. */
@@ -55,7 +55,7 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Instantiates a new account register request.
 	 *
-	 * @param __role the role
+	 * @param __role the value
 	 */
 	public AccountRegisterRequest(Byte __role) {
 		this.role = __role;
@@ -159,9 +159,9 @@ public class AccountRegisterRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the role.
+	 * Gets the value.
 	 *
-	 * @return the role
+	 * @return the value
 	 */
 	public Byte getRole() {
 		return this.role;
@@ -252,9 +252,9 @@ public class AccountRegisterRequest extends BaseRequest {
 	}
 
 	/**
-	 * Sets the role.
+	 * Sets the value.
 	 *
-	 * @param __role the new role
+	 * @param __role the new value
 	 */
 	public void setRole(Byte __role) {
 		this.role = __role;

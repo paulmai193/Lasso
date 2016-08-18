@@ -15,7 +15,6 @@ public final class Constant {
 
 	/** The Constant ACC_NOT_ACTIVATE. */
 	public static final byte	ACC_NOT_ACTIVATE	= 0;
-	// public static final byte ACC_NOT_REGISTED = -1;
 
 	/** The Constant ROLE_DESIGNER. */
 	public static final byte	ROLE_DESIGNER		= 1;

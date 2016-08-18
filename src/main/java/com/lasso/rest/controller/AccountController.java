@@ -22,6 +22,8 @@ import javax.ws.rs.core.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.lasso.define.Constant;
+import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.ChangePasswordRequest;
@@ -176,9 +178,9 @@ public class AccountController extends BaseController {
 		        .getCountryIdByCode(__registerAccount.getCountryCode());
 		__registerAccount.setCountry(_country);
 		__registerAccount.checkCountryValid();
-		String _refcode = this.accountManagement.registerUserAccount(__registerAccount);
+		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + _refcode;
+		        + __request.getContextPath() + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
 		        _refLink);
 		return this.success();
@@ -187,6 +189,7 @@ public class AccountController extends BaseController {
 	/**
 	 * Forgot password.
 	 *
+	 * @param __request the request
 	 * @param __forgotPasswordRequest the forgot password request
 	 * @return the response
 	 * @throws NotFoundException the not found exception
@@ -196,10 +199,16 @@ public class AccountController extends BaseController {
 	@POST
 	@Path("/reset_password")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response resetPassword(ForgotPasswordRequest __forgotPasswordRequest)
+	public Response resetPassword(@Context HttpServletRequest __request,
+	        ForgotPasswordRequest __forgotPasswordRequest)
 	        throws NotFoundException, AddressException, MessagingException {
 		__forgotPasswordRequest.checkNotNull();
-		this.accountManagement.resetPassword(__forgotPasswordRequest.getEmail().getValue());
+		String _refQuery = this.accountManagement
+		        .resetPassword(__forgotPasswordRequest.getEmail().getValue());
+		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
+		        + __request.getContextPath() + _refQuery;
+		this.accountManagement.sendResetPasswordEmail(__forgotPasswordRequest.getEmail().getValue(),
+		        _refLink);
 		return this.success();
 	}
 
@@ -228,10 +237,24 @@ public class AccountController extends BaseController {
 	 * @return the response
 	 */
 	@GET
-	@Path("/test")
+	@Path("/test/role")
 	@AccountAuthenticate
-	public Response testAccount(@Context SecurityContext __context) {
-		return this.success();
+	@AccountAllow(roles = "" + Constant.ROLE_USER)
+	public Account testAccountRole(@Context SecurityContext __context) {
+		return (Account) __context.getUserPrincipal();
 	}
 
+	/**
+	 * Test account status.
+	 *
+	 * @param __context the context
+	 * @return the account
+	 */
+	@GET
+	@Path("/test/status")
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_NOT_ACTIVATE)
+	public Account testAccountStatus(@Context SecurityContext __context) {
+		return (Account) __context.getUserPrincipal();
+	}
 }

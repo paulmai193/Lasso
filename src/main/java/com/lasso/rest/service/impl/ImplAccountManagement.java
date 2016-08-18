@@ -123,23 +123,13 @@ public class ImplAccountManagement implements AccountManagement {
 			throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
 		}
 		else if (!_account.getPassword().equals(__password)) {
-			if (_account.getActivationCode().equals(__password)) {
-				// In reset password case
-				_response = new LoginResponse(_account.getId(),
-				        RandomStringUtils.randomAlphanumeric(200), true);
-			}
-			else {
-				throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
-			}
-		}
-		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
-			throw new AuthenticateException("Email not activated", Status.FORBIDDEN);
+			throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
 		}
 		else {
 			_response = new LoginResponse(_account.getId(),
-			        RandomStringUtils.randomAlphanumeric(200));
+					RandomStringUtils.randomAlphanumeric(200), _account.getStatus(),
+					_account.getRole());
 		}
-
 		this.mapTokenOfUser.put(_response.getToken(), _response);
 		this.mapUserCurrentToken.put(_response.getIdAccount(), _response);
 
@@ -188,7 +178,7 @@ public class ImplAccountManagement implements AccountManagement {
 		_account.setModified();
 		Integer _id = this.accountDAO.createAccount(_account);
 		String _query = MessageFormat.format("/account/activate?id={0, number,#}&ref={1, number,#}",
-		        _id, _uniqueCode);
+				_id, _uniqueCode);
 		return _query;
 	}
 
@@ -197,26 +187,22 @@ public class ImplAccountManagement implements AccountManagement {
 	 * 
 	 * @see com.lasso.rest.service.AccountManagement#resetPassword(java.lang.String)
 	 */
-	public void resetPassword(String __email)
-	        throws NotFoundException, AddressException, MessagingException {
+	public String resetPassword(String __email)
+			throws NotFoundException, AddressException, MessagingException {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		if (_account == null) {
 			throw new NotFoundException("Email not exist");
 		}
 		else {
-			int _randomPassword = RandomUtils.nextInt(100000, 999999);
-
-			// Temporate save in activation code field
-			_account.setActivationCode(_randomPassword);
+			// Request email available, create new account
+			Integer _uniqueCode = RandomUtils.nextInt(100000, 999999);
+			_account.setActivationCode(_uniqueCode);
 			_account.setModified();
 			this.accountDAO.updateAccount(_account);
-
-			// Send random password to email
-			EmailUtil.getInstance().sendEmail(__email,
-			        _randomPassword + " là mật khẩu ứng dụng mới của bạn",
-			        "Hãy dùng mật khẩu <strong>" + _randomPassword
-			                + "</strong> để đăng nhập vào ứng dụng",
-			        RecipientType.TO);
+			String _query = MessageFormat.format(
+					"/account/activate?id={0, number,#}&ref={1, number,#}", _account.getId(),
+					_uniqueCode);
+			return _query;
 		}
 	}
 
@@ -228,10 +214,24 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendActivationEmail(String __email, String __refLink)
-	        throws AddressException, MessagingException {
+			throws AddressException, MessagingException {
 		EmailUtil.getInstance().sendEmail(__email, "Xác thực tài khoản",
-		        "Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
-		        RecipientType.TO);
+				"Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
+				RecipientType.TO);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.AccountManagement#sendResetPasswordEmail(java.lang.String,
+	 * java.lang.String)
+	 */
+	@Override
+	public void sendResetPasswordEmail(String __email, String __refLink)
+			throws AddressException, MessagingException {
+		EmailUtil.getInstance().sendEmail(__email, "Phục hồi mật khẩu",
+				"Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
+				RecipientType.TO);
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class ImplAccountManagement implements AccountManagement {
 			}
 			else {
 				LoginResponse _currentCredentials = this.mapUserCurrentToken
-				        .get(_credentials.getIdAccount());
+						.get(_credentials.getIdAccount());
 				if (!_currentCredentials.getToken().equals(__token)) {
 					// Old token
 					throw new AuthenticateException("Token expired", Status.UNAUTHORIZED);
@@ -295,13 +295,13 @@ public class ImplAccountManagement implements AccountManagement {
 		finally {
 			// TODO Scan mapTokenOfUser to remove 2-day-old-token
 			final Iterator<Entry<String, LoginResponse>> _it = this.mapTokenOfUser.entrySet()
-			        .iterator();
+					.iterator();
 			_it.forEachRemaining(new Consumer<Entry<String, LoginResponse>>() {
 
 				@Override
 				public void accept(Entry<String, LoginResponse> __t) {
 					if (new Date().getTime()
-			                - __t.getValue().getCreated().getTime() > (2 * 24 * 60 * 60 * 1000)) {
+							- __t.getValue().getCreated().getTime() > (2 * 24 * 60 * 60 * 1000)) {
 						_it.remove();
 					}
 				}

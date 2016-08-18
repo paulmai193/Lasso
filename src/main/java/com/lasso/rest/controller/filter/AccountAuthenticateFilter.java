@@ -58,7 +58,7 @@ public class AccountAuthenticateFilter implements ContainerRequestFilter {
 		// Check if the HTTP Authorization header is present and formatted correctly
 		if (_authorizationHeader == null || !_authorizationHeader.startsWith("Lasso-Token ")) {
 			throw new AuthenticateException("Authorization header must be provided",
-			        Status.UNAUTHORIZED);
+					Status.UNAUTHORIZED);
 		}
 
 		String _token = _authorizationHeader.substring("Lasso-Token".length()).trim();
@@ -97,7 +97,7 @@ public class AccountAuthenticateFilter implements ContainerRequestFilter {
 			AccountAuthenticateFilter.LOGGER.warn(_e.getMessage());
 			BaseResponse _errorResponse = new BaseResponse(true, _e.getMessage());
 			__requestContext.abortWith(
-			        Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
+					Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
 		}
 	}
 

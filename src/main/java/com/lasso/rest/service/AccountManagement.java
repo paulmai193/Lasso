@@ -66,7 +66,7 @@ public interface AccountManagement {
 	 * Register user account.
 	 *
 	 * @param __registerAccount the register account
-	 * @return the reference code to activate
+	 * @return the query string to activate registed account
 	 */
 	public String registerUserAccount(AccountRegisterRequest __registerAccount);
 
@@ -74,12 +74,13 @@ public interface AccountManagement {
 	 * Request to reset password given by email.
 	 *
 	 * @param __email the email
+	 * @return the query string to verify reset password request
 	 * @throws NotFoundException the not found exception
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
-	public void resetPassword(String __email)
-	        throws NotFoundException, AddressException, MessagingException;
+	public String resetPassword(String __email)
+			throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Send activation email.
@@ -90,7 +91,18 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendActivationEmail(String __email, String __refLink)
-	        throws AddressException, MessagingException;
+			throws AddressException, MessagingException;
+
+	/**
+	 * Send reset password email.
+	 *
+	 * @param __email the email
+	 * @param __refLink the reference link
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	public void sendResetPasswordEmail(String __email, String __refLink)
+			throws AddressException, MessagingException;
 
 	/**
 	 * Validate the token to verify secured account.
