@@ -40,6 +40,43 @@ public class AccountAllowFilter implements ContainerRequestFilter {
 	@Context
 	private ResourceInfo		resourceInfo;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.ws.rs.container.ContainerRequestFilter#filter(javax.ws.rs.container.
+	 * ContainerRequestContext)
+	 */
+	@Override
+	public void filter(ContainerRequestContext __requestContext) throws IOException {
+		Class<?> resourceClass = this.resourceInfo.getResourceClass();
+		List<String> classStatus = this.extractAllowStatus(resourceClass);
+		List<String> classRoles = this.extractAllowRoles(resourceClass);
+
+		Method resourceMethod = this.resourceInfo.getResourceMethod();
+		List<String> methodStatus = this.extractAllowStatus(resourceMethod);
+		List<String> methodRoles = this.extractAllowRoles(resourceMethod);
+
+		try {
+			Account _authenticatedAccount = (Account) __requestContext.getSecurityContext()
+					.getUserPrincipal();
+			if (methodStatus.isEmpty()) {
+				this.checkPermissions(classStatus, _authenticatedAccount.getStatus(), classRoles,
+						_authenticatedAccount.getRole());
+			}
+			else {
+				this.checkPermissions(methodStatus, _authenticatedAccount.getStatus(), methodRoles,
+						_authenticatedAccount.getRole());
+			}
+		}
+		catch (AuthenticateException _e) {
+			AccountAllowFilter.LOGGER.warn(_e.getMessage());
+			BaseResponse _errorResponse = new BaseResponse(true, _e.getMessage());
+			__requestContext.abortWith(
+					Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
+		}
+
+	}
+
 	/**
 	 * Check permissions.
 	 *
@@ -50,41 +87,19 @@ public class AccountAllowFilter implements ContainerRequestFilter {
 	 * @throws AuthenticateException the authenticate exception
 	 */
 	private void checkPermissions(List<String> __allowedStatus, Byte __statusMustCheck,
-	        List<String> __allowedRoles, Byte __roleMustCheck) throws AuthenticateException {
+			List<String> __allowedRoles, Byte __roleMustCheck) throws AuthenticateException {
 		if (__allowedStatus.contains(__statusMustCheck.toString())) {
 			if (__allowedRoles.contains(__roleMustCheck.toString())) {
 				return;
 			}
 			else {
 				throw new AuthenticateException("User's role not allow to access",
-				        Status.FORBIDDEN);
+						Status.FORBIDDEN);
 			}
 		}
 		else {
 			throw new AuthenticateException("User's current status not allow to access",
-			        Status.FORBIDDEN);
-		}
-	}
-
-	/**
-	 * Extract allow status.
-	 *
-	 * @param __annotatedElement the annotated element
-	 * @return the list allow status
-	 */
-	private List<String> extractAllowStatus(AnnotatedElement __annotatedElement) {
-		if (__annotatedElement == null) {
-			return new ArrayList<String>();
-		}
-		else {
-			AccountAllow _secured = __annotatedElement.getAnnotation(AccountAllow.class);
-			if (_secured == null) {
-				return new ArrayList<String>();
-			}
-			else {
-				String[] _allowedStatus = _secured.status();
-				return Arrays.asList(_allowedStatus);
-			}
+					Status.FORBIDDEN);
 		}
 	}
 
@@ -110,41 +125,26 @@ public class AccountAllowFilter implements ContainerRequestFilter {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.ws.rs.container.ContainerRequestFilter#filter(javax.ws.rs.container.
-	 * ContainerRequestContext)
+	/**
+	 * Extract allow status.
+	 *
+	 * @param __annotatedElement the annotated element
+	 * @return the list allow status
 	 */
-	@Override
-	public void filter(ContainerRequestContext __requestContext) throws IOException {
-		Class<?> resourceClass = this.resourceInfo.getResourceClass();
-		List<String> classStatus = this.extractAllowStatus(resourceClass);
-		List<String> classRoles = this.extractAllowRoles(resourceClass);
-
-		Method resourceMethod = this.resourceInfo.getResourceMethod();
-		List<String> methodStatus = this.extractAllowStatus(resourceMethod);
-		List<String> methodRoles = this.extractAllowRoles(resourceMethod);
-
-		try {
-			Account _authenticatedAccount = (Account) __requestContext.getSecurityContext()
-			        .getUserPrincipal();
-			if (methodStatus.isEmpty()) {
-				this.checkPermissions(classStatus, _authenticatedAccount.getStatus(), classRoles,
-				        _authenticatedAccount.getRole());
+	private List<String> extractAllowStatus(AnnotatedElement __annotatedElement) {
+		if (__annotatedElement == null) {
+			return new ArrayList<String>();
+		}
+		else {
+			AccountAllow _secured = __annotatedElement.getAnnotation(AccountAllow.class);
+			if (_secured == null) {
+				return new ArrayList<String>();
 			}
 			else {
-				this.checkPermissions(methodStatus, _authenticatedAccount.getStatus(), methodRoles,
-				        _authenticatedAccount.getRole());
+				String[] _allowedStatus = _secured.status();
+				return Arrays.asList(_allowedStatus);
 			}
 		}
-		catch (AuthenticateException _e) {
-			AccountAllowFilter.LOGGER.warn(_e.getMessage());
-			BaseResponse _errorResponse = new BaseResponse(true, _e.getMessage());
-			__requestContext.abortWith(
-			        Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
-		}
-
 	}
 
 }

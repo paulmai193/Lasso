@@ -73,47 +73,6 @@ public final class EmailUtil {
 	}
 
 	/**
-	 * Attach file.
-	 *
-	 * @param __multipart the multipart
-	 * @param __file the file
-	 * @throws MessagingException the messaging exception
-	 */
-	private synchronized void attachFile(Multipart __multipart, File __file)
-			throws MessagingException {
-		BodyPart _attachPart = new MimeBodyPart();
-		DataSource _source = new FileDataSource(__file);
-		_attachPart.setDataHandler(new DataHandler(_source));
-		_attachPart.setFileName(__file.getName());
-		__multipart.addBodyPart(_attachPart);
-	}
-
-	/**
-	 * Initialized mail session.
-	 *
-	 * @throws FileNotFoundException the file not found exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws URISyntaxException the URI syntax exception
-	 */
-	@SuppressWarnings("unused")
-	private void initialized() throws FileNotFoundException, IOException, URISyntaxException {
-		Properties _props = new Properties();
-		_props.load(this.propertyFile.getInputStream());
-		this.username = _props.containsKey("email.username") ? _props.getProperty("email.username")
-				: "n/a";
-		this.password = _props.containsKey("email.password") ? _props.getProperty("email.password")
-				: "n/a";
-
-		this.session = Session.getInstance(_props, new javax.mail.Authenticator() {
-
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(EmailUtil.this.username, EmailUtil.this.password);
-			}
-		});
-	}
-
-	/**
 	 * Send email.
 	 *
 	 * @param __subject the subject
@@ -253,6 +212,47 @@ public final class EmailUtil {
 	 */
 	public void setPropertyFile(final Resource __propertyFile) {
 		this.propertyFile = __propertyFile;
+	}
+
+	/**
+	 * Attach file.
+	 *
+	 * @param __multipart the multipart
+	 * @param __file the file
+	 * @throws MessagingException the messaging exception
+	 */
+	private synchronized void attachFile(Multipart __multipart, File __file)
+			throws MessagingException {
+		BodyPart _attachPart = new MimeBodyPart();
+		DataSource _source = new FileDataSource(__file);
+		_attachPart.setDataHandler(new DataHandler(_source));
+		_attachPart.setFileName(__file.getName());
+		__multipart.addBodyPart(_attachPart);
+	}
+
+	/**
+	 * Initialized mail session.
+	 *
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the URI syntax exception
+	 */
+	@SuppressWarnings("unused")
+	private void initialized() throws FileNotFoundException, IOException, URISyntaxException {
+		Properties _props = new Properties();
+		_props.load(this.propertyFile.getInputStream());
+		this.username = _props.containsKey("email.username") ? _props.getProperty("email.username")
+				: "n/a";
+		this.password = _props.containsKey("email.password") ? _props.getProperty("email.password")
+				: "n/a";
+
+		this.session = Session.getInstance(_props, new javax.mail.Authenticator() {
+
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(EmailUtil.this.username, EmailUtil.this.password);
+			}
+		});
 	}
 
 }

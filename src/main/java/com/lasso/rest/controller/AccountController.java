@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import com.lasso.define.Constant;
@@ -44,6 +45,7 @@ import com.lasso.rest.service.GenericManagement;
  * @author Paul Mai
  */
 @Controller
+@Lazy(false)
 @Path("/account")
 @Produces(value = { MediaType.APPLICATION_JSON })
 public class AccountController extends BaseController {
@@ -163,30 +165,6 @@ public class AccountController extends BaseController {
 	}
 
 	/**
-	 * Register new account.
-	 *
-	 * @param __request the request
-	 * @param __registerAccount the register account
-	 * @return the base response
-	 * @throws AddressException the address exception
-	 * @throws MessagingException the messaging exception
-	 */
-	private Response registerNewAccount(HttpServletRequest __request,
-	        AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
-		__registerAccount.checkNotNull();
-		Country _country = this.genericManagement
-		        .getCountryIdByCode(__registerAccount.getCountryCode());
-		__registerAccount.setCountry(_country);
-		__registerAccount.checkCountryValid();
-		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
-		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + _refQuery;
-		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
-		        _refLink);
-		return this.success();
-	}
-
-	/**
 	 * Forgot password.
 	 *
 	 * @param __request the request
@@ -256,5 +234,29 @@ public class AccountController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_NOT_ACTIVATE)
 	public Account testAccountStatus(@Context SecurityContext __context) {
 		return (Account) __context.getUserPrincipal();
+	}
+
+	/**
+	 * Register new account.
+	 *
+	 * @param __request the request
+	 * @param __registerAccount the register account
+	 * @return the base response
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	private Response registerNewAccount(HttpServletRequest __request,
+	        AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
+		__registerAccount.checkNotNull();
+		Country _country = this.genericManagement
+		        .getCountryIdByCode(__registerAccount.getCountryCode());
+		__registerAccount.setCountry(_country);
+		__registerAccount.checkCountryValid();
+		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
+		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
+		        + __request.getContextPath() + _refQuery;
+		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
+		        _refLink);
+		return this.success();
 	}
 }
