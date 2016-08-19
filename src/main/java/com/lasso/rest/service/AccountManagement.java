@@ -3,6 +3,9 @@
  */
 package com.lasso.rest.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -80,7 +83,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String resetPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	        throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Send activation email.
@@ -91,7 +94,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendActivationEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Send reset password email.
@@ -102,7 +105,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Validate the token to verify secured account.
@@ -111,4 +114,16 @@ public interface AccountManagement {
 	 * @return the verified account
 	 */
 	public Account validateAccountToken(String __token);
+
+	/**
+	 * Change avatar.
+	 *
+	 * @param __account the account
+	 * @param __fileStream the file stream
+	 * @param __destinationFile the destination location on disk
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
+	public void changeAvatar(Account __account, InputStream __fileStream, File __destinationFile)
+	        throws IOException, IllegalArgumentException;
 }

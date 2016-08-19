@@ -13,44 +13,46 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- DAO Layer -->
-	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO">
+	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO" lazy-init="false">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO">
+	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO" lazy-init="false">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<!-- Service Layer -->
-	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement">
+	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement" lazy-init="false">
 		<property name="accountDAO" ref="accountDAO"></property>
 		<property name="mapUserCurrentToken">
-			<bean class="java.util.concurrent.ConcurrentHashMap"></bean>
+			<bean class="java.util.concurrent.ConcurrentHashMap" lazy-init="false"/>
 		</property>
 		<property name="mapTokenOfUser">
-			<bean class="java.util.concurrent.ConcurrentHashMap"></bean>
+			<bean class="java.util.concurrent.ConcurrentHashMap" lazy-init="false"/>
 		</property>
 	</bean>
-	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement">
-		<property name="countryDAO" ref="countryDAO"></property>
+	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement" lazy-init="false">
+		<property name="countryDAO" ref="countryDAO"/>
 	</bean>
 
 	<!-- Filter Layer -->
-	<bean id="accountAuthenticateFilter" class="com.lasso.rest.controller.filter.AccountAuthenticateFilter">
-		<property name="accountManagement" ref="accountManagement"></property>
+	<bean id="accountAuthenticateFilter" class="com.lasso.rest.controller.filter.AccountAuthenticateFilter" lazy-init="false">
+		<property name="accountManagement" ref="accountManagement"/>
 	</bean>
 
 	<!-- Controller Layer -->
-	<bean id="accountController" class="com.lasso.rest.controller.AccountController">
-		<property name="accountManagement" ref="accountManagement"></property>
-		<property name="genericManagement" ref="genericManagement"></property>
+	<bean id="accountController" class="com.lasso.rest.controller.AccountController" lazy-init="false">
+		<property name="accountManagement" ref="accountManagement"/>
+		<property name="genericManagement" ref="genericManagement"/>
+	</bean>
+	<bean id="uploadController" class="com.lasso.rest.controller.UploadController" lazy-init="false">
+		<property name="accountManagement" ref="accountManagement"/>
 	</bean>
 
 	<!-- Utility -->
 	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized"
-		factory-method="getInstance">
+		factory-method="getInstance" lazy-init="false">
 		<property name="propertyFile" value="classpath:config/email.properties"></property>
-		<!-- <constructor-arg value="config/email.properties"></constructor-arg> -->
 	</bean>
 
 </beans>

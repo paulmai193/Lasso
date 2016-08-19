@@ -57,6 +57,16 @@ public abstract class AbstractParam<V> {
 		return this.value;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.value.toString();
+	}
+
 	/**
 	 * Parses the parameter to value.
 	 *
@@ -67,15 +77,5 @@ public abstract class AbstractParam<V> {
 	 *         the throwable
 	 */
 	protected abstract V parse(String param) throws Throwable;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return this.value.toString();
-	}
 
 }

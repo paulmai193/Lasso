@@ -51,6 +51,22 @@ public class ContactParam extends AbstractParam<String> {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.nowktv.servlet.param.AbstractParam#toString()
+	 */
+	@Override
+	public String toString() {
+		switch (this.contactType) {
+			case CONTACT_EMAIL:
+				return "Email: " + this.getOriginalParam();
+
+			default:
+				return "Phone: " + this.getOriginalParam();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.model.variable.AbstractParam#parse(java.lang.String)
 	 */
 	@Override
@@ -65,22 +81,6 @@ public class ContactParam extends AbstractParam<String> {
 		}
 		else {
 			throw new ObjectParamException("Not email or phone number format");
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.nowktv.servlet.param.AbstractParam#toString()
-	 */
-	@Override
-	public String toString() {
-		switch (this.contactType) {
-			case CONTACT_EMAIL:
-				return "Email: " + this.getOriginalParam();
-
-			default:
-				return "Phone: " + this.getOriginalParam();
 		}
 	}
 }
