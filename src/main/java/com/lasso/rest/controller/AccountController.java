@@ -29,8 +29,8 @@ import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.ChangePasswordRequest;
 import com.lasso.rest.model.api.request.DesignerRegisterRequest;
-import com.lasso.rest.model.api.request.ForgotPasswordRequest;
 import com.lasso.rest.model.api.request.LoginRequest;
+import com.lasso.rest.model.api.request.ResetPasswordRequest;
 import com.lasso.rest.model.api.request.UserRegisterRequest;
 import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.LoginResponse;
@@ -168,7 +168,7 @@ public class AccountController extends BaseController {
 	 * Forgot password.
 	 *
 	 * @param __request the request
-	 * @param __forgotPasswordRequest the forgot password request
+	 * @param __resetPasswordRequest the reset password request
 	 * @return the response
 	 * @throws NotFoundException the not found exception
 	 * @throws AddressException the address exception
@@ -178,14 +178,14 @@ public class AccountController extends BaseController {
 	@Path("/reset_password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@Context HttpServletRequest __request,
-	        ForgotPasswordRequest __forgotPasswordRequest)
+	        ResetPasswordRequest __resetPasswordRequest)
 	        throws NotFoundException, AddressException, MessagingException {
-		__forgotPasswordRequest.checkNotNull();
+		__resetPasswordRequest.checkNotNull();
 		String _refQuery = this.accountManagement
-		        .resetPassword(__forgotPasswordRequest.getEmail().getValue());
+		        .resetPassword(__resetPasswordRequest.getEmail().getValue());
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
 		        + __request.getContextPath() + _refQuery;
-		this.accountManagement.sendResetPasswordEmail(__forgotPasswordRequest.getEmail().getValue(),
+		this.accountManagement.sendResetPasswordEmail(__resetPasswordRequest.getEmail().getValue(),
 		        _refLink);
 		return this.success();
 	}

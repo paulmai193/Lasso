@@ -14,7 +14,7 @@ import com.lasso.rest.model.variable.EmailParam;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
-public class ForgotPasswordRequest extends BaseRequest {
+public class ResetPasswordRequest extends BaseRequest {
 
 	/** The email. */
 	private EmailParam email;
@@ -22,7 +22,7 @@ public class ForgotPasswordRequest extends BaseRequest {
 	/**
 	 * Instantiates a new forgot password request.
 	 */
-	public ForgotPasswordRequest() {
+	public ResetPasswordRequest() {
 	}
 
 	/*
