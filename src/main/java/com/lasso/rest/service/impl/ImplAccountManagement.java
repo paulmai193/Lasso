@@ -61,29 +61,6 @@ public class ImplAccountManagement implements AccountManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.AccountManagement#activateAccount(java.lang.Integer, int)
-	 */
-	@Override
-	public boolean activateAccount(Integer __accountId, int __code) {
-		Account _account = this.accountDAO.getAccountById(__accountId);
-		if (_account.getStatus().equals(Constant.ACC_ACTIVATE)) {
-			return true;
-		}
-		else if (_account.getActivationCode().equals(__code)) {
-			_account.setActivationCode(null);
-			_account.setStatus(Constant.ACC_ACTIVATE);
-			_account.setModified();
-			this.accountDAO.updateAccount(_account);
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.lasso.rest.service.AccountManagement#changeAvatar(com.lasso.rest.model.datasource.
 	 * Account, java.io.InputStream, java.io.File)
 	 */
@@ -198,13 +175,11 @@ public class ImplAccountManagement implements AccountManagement {
 		}
 
 		// Request email available, create new account
-		Integer _uniqueCode = RandomUtils.nextInt(100000, 999999);
-		_account.setActivationCode(_uniqueCode);
+		Integer _otp = RandomUtils.nextInt(100000, 999999);
+		_account.setOtp(_otp.toString());
 		_account.setModified();
-		Integer _id = this.accountDAO.createAccount(_account);
-		String _query = MessageFormat.format("/account/activate?id={0, number,#}&ref={1, number,#}",
-				_id, _uniqueCode);
-		return _query;
+		this.accountDAO.createAccount(_account);
+		return MessageFormat.format("/active?otp={0}", _otp.toString());
 	}
 
 	/*
@@ -220,14 +195,11 @@ public class ImplAccountManagement implements AccountManagement {
 		}
 		else {
 			// Request email available, create new account
-			Integer _uniqueCode = RandomUtils.nextInt(100000, 999999);
-			_account.setActivationCode(_uniqueCode);
+			Integer _otp = RandomUtils.nextInt(100000, 999999);
+			_account.setOtp(_otp.toString());
 			_account.setModified();
 			this.accountDAO.updateAccount(_account);
-			String _query = MessageFormat.format(
-					"/account/activate?id={0, number,#}&ref={1, number,#}", _account.getId(),
-					_uniqueCode);
-			return _query;
+			return MessageFormat.format("/reset?otp={0}", _otp.toString());
 		}
 	}
 
@@ -283,6 +255,26 @@ public class ImplAccountManagement implements AccountManagement {
 		}
 		else {
 			return _account;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.AccountManagement#verifyAccount(java.lang.String)
+	 */
+	@Override
+	public boolean verifyAccount(String __otp) {
+		Account _account = this.accountDAO.getAccountByOtp(__otp);
+		if (_account == null) {
+			return false;
+		}
+		else {
+			_account.setOtp(null);
+			_account.setStatus(Constant.ACC_ACTIVATE);
+			_account.setModified();
+			this.accountDAO.updateAccount(_account);
+			return true;
 		}
 	}
 }

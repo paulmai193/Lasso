@@ -24,15 +24,6 @@ import com.lasso.rest.model.datasource.Account;
 public interface AccountManagement {
 
 	/**
-	 * Activate account.
-	 *
-	 * @param __accountId the account id
-	 * @param __code the code
-	 * @return true, if successful
-	 */
-	public boolean activateAccount(Integer __accountId, int __code);
-
-	/**
 	 * Change avatar.
 	 *
 	 * @param __account the account
@@ -126,4 +117,12 @@ public interface AccountManagement {
 	 * @return the verified account
 	 */
 	public Account validateAccountToken(String __token);
+
+	/**
+	 * Verify account.
+	 *
+	 * @param __otp the otp
+	 * @return true, if successful
+	 */
+	public boolean verifyAccount(String __otp);
 }

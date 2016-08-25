@@ -39,6 +39,14 @@ public interface AccountDAO {
 	public Account getAccountById(Integer __id);
 
 	/**
+	 * Gets the account by otp.
+	 *
+	 * @param __otp the otp
+	 * @return the account by otp
+	 */
+	public Account getAccountByOtp(String __otp);
+
+	/**
 	 * Gets the account by token.
 	 *
 	 * @param __token the token

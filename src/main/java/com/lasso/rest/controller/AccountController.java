@@ -59,26 +59,6 @@ public class AccountController extends BaseController {
 	private GenericManagement	genericManagement;
 
 	/**
-	 * Activate account.
-	 *
-	 * @param __accountId the account id
-	 * @param __refCode the ref code
-	 * @return the response
-	 */
-	@GET
-	@Path("/activate")
-	public Response activateAccount(@QueryParam("id") int __accountId,
-			@QueryParam("ref") int __refCode) {
-		if (this.accountManagement.activateAccount(__accountId, __refCode)) {
-			return this.success();
-		}
-		else {
-			return Response.status(Status.BAD_REQUEST)
-					.entity(new BaseResponse(true, "Cannot activate this account")).build();
-		}
-	}
-
-	/**
 	 * Change password.
 	 *
 	 * @param __context the context
@@ -183,8 +163,7 @@ public class AccountController extends BaseController {
 		__resetPasswordRequest.checkNotNull();
 		String _refQuery = this.accountManagement
 				.resetPassword(__resetPasswordRequest.getEmail().getValue());
-		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		+ __request.getContextPath() + _refQuery;
+		String _refLink = "http://" + __request.getServerName() + _refQuery;
 		this.accountManagement.sendResetPasswordEmail(__resetPasswordRequest.getEmail().getValue(),
 				_refLink);
 		return this.success();
@@ -237,6 +216,29 @@ public class AccountController extends BaseController {
 	}
 
 	/**
+	 * Verify.
+	 *
+	 * @param __type the type
+	 * @param __otp the otp
+	 * @return the response
+	 */
+	@GET
+	@Path("/verify")
+	public Response verify(@QueryParam("type") String __type, @QueryParam("otp") String __otp) {
+		if (!__type.equalsIgnoreCase("active") && !__type.equalsIgnoreCase("reset")) {
+			return Response.status(Status.BAD_REQUEST)
+					.entity(new BaseResponse(true, "Invalid verify type")).build();
+		}
+		if (this.accountManagement.verifyAccount(__otp)) {
+			return this.success();
+		}
+		else {
+			return Response.status(Status.BAD_REQUEST).entity(new BaseResponse(true, "Invalid otp"))
+					.build();
+		}
+	}
+
+	/**
 	 * Register new account.
 	 *
 	 * @param __request the request
@@ -253,8 +255,7 @@ public class AccountController extends BaseController {
 		__registerAccount.setCountry(_country);
 		__registerAccount.checkCountryValid();
 		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
-		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		+ __request.getContextPath() + _refQuery;
+		String _refLink = "http://" + __request.getServerName() + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
 				_refLink);
 		return this.success();
