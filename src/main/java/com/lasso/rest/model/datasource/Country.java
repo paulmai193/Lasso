@@ -8,6 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * The Class Country.
  *
@@ -15,10 +19,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(catalog = "art_design", name = "countries")
+@JsonInclude(value = Include.NON_NULL)
 public final class Country {
 
 	/** The code. */
 	@Column(length = 2, name = "code")
+	@JsonProperty("country_code")
 	private String	code;
 
 	/** The id. */
@@ -29,6 +35,10 @@ public final class Country {
 	/** The status. */
 	@Column(length = 1, name = "status")
 	private Byte	status;
+
+	@Column(length = 255, name = "name")
+	@JsonProperty("country_name")
+	private String	name;
 
 	/**
 	 * Instantiates a new country.

@@ -40,8 +40,13 @@ public class ImplCountryDAO implements CountryDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Country> getCountryIdsByCode(String __code) {
+
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Country.class);
-		_criteria.add(Restrictions.eq("code", __code));
+		if (!__code.equalsIgnoreCase("all")) {
+			_criteria.add(Restrictions.eq("code", __code));
+		}
+		_criteria.add(Restrictions.eq("status", (byte) 1));
+
 		return _criteria.list();
 	}
 

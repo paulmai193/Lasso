@@ -48,6 +48,9 @@
 	<bean id="uploadController" class="com.lasso.rest.controller.UploadController" lazy-init="false">
 		<property name="accountManagement" ref="accountManagement"/>
 	</bean>
+	<bean id="publicController" class="com.lasso.rest.controller.PublicController" lazy-init="false">
+		<property name="genericManagement" ref="genericManagement"/>
+	</bean>	
 
 	<!-- Utility -->
 	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized"
