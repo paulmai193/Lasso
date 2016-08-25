@@ -21,6 +21,7 @@ import org.hibernate.annotations.Type;
 
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.DesignerRegisterRequest;
+import com.lasso.rest.model.api.request.UserRegisterRequest;
 
 /**
  * The Class Account.
@@ -50,6 +51,18 @@ public final class Account implements Principal {
 	@Column(length = 250, name = "image")
 	private String	avatar;
 
+	/** The company address. */
+	@Column(length = 250, name = "company_address")
+	private String	companyAddress;
+
+	/** The company name. */
+	@Column(length = 100, name = "company_name")
+	private String	companyName;
+
+	/** The company phone. */
+	@Column(length = 50, name = "company_telephone")
+	private String	companyPhone;
+
 	/** The country. */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id")
@@ -77,6 +90,10 @@ public final class Account implements Principal {
 	@Column(length = 100, name = "name")
 	private String	name;
 
+	/** The otp. */
+	@Column(length = 45, name = "otp")
+	private String	otp;
+
 	/** The password. */
 	@Column(length = 40, name = "password")
 	private String	password;
@@ -100,6 +117,10 @@ public final class Account implements Principal {
 	/** The subscribe. */
 	@Column(length = 1, name = "subscribe")
 	private Boolean	subscribe;
+
+	/** The token. */
+	@Column(length = 45, name = "app_session")
+	private String	token;
 
 	/**
 	 * Instantiates a new account.
@@ -132,6 +153,9 @@ public final class Account implements Principal {
 			// User
 			this.alternativeContact = __accountRegister.getAlternativeContact();
 			this.avatar = "";
+			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
+			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
+			this.companyPhone = ((UserRegisterRequest) __accountRegister).getCompanyPhone();
 			this.country = __accountRegister.getCountry();
 			this.created = new Date();
 			this.email = __accountRegister.getEmail().getValue();
@@ -179,6 +203,33 @@ public final class Account implements Principal {
 	 */
 	public String getAvatar() {
 		return this.avatar;
+	}
+
+	/**
+	 * Gets the company address.
+	 *
+	 * @return the companyAddress
+	 */
+	public String getCompanyAddress() {
+		return this.companyAddress;
+	}
+
+	/**
+	 * Gets the company name.
+	 *
+	 * @return the companyName
+	 */
+	public String getCompanyName() {
+		return this.companyName;
+	}
+
+	/**
+	 * Gets the company phone.
+	 *
+	 * @return the companyPhone
+	 */
+	public String getCompanyPhone() {
+		return this.companyPhone;
 	}
 
 	/**
@@ -236,6 +287,15 @@ public final class Account implements Principal {
 	}
 
 	/**
+	 * Gets the otp.
+	 *
+	 * @return the otp
+	 */
+	public String getOtp() {
+		return this.otp;
+	}
+
+	/**
 	 * Gets the password.
 	 *
 	 * @return the password
@@ -290,6 +350,15 @@ public final class Account implements Principal {
 	}
 
 	/**
+	 * Gets the token.
+	 *
+	 * @return the token
+	 */
+	public String getToken() {
+		return this.token;
+	}
+
+	/**
 	 * Sets the.
 	 *
 	 * @param __accountRegister the account register
@@ -314,6 +383,9 @@ public final class Account implements Principal {
 			// User
 			this.alternativeContact = __accountRegister.getAlternativeContact();
 			this.avatar = "";
+			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
+			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
+			this.companyPhone = ((UserRegisterRequest) __accountRegister).getCompanyPhone();
 			this.country = __accountRegister.getCountry();
 			this.created = new Date();
 			this.email = __accountRegister.getEmail().getValue();
@@ -360,6 +432,33 @@ public final class Account implements Principal {
 	 */
 	public void setAvatar(String __avatar) {
 		this.avatar = __avatar;
+	}
+
+	/**
+	 * Sets the company address.
+	 *
+	 * @param __companyAddress the companyAddress to set
+	 */
+	public void setCompanyAddress(String __companyAddress) {
+		this.companyAddress = __companyAddress;
+	}
+
+	/**
+	 * Sets the company name.
+	 *
+	 * @param __companyName the companyName to set
+	 */
+	public void setCompanyName(String __companyName) {
+		this.companyName = __companyName;
+	}
+
+	/**
+	 * Sets the company phone.
+	 *
+	 * @param __companyPhone the companyPhone to set
+	 */
+	public void setCompanyPhone(String __companyPhone) {
+		this.companyPhone = __companyPhone;
 	}
 
 	/**
@@ -427,6 +526,15 @@ public final class Account implements Principal {
 	}
 
 	/**
+	 * Sets the otp.
+	 *
+	 * @param __otp the otp to set
+	 */
+	public void setOtp(String __otp) {
+		this.otp = __otp;
+	}
+
+	/**
 	 * Sets the password.
 	 *
 	 * @param __password the new password
@@ -478,5 +586,14 @@ public final class Account implements Principal {
 	 */
 	public void setSubscribe(Boolean __subscribe) {
 		this.subscribe = __subscribe;
+	}
+
+	/**
+	 * Sets the token.
+	 *
+	 * @param __token the token to set
+	 */
+	public void setToken(String __token) {
+		this.token = __token;
 	}
 }

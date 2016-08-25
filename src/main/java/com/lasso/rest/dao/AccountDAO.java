@@ -39,6 +39,14 @@ public interface AccountDAO {
 	public Account getAccountById(Integer __id);
 
 	/**
+	 * Gets the account by token.
+	 *
+	 * @param __token the token
+	 * @return the account by token
+	 */
+	public Account getAccountByToken(String __token);
+
+	/**
 	 * Gets all accounts in DB.
 	 *
 	 * @return the all

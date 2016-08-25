@@ -72,6 +72,18 @@ public class ImplAccountDAO implements AccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.AccountDAO#getAccountByToken(java.lang.String)
+	 */
+	@Override
+	public Account getAccountByToken(String __token) {
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Account.class);
+		_criteria.add(Restrictions.eq("token", __token));
+		return (Account) _criteria.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.AccountDAO#getAll()
 	 */
 	@SuppressWarnings("unchecked")

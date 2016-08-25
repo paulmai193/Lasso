@@ -19,21 +19,21 @@ public class ChangeAvatarResponse extends BaseResponse {
 	/**
 	 * Instantiates a new change avatar response.
 	 *
-	 * @param __linkAvatar the link avatar
-	 */
-	public ChangeAvatarResponse(String __linkAvatar) {
-		super();
-		this.linkAvatar = __linkAvatar;
-	}
-
-	/**
-	 * Instantiates a new change avatar response.
-	 *
 	 * @param __error the error
 	 * @param __message the message
 	 */
 	public ChangeAvatarResponse(boolean __error, String __message) {
 		super(__error, __message);
+	}
+
+	/**
+	 * Instantiates a new change avatar response.
+	 *
+	 * @param __linkAvatar the link avatar
+	 */
+	public ChangeAvatarResponse(String __linkAvatar) {
+		super();
+		this.linkAvatar = __linkAvatar;
 	}
 
 	/**

@@ -111,12 +111,12 @@ public class AccountAllowFilter implements ContainerRequestFilter {
 	 */
 	private List<String> extractAllowRoles(AnnotatedElement __annotatedElement) {
 		if (__annotatedElement == null) {
-			return new ArrayList<String>();
+			return new ArrayList<>();
 		}
 		else {
 			AccountAllow _secured = __annotatedElement.getAnnotation(AccountAllow.class);
 			if (_secured == null) {
-				return new ArrayList<String>();
+				return new ArrayList<>();
 			}
 			else {
 				String[] _allowedRoles = _secured.roles();
@@ -133,12 +133,12 @@ public class AccountAllowFilter implements ContainerRequestFilter {
 	 */
 	private List<String> extractAllowStatus(AnnotatedElement __annotatedElement) {
 		if (__annotatedElement == null) {
-			return new ArrayList<String>();
+			return new ArrayList<>();
 		}
 		else {
 			AccountAllow _secured = __annotatedElement.getAnnotation(AccountAllow.class);
 			if (_secured == null) {
-				return new ArrayList<String>();
+				return new ArrayList<>();
 			}
 			else {
 				String[] _allowedStatus = _secured.status();

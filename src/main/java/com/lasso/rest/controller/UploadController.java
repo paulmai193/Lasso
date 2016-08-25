@@ -35,6 +35,11 @@ import com.lasso.rest.model.api.response.ChangeAvatarResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.AccountManagement;
 
+/**
+ * The Class UploadController.
+ *
+ * @author Paul Mai
+ */
 @Controller
 @Singleton
 @Lazy(false)
@@ -45,10 +50,6 @@ public class UploadController extends BaseController implements Feature {
 	/** The account management. */
 	@Autowired
 	private AccountManagement accountManagement;
-
-	public void setAccountManagement(AccountManagement __accountManagement) {
-		this.accountManagement = __accountManagement;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -74,32 +75,41 @@ public class UploadController extends BaseController implements Feature {
 	}
 
 	/**
+	 * Sets the account management.
+	 *
+	 * @param __accountManagement the new account management
+	 */
+	public void setAccountManagement(AccountManagement __accountManagement) {
+		this.accountManagement = __accountManagement;
+	}
+
+	/**
 	 * Upload avatar.
 	 *
 	 * @param __context the context
 	 * @param __fileStream the file stream
 	 * @param __fileMetaData the file meta data
 	 * @return the response
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/avatar")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	public Response uploadAvatar(@Context SecurityContext __context,
-	        @FormDataParam("file") InputStream __fileStream,
-	        @FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
+			@FormDataParam("file") InputStream __fileStream,
+			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
 		if (__fileStream == null) {
 			throw new ObjectParamException("File not found");
 		}
 		Account _account = (Account) __context.getUserPrincipal();
 		File _avatar = new File("" + _account.getId() + "-" + UUID.randomUUID() + ".jpg");
 		try {
-			accountManagement.changeAvatar(_account, __fileStream, _avatar);
-			return success(new ChangeAvatarResponse(_avatar.getName()));
+			this.accountManagement.changeAvatar(_account, __fileStream, _avatar);
+			return this.success(new ChangeAvatarResponse(_avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
-			return fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);
+			return this.fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);
 		}
 	}
 

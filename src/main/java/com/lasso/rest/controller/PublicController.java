@@ -12,23 +12,39 @@ import org.springframework.stereotype.Controller;
 import com.lasso.rest.model.api.response.ListCountriesResponse;
 import com.lasso.rest.service.GenericManagement;
 
+/**
+ * The Class PublicController.
+ *
+ * @author Paul Mai
+ */
 @Controller
 @Lazy(false)
 @Path("/public")
 @Produces(MediaType.APPLICATION_JSON)
 public class PublicController extends BaseController {
 
+	/** The generic management. */
 	@Autowired
 	private GenericManagement genericManagement;
 
-	public void setGenericManagement(GenericManagement __genericManagement) {
-		this.genericManagement = __genericManagement;
-	}
-
+	/**
+	 * Gets the countries.
+	 *
+	 * @return the countries
+	 */
 	@GET
 	@Path("/countries")
 	public ListCountriesResponse getCountries() {
-		return new ListCountriesResponse(genericManagement.getAllCountries());
+		return new ListCountriesResponse(this.genericManagement.getAllCountries());
+	}
+
+	/**
+	 * Sets the generic management.
+	 *
+	 * @param __genericManagement the new generic management
+	 */
+	public void setGenericManagement(GenericManagement __genericManagement) {
+		this.genericManagement = __genericManagement;
 	}
 
 }

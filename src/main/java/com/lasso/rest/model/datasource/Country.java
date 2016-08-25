@@ -32,13 +32,14 @@ public final class Country {
 	@Column(length = 11, name = "id")
 	private Integer	id;
 
-	/** The status. */
-	@Column(length = 1, name = "status")
-	private Byte	status;
-
+	/** The name. */
 	@Column(length = 255, name = "name")
 	@JsonProperty("country_name")
 	private String	name;
+
+	/** The status. */
+	@Column(length = 1, name = "status")
+	private Byte	status;
 
 	/**
 	 * Instantiates a new country.

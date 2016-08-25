@@ -35,6 +35,16 @@ public class ImplGenericManagement implements GenericManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.service.GenericManagement#getAllCountries()
+	 */
+	@Override
+	public List<Country> getAllCountries() {
+		return this.countryDAO.getCountryIdsByCode("all");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.service.GenericManagement#getCountryIdByCode(java.lang.String)
 	 */
 	@Override
@@ -55,16 +65,6 @@ public class ImplGenericManagement implements GenericManagement {
 	 */
 	public void setCountryDAO(CountryDAO __countryDAO) {
 		this.countryDAO = __countryDAO;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.service.GenericManagement#getAllCountries()
-	 */
-	@Override
-	public List<Country> getAllCountries() {
-		return countryDAO.getCountryIdsByCode("all");
 	}
 
 }

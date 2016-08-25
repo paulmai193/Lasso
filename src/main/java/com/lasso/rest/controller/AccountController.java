@@ -68,13 +68,13 @@ public class AccountController extends BaseController {
 	@GET
 	@Path("/activate")
 	public Response activateAccount(@QueryParam("id") int __accountId,
-	        @QueryParam("ref") int __refCode) {
+			@QueryParam("ref") int __refCode) {
 		if (this.accountManagement.activateAccount(__accountId, __refCode)) {
 			return this.success();
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST)
-			        .entity(new BaseResponse(true, "Cannot activate this account")).build();
+					.entity(new BaseResponse(true, "Cannot activate this account")).build();
 		}
 	}
 
@@ -90,16 +90,16 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	public Response changePassword(@Context SecurityContext __context,
-	        ChangePasswordRequest __changePasswordRequest) {
+			ChangePasswordRequest __changePasswordRequest) {
 		__changePasswordRequest.checkNotNull();
 		Account _account = (Account) __context.getUserPrincipal();
 		if (this.accountManagement.changePassword(__changePasswordRequest.getOldPassword(),
-		        __changePasswordRequest.getNewPassword(), _account)) {
+				__changePasswordRequest.getNewPassword(), _account)) {
 			return this.success();
 		}
 		else {
 			return this.fail(new BaseResponse(true, "Current password not match."),
-			        Status.FORBIDDEN);
+					Status.FORBIDDEN);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class AccountController extends BaseController {
 	public LoginResponse login(LoginRequest __loginRequest) {
 		__loginRequest.checkNotNull();
 		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
-		        __loginRequest.getPassword());
+				__loginRequest.getPassword());
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class AccountController extends BaseController {
 	@Path("/register/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerDesignerAccount(@Context HttpServletRequest __request,
-	        DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
 
@@ -160,7 +160,7 @@ public class AccountController extends BaseController {
 	@Path("/register/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerDesignerAccount(@Context HttpServletRequest __request,
-	        UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
 
@@ -178,15 +178,15 @@ public class AccountController extends BaseController {
 	@Path("/reset_password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@Context HttpServletRequest __request,
-	        ResetPasswordRequest __resetPasswordRequest)
-	        throws NotFoundException, AddressException, MessagingException {
+			ResetPasswordRequest __resetPasswordRequest)
+					throws NotFoundException, AddressException, MessagingException {
 		__resetPasswordRequest.checkNotNull();
 		String _refQuery = this.accountManagement
-		        .resetPassword(__resetPasswordRequest.getEmail().getValue());
+				.resetPassword(__resetPasswordRequest.getEmail().getValue());
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + _refQuery;
+		+ __request.getContextPath() + _refQuery;
 		this.accountManagement.sendResetPasswordEmail(__resetPasswordRequest.getEmail().getValue(),
-		        _refLink);
+				_refLink);
 		return this.success();
 	}
 
@@ -246,17 +246,17 @@ public class AccountController extends BaseController {
 	 * @throws MessagingException the messaging exception
 	 */
 	private Response registerNewAccount(HttpServletRequest __request,
-	        AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		__registerAccount.checkNotNull();
 		Country _country = this.genericManagement
-		        .getCountryIdByCode(__registerAccount.getCountryCode());
+				.getCountryIdByCode(__registerAccount.getCountryCode());
 		__registerAccount.setCountry(_country);
 		__registerAccount.checkCountryValid();
 		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + _refQuery;
+		+ __request.getContextPath() + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
-		        _refLink);
+				_refLink);
 		return this.success();
 	}
 }

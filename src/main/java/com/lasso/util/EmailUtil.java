@@ -84,7 +84,7 @@ public final class EmailUtil {
 	 */
 	public synchronized void sendEmail(String __subject, String __content, File __attachment,
 			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
-		List<File> _attachments = new ArrayList<File>(1);
+		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
 		this.sendEmail(__subject, __content, _attachments, __recipients);
 	}
@@ -164,7 +164,7 @@ public final class EmailUtil {
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
 			File __attachment, RecipientType __receipientType)
 					throws AddressException, MessagingException {
-		List<File> _attachments = new ArrayList<File>(1);
+		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
 		this.sendEmail(__recipients, __subject, __content, _attachments, __receipientType);
 	}
@@ -183,7 +183,7 @@ public final class EmailUtil {
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
 			List<File> __attachments, RecipientType __receipientType)
 					throws AddressException, MessagingException {
-		Map<RecipientType, String> _mapRecipients = new HashMap<RecipientType, String>(1);
+		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__receipientType, __recipients);
 		this.sendEmail(__subject, __content, __attachments, _mapRecipients);
 	}
@@ -200,7 +200,7 @@ public final class EmailUtil {
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
 			RecipientType __recipientType) throws AddressException, MessagingException {
-		Map<RecipientType, String> _mapRecipients = new HashMap<RecipientType, String>(1);
+		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__recipientType, __recipients);
 		this.sendEmail(__subject, __content, _mapRecipients);
 	}

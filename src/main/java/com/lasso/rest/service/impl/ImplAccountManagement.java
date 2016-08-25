@@ -8,9 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.mail.Message.RecipientType;
@@ -46,13 +44,13 @@ public class ImplAccountManagement implements AccountManagement {
 
 	/** The account DAO. */
 	@Autowired
-	private AccountDAO					accountDAO;
+	private AccountDAO accountDAO;
 
-	/** The map Credentials of token. */
-	private Map<String, LoginResponse>	mapTokenOfUser;
-
-	/** The map user current Credentials. */
-	private Map<Integer, LoginResponse>	mapUserCurrentToken;
+	// /** The map Credentials of token. */
+	// private Map<String, LoginResponse> mapTokenOfUser;
+	//
+	// /** The map user current Credentials. */
+	// private Map<Integer, LoginResponse> mapUserCurrentToken;
 
 	/**
 	 * Instantiates a new impl account management.
@@ -81,6 +79,26 @@ public class ImplAccountManagement implements AccountManagement {
 		else {
 			return false;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.AccountManagement#changeAvatar(com.lasso.rest.model.datasource.
+	 * Account, java.io.InputStream, java.io.File)
+	 */
+	@Override
+	public void changeAvatar(Account __account, InputStream __fileStream, File __destinationFile)
+			throws IOException, IllegalArgumentException {
+		BufferedImage _buffered = ImageIO.read(__fileStream);
+		if (_buffered == null) {
+			throw new IllegalArgumentException("File not image");
+		}
+		ImageIO.write(_buffered, "jpg", __destinationFile);
+
+		__account.setAvatar(__destinationFile.getName());
+		__account.setModified();
+		this.accountDAO.updateAccount(__account);
 	}
 
 	/*
@@ -127,13 +145,17 @@ public class ImplAccountManagement implements AccountManagement {
 		else if (!_account.getPassword().equals(__password)) {
 			throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
 		}
-		else {
-			_response = new LoginResponse(_account.getId(),
-			        RandomStringUtils.randomAlphanumeric(200), _account.getStatus(),
-			        _account.getRole());
+		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
+			throw new AuthenticateException("Account not activate", Status.FORBIDDEN);
 		}
-		this.mapTokenOfUser.put(_response.getToken(), _response);
-		this.mapUserCurrentToken.put(_response.getIdAccount(), _response);
+		else {
+			String _token = RandomStringUtils.randomAlphanumeric(45);
+			_account.setToken(_token);
+			this.accountDAO.updateAccount(_account);
+
+			_response = new LoginResponse(_account.getId(), _token, _account.getStatus(),
+					_account.getRole());
+		}
 
 		return _response;
 	}
@@ -145,9 +167,10 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void logout(Integer __idAccount) {
-		LoginResponse __credentials = this.mapUserCurrentToken.remove(__idAccount);
-		if (__credentials != null) {
-			this.mapTokenOfUser.remove(__credentials.getToken());
+		Account _account = this.accountDAO.getAccountById(__idAccount);
+		if (_account != null) {
+			_account.setToken(null);
+			this.accountDAO.updateAccount(_account);
 		}
 	}
 
@@ -180,7 +203,7 @@ public class ImplAccountManagement implements AccountManagement {
 		_account.setModified();
 		Integer _id = this.accountDAO.createAccount(_account);
 		String _query = MessageFormat.format("/account/activate?id={0, number,#}&ref={1, number,#}",
-		        _id, _uniqueCode);
+				_id, _uniqueCode);
 		return _query;
 	}
 
@@ -190,7 +213,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 * @see com.lasso.rest.service.AccountManagement#resetPassword(java.lang.String)
 	 */
 	public String resetPassword(String __email)
-	        throws NotFoundException, AddressException, MessagingException {
+			throws NotFoundException, AddressException, MessagingException {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		if (_account == null) {
 			throw new NotFoundException("Email not exist");
@@ -202,8 +225,8 @@ public class ImplAccountManagement implements AccountManagement {
 			_account.setModified();
 			this.accountDAO.updateAccount(_account);
 			String _query = MessageFormat.format(
-			        "/account/activate?id={0, number,#}&ref={1, number,#}", _account.getId(),
-			        _uniqueCode);
+					"/account/activate?id={0, number,#}&ref={1, number,#}", _account.getId(),
+					_uniqueCode);
 			return _query;
 		}
 	}
@@ -216,10 +239,10 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendActivationEmail(String __email, String __refLink)
-	        throws AddressException, MessagingException {
+			throws AddressException, MessagingException {
 		EmailUtil.getInstance().sendEmail(__email, "Xác thực tài khoản",
-		        "Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
-		        RecipientType.TO);
+				"Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
+				RecipientType.TO);
 	}
 
 	/*
@@ -230,10 +253,10 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendResetPasswordEmail(String __email, String __refLink)
-	        throws AddressException, MessagingException {
+			throws AddressException, MessagingException {
 		EmailUtil.getInstance().sendEmail(__email, "Phục hồi mật khẩu",
-		        "Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
-		        RecipientType.TO);
+				"Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
+				RecipientType.TO);
 	}
 
 	/**
@@ -245,24 +268,6 @@ public class ImplAccountManagement implements AccountManagement {
 		this.accountDAO = __accountDAO;
 	}
 
-	/**
-	 * Sets the map token of user.
-	 *
-	 * @param __mapTokenOfUser the map token of user
-	 */
-	public void setMapTokenOfUser(Map<String, LoginResponse> __mapTokenOfUser) {
-		this.mapTokenOfUser = __mapTokenOfUser;
-	}
-
-	/**
-	 * Sets the map user current token.
-	 *
-	 * @param __mapUserCurrentToken the map user current token
-	 */
-	public void setMapUserCurrentToken(Map<Integer, LoginResponse> __mapUserCurrentToken) {
-		this.mapUserCurrentToken = __mapUserCurrentToken;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -271,49 +276,13 @@ public class ImplAccountManagement implements AccountManagement {
 	@Override
 	public Account validateAccountToken(String __token) {
 		// Check token valid
-		LoginResponse _credentials = this.mapTokenOfUser.get(__token);
-		if (_credentials == null) {
-			// Not login
+		Account _account = this.accountDAO.getAccountByToken(__token);
+		if (_account == null) {
+			// Wrong login credentials
 			throw new AuthenticateException("Invalid token", Status.UNAUTHORIZED);
 		}
 		else {
-			LoginResponse _currentCredentials = this.mapUserCurrentToken
-			        .get(_credentials.getIdAccount());
-			if (!_currentCredentials.getToken().equals(__token)) {
-				// Old token
-				this.mapTokenOfUser.remove(__token);
-				throw new AuthenticateException("Token expired", Status.UNAUTHORIZED);
-			}
-			else if (_currentCredentials.getExpired().compareTo(new Date()) <= 0) {
-				// Old token
-				this.mapTokenOfUser.remove(__token);
-				this.mapUserCurrentToken.remove(_credentials.getIdAccount());
-				throw new AuthenticateException("Token expired", Status.UNAUTHORIZED);
-			}
-			else {
-				// True token
-				return this.accountDAO.getAccountById(_currentCredentials.getIdAccount());
-			}
+			return _account;
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.service.AccountManagement#changeAvatar(com.lasso.rest.model.datasource.
-	 * Account, java.io.InputStream, java.io.File)
-	 */
-	@Override
-	public void changeAvatar(Account __account, InputStream __fileStream, File __destinationFile)
-	        throws IOException, IllegalArgumentException {
-		BufferedImage _buffered = ImageIO.read(__fileStream);
-		if (_buffered == null) {
-			throw new IllegalArgumentException("File not image");
-		}
-		ImageIO.write(_buffered, "jpg", __destinationFile);
-
-		__account.setAvatar(__destinationFile.getName());
-		__account.setModified();
-		accountDAO.updateAccount(__account);
 	}
 }
