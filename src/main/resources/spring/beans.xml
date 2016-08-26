@@ -13,25 +13,19 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- DAO Layer -->
-	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO" lazy-init="false">
+	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO" lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO" lazy-init="false">
+	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO" lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<!-- Service Layer -->
-	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement" lazy-init="false">
-		<property name="accountDAO" ref="accountDAO"></property>
-		<property name="mapUserCurrentToken">
-			<bean class="java.util.concurrent.ConcurrentHashMap" lazy-init="false"/>
-		</property>
-		<property name="mapTokenOfUser">
-			<bean class="java.util.concurrent.ConcurrentHashMap" lazy-init="false"/>
-		</property>
+	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement" lazy-init="false" scope="singleton">
+		<property name="accountDAO" ref="accountDAO"></property>		
 	</bean>
-	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement" lazy-init="false">
+	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement" lazy-init="false" scope="singleton">
 		<property name="countryDAO" ref="countryDAO"/>
 	</bean>
 
@@ -41,6 +35,7 @@
 	</bean>
 
 	<!-- Controller Layer -->
+	<bean id="baseController" class="com.lasso.rest.controller.BaseController" lazy-init="false"></bean>
 	<bean id="accountController" class="com.lasso.rest.controller.AccountController" lazy-init="false">
 		<property name="accountManagement" ref="accountManagement"/>
 		<property name="genericManagement" ref="genericManagement"/>

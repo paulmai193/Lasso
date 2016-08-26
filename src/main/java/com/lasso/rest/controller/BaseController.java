@@ -1,7 +1,18 @@
 package com.lasso.rest.controller;
 
+import java.io.InputStream;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Controller;
 
 import com.lasso.rest.model.api.response.BaseResponse;
 
@@ -10,6 +21,9 @@ import com.lasso.rest.model.api.response.BaseResponse;
  *
  * @author Paul Mai
  */
+@Controller
+@Lazy(false)
+@Path("/")
 public class BaseController {
 
 	/**
@@ -46,6 +60,18 @@ public class BaseController {
 	 */
 	public Response success(BaseResponse __response) {
 		return Response.ok().entity(__response).build();
+	}
+
+	/**
+	 * Index.
+	 *
+	 * @param __request the request
+	 * @return the input stream
+	 */
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public InputStream index(@Context HttpServletRequest __request) {
+		return __request.getServletContext().getResourceAsStream("index.jsp");
 	}
 
 }

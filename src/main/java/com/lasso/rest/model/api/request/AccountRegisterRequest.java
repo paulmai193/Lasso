@@ -28,7 +28,7 @@ public class AccountRegisterRequest extends BaseRequest {
 	private Country		country;
 
 	/** The country code. */
-	@JsonProperty(value = "localtion")
+	@JsonProperty(value = "country_code")
 	private String		countryCode;
 
 	/** The email. */

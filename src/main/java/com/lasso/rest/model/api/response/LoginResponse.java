@@ -1,9 +1,5 @@
 package com.lasso.rest.model.api.response;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,12 +12,6 @@ import com.lasso.define.Constant;
  */
 @JsonInclude(value = Include.NON_NULL)
 public class LoginResponse extends BaseResponse {
-
-	/** The created. */
-	private Date	created;
-
-	/** The expired. */
-	private Date	expired;
 
 	/** The id account. */
 	@JsonProperty("id")
@@ -51,30 +41,6 @@ public class LoginResponse extends BaseResponse {
 		this.token = __token;
 		this.status = __status;
 		this.role = __role;
-		this.setCreated();
-		this.setExpired();
-	}
-
-	/**
-	 * Gets the created.
-	 *
-	 * @return the created
-	 */
-	@JsonProperty("created")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
-	public Date getCreated() {
-		return this.created;
-	}
-
-	/**
-	 * Gets the expired.
-	 *
-	 * @return the expired
-	 */
-	@JsonProperty("expired")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z")
-	public Date getExpired() {
-		return this.expired;
 	}
 
 	/**
@@ -143,41 +109,6 @@ public class LoginResponse extends BaseResponse {
 	 */
 	public String getToken() {
 		return this.token;
-	}
-
-	/**
-	 * Sets the created.
-	 */
-	public void setCreated() {
-		this.setCreated(new Date());
-	}
-
-	/**
-	 * Sets the created.
-	 *
-	 * @param __created the new created
-	 */
-	public void setCreated(Date __created) {
-		this.created = __created;
-	}
-
-	/**
-	 * Sets the expired.
-	 */
-	public void setExpired() {
-		Calendar _calendar = Calendar.getInstance();
-		_calendar.setTime(new Date());
-		_calendar.add(Calendar.DATE, 1);
-		this.setExpired(_calendar.getTime());
-	}
-
-	/**
-	 * Sets the expired.
-	 *
-	 * @param __expired the new expired
-	 */
-	public void setExpired(Date __expired) {
-		this.expired = __expired;
 	}
 
 	/**

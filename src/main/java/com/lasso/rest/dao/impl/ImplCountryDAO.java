@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -46,6 +47,7 @@ public class ImplCountryDAO implements CountryDAO {
 			_criteria.add(Restrictions.eq("code", __code));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1));
+		_criteria.addOrder(Order.asc("name"));
 
 		return _criteria.list();
 	}

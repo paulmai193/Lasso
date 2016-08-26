@@ -18,7 +18,6 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +65,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void changeAvatar(Account __account, InputStream __fileStream, File __destinationFile)
-			throws IOException, IllegalArgumentException {
+	        throws IOException, IllegalArgumentException {
 		BufferedImage _buffered = ImageIO.read(__fileStream);
 		if (_buffered == null) {
 			throw new IllegalArgumentException("File not image");
@@ -131,7 +130,7 @@ public class ImplAccountManagement implements AccountManagement {
 			this.accountDAO.updateAccount(_account);
 
 			_response = new LoginResponse(_account.getId(), _token, _account.getStatus(),
-					_account.getRole());
+			        _account.getRole());
 		}
 
 		return _response;
@@ -165,21 +164,18 @@ public class ImplAccountManagement implements AccountManagement {
 		Account _account = this.accountDAO.getAccountByEmail(_email);
 		if (_account == null) {
 			_account = new Account(__registerAccount);
+
+			// Request email available, create new account
+			String _otp = RandomStringUtils.randomNumeric(6);
+			_account.setOtp(_otp.toString());
+			_account.setModified();
+			this.accountDAO.createAccount(_account);
+			return MessageFormat.format("/active?otp={0}", _otp);
 		}
-		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
-			_account.set(__registerAccount);
-		}
-		else if (_account.getStatus().equals(Constant.ACC_ACTIVATE)) {
+		else {
 			// Check status of exist account
 			throw new ResourceExistException(__registerAccount.getEmail() + " was exist");
 		}
-
-		// Request email available, create new account
-		Integer _otp = RandomUtils.nextInt(100000, 999999);
-		_account.setOtp(_otp.toString());
-		_account.setModified();
-		this.accountDAO.createAccount(_account);
-		return MessageFormat.format("/active?otp={0}", _otp.toString());
 	}
 
 	/*
@@ -188,18 +184,18 @@ public class ImplAccountManagement implements AccountManagement {
 	 * @see com.lasso.rest.service.AccountManagement#resetPassword(java.lang.String)
 	 */
 	public String resetPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException {
+	        throws NotFoundException, AddressException, MessagingException {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		if (_account == null) {
 			throw new NotFoundException("Email not exist");
 		}
 		else {
 			// Request email available, create new account
-			Integer _otp = RandomUtils.nextInt(100000, 999999);
+			String _otp = RandomStringUtils.randomNumeric(6);
 			_account.setOtp(_otp.toString());
 			_account.setModified();
 			this.accountDAO.updateAccount(_account);
-			return MessageFormat.format("/reset?otp={0}", _otp.toString());
+			return MessageFormat.format("/reset?otp={0}", _otp);
 		}
 	}
 
@@ -211,10 +207,10 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendActivationEmail(String __email, String __refLink)
-			throws AddressException, MessagingException {
+	        throws AddressException, MessagingException {
 		EmailUtil.getInstance().sendEmail(__email, "Xác thực tài khoản",
-				"Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
-				RecipientType.TO);
+		        "Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
+		        RecipientType.TO);
 	}
 
 	/*
@@ -225,10 +221,10 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException {
+	        throws AddressException, MessagingException {
 		EmailUtil.getInstance().sendEmail(__email, "Phục hồi mật khẩu",
-				"Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
-				RecipientType.TO);
+		        "Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
+		        RecipientType.TO);
 	}
 
 	/**
