@@ -14,13 +14,13 @@ import com.lasso.exception.ObjectParamException;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 
-	/** The alternative contact. */
-	@JsonProperty("alt_contact")
-	private String	alternativeContact;
-
 	/** The account info. */
 	@JsonProperty("info")
 	private String	accountInfo;
+
+	/** The alternative contact. */
+	@JsonProperty("alt_contact")
+	private String	alternativeContact;
 
 	/** The payment. */
 	@JsonProperty(value = "payment")
@@ -51,21 +51,21 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 	}
 
 	/**
+	 * Gets the account info.
+	 *
+	 * @return the accountInfo
+	 */
+	public String getAccountInfo() {
+		return this.accountInfo;
+	}
+
+	/**
 	 * Gets the alternative contact.
 	 *
 	 * @return the alternativeContact
 	 */
 	public String getAlternativeContact() {
 		return this.alternativeContact;
-	}
-
-	/**
-	 * Sets the alternative contact.
-	 *
-	 * @param __alternativeContact the alternativeContact to set
-	 */
-	public void setAlternativeContact(String __alternativeContact) {
-		this.alternativeContact = __alternativeContact;
 	}
 
 	/**
@@ -78,21 +78,21 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 	}
 
 	/**
-	 * Gets the account info.
-	 *
-	 * @return the accountInfo
-	 */
-	public String getAccountInfo() {
-		return this.accountInfo;
-	}
-
-	/**
 	 * Sets the account info.
 	 *
 	 * @param __accountInfo the accountInfo to set
 	 */
 	public void setAccountInfo(String __accountInfo) {
 		this.accountInfo = __accountInfo;
+	}
+
+	/**
+	 * Sets the alternative contact.
+	 *
+	 * @param __alternativeContact the alternativeContact to set
+	 */
+	public void setAlternativeContact(String __alternativeContact) {
+		this.alternativeContact = __alternativeContact;
 	}
 
 	/**

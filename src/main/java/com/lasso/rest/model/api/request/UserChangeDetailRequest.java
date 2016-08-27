@@ -61,15 +61,6 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 	}
 
 	/**
-	 * Sets the company address.
-	 *
-	 * @param __companyAddress the companyAddress to set
-	 */
-	public void setCompanyAddress(String __companyAddress) {
-		this.companyAddress = __companyAddress;
-	}
-
-	/**
 	 * Gets the company name.
 	 *
 	 * @return the companyName
@@ -79,21 +70,30 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 	}
 
 	/**
-	 * Sets the company name.
-	 *
-	 * @param __companyName the companyName to set
-	 */
-	public void setCompanyName(String __companyName) {
-		this.companyName = __companyName;
-	}
-
-	/**
 	 * Gets the company phone.
 	 *
 	 * @return the companyPhone
 	 */
 	public String getCompanyPhone() {
 		return this.companyPhone;
+	}
+
+	/**
+	 * Sets the company address.
+	 *
+	 * @param __companyAddress the companyAddress to set
+	 */
+	public void setCompanyAddress(String __companyAddress) {
+		this.companyAddress = __companyAddress;
+	}
+
+	/**
+	 * Sets the company name.
+	 *
+	 * @param __companyName the companyName to set
+	 */
+	public void setCompanyName(String __companyName) {
+		this.companyName = __companyName;
 	}
 
 	/**
