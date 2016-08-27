@@ -149,7 +149,7 @@ public final class Account implements Principal {
 			this.role = __accountRegister.getRole();
 			this.subscribe = __accountRegister.getSubscribe();
 		}
-		else {
+		else if (__accountRegister instanceof UserRegisterRequest) {
 			// User
 			this.alternativeContact = __accountRegister.getAlternativeContact();
 			this.avatar = "";

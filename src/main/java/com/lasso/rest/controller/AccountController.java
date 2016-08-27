@@ -26,11 +26,14 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.request.AccountChangeDetailRequest;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.ChangePasswordRequest;
+import com.lasso.rest.model.api.request.DesignerChangeDetailRequest;
 import com.lasso.rest.model.api.request.DesignerRegisterRequest;
 import com.lasso.rest.model.api.request.LoginRequest;
 import com.lasso.rest.model.api.request.ResetPasswordRequest;
+import com.lasso.rest.model.api.request.UserChangeDetailRequest;
 import com.lasso.rest.model.api.request.UserRegisterRequest;
 import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.LoginResponse;
@@ -81,6 +84,58 @@ public class AccountController extends BaseController {
 			return this.fail(new BaseResponse(true, "Current password not match."),
 			        Status.FORBIDDEN);
 		}
+	}
+
+	/**
+	 * Change designer detail.
+	 *
+	 * @param __context the context
+	 * @param __designerChangeDetailRequest the designer change detail request
+	 * @return the response
+	 */
+	@POST
+	@Path("/change_detail/designer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	public Response changeDesignerDetail(@Context SecurityContext __context,
+	        DesignerChangeDetailRequest __designerChangeDetailRequest) {
+		return this.changeAccountDetail((Account) __context.getUserPrincipal(),
+		        __designerChangeDetailRequest);
+	}
+
+	/**
+	 * Change user detail.
+	 *
+	 * @param __context the context
+	 * @param __userChangeDetailRequest the user change detail request
+	 * @return the response
+	 */
+	@POST
+	@Path("/change_detail/user")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	public Response changeUserDetail(@Context SecurityContext __context,
+	        UserChangeDetailRequest __userChangeDetailRequest) {
+		return this.changeAccountDetail((Account) __context.getUserPrincipal(),
+		        __userChangeDetailRequest);
+	}
+
+	/**
+	 * Change account detail.
+	 *
+	 * @param __account the account
+	 * @param __accountChangeDetailRequest the account change detail request
+	 * @return the response
+	 */
+	private Response changeAccountDetail(Account __account,
+	        AccountChangeDetailRequest __accountChangeDetailRequest) {
+		__accountChangeDetailRequest.checkNotNull();
+		Country _country = this.genericManagement
+		        .getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
+		__accountChangeDetailRequest.setCountry(_country);
+		__accountChangeDetailRequest.checkCountryValid();
+		this.accountManagement.changeAccountDetail(__account, __accountChangeDetailRequest);
+		return success();
 	}
 
 	/**

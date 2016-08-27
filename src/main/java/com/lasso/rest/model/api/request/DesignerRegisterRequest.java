@@ -36,7 +36,6 @@ public class DesignerRegisterRequest extends AccountRegisterRequest {
 		super.checkNotNull();
 		try {
 			Assert.notNull(this.payment);
-			;
 		}
 		catch (Throwable _ex) {
 			throw new ObjectParamException("Some fields invalid");

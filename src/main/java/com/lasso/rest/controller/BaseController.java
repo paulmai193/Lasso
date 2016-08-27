@@ -44,6 +44,18 @@ public class BaseController {
 	}
 
 	/**
+	 * Index.
+	 *
+	 * @param __request the request
+	 * @return the input stream
+	 */
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public InputStream index(@Context HttpServletRequest __request) {
+		return __request.getServletContext().getResourceAsStream("index.jsp");
+	}
+
+	/**
 	 * Success.
 	 *
 	 * @return the response
@@ -60,18 +72,6 @@ public class BaseController {
 	 */
 	public Response success(BaseResponse __response) {
 		return Response.ok().entity(__response).build();
-	}
-
-	/**
-	 * Index.
-	 *
-	 * @param __request the request
-	 * @return the input stream
-	 */
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public InputStream index(@Context HttpServletRequest __request) {
-		return __request.getServletContext().getResourceAsStream("index.jsp");
 	}
 
 }

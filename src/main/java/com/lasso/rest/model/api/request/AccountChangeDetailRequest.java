@@ -1,6 +1,3 @@
-/*
- * 
- */
 package com.lasso.rest.model.api.request;
 
 import org.springframework.util.Assert;
@@ -13,16 +10,12 @@ import com.lasso.rest.model.variable.EmailParam;
 import com.lasso.rest.model.variable.PhoneParam;
 
 /**
- * The Class AccountRegisterRequest.
+ * The Class AccountChangeDetailRequest.
  *
  * @author Paul Mai
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AccountRegisterRequest extends BaseRequest {
-
-	/** The alternative contact. */
-	@JsonProperty("alt_contact")
-	private String		alternativeContact;
+public class AccountChangeDetailRequest extends BaseRequest {
 
 	/** The country. */
 	private Country		country;
@@ -34,10 +27,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The email. */
 	private EmailParam	email;
 
-	/** The name. */
-	@JsonProperty(value = "name")
-	private String		name;
-
 	/** The password. */
 	@JsonProperty(value = "password")
 	private String		password;
@@ -45,20 +34,10 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The phone. */
 	private PhoneParam	phone;
 
-	/** The value. */
-	private Byte		role;
-
-	/** The subscribe. */
-	@JsonProperty(value = "subscribe")
-	private Boolean		subscribe;
-
 	/**
-	 * Instantiates a new account register request.
-	 *
-	 * @param __role the value
+	 * Instantiates a new account change detail request.
 	 */
-	public AccountRegisterRequest(Byte __role) {
-		this.role = __role;
+	public AccountChangeDetailRequest() {
 	}
 
 	/**
@@ -80,27 +59,14 @@ public class AccountRegisterRequest extends BaseRequest {
 	@Override
 	public void checkNotNull() throws ObjectParamException {
 		try {
-			Assert.notNull(this.alternativeContact);
 			Assert.notNull(this.countryCode);
 			Assert.notNull(this.email);
-			Assert.notNull(this.name);
 			Assert.notNull(this.password);
 			Assert.notNull(this.phone);
-			Assert.notNull(this.role);
-			Assert.notNull(this.subscribe);
 		}
 		catch (Throwable _ex) {
 			throw new ObjectParamException("Some fields invalid");
 		}
-	}
-
-	/**
-	 * Gets the alternative contact.
-	 *
-	 * @return the alternative contact
-	 */
-	public String getAlternativeContact() {
-		return this.alternativeContact;
 	}
 
 	/**
@@ -115,7 +81,7 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Gets the country code.
 	 *
-	 * @return the country code
+	 * @return the countryCode
 	 */
 	public String getCountryCode() {
 		return this.countryCode;
@@ -128,15 +94,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public EmailParam getEmail() {
 		return this.email;
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return this.name;
 	}
 
 	/**
@@ -158,36 +115,9 @@ public class AccountRegisterRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the value.
-	 *
-	 * @return the value
-	 */
-	public Byte getRole() {
-		return this.role;
-	}
-
-	/**
-	 * Gets the subscribe.
-	 *
-	 * @return the subscribe
-	 */
-	public Boolean getSubscribe() {
-		return this.subscribe;
-	}
-
-	/**
-	 * Sets the alternative contact.
-	 *
-	 * @param __alternativeContact the new alternative contact
-	 */
-	public void setAlternativeContact(String __alternativeContact) {
-		this.alternativeContact = __alternativeContact;
-	}
-
-	/**
 	 * Sets the country.
 	 *
-	 * @param __country the new country
+	 * @param __country the country to set
 	 */
 	public void setCountry(Country __country) {
 		this.country = __country;
@@ -196,7 +126,7 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the country code.
 	 *
-	 * @param __countryCode the new country code
+	 * @param __countryCode the countryCode to set
 	 */
 	public void setCountryCode(String __countryCode) {
 		this.countryCode = __countryCode;
@@ -218,18 +148,9 @@ public class AccountRegisterRequest extends BaseRequest {
 	}
 
 	/**
-	 * Sets the name.
-	 *
-	 * @param __name the new name
-	 */
-	public void setName(String __name) {
-		this.name = __name;
-	}
-
-	/**
 	 * Sets the password.
 	 *
-	 * @param __password the new password
+	 * @param __password the password to set
 	 */
 	public void setPassword(String __password) {
 		this.password = __password;
@@ -250,21 +171,4 @@ public class AccountRegisterRequest extends BaseRequest {
 		}
 	}
 
-	/**
-	 * Sets the value.
-	 *
-	 * @param __role the new value
-	 */
-	public void setRole(Byte __role) {
-		this.role = __role;
-	}
-
-	/**
-	 * Sets the subscribe.
-	 *
-	 * @param __subscribe the new subscribe
-	 */
-	public void setSubscribe(Boolean __subscribe) {
-		this.subscribe = __subscribe;
-	}
 }

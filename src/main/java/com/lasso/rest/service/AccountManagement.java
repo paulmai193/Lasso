@@ -12,6 +12,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.ws.rs.NotFoundException;
 
+import com.lasso.rest.model.api.request.AccountChangeDetailRequest;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
@@ -33,7 +34,7 @@ public interface AccountManagement {
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	public void changeAvatar(Account __account, InputStream __fileStream, File __destinationFile)
-			throws IOException, IllegalArgumentException;
+	        throws IOException, IllegalArgumentException;
 
 	/**
 	 * Change password.
@@ -86,7 +87,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String resetPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	        throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Send activation email.
@@ -97,7 +98,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendActivationEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Send reset password email.
@@ -108,7 +109,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Validate the token to verify secured account.
@@ -125,4 +126,13 @@ public interface AccountManagement {
 	 * @return true, if successful
 	 */
 	public boolean verifyAccount(String __otp);
+
+	/**
+	 * Change account detail.
+	 *
+	 * @param __account the account
+	 * @param __accountChangeDetailRequest the account change detail request
+	 */
+	public void changeAccountDetail(Account __account,
+	        AccountChangeDetailRequest __accountChangeDetailRequest);
 }

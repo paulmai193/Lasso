@@ -26,7 +26,10 @@ import com.lasso.define.Constant;
 import com.lasso.exception.AuthenticateException;
 import com.lasso.exception.ResourceExistException;
 import com.lasso.rest.dao.AccountDAO;
+import com.lasso.rest.model.api.request.AccountChangeDetailRequest;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
+import com.lasso.rest.model.api.request.DesignerChangeDetailRequest;
+import com.lasso.rest.model.api.request.UserChangeDetailRequest;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.AccountManagement;
@@ -44,12 +47,6 @@ public class ImplAccountManagement implements AccountManagement {
 	/** The account DAO. */
 	@Autowired
 	private AccountDAO accountDAO;
-
-	// /** The map Credentials of token. */
-	// private Map<String, LoginResponse> mapTokenOfUser;
-	//
-	// /** The map user current Credentials. */
-	// private Map<Integer, LoginResponse> mapUserCurrentToken;
 
 	/**
 	 * Instantiates a new impl account management.
@@ -120,9 +117,6 @@ public class ImplAccountManagement implements AccountManagement {
 		}
 		else if (!_account.getPassword().equals(__password)) {
 			throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
-		}
-		else if (_account.getStatus().equals(Constant.ACC_NOT_ACTIVATE)) {
-			throw new AuthenticateException("Account not activate", Status.FORBIDDEN);
 		}
 		else {
 			String _token = RandomStringUtils.randomAlphanumeric(45);
@@ -272,5 +266,43 @@ public class ImplAccountManagement implements AccountManagement {
 			this.accountDAO.updateAccount(_account);
 			return true;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.AccountManagement#changeAccountDetail(com.lasso.rest.model.datasource.
+	 * Account, com.lasso.rest.model.api.request.AccountChangeDetailRequest)
+	 */
+	@Override
+	public void changeAccountDetail(Account __account,
+	        AccountChangeDetailRequest __accountChangeDetailRequest) {
+		if (__accountChangeDetailRequest instanceof DesignerChangeDetailRequest) {
+			__account.setAccountInfo(
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getAccountInfo());
+			__account.setAlternativeContact(
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest)
+			                .getAlternativeContact());
+			__account.setCountry(__accountChangeDetailRequest.getCountry());
+			__account.setEmail(__accountChangeDetailRequest.getEmail().getValue());
+			__account.setModified();
+			__account.setPayment(
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getPayment());
+			__account.setPhone(__accountChangeDetailRequest.getPhone().getValue());
+		}
+		else if (__accountChangeDetailRequest instanceof UserChangeDetailRequest) {
+			__account.setCompanyAddress(
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
+			__account.setCompanyName(
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
+			__account.setCompanyPhone(
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyPhone());
+			__account.setCountry(__accountChangeDetailRequest.getCountry());
+			__account.setEmail(__accountChangeDetailRequest.getEmail().getValue());
+			__account.setModified();
+			__account.setPhone(__accountChangeDetailRequest.getPhone().getValue());
+		}
+		this.accountDAO.updateAccount(__account);
 	}
 }

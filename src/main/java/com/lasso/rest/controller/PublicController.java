@@ -55,23 +55,6 @@ public class PublicController extends BaseController {
 	}
 
 	/**
-	 * Test reset.
-	 *
-	 * @param __request the request
-	 * @param __otp the otp
-	 * @return the response
-	 * @throws URISyntaxException the URI syntax exception
-	 */
-	@GET
-	@Path("/reset")
-	public Response testReset(@Context HttpServletRequest __request,
-	        @QueryParam("otp") String __otp) throws URISyntaxException {
-		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-		        + __request.getServerPort() + "/verfiy?type=reset&otp=" + __otp;
-		return Response.seeOther(new URI(_redirectSchema)).build();
-	}
-
-	/**
 	 * Test active.
 	 *
 	 * @param __request the request
@@ -82,9 +65,26 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/active")
 	public Response testActive(@Context HttpServletRequest __request,
-	        @QueryParam("otp") String __otp) throws URISyntaxException {
+			@QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-		        + __request.getServerPort() + "/verfiy?type=active&otp=" + __otp;
+				+ __request.getServerPort() + "/verfiy?type=active&otp=" + __otp;
+		return Response.seeOther(new URI(_redirectSchema)).build();
+	}
+
+	/**
+	 * Test reset.
+	 *
+	 * @param __request the request
+	 * @param __otp the otp
+	 * @return the response
+	 * @throws URISyntaxException the URI syntax exception
+	 */
+	@GET
+	@Path("/reset")
+	public Response testReset(@Context HttpServletRequest __request,
+			@QueryParam("otp") String __otp) throws URISyntaxException {
+		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
+				+ __request.getServerPort() + "/verfiy?type=reset&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 
