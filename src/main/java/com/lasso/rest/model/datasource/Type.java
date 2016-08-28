@@ -1,10 +1,7 @@
 package com.lasso.rest.model.datasource;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -30,43 +26,44 @@ import org.hibernate.annotations.DynamicUpdate;
 public final class Type {
 
 	/** The all styles. */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "style", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Type_Style>	allStyles	= new HashSet<>();
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "style", cascade = CascadeType.ALL,
+	// orphanRemoval = true)
+	// private Set<Type_Style> allStyles = new HashSet<>();
 
 	/** The category. */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id")
-	private Category		category;
+	private Category	category;
 
 	/** The created. */
 	@Column(length = 19, name = "created")
-	private Date			created;
+	private Date		created;
 
 	/** The id. */
 	@Id
 	@GeneratedValue
 	@Column(length = 11, name = "id")
-	private Integer			id;
+	private Integer		id;
 
 	/** The image. */
 	@Column(length = 45, name = "image")
-	private String			image;
+	private String		image;
 
 	/** The modified. */
 	@Column(length = 19, name = "modified")
-	private Date			modified;
+	private Date		modified;
 
 	/** The sort. */
 	@Column(length = 11, name = "sort")
-	private Integer			sort;
+	private Integer		sort;
 
 	/** The status. */
 	@Column(length = 1, name = "status")
-	private Byte			status;
+	private Byte		status;
 
 	/** The title. */
 	@Column(length = 45, name = "title")
-	private String			title;
+	private String		title;
 
 	/**
 	 * Instantiates a new type.
@@ -74,14 +71,14 @@ public final class Type {
 	public Type() {
 	}
 
-	/**
-	 * Gets the all styles.
-	 *
-	 * @return the allStyles
-	 */
-	public Set<Type_Style> getAllStyles() {
-		return this.allStyles;
-	}
+	// /**
+	// * Gets the all styles.
+	// *
+	// * @return the allStyles
+	// */
+	// public Set<Type_Style> getAllStyles() {
+	// return this.allStyles;
+	// }
 
 	/**
 	 * Gets the category.
@@ -160,9 +157,9 @@ public final class Type {
 	 *
 	 * @param __allStyles the allStyles to set
 	 */
-	public void setAllStyles(Set<Type_Style> __allStyles) {
-		this.allStyles = __allStyles;
-	}
+	// public void setAllStyles(Set<Type_Style> __allStyles) {
+	// this.allStyles = __allStyles;
+	// }
 
 	/**
 	 * Sets the category.

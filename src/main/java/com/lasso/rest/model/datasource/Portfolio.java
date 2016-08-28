@@ -4,63 +4,113 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
 
 /**
- * The Class Category.
+ * The Class Portfolio.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(catalog = "art_design", name = "categories")
+@Table(catalog = "art_design", name = "portfolios")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public final class Category {
+public final class Portfolio {
+
+	/** The account. */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id")
+	private Account		account;
+
+	/** The amount. */
+	@Column(name = "amount")
+	private Double		amount;
+
+	/** The category. */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "category_id")
+	private Category	category;
 
 	/** The created. */
 	@Column(length = 19, name = "created")
-	private Date	created;
+	private Date		created;
 
 	/** The id. */
 	@Id
 	@GeneratedValue
 	@Column(length = 11, name = "id")
-	private Integer	id;
+	private Integer		id;
 
 	/** The image. */
 	@Column(length = 45, name = "image")
-	private String	image;
+	private String		image;
+
+	/** The info. */
+	@Column(name = "info")
+	@Type(type = "text")
+	private String		info;
 
 	/** The modified. */
 	@Column(length = 19, name = "modified")
-	private Date	modified;
+	private Date		modified;
 
 	/** The sort. */
 	@Column(length = 11, name = "sort")
-	private Integer	sort;
+	private Integer		sort;
 
 	/** The status. */
 	@Column(length = 1, name = "status")
-	private Byte	status;
+	private Byte		status;
+
+	/** The style. */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "style_id")
+	private Style		style;
 
 	/** The title. */
 	@Column(length = 45, name = "title")
-	private String	title;
-
-	// /** The types. */
-	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL,
-	// orphanRemoval = true)
-	// private Set<Type> types = new HashSet<>();
+	private String		title;
 
 	/**
-	 * Instantiates a new category.
+	 * Instantiates a new portfolio.
 	 */
-	public Category() {
+	public Portfolio() {
+	}
+
+	/**
+	 * Gets the account.
+	 *
+	 * @return the account
+	 */
+	public Account getAccount() {
+		return this.account;
+	}
+
+	/**
+	 * Gets the amount.
+	 *
+	 * @return the amount
+	 */
+	public Double getAmount() {
+		return this.amount;
+	}
+
+	/**
+	 * Gets the category.
+	 *
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return this.category;
 	}
 
 	/**
@@ -91,6 +141,15 @@ public final class Category {
 	}
 
 	/**
+	 * Gets the info.
+	 *
+	 * @return the info
+	 */
+	public String getInfo() {
+		return this.info;
+	}
+
+	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
@@ -118,6 +177,15 @@ public final class Category {
 	}
 
 	/**
+	 * Gets the style.
+	 *
+	 * @return the style
+	 */
+	public Style getStyle() {
+		return this.style;
+	}
+
+	/**
 	 * Gets the title.
 	 *
 	 * @return the title
@@ -126,14 +194,32 @@ public final class Category {
 		return this.title;
 	}
 
-	// /**
-	// * Gets all types of this category.
-	// *
-	// * @return the types
-	// */
-	// public Set<Type> getTypes() {
-	// return this.types;
-	// }
+	/**
+	 * Sets the account.
+	 *
+	 * @param __account the account to set
+	 */
+	public void setAccount(Account __account) {
+		this.account = __account;
+	}
+
+	/**
+	 * Sets the amount.
+	 *
+	 * @param __amount the amount to set
+	 */
+	public void setAmount(Double __amount) {
+		this.amount = __amount;
+	}
+
+	/**
+	 * Sets the category.
+	 *
+	 * @param __category the category to set
+	 */
+	public void setCategory(Category __category) {
+		this.category = __category;
+	}
 
 	/**
 	 * Sets the created.
@@ -160,6 +246,15 @@ public final class Category {
 	 */
 	public void setImage(String __image) {
 		this.image = __image;
+	}
+
+	/**
+	 * Sets the info.
+	 *
+	 * @param __info the info to set
+	 */
+	public void setInfo(String __info) {
+		this.info = __info;
 	}
 
 	/**
@@ -190,6 +285,15 @@ public final class Category {
 	}
 
 	/**
+	 * Sets the style.
+	 *
+	 * @param __style the style to set
+	 */
+	public void setStyle(Style __style) {
+		this.style = __style;
+	}
+
+	/**
 	 * Sets the title.
 	 *
 	 * @param __title the title to set
@@ -197,14 +301,5 @@ public final class Category {
 	public void setTitle(String __title) {
 		this.title = __title;
 	}
-
-	// /**
-	// * Sets all types to this category.
-	// *
-	// * @param __types the types to set
-	// */
-	// public void setTypes(Set<Type> __types) {
-	// this.types = __types;
-	// }
 
 }

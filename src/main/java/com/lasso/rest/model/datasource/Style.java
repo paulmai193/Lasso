@@ -1,16 +1,11 @@
 package com.lasso.rest.model.datasource;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -27,39 +22,40 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate(true)
 public final class Style {
 
-	/** The all types. */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Type_Style>	allTypes	= new HashSet<>();
+	// /** The all types. */
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "type", cascade = CascadeType.ALL,
+	// orphanRemoval = true)
+	// private Set<Type_Style> allTypes = new HashSet<>();
 
 	/** The created. */
 	@Column(length = 19, name = "created")
-	private Date			created;
+	private Date	created;
 
 	/** The id. */
 	@Id
 	@GeneratedValue
 	@Column(length = 11, name = "id")
-	private Integer			id;
+	private Integer	id;
 
 	/** The image. */
 	@Column(length = 45, name = "image")
-	private String			image;
+	private String	image;
 
 	/** The modified. */
 	@Column(length = 19, name = "modified")
-	private Date			modified;
+	private Date	modified;
 
 	/** The sort. */
 	@Column(length = 11, name = "sort")
-	private Integer			sort;
+	private Integer	sort;
 
 	/** The status. */
 	@Column(length = 1, name = "status")
-	private Byte			status;
+	private Byte	status;
 
 	/** The title. */
 	@Column(length = 250, name = "title")
-	private String			title;
+	private String	title;
 
 	/**
 	 * Instantiates a new style.
@@ -67,14 +63,14 @@ public final class Style {
 	public Style() {
 	}
 
-	/**
-	 * Gets the all types.
-	 *
-	 * @return the allTypes
-	 */
-	public Set<Type_Style> getAllTypes() {
-		return this.allTypes;
-	}
+	// /**
+	// * Gets the all types.
+	// *
+	// * @return the allTypes
+	// */
+	// public Set<Type_Style> getAllTypes() {
+	// return this.allTypes;
+	// }
 
 	/**
 	 * Gets the created.
@@ -139,14 +135,14 @@ public final class Style {
 		return this.title;
 	}
 
-	/**
-	 * Sets the all types.
-	 *
-	 * @param __allTypes the allTypes to set
-	 */
-	public void setAllTypes(Set<Type_Style> __allTypes) {
-		this.allTypes = __allTypes;
-	}
+	// /**
+	// * Sets the all types.
+	// *
+	// * @param __allTypes the allTypes to set
+	// */
+	// public void setAllTypes(Set<Type_Style> __allTypes) {
+	// this.allTypes = __allTypes;
+	// }
 
 	/**
 	 * Sets the created.
