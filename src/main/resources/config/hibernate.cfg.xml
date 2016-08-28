@@ -28,10 +28,10 @@
 		<mapping class="com.lasso.rest.model.datasource.Account"/>
 		<mapping class="com.lasso.rest.model.datasource.Category"/>
 		<mapping class="com.lasso.rest.model.datasource.Country"/>
-		<mapping class="com.lasso.rest.model.datasource.Portfolio_Type"/>
+		<mapping class="com.lasso.rest.model.datasource.PortfolioType"/>
 		<mapping class="com.lasso.rest.model.datasource.Portfolio"/>
 		<mapping class="com.lasso.rest.model.datasource.Style"/>
-		<mapping class="com.lasso.rest.model.datasource.Type_Style"/>
+		<mapping class="com.lasso.rest.model.datasource.TypesStyle"/>
 		<mapping class="com.lasso.rest.model.datasource.Type"/>
 		
 	</session-factory>

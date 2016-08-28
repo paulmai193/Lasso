@@ -63,27 +63,27 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest) {
+	        AccountChangeDetailRequest __accountChangeDetailRequest) {
 		if (__accountChangeDetailRequest instanceof DesignerChangeDetailRequest) {
 			__account.setAccountInfo(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest).getAccountInfo());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getAccountInfo());
 			__account.setAlternativeContact(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest)
-					.getAlternativeContact());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest)
+			                .getAlternativeContact());
 			__account.setCountry(__accountChangeDetailRequest.getCountry());
 			__account.setEmail(__accountChangeDetailRequest.getEmail().getValue());
 			__account.setModified();
 			__account.setPayment(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest).getPayment());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getPayment());
 			__account.setPhone(__accountChangeDetailRequest.getPhone().getValue());
 		}
 		else if (__accountChangeDetailRequest instanceof UserChangeDetailRequest) {
 			__account.setCompanyAddress(
-					((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
 			__account.setCompanyName(
-					((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
 			__account.setCompanyPhone(
-					((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyPhone());
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyPhone());
 			__account.setCountry(__accountChangeDetailRequest.getCountry());
 			__account.setEmail(__accountChangeDetailRequest.getEmail().getValue());
 			__account.setModified();
@@ -100,7 +100,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void changeAvatar(Account __account, InputStream __fileStream, File __destinationFile)
-			throws IOException, IllegalArgumentException {
+	        throws IOException, IllegalArgumentException {
 		BufferedImage _buffered = ImageIO.read(__fileStream);
 		if (_buffered == null) {
 			throw new IllegalArgumentException("File not image");
@@ -162,7 +162,7 @@ public class ImplAccountManagement implements AccountManagement {
 			this.accountDAO.updateAccount(_account);
 
 			_response = new LoginResponse(_account.getId(), _token, _account.getStatus(),
-					_account.getRole());
+			        _account.getRole());
 		}
 
 		return _response;
@@ -216,7 +216,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 * @see com.lasso.rest.service.AccountManagement#resetPassword(java.lang.String)
 	 */
 	public String resetPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException {
+	        throws NotFoundException, AddressException, MessagingException {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		if (_account == null) {
 			throw new NotFoundException("Email not exist");
@@ -239,10 +239,10 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendActivationEmail(String __email, String __refLink)
-			throws AddressException, MessagingException {
+	        throws AddressException, MessagingException {
 		EmailUtil.getInstance().sendEmail(__email, "Xác thực tài khoản",
-				"Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
-				RecipientType.TO);
+		        "Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
+		        RecipientType.TO);
 	}
 
 	/*
@@ -253,10 +253,10 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException {
+	        throws AddressException, MessagingException {
 		EmailUtil.getInstance().sendEmail(__email, "Phục hồi mật khẩu",
-				"Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
-				RecipientType.TO);
+		        "Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
+		        RecipientType.TO);
 	}
 
 	/**

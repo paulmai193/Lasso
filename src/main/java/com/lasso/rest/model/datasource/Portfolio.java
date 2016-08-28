@@ -1,19 +1,22 @@
 package com.lasso.rest.model.datasource;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Type;
 
 /**
  * The Class Portfolio.
@@ -24,66 +27,77 @@ import org.hibernate.annotations.Type;
 @Table(catalog = "art_design", name = "portfolios")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public final class Portfolio {
+public class Portfolio implements Serializable {
+
+	/** The Constant serialVersionUID. */
+	private static final long	serialVersionUID	= 1L;
+
+	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int					id;
 
 	/** The account. */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "account_id")
-	private Account		account;
+	private Account				account;
 
 	/** The amount. */
-	@Column(name = "amount")
-	private Double		amount;
+	private double				amount;
 
 	/** The category. */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id")
-	private Category	category;
+	private Category			category;
 
 	/** The created. */
-	@Column(length = 19, name = "created")
-	private Date		created;
-
-	/** The id. */
-	@Id
-	@GeneratedValue
-	@Column(length = 11, name = "id")
-	private Integer		id;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				created;
 
 	/** The image. */
-	@Column(length = 45, name = "image")
-	private String		image;
+	private String				image;
 
 	/** The info. */
-	@Column(name = "info")
-	@Type(type = "text")
-	private String		info;
+	@Lob
+	private String				info;
 
 	/** The modified. */
-	@Column(length = 19, name = "modified")
-	private Date		modified;
-
-	/** The sort. */
-	@Column(length = 11, name = "sort")
-	private Integer		sort;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				modified;
 
 	/** The status. */
-	@Column(length = 1, name = "status")
-	private Byte		status;
+	private byte				status;
 
 	/** The style. */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "style_id")
-	private Style		style;
+	private Style				style;
 
 	/** The title. */
-	@Column(length = 45, name = "title")
-	private String		title;
+	private String				title;
 
 	/**
 	 * Instantiates a new portfolio.
 	 */
 	public Portfolio() {
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public int getId() {
+		return this.id;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -96,12 +110,30 @@ public final class Portfolio {
 	}
 
 	/**
+	 * Sets the account.
+	 *
+	 * @param __account the new account
+	 */
+	public void setAccount(Account __account) {
+		this.account = __account;
+	}
+
+	/**
 	 * Gets the amount.
 	 *
 	 * @return the amount
 	 */
-	public Double getAmount() {
+	public double getAmount() {
 		return this.amount;
+	}
+
+	/**
+	 * Sets the amount.
+	 *
+	 * @param amount the new amount
+	 */
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	/**
@@ -114,6 +146,15 @@ public final class Portfolio {
 	}
 
 	/**
+	 * Sets the category.
+	 *
+	 * @param __category the new category
+	 */
+	public void setCategory(Category __category) {
+		this.category = __category;
+	}
+
+	/**
 	 * Gets the created.
 	 *
 	 * @return the created
@@ -123,12 +164,12 @@ public final class Portfolio {
 	}
 
 	/**
-	 * Gets the id.
+	 * Sets the created.
 	 *
-	 * @return the id
+	 * @param created the new created
 	 */
-	public Integer getId() {
-		return this.id;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 	/**
@@ -141,12 +182,30 @@ public final class Portfolio {
 	}
 
 	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
 	 * Gets the info.
 	 *
 	 * @return the info
 	 */
 	public String getInfo() {
 		return this.info;
+	}
+
+	/**
+	 * Sets the info.
+	 *
+	 * @param info the new info
+	 */
+	public void setInfo(String info) {
+		this.info = info;
 	}
 
 	/**
@@ -159,12 +218,12 @@ public final class Portfolio {
 	}
 
 	/**
-	 * Gets the sort.
+	 * Sets the modified.
 	 *
-	 * @return the sort
+	 * @param modified the new modified
 	 */
-	public Integer getSort() {
-		return this.sort;
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
 	/**
@@ -172,8 +231,17 @@ public final class Portfolio {
 	 *
 	 * @return the status
 	 */
-	public Byte getStatus() {
+	public byte getStatus() {
 		return this.status;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
 	/**
@@ -186,105 +254,6 @@ public final class Portfolio {
 	}
 
 	/**
-	 * Gets the title.
-	 *
-	 * @return the title
-	 */
-	public String getTitle() {
-		return this.title;
-	}
-
-	/**
-	 * Sets the account.
-	 *
-	 * @param __account the account to set
-	 */
-	public void setAccount(Account __account) {
-		this.account = __account;
-	}
-
-	/**
-	 * Sets the amount.
-	 *
-	 * @param __amount the amount to set
-	 */
-	public void setAmount(Double __amount) {
-		this.amount = __amount;
-	}
-
-	/**
-	 * Sets the category.
-	 *
-	 * @param __category the category to set
-	 */
-	public void setCategory(Category __category) {
-		this.category = __category;
-	}
-
-	/**
-	 * Sets the created.
-	 *
-	 * @param __created the created to set
-	 */
-	public void setCreated(Date __created) {
-		this.created = __created;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param __id the id to set
-	 */
-	public void setId(Integer __id) {
-		this.id = __id;
-	}
-
-	/**
-	 * Sets the image.
-	 *
-	 * @param __image the image to set
-	 */
-	public void setImage(String __image) {
-		this.image = __image;
-	}
-
-	/**
-	 * Sets the info.
-	 *
-	 * @param __info the info to set
-	 */
-	public void setInfo(String __info) {
-		this.info = __info;
-	}
-
-	/**
-	 * Sets the modified.
-	 *
-	 * @param __modified the modified to set
-	 */
-	public void setModified(Date __modified) {
-		this.modified = __modified;
-	}
-
-	/**
-	 * Sets the sort.
-	 *
-	 * @param __sort the sort to set
-	 */
-	public void setSort(Integer __sort) {
-		this.sort = __sort;
-	}
-
-	/**
-	 * Sets the status.
-	 *
-	 * @param __status the status to set
-	 */
-	public void setStatus(Byte __status) {
-		this.status = __status;
-	}
-
-	/**
 	 * Sets the style.
 	 *
 	 * @param __style the style to set
@@ -294,12 +263,21 @@ public final class Portfolio {
 	}
 
 	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
+	public String getTitle() {
+		return this.title;
+	}
+
+	/**
 	 * Sets the title.
 	 *
-	 * @param __title the title to set
+	 * @param title the new title
 	 */
-	public void setTitle(String __title) {
-		this.title = __title;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

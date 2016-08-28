@@ -3,8 +3,10 @@
  */
 package com.lasso.util;
 
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.KeySpec;
 
@@ -35,7 +37,7 @@ public final class EncryptionUtil {
 
 	/** The Random Constant SALT. */
 	private static final byte[]	SALT				= { (byte) 0x24, (byte) 0x67, (byte) 0xD8,
-			(byte) 0xF6, (byte) 0x83, (byte) 0xE4, (byte) 0xBB, (byte) 0x08 };
+	        (byte) 0xF6, (byte) 0x83, (byte) 0xE4, (byte) 0xBB, (byte) 0x08 };
 
 	/**
 	 * Decode.
@@ -61,17 +63,17 @@ public final class EncryptionUtil {
 		try {
 
 			String _input = __token.replace("%0A", "\n").replace("%25", "%").replace('_', '/')
-					.replace('-', '+');
+			        .replace('-', '+');
 
 			byte[] _dec = Base64.decodeBase64(_input.getBytes());
 
 			KeySpec _keySpec = new PBEKeySpec(__password.toCharArray(), EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 			AlgorithmParameterSpec paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 
 			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
-					.generateSecret(_keySpec);
+			        .generateSecret(_keySpec);
 
 			Cipher _dcipher = Cipher.getInstance(_key.getAlgorithm());
 			_dcipher.init(Cipher.DECRYPT_MODE, _key, paramSpec);
@@ -114,12 +116,12 @@ public final class EncryptionUtil {
 		try {
 
 			KeySpec _keySpec = new PBEKeySpec(__password.toCharArray(), EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 			AlgorithmParameterSpec _paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 
 			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
-					.generateSecret(_keySpec);
+			        .generateSecret(_keySpec);
 
 			Cipher _ecipher = Cipher.getInstance(_key.getAlgorithm());
 			_ecipher.init(Cipher.ENCRYPT_MODE, _key, _paramSpec);
@@ -129,7 +131,7 @@ public final class EncryptionUtil {
 			String _res = new String(Base64.encodeBase64(_enc));
 			// escapes for url
 			_res = _res.replace('+', '-').replace('/', '_').replace("%", "%25").replace("\n",
-					"%0A");
+			        "%0A");
 
 			return _res;
 
@@ -178,6 +180,31 @@ public final class EncryptionUtil {
 	 * Instantiates a new encryption utils.
 	 */
 	private EncryptionUtil() {
+	}
+
+	/***
+	 * Copy of uniqid in php http://php.net/manual/fr/function.uniqid.php
+	 * 
+	 * @param prefix
+	 * @param more_entropy
+	 * @return
+	 */
+	public String uniqid(String prefix, boolean more_entropy) {
+		long time = System.currentTimeMillis();
+		String uniqid = "";
+		if (!more_entropy) {
+			uniqid = String.format("%s%08x%05x", prefix, time / 1000, time);
+		}
+		else {
+			SecureRandom sec = new SecureRandom();
+			byte[] sbuf = sec.generateSeed(8);
+			ByteBuffer bb = ByteBuffer.wrap(sbuf);
+
+			uniqid = String.format("%s%08x%05x", prefix, time / 1000, time);
+			uniqid += "." + String.format("%.8s", "" + bb.getLong() * -1);
+		}
+
+		return uniqid;
 	}
 
 }

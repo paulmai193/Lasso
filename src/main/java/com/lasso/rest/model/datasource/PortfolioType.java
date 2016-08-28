@@ -3,6 +3,7 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,15 +16,15 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 /**
- * The Class Category.
+ * The Class PortfolioType.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(catalog = "art_design", name = "categories")
+@Table(catalog = "art_design", name = "portfolios_types")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public class Category implements Serializable {
+public class PortfolioType implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
@@ -37,26 +38,22 @@ public class Category implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
-	/** The image. */
-	private String				image;
-
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
-	/** The sort. */
-	private int					sort;
+	/** The portfolio id. */
+	@Column(name = "portfolio_id")
+	private int					portfolioId;
 
-	/** The status. */
-	private byte				status;
-
-	/** The title. */
-	private String				title;
+	/** The type id. */
+	@Column(name = "type_id")
+	private int					typeId;
 
 	/**
-	 * Instantiates a new category.
+	 * Instantiates a new portfolio type.
 	 */
-	public Category() {
+	public PortfolioType() {
 	}
 
 	/**
@@ -96,24 +93,6 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Gets the image.
-	 *
-	 * @return the image
-	 */
-	public String getImage() {
-		return this.image;
-	}
-
-	/**
-	 * Sets the image.
-	 *
-	 * @param image the new image
-	 */
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
@@ -132,57 +111,39 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Gets the sort.
+	 * Gets the portfolio id.
 	 *
-	 * @return the sort
+	 * @return the portfolio id
 	 */
-	public int getSort() {
-		return this.sort;
+	public int getPortfolioId() {
+		return this.portfolioId;
 	}
 
 	/**
-	 * Sets the sort.
+	 * Sets the portfolio id.
 	 *
-	 * @param sort the new sort
+	 * @param portfolioId the new portfolio id
 	 */
-	public void setSort(int sort) {
-		this.sort = sort;
+	public void setPortfolioId(int portfolioId) {
+		this.portfolioId = portfolioId;
 	}
 
 	/**
-	 * Gets the status.
+	 * Gets the type id.
 	 *
-	 * @return the status
+	 * @return the type id
 	 */
-	public byte getStatus() {
-		return this.status;
+	public int getTypeId() {
+		return this.typeId;
 	}
 
 	/**
-	 * Sets the status.
+	 * Sets the type id.
 	 *
-	 * @param status the new status
+	 * @param typeId the new type id
 	 */
-	public void setStatus(byte status) {
-		this.status = status;
-	}
-
-	/**
-	 * Gets the title.
-	 *
-	 * @return the title
-	 */
-	public String getTitle() {
-		return this.title;
-	}
-
-	/**
-	 * Sets the title.
-	 *
-	 * @param title the new title
-	 */
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 }

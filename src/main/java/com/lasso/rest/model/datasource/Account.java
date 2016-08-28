@@ -359,46 +359,6 @@ public final class Account implements Principal {
 	}
 
 	/**
-	 * Sets the.
-	 *
-	 * @param __accountRegister the account register
-	 */
-	public void set(AccountRegisterRequest __accountRegister) {
-		if (__accountRegister instanceof DesignerRegisterRequest) {
-			// Designer
-			this.alternativeContact = __accountRegister.getAlternativeContact();
-			this.avatar = "";
-			this.country = __accountRegister.getCountry();
-			this.created = new Date();
-			this.email = __accountRegister.getEmail().getValue();
-			this.modified = new Date();
-			this.name = __accountRegister.getName();
-			this.password = __accountRegister.getPassword();
-			this.payment = ((DesignerRegisterRequest) __accountRegister).getPayment();
-			this.phone = __accountRegister.getPhone().getValue();
-			this.role = __accountRegister.getRole();
-			this.subscribe = __accountRegister.getSubscribe();
-		}
-		else {
-			// User
-			this.alternativeContact = __accountRegister.getAlternativeContact();
-			this.avatar = "";
-			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
-			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
-			this.companyPhone = ((UserRegisterRequest) __accountRegister).getCompanyPhone();
-			this.country = __accountRegister.getCountry();
-			this.created = new Date();
-			this.email = __accountRegister.getEmail().getValue();
-			this.modified = new Date();
-			this.name = __accountRegister.getName();
-			this.password = __accountRegister.getPassword();
-			this.phone = __accountRegister.getPhone().getValue();
-			this.role = __accountRegister.getRole();
-			this.subscribe = __accountRegister.getSubscribe();
-		}
-	}
-
-	/**
 	 * Sets the account info.
 	 *
 	 * @param __accountInfo the new account info
