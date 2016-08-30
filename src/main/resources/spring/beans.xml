@@ -25,11 +25,13 @@
 
 	<!-- Service Layer -->
 	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement" lazy-init="false" scope="singleton">
-		<property name="accountDAO" ref="accountDAO"/>
-		<property name="portfolioDAO" ref="portfolioDAO"/>		
+		<property name="accountDAO" ref="accountDAO"/>	
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement" lazy-init="false" scope="singleton">
 		<property name="countryDAO" ref="countryDAO"/>
+	</bean>
+	<bean id="portfolioManagement" class="com.lasso.rest.service.impl.ImplPortfolioManagement" lazy-init="false" scope="singleton">
+		<property name="portfolioDAO" ref="portfolioDAO"/>		
 	</bean>
 
 	<!-- Filter Layer -->
@@ -49,8 +51,8 @@
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController" lazy-init="false">
 		<property name="genericManagement" ref="genericManagement"/>
 	</bean>	
-	<bean id="designerController" class="com.lasso.rest.controller.DesignerController" lazy-init="false">
-		<property name="accountManagement" ref="accountManagement"/>
+	<bean id="portfolioController" class="com.lasso.rest.controller.PortfolioController" lazy-init="false">
+		<property name="portfolioManagement" ref="portfolioManagement"/>
 	</bean>
 
 	<!-- Utility -->

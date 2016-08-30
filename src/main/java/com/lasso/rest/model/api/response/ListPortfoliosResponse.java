@@ -1,10 +1,16 @@
 package com.lasso.rest.model.api.response;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Portfolio;
 
 /**
@@ -64,6 +70,8 @@ public class ListPortfoliosResponse extends BaseResponse {
 	 *
 	 * @return the portfolios
 	 */
+	@JsonSerialize(using = PortfolioSerializer.class)
+	@JsonProperty("data")
 	public List<Portfolio> getPortfolios() {
 		return this.portfolios;
 	}
@@ -75,6 +83,22 @@ public class ListPortfoliosResponse extends BaseResponse {
 	 */
 	public void setPortfolios(List<Portfolio> __portfolios) {
 		this.portfolios = __portfolios;
+	}
+}
+
+class PortfolioSerializer extends JsonSerializer<List<Portfolio>> {
+
+	@Override
+	public void serialize(List<Portfolio> __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+		__gen.writeStartArray();
+		for (Portfolio _portfolio : __value) {
+			__gen.writeStartObject();
+			__gen.writeNumberField("id", _portfolio.getId());
+			__gen.writeStringField("title", _portfolio.getTitle());
+			__gen.writeEndObject();
+		}
+		__gen.writeEndArray();
 	}
 
 }

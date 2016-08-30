@@ -3,6 +3,7 @@ package com.lasso.rest.controller;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
@@ -15,61 +16,67 @@ import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.response.ListPortfoliosResponse;
+import com.lasso.rest.model.api.response.PortfolioOfAccountResponse;
 import com.lasso.rest.model.datasource.Account;
-import com.lasso.rest.model.datasource.Country;
-import com.lasso.rest.service.AccountManagement;
+import com.lasso.rest.service.PortfolioManagement;
 
 /**
- * The Class DesignerController.
+ * The Class PortfolioController.
  *
  * @author Paul Mai
  */
 @Controller
 @Lazy(false)
-@Path("/designer")
+@Path("/portfolio")
 @Produces(value = { MediaType.APPLICATION_JSON })
 @AccountAuthenticate
-@AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
-public class DesignerController extends BaseController {
-
-	/** The account management. */
-	@Autowired
-	private AccountManagement	accountManagement;
+public class PortfolioController extends BaseController {
 
 	/** The context. */
 	@Context
 	private SecurityContext		context;
 
+	/** The account management. */
+	@Autowired
+	private PortfolioManagement	portfolioManagement;
+
 	/**
-	 * Gets the all portfolios.
+	 * Gets the all portfolios of account.
 	 *
-	 * @return the all portfolios
+	 * @return the all portfolios of account
 	 */
 	@GET
-	@Path("/portfolio/all")
-	public ListPortfoliosResponse getAllPortfolios() {
+	@Path("/me/getall")
+	@AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
+	public ListPortfoliosResponse getAllPortfoliosOfAccount() {
 		Account _account = (Account) this.context.getUserPrincipal();
-		return new ListPortfoliosResponse(this.accountManagement.getAllPortfolios(_account));
+		return new ListPortfoliosResponse(this.portfolioManagement.getAllPortfolios(_account));
 	}
 
 	/**
-	 * Gets the country.
+	 * Gets the portfolio of account.
 	 *
-	 * @return the country
+	 * @param __id the id
+	 * @return the portfolio of account
 	 */
 	@GET
-	@Path("/country")
-	public Country getCountry() {
+	@Path("/me/get")
+	@AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
+	public PortfolioOfAccountResponse getPortfolioOfAccount(@QueryParam("id") Integer __id) {
+		if (__id == null) {
+
+		}
 		Account _account = (Account) this.context.getUserPrincipal();
-		return this.accountManagement.getCountry(_account);
+		return new PortfolioOfAccountResponse(
+		        this.portfolioManagement.getPortfolio(_account, __id));
 	}
 
 	/**
-	 * Sets the account management.
+	 * Sets the portfolio management.
 	 *
-	 * @param __accountManagement the new account management
+	 * @param __portfolioManagement the new portfolio management
 	 */
-	public void setAccountManagement(AccountManagement __accountManagement) {
-		this.accountManagement = __accountManagement;
+	public void setPortfolioManagement(PortfolioManagement __portfolioManagement) {
+		this.portfolioManagement = __portfolioManagement;
 	}
 }

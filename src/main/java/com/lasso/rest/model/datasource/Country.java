@@ -8,11 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * The Class Country.
  *
@@ -20,12 +15,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @Entity
 @Table(catalog = "art_design", name = "countries")
-@JsonInclude(value = Include.NON_NULL)
 public final class Country {
 
 	/** The code. */
 	@Column(length = 2, name = "code")
-	@JsonProperty("country_code")
 	private String	code;
 
 	/** The id. */
@@ -35,12 +28,10 @@ public final class Country {
 
 	/** The name. */
 	@Column(length = 255, name = "name")
-	@JsonProperty("country_name")
 	private String	name;
 
 	/** The status. */
 	@Column(length = 1, name = "status")
-	@JsonIgnore
 	private Byte	status;
 
 	/**
@@ -68,6 +59,15 @@ public final class Country {
 	}
 
 	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
 	 * Gets the status.
 	 *
 	 * @return the status
@@ -92,6 +92,15 @@ public final class Country {
 	 */
 	public void setId(Integer __id) {
 		this.id = __id;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param __name the name to set
+	 */
+	public void setName(String __name) {
+		this.name = __name;
 	}
 
 	/**

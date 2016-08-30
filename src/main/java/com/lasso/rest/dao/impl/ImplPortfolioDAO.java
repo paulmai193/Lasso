@@ -40,6 +40,20 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 		return _criteria.list();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.PortfolioDAO#getPortfolioOfAccount(com.lasso.rest.model.datasource.
+	 * Account, java.lang.Integer)
+	 */
+	@Override
+	public Portfolio getPortfolioOfAccount(Account __account, Integer __id) {
+		Criteria _criteria = this.sessionFactory.getCurrentSession()
+				.createCriteria(Portfolio.class);
+		_criteria.add(Restrictions.idEq(__id)).add(Restrictions.eq("account", __account));
+		return (Portfolio) _criteria.uniqueResult();
+	}
+
 	/**
 	 * Sets the session factory.
 	 *

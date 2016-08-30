@@ -1,10 +1,16 @@
 package com.lasso.rest.model.api.response;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Country;
 
 /**
@@ -17,6 +23,7 @@ public class ListCountriesResponse extends BaseResponse {
 
 	/** The countries. */
 	@JsonProperty("data")
+	@JsonSerialize(using = CountriesSerializer.class)
 	private List<Country> countries;
 
 	/**
@@ -74,6 +81,22 @@ public class ListCountriesResponse extends BaseResponse {
 	 */
 	public void setCountries(List<Country> __countries) {
 		this.countries = __countries;
+	}
+}
+
+class CountriesSerializer extends JsonSerializer<List<Country>> {
+
+	@Override
+	public void serialize(List<Country> __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+		__gen.writeStartArray();
+		for (Country _country : __value) {
+			__gen.writeStartObject();
+			__gen.writeStringField("country_code", _country.getCode());
+			__gen.writeStringField("country_name", _country.getName());
+			__gen.writeEndObject();
+		}
+		__gen.writeEndArray();
 	}
 
 }
