@@ -16,6 +16,8 @@ import com.lasso.rest.model.api.request.AccountChangeDetailRequest;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Country;
+import com.lasso.rest.model.datasource.Portfolio;
 
 /**
  * The Interface AccountManagement.
@@ -61,6 +63,22 @@ public interface AccountManagement {
 	 * @return the all accounts in DB
 	 */
 	public List<Account> getAllAccounts();
+
+	/**
+	 * Gets the all portfolios.
+	 *
+	 * @param __account the account
+	 * @return the all portfolios
+	 */
+	public List<Portfolio> getAllPortfolios(Account __account);
+
+	/**
+	 * Gets the country.
+	 *
+	 * @param __account the account
+	 * @return the country
+	 */
+	public Country getCountry(Account __account);
 
 	/**
 	 * User login by email and password.

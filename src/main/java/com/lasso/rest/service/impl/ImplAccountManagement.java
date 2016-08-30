@@ -26,12 +26,15 @@ import com.lasso.define.Constant;
 import com.lasso.exception.AuthenticateException;
 import com.lasso.exception.ResourceExistException;
 import com.lasso.rest.dao.AccountDAO;
+import com.lasso.rest.dao.PortfolioDAO;
 import com.lasso.rest.model.api.request.AccountChangeDetailRequest;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.DesignerChangeDetailRequest;
 import com.lasso.rest.model.api.request.UserChangeDetailRequest;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Country;
+import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.service.AccountManagement;
 import com.lasso.util.EmailUtil;
 
@@ -46,7 +49,11 @@ public class ImplAccountManagement implements AccountManagement {
 
 	/** The account DAO. */
 	@Autowired
-	private AccountDAO accountDAO;
+	private AccountDAO		accountDAO;
+
+	/** The portfolio DAO. */
+	@Autowired
+	private PortfolioDAO	portfolioDAO;
 
 	/**
 	 * Instantiates a new impl account management.
@@ -144,6 +151,29 @@ public class ImplAccountManagement implements AccountManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * com.lasso.rest.service.AccountManagement#getAllPortfolios(com.lasso.rest.model.datasource.
+	 * Account)
+	 */
+	@Override
+	public List<Portfolio> getAllPortfolios(Account __account) {
+		return this.portfolioDAO.getAllPortfoliosOfAccount(__account);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.AccountManagement#getCountry(com.lasso.rest.model.datasource.Account)
+	 */
+	@Override
+	public Country getCountry(Account __account) {
+		return __account.getCountry();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.service.AccountManagement#login(java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -151,10 +181,10 @@ public class ImplAccountManagement implements AccountManagement {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		LoginResponse _response;
 		if (_account == null) {
-			throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
+			throw new AuthenticateException("Email or password not valid", Status.BAD_REQUEST);
 		}
 		else if (!_account.getPassword().equals(__password)) {
-			throw new AuthenticateException("Email or password not valid", Status.UNAUTHORIZED);
+			throw new AuthenticateException("Email or password not valid", Status.BAD_REQUEST);
 		}
 		else {
 			String _token = RandomStringUtils.randomAlphanumeric(45);
@@ -266,6 +296,15 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	public void setAccountDAO(AccountDAO __accountDAO) {
 		this.accountDAO = __accountDAO;
+	}
+
+	/**
+	 * Sets the portfolio DAO.
+	 *
+	 * @param __portfolioDAO the new portfolio DAO
+	 */
+	public void setPortfolioDAO(PortfolioDAO __portfolioDAO) {
+		this.portfolioDAO = __portfolioDAO;
 	}
 
 	/*

@@ -72,6 +72,7 @@ public class AccountController extends BaseController {
 	@Path("/change_detail/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public Response changeDesignerDetail(@Context SecurityContext __context,
 			DesignerChangeDetailRequest __designerChangeDetailRequest) {
 		return this.changeAccountDetail((Account) __context.getUserPrincipal(),
@@ -89,6 +90,7 @@ public class AccountController extends BaseController {
 	@Path("/change_password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public Response changePassword(@Context SecurityContext __context,
 			ChangePasswordRequest __changePasswordRequest) {
 		__changePasswordRequest.checkNotNull();
@@ -114,6 +116,7 @@ public class AccountController extends BaseController {
 	@Path("/change_detail/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public Response changeUserDetail(@Context SecurityContext __context,
 			UserChangeDetailRequest __userChangeDetailRequest) {
 		return this.changeAccountDetail((Account) __context.getUserPrincipal(),

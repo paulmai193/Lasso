@@ -5,7 +5,10 @@ package com.lasso.rest.model.datasource;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -37,90 +41,94 @@ public final class Account implements Principal {
 	/** The account info. */
 	@Column(name = "account_info")
 	@Type(type = "text")
-	private String	accountInfo;
+	private String			accountInfo;
 
 	/** The activation code. */
 	@Column(length = 50, name = "activation_code")
-	private Integer	activationCode;
+	private Integer			activationCode;
 
 	/** The alternative contact. */
 	@Column(length = 50, name = "alternative_contact")
-	private String	alternativeContact;
+	private String			alternativeContact;
 
 	/** The avatar. */
 	@Column(length = 250, name = "image")
-	private String	avatar;
+	private String			avatar;
 
 	/** The company address. */
 	@Column(length = 250, name = "company_address")
-	private String	companyAddress;
+	private String			companyAddress;
 
 	/** The company name. */
 	@Column(length = 100, name = "company_name")
-	private String	companyName;
+	private String			companyName;
 
 	/** The company phone. */
 	@Column(length = 50, name = "company_telephone")
-	private String	companyPhone;
+	private String			companyPhone;
 
 	/** The country. */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id")
-	private Country	country;
+	private Country			country;
 
 	/** The created. */
 	@Column(length = 19, name = "created")
-	private Date	created;
+	private Date			created;
 
 	/** The email. */
 	@Column(length = 50, name = "email")
-	private String	email;
+	private String			email;
 
 	/** The id. */
 	@Id
 	@GeneratedValue
 	@Column(length = 11, name = "id")
-	private Integer	id;
+	private Integer			id;
 
 	/** The modified. */
 	@Column(length = 19, name = "modified")
-	private Date	modified;
+	private Date			modified;
 
 	/** The name. */
 	@Column(length = 100, name = "name")
-	private String	name;
+	private String			name;
 
 	/** The otp. */
 	@Column(length = 45, name = "otp")
-	private String	otp;
+	private String			otp;
 
 	/** The password. */
 	@Column(length = 40, name = "password")
-	private String	password;
+	private String			password;
 
 	/** The payment. */
 	@Column(length = 1, name = "payment_method")
-	private Byte	payment;
+	private Byte			payment;
 
 	/** The phone. */
 	@Column(length = 50, name = "handphone_number")
-	private String	phone;
+	private String			phone;
+
+	/** The portfolios. */
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Portfolio>	portfolios	= new HashSet<>();
 
 	/** The value. */
 	@Column(length = 1, name = "role")
-	private Byte	role;
+	private Byte			role;
 
 	/** The status. */
 	@Column(length = 1, name = "status")
-	private Byte	status;
+	private Byte			status;
 
 	/** The subscribe. */
 	@Column(length = 1, name = "subscribe")
-	private Boolean	subscribe;
+	private Boolean			subscribe;
 
 	/** The token. */
 	@Column(length = 45, name = "app_session")
-	private String	token;
+	private String			token;
 
 	/**
 	 * Instantiates a new account.
@@ -323,6 +331,15 @@ public final class Account implements Principal {
 	}
 
 	/**
+	 * Gets the portfolios.
+	 *
+	 * @return the portfolios
+	 */
+	public Set<Portfolio> getPortfolios() {
+		return this.portfolios;
+	}
+
+	/**
 	 * Gets the value.
 	 *
 	 * @return the value
@@ -458,7 +475,6 @@ public final class Account implements Principal {
 	}
 
 	/**
-	 * <<<<<<< HEAD
 	 * Sets the modified.
 	 */
 	public void setModified() {
@@ -475,8 +491,6 @@ public final class Account implements Principal {
 	}
 
 	/**
-	 * =======
-	 * >>>>>>> branch 'mai-bat-hu' of https://github.com/paulmai193/Lasso.git
 	 * Sets the name.
 	 *
 	 * @param __name the new name
@@ -519,6 +533,15 @@ public final class Account implements Principal {
 	 */
 	public void setPhone(String __phone) {
 		this.phone = __phone;
+	}
+
+	/**
+	 * Sets the portfolios.
+	 *
+	 * @param __portfolios the new portfolios
+	 */
+	public void setPortfolios(Set<Portfolio> __portfolios) {
+		this.portfolios = __portfolios;
 	}
 
 	/**

@@ -16,14 +16,17 @@
 	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO" lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
 	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO" lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
+	<bean id="portfolioDAO" class="com.lasso.rest.dao.impl.ImplPortfolioDAO" lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<!-- Service Layer -->
 	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement" lazy-init="false" scope="singleton">
-		<property name="accountDAO" ref="accountDAO"></property>		
+		<property name="accountDAO" ref="accountDAO"/>
+		<property name="portfolioDAO" ref="portfolioDAO"/>		
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement" lazy-init="false" scope="singleton">
 		<property name="countryDAO" ref="countryDAO"/>
@@ -46,6 +49,9 @@
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController" lazy-init="false">
 		<property name="genericManagement" ref="genericManagement"/>
 	</bean>	
+	<bean id="designerController" class="com.lasso.rest.controller.DesignerController" lazy-init="false">
+		<property name="accountManagement" ref="accountManagement"/>
+	</bean>
 
 	<!-- Utility -->
 	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized"

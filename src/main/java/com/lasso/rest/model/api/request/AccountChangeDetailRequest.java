@@ -27,10 +27,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	/** The email. */
 	private EmailParam	email;
 
-	/** The password. */
-	@JsonProperty(value = "password")
-	private String		password;
-
 	/** The phone. */
 	private PhoneParam	phone;
 
@@ -61,7 +57,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		try {
 			Assert.notNull(this.countryCode);
 			Assert.notNull(this.email);
-			Assert.notNull(this.password);
 			Assert.notNull(this.phone);
 		}
 		catch (Throwable _ex) {
@@ -94,15 +89,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 */
 	public EmailParam getEmail() {
 		return this.email;
-	}
-
-	/**
-	 * Gets the password.
-	 *
-	 * @return the password
-	 */
-	public String getPassword() {
-		return this.password;
 	}
 
 	/**
@@ -145,15 +131,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		catch (Exception _ex) {
 			this.email = null;
 		}
-	}
-
-	/**
-	 * Sets the password.
-	 *
-	 * @param __password the password to set
-	 */
-	public void setPassword(String __password) {
-		this.password = __password;
 	}
 
 	/**

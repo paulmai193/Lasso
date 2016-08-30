@@ -16,7 +16,7 @@ import com.lasso.rest.model.datasource.Country;
 public class ListCountriesResponse extends BaseResponse {
 
 	/** The countries. */
-	@JsonProperty("countries")
+	@JsonProperty("data")
 	private List<Country> countries;
 
 	/**

@@ -29,14 +29,14 @@ public class PortfolioType implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
+	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				created;
+
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int					id;
-
-	/** The created. */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -57,24 +57,6 @@ public class PortfolioType implements Serializable {
 	}
 
 	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public int getId() {
-		return this.id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
 	 * Gets the created.
 	 *
 	 * @return the created
@@ -84,12 +66,12 @@ public class PortfolioType implements Serializable {
 	}
 
 	/**
-	 * Sets the created.
+	 * Gets the id.
 	 *
-	 * @param created the new created
+	 * @return the id
 	 */
-	public void setCreated(Date created) {
-		this.created = created;
+	public int getId() {
+		return this.id;
 	}
 
 	/**
@@ -102,15 +84,6 @@ public class PortfolioType implements Serializable {
 	}
 
 	/**
-	 * Sets the modified.
-	 *
-	 * @param modified the new modified
-	 */
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
-
-	/**
 	 * Gets the portfolio id.
 	 *
 	 * @return the portfolio id
@@ -120,21 +93,48 @@ public class PortfolioType implements Serializable {
 	}
 
 	/**
-	 * Sets the portfolio id.
-	 *
-	 * @param portfolioId the new portfolio id
-	 */
-	public void setPortfolioId(int portfolioId) {
-		this.portfolioId = portfolioId;
-	}
-
-	/**
 	 * Gets the type id.
 	 *
 	 * @return the type id
 	 */
 	public int getTypeId() {
 		return this.typeId;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param modified the new modified
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the portfolio id.
+	 *
+	 * @param portfolioId the new portfolio id
+	 */
+	public void setPortfolioId(int portfolioId) {
+		this.portfolioId = portfolioId;
 	}
 
 	/**
