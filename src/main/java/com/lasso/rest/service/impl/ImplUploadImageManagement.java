@@ -19,15 +19,26 @@ import org.springframework.stereotype.Service;
 import com.lasso.rest.service.UploadImageManagement;
 import com.lasso.util.EncryptionUtil;
 
+/**
+ * The Class ImplUploadImageManagement.
+ *
+ * @author Paul Mai
+ */
 @Service
 public class ImplUploadImageManagement implements UploadImageManagement {
 
+	/* (non-Javadoc)
+	 * @see com.lasso.rest.service.UploadImageManagement#generateImageName()
+	 */
 	@Override
 	public String generateImageName() {
 		return "/" + EncryptionUtil.uniqid("", false)
 		        + new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + ".jpg";
 	}
 
+	/* (non-Javadoc)
+	 * @see com.lasso.rest.service.UploadImageManagement#addWatermark(java.io.File, java.io.File, javax.imageio.stream.ImageOutputStream)
+	 */
 	@Override
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
 	        ImageOutputStream __destinationImageFile) throws IOException {
@@ -51,6 +62,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.lasso.rest.service.UploadImageManagement#saveFile(java.io.InputStream, java.io.File)
+	 */
 	@Override
 	public void saveFile(InputStream __fileStream, File __destinationFile)
 	        throws IOException, IllegalArgumentException {
@@ -61,6 +75,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 		ImageIO.write(_buffered, "jpg", __destinationFile);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File, java.lang.Double, java.lang.Double)
+	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
 	        Double __width) throws IOException {
@@ -80,6 +97,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File, java.lang.Double)
+	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
 	        throws IOException {

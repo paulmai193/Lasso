@@ -58,10 +58,20 @@ public class UploadController extends BaseController implements Feature {
 	/** The image storage path. */
 	private String					imageStoragePath;
 
+	/**
+	 * Sets the image storage path.
+	 *
+	 * @param __imageStoragePath the new image storage path
+	 */
 	public void setImageStoragePath(String __imageStoragePath) {
 		this.imageStoragePath = __imageStoragePath;
 	}
 
+	/**
+	 * Sets the upload image management.
+	 *
+	 * @param __uploadImageManagement the new upload image management
+	 */
 	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
 		this.uploadImageManagement = __uploadImageManagement;
 	}
