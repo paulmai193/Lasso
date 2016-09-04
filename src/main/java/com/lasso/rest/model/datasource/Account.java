@@ -3,25 +3,23 @@
  */
 package com.lasso.rest.model.datasource;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Type;
 
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.DesignerRegisterRequest;
@@ -33,102 +31,79 @@ import com.lasso.rest.model.api.request.UserRegisterRequest;
  * @author Paul Mai
  */
 @Entity
-@Table(catalog = "art_design", name = "accounts")
+@Table(name = "accounts")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public final class Account implements Principal {
+public final class Account implements Principal, Serializable {
 
-	/** The account info. */
-	@Column(name = "account_info")
-	@Type(type = "text")
-	private String			accountInfo;
-
-	/** The activation code. */
-	@Column(length = 50, name = "activation_code")
-	private Integer			activationCode;
-
-	/** The alternative contact. */
-	@Column(length = 50, name = "alternative_contact")
-	private String			alternativeContact;
-
-	/** The avatar. */
-	@Column(length = 250, name = "image")
-	private String			avatar;
-
-	/** The company address. */
-	@Column(length = 250, name = "company_address")
-	private String			companyAddress;
-
-	/** The company name. */
-	@Column(length = 100, name = "company_name")
-	private String			companyName;
-
-	/** The company phone. */
-	@Column(length = 50, name = "company_telephone")
-	private String			companyPhone;
-
-	/** The country. */
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "country_id")
-	private Country			country;
-
-	/** The created. */
-	@Column(length = 19, name = "created")
-	private Date			created;
-
-	/** The email. */
-	@Column(length = 50, name = "email")
-	private String			email;
+	/** The Constant serialVersionUID. */
+	private static final long	serialVersionUID	= 1L;
 
 	/** The id. */
-	@Id
-	@GeneratedValue
-	@Column(length = 11, name = "id")
-	private Integer			id;
+	private AccountPK			id;
+
+	/** The account info. */
+	private String				accountInfo;
+
+	/** The activation code. */
+	private int					activationCode;
+
+	/** The alternative contact. */
+	private String				alternativeContact;
+
+	/** The app session. */
+	private String				appSession;
+
+	/** The company address. */
+	private String				companyAddress;
+
+	/** The company name. */
+	private String				companyName;
+
+	/** The company telephone. */
+	private String				companyTelephone;
+
+	/** The created. */
+	private Date				created;
+
+	/** The email. */
+	private String				email;
+
+	/** The handphone number. */
+	private String				handphoneNumber;
+
+	/** The image. */
+	private String				image;
 
 	/** The modified. */
-	@Column(length = 19, name = "modified")
-	private Date			modified;
+	private Date				modified;
 
 	/** The name. */
-	@Column(length = 100, name = "name")
-	private String			name;
+	private String				name;
 
 	/** The otp. */
-	@Column(length = 45, name = "otp")
-	private String			otp;
+	private String				otp;
 
 	/** The password. */
-	@Column(length = 40, name = "password")
-	private String			password;
+	private String				password;
 
-	/** The payment. */
-	@Column(length = 1, name = "payment_method")
-	private Byte			payment;
+	/** The payment method. */
+	private byte				paymentMethod;
 
-	/** The phone. */
-	@Column(length = 50, name = "handphone_number")
-	private String			phone;
-
-	/** The portfolios. */
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Portfolio>	portfolios	= new HashSet<>();
-
-	/** The value. */
-	@Column(length = 1, name = "role")
-	private Byte			role;
+	/** The role. */
+	private byte				role;
 
 	/** The status. */
-	@Column(length = 1, name = "status")
-	private Byte			status;
+	private byte				status;
 
 	/** The subscribe. */
-	@Column(length = 1, name = "subscribe")
-	private Boolean			subscribe;
+	private byte				subscribe;
 
-	/** The token. */
-	@Column(length = 45, name = "app_session")
-	private String			token;
+	/** The web session. */
+	private String				webSession;
+
+	/** The country. */
+	private Country				country;
 
 	/**
 	 * Instantiates a new account.
@@ -145,126 +120,36 @@ public final class Account implements Principal {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = __accountRegister.getAlternativeContact();
-			this.avatar = "";
+			this.image = "";
 			this.country = __accountRegister.getCountry();
 			this.created = new Date();
 			this.email = __accountRegister.getEmail().getValue();
 			this.modified = new Date();
 			this.name = __accountRegister.getName();
 			this.password = __accountRegister.getPassword();
-			this.payment = ((DesignerRegisterRequest) __accountRegister).getPayment();
-			this.phone = __accountRegister.getPhone().getValue();
+			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
+			this.handphoneNumber = __accountRegister.getPhone().getValue();
 			this.role = __accountRegister.getRole();
-			this.subscribe = __accountRegister.getSubscribe();
+			this.subscribe = (byte) (__accountRegister.getSubscribe() ? 1 : 0);
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
 			// User
 			this.alternativeContact = __accountRegister.getAlternativeContact();
-			this.avatar = "";
+			this.image = "";
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
-			this.companyPhone = ((UserRegisterRequest) __accountRegister).getCompanyPhone();
+			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone();
 			this.country = __accountRegister.getCountry();
 			this.created = new Date();
 			this.email = __accountRegister.getEmail().getValue();
 			this.modified = new Date();
 			this.name = __accountRegister.getName();
 			this.password = __accountRegister.getPassword();
-			this.phone = __accountRegister.getPhone().getValue();
+			this.handphoneNumber = __accountRegister.getPhone().getValue();
 			this.role = __accountRegister.getRole();
-			this.subscribe = __accountRegister.getSubscribe();
+			this.subscribe = (byte) (__accountRegister.getSubscribe() ? 1 : 0);
 		}
 
-	}
-
-	/**
-	 * Gets the account info.
-	 *
-	 * @return the account info
-	 */
-	public String getAccountInfo() {
-		return this.accountInfo;
-	}
-
-	/**
-	 * Gets the activation code.
-	 *
-	 * @return the activation code
-	 */
-	public Integer getActivationCode() {
-		return this.activationCode;
-	}
-
-	/**
-	 * Gets the alternative contact.
-	 *
-	 * @return the alternative contact
-	 */
-	public String getAlternativeContact() {
-		return this.alternativeContact;
-	}
-
-	/**
-	 * Gets the avatar.
-	 *
-	 * @return the avatar
-	 */
-	public String getAvatar() {
-		return this.avatar;
-	}
-
-	/**
-	 * Gets the company address.
-	 *
-	 * @return the companyAddress
-	 */
-	public String getCompanyAddress() {
-		return this.companyAddress;
-	}
-
-	/**
-	 * Gets the company name.
-	 *
-	 * @return the companyName
-	 */
-	public String getCompanyName() {
-		return this.companyName;
-	}
-
-	/**
-	 * Gets the company phone.
-	 *
-	 * @return the companyPhone
-	 */
-	public String getCompanyPhone() {
-		return this.companyPhone;
-	}
-
-	/**
-	 * Gets the country.
-	 *
-	 * @return the country
-	 */
-	public Country getCountry() {
-		return this.country;
-	}
-
-	/**
-	 * Gets the created.
-	 *
-	 * @return the created
-	 */
-	public Date getCreated() {
-		return this.created;
-	}
-
-	/**
-	 * Gets the email.
-	 *
-	 * @return the email
-	 */
-	public String getEmail() {
-		return this.email;
 	}
 
 	/**
@@ -272,8 +157,228 @@ public final class Account implements Principal {
 	 *
 	 * @return the id
 	 */
-	public Integer getId() {
+	@EmbeddedId
+	public AccountPK getId() {
 		return this.id;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(AccountPK id) {
+		this.id = id;
+	}
+
+	/**
+	 * Gets the account info.
+	 *
+	 * @return the account info
+	 */
+	@Lob
+	@Column(name = "account_info")
+	public String getAccountInfo() {
+		return this.accountInfo;
+	}
+
+	/**
+	 * Sets the account info.
+	 *
+	 * @param accountInfo the new account info
+	 */
+	public void setAccountInfo(String accountInfo) {
+		this.accountInfo = accountInfo;
+	}
+
+	/**
+	 * Gets the activation code.
+	 *
+	 * @return the activation code
+	 */
+	@Column(name = "activation_code")
+	public int getActivationCode() {
+		return this.activationCode;
+	}
+
+	/**
+	 * Sets the activation code.
+	 *
+	 * @param activationCode the new activation code
+	 */
+	public void setActivationCode(int activationCode) {
+		this.activationCode = activationCode;
+	}
+
+	/**
+	 * Gets the alternative contact.
+	 *
+	 * @return the alternative contact
+	 */
+	@Column(name = "alternative_contact", length = 50)
+	public String getAlternativeContact() {
+		return this.alternativeContact;
+	}
+
+	/**
+	 * Sets the alternative contact.
+	 *
+	 * @param alternativeContact the new alternative contact
+	 */
+	public void setAlternativeContact(String alternativeContact) {
+		this.alternativeContact = alternativeContact;
+	}
+
+	/**
+	 * Gets the app session.
+	 *
+	 * @return the app session
+	 */
+	@Column(name = "app_session", length = 45)
+	public String getAppSession() {
+		return this.appSession;
+	}
+
+	/**
+	 * Sets the app session.
+	 *
+	 * @param appSession the new app session
+	 */
+	public void setAppSession(String appSession) {
+		this.appSession = appSession;
+	}
+
+	/**
+	 * Gets the company address.
+	 *
+	 * @return the company address
+	 */
+	@Column(name = "company_address", length = 250)
+	public String getCompanyAddress() {
+		return this.companyAddress;
+	}
+
+	/**
+	 * Sets the company address.
+	 *
+	 * @param companyAddress the new company address
+	 */
+	public void setCompanyAddress(String companyAddress) {
+		this.companyAddress = companyAddress;
+	}
+
+	/**
+	 * Gets the company name.
+	 *
+	 * @return the company name
+	 */
+	@Column(name = "company_name", length = 100)
+	public String getCompanyName() {
+		return this.companyName;
+	}
+
+	/**
+	 * Sets the company name.
+	 *
+	 * @param companyName the new company name
+	 */
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	/**
+	 * Gets the company telephone.
+	 *
+	 * @return the company telephone
+	 */
+	@Column(name = "company_telephone", length = 50)
+	public String getCompanyTelephone() {
+		return this.companyTelephone;
+	}
+
+	/**
+	 * Sets the company telephone.
+	 *
+	 * @param companyTelephone the new company telephone
+	 */
+	public void setCompanyTelephone(String companyTelephone) {
+		this.companyTelephone = companyTelephone;
+	}
+
+	/**
+	 * Gets the created.
+	 *
+	 * @return the created
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCreated() {
+		return this.created;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Gets the email.
+	 *
+	 * @return the email
+	 */
+	@Column(nullable = false, length = 50)
+	public String getEmail() {
+		return this.email;
+	}
+
+	/**
+	 * Sets the email.
+	 *
+	 * @param email the new email
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * Gets the handphone number.
+	 *
+	 * @return the handphone number
+	 */
+	@Column(name = "handphone_number", nullable = false, length = 50)
+	public String getHandphoneNumber() {
+		return this.handphoneNumber;
+	}
+
+	/**
+	 * Sets the handphone number.
+	 *
+	 * @param handphoneNumber the new handphone number
+	 */
+	public void setHandphoneNumber(String handphoneNumber) {
+		this.handphoneNumber = handphoneNumber;
+	}
+
+	/**
+	 * Gets the image.
+	 *
+	 * @return the image
+	 */
+	@Column(nullable = false, length = 250)
+	public String getImage() {
+		return this.image;
+	}
+
+	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	/**
@@ -281,17 +386,44 @@ public final class Account implements Principal {
 	 *
 	 * @return the modified
 	 */
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
 	}
 
 	/**
-	 * Gets the name.
+	 * Sets the modified.
 	 *
-	 * @return the name
+	 * @param modified the new modified
 	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the modified.
+	 */
+	public void setModified() {
+		this.setModified(new Date());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.security.Principal#getName()
+	 */
+	@Column(nullable = false, length = 100)
 	public String getName() {
 		return this.name;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -299,8 +431,18 @@ public final class Account implements Principal {
 	 *
 	 * @return the otp
 	 */
+	@Column(length = 45)
 	public String getOtp() {
 		return this.otp;
+	}
+
+	/**
+	 * Sets the otp.
+	 *
+	 * @param otp the new otp
+	 */
+	public void setOtp(String otp) {
+		this.otp = otp;
 	}
 
 	/**
@@ -308,44 +450,56 @@ public final class Account implements Principal {
 	 *
 	 * @return the password
 	 */
+	@Column(nullable = false, length = 40)
 	public String getPassword() {
 		return this.password;
 	}
 
 	/**
-	 * Gets the payment.
+	 * Sets the password.
 	 *
-	 * @return the payment
+	 * @param password the new password
 	 */
-	public Byte getPayment() {
-		return this.payment;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/**
-	 * Gets the phone.
+	 * Gets the payment method.
 	 *
-	 * @return the phone
+	 * @return the payment method
 	 */
-	public String getPhone() {
-		return this.phone;
+	@Column(name = "payment_method")
+	public byte getPaymentMethod() {
+		return this.paymentMethod;
 	}
 
 	/**
-	 * Gets the portfolios.
+	 * Sets the payment method.
 	 *
-	 * @return the portfolios
+	 * @param paymentMethod the new payment method
 	 */
-	public Set<Portfolio> getPortfolios() {
-		return this.portfolios;
+	public void setPaymentMethod(byte paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	/**
-	 * Gets the value.
+	 * Gets the role.
 	 *
-	 * @return the value
+	 * @return the role
 	 */
-	public Byte getRole() {
+	@Column(nullable = false)
+	public byte getRole() {
 		return this.role;
+	}
+
+	/**
+	 * Sets the role.
+	 *
+	 * @param role the new role
+	 */
+	public void setRole(byte role) {
+		this.role = role;
 	}
 
 	/**
@@ -353,8 +507,18 @@ public final class Account implements Principal {
 	 *
 	 * @return the status
 	 */
-	public Byte getStatus() {
+	@Column(nullable = false)
+	public byte getStatus() {
 		return this.status;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
 	/**
@@ -362,221 +526,56 @@ public final class Account implements Principal {
 	 *
 	 * @return the subscribe
 	 */
-	public Boolean getSubscribe() {
+	public byte getSubscribe() {
 		return this.subscribe;
-	}
-
-	/**
-	 * Gets the token.
-	 *
-	 * @return the token
-	 */
-	public String getToken() {
-		return this.token;
-	}
-
-	/**
-	 * Sets the account info.
-	 *
-	 * @param __accountInfo the new account info
-	 */
-	public void setAccountInfo(String __accountInfo) {
-		this.accountInfo = __accountInfo;
-	}
-
-	/**
-	 * Sets the activation code.
-	 *
-	 * @param __activationCode the new activation code
-	 */
-	public void setActivationCode(Integer __activationCode) {
-		this.activationCode = __activationCode;
-	}
-
-	/**
-	 * Sets the alternative contact.
-	 *
-	 * @param __alternativeContact the new alternative contact
-	 */
-	public void setAlternativeContact(String __alternativeContact) {
-		this.alternativeContact = __alternativeContact;
-	}
-
-	/**
-	 * Sets the avatar.
-	 *
-	 * @param __avatar the new avatar
-	 */
-	public void setAvatar(String __avatar) {
-		this.avatar = __avatar;
-	}
-
-	/**
-	 * Sets the company address.
-	 *
-	 * @param __companyAddress the companyAddress to set
-	 */
-	public void setCompanyAddress(String __companyAddress) {
-		this.companyAddress = __companyAddress;
-	}
-
-	/**
-	 * Sets the company name.
-	 *
-	 * @param __companyName the companyName to set
-	 */
-	public void setCompanyName(String __companyName) {
-		this.companyName = __companyName;
-	}
-
-	/**
-	 * Sets the company phone.
-	 *
-	 * @param __companyPhone the companyPhone to set
-	 */
-	public void setCompanyPhone(String __companyPhone) {
-		this.companyPhone = __companyPhone;
-	}
-
-	/**
-	 * Sets the country.
-	 *
-	 * @param __country the new country
-	 */
-	public void setCountry(Country __country) {
-		this.country = __country;
-	}
-
-	/**
-	 * Sets the created.
-	 *
-	 * @param __created the new created
-	 */
-	public void setCreated(Date __created) {
-		this.created = __created;
-	}
-
-	/**
-	 * Sets the email.
-	 *
-	 * @param __email the new email
-	 */
-	public void setEmail(String __email) {
-		this.email = __email;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param __id the new id
-	 */
-	public void setId(Integer __id) {
-		this.id = __id;
-	}
-
-	/**
-	 * Sets the modified.
-	 */
-	public void setModified() {
-		this.modified = new Date();
-	}
-
-	/**
-	 * Sets the modified.
-	 *
-	 * @param __modified the new modified
-	 */
-	public void setModified(Date __modified) {
-		this.modified = __modified;
-	}
-
-	/**
-	 * Sets the name.
-	 *
-	 * @param __name the new name
-	 */
-	public void setName(String __name) {
-		this.name = __name;
-	}
-
-	/**
-	 * Sets the otp.
-	 *
-	 * @param __otp the otp to set
-	 */
-	public void setOtp(String __otp) {
-		this.otp = __otp;
-	}
-
-	/**
-	 * Sets the password.
-	 *
-	 * @param __password the new password
-	 */
-	public void setPassword(String __password) {
-		this.password = __password;
-	}
-
-	/**
-	 * Sets the payment.
-	 *
-	 * @param __payment the new payment
-	 */
-	public void setPayment(Byte __payment) {
-		this.payment = __payment;
-	}
-
-	/**
-	 * Sets the phone.
-	 *
-	 * @param __phone the new phone
-	 */
-	public void setPhone(String __phone) {
-		this.phone = __phone;
-	}
-
-	/**
-	 * Sets the portfolios.
-	 *
-	 * @param __portfolios the new portfolios
-	 */
-	public void setPortfolios(Set<Portfolio> __portfolios) {
-		this.portfolios = __portfolios;
-	}
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param __role the new value
-	 */
-	public void setRole(Byte __role) {
-		this.role = __role;
-	}
-
-	/**
-	 * Sets the status.
-	 *
-	 * @param __status the new status
-	 */
-	public void setStatus(Byte __status) {
-		this.status = __status;
 	}
 
 	/**
 	 * Sets the subscribe.
 	 *
-	 * @param __subscribe the new subscribe
+	 * @param subscribe the new subscribe
 	 */
-	public void setSubscribe(Boolean __subscribe) {
-		this.subscribe = __subscribe;
+	public void setSubscribe(byte subscribe) {
+		this.subscribe = subscribe;
 	}
 
 	/**
-	 * Sets the token.
+	 * Gets the web session.
 	 *
-	 * @param __token the token to set
+	 * @return the web session
 	 */
-	public void setToken(String __token) {
-		this.token = __token;
+	@Column(name = "web_session", length = 45)
+	public String getWebSession() {
+		return this.webSession;
+	}
+
+	/**
+	 * Sets the web session.
+	 *
+	 * @param webSession the new web session
+	 */
+	public void setWebSession(String webSession) {
+		this.webSession = webSession;
+	}
+
+	/**
+	 * Gets the country.
+	 *
+	 * @return the country
+	 */
+	// bi-directional many-to-one association to Country
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "countrie_id", nullable = false, insertable = false, updatable = false)
+	public Country getCountry() {
+		return this.country;
+	}
+
+	/**
+	 * Sets the country.
+	 *
+	 * @param country the new country
+	 */
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 }

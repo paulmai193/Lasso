@@ -37,7 +37,7 @@ public final class EncryptionUtil {
 
 	/** The Random Constant SALT. */
 	private static final byte[]	SALT				= { (byte) 0x24, (byte) 0x67, (byte) 0xD8,
-			(byte) 0xF6, (byte) 0x83, (byte) 0xE4, (byte) 0xBB, (byte) 0x08 };
+	        (byte) 0xF6, (byte) 0x83, (byte) 0xE4, (byte) 0xBB, (byte) 0x08 };
 
 	/**
 	 * Decode.
@@ -63,17 +63,17 @@ public final class EncryptionUtil {
 		try {
 
 			String _input = __token.replace("%0A", "\n").replace("%25", "%").replace('_', '/')
-					.replace('-', '+');
+			        .replace('-', '+');
 
 			byte[] _dec = Base64.decodeBase64(_input.getBytes());
 
 			KeySpec _keySpec = new PBEKeySpec(__password.toCharArray(), EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 			AlgorithmParameterSpec paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 
 			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
-					.generateSecret(_keySpec);
+			        .generateSecret(_keySpec);
 
 			Cipher _dcipher = Cipher.getInstance(_key.getAlgorithm());
 			_dcipher.init(Cipher.DECRYPT_MODE, _key, paramSpec);
@@ -116,12 +116,12 @@ public final class EncryptionUtil {
 		try {
 
 			KeySpec _keySpec = new PBEKeySpec(__password.toCharArray(), EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 			AlgorithmParameterSpec _paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
-					EncryptionUtil.ITERATION_COUNT);
+			        EncryptionUtil.ITERATION_COUNT);
 
 			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
-					.generateSecret(_keySpec);
+			        .generateSecret(_keySpec);
 
 			Cipher _ecipher = Cipher.getInstance(_key.getAlgorithm());
 			_ecipher.init(Cipher.ENCRYPT_MODE, _key, _paramSpec);
@@ -131,7 +131,7 @@ public final class EncryptionUtil {
 			String _res = new String(Base64.encodeBase64(_enc));
 			// escapes for url
 			_res = _res.replace('+', '-').replace('/', '_').replace("%", "%25").replace("\n",
-					"%0A");
+			        "%0A");
 
 			return _res;
 
@@ -186,26 +186,26 @@ public final class EncryptionUtil {
 	 * *
 	 * Copy of uniqid in php http://php.net/manual/fr/function.uniqid.php
 	 *
-	 * @param prefix the prefix
-	 * @param more_entropy the more entropy
+	 * @param __prefix the prefix
+	 * @param __more_entropy the more entropy
 	 * @return the string
 	 */
-	public String uniqid(String prefix, boolean more_entropy) {
-		long time = System.currentTimeMillis();
-		String uniqid = "";
-		if (!more_entropy) {
-			uniqid = String.format("%s%08x%05x", prefix, time / 1000, time);
+	public static String uniqid(String __prefix, boolean __more_entropy) {
+		long _time = System.currentTimeMillis();
+		String _uniqid = "";
+		if (!__more_entropy) {
+			_uniqid = String.format("%s%08x%05x", __prefix, _time / 1000, _time);
 		}
 		else {
-			SecureRandom sec = new SecureRandom();
-			byte[] sbuf = sec.generateSeed(8);
-			ByteBuffer bb = ByteBuffer.wrap(sbuf);
+			SecureRandom _sec = new SecureRandom();
+			byte[] _sbuf = _sec.generateSeed(8);
+			ByteBuffer _bb = ByteBuffer.wrap(_sbuf);
 
-			uniqid = String.format("%s%08x%05x", prefix, time / 1000, time);
-			uniqid += "." + String.format("%.8s", "" + bb.getLong() * -1);
+			_uniqid = String.format("%s%08x%05x", __prefix, _time / 1000, _time);
+			_uniqid += "." + String.format("%.8s", "" + _bb.getLong() * -1);
 		}
 
-		return uniqid;
+		return _uniqid;
 	}
 
 }

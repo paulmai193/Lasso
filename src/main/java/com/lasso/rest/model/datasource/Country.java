@@ -3,10 +3,20 @@
  */
 package com.lasso.rest.model.datasource;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * The Class Country.
@@ -14,25 +24,18 @@ import javax.persistence.Table;
  * @author Paul Mai
  */
 @Entity
-@Table(catalog = "art_design", name = "countries")
-public final class Country {
+@Table(name = "countries")
+public final class Country implements Serializable {
 
-	/** The code. */
-	@Column(length = 2, name = "code")
-	private String	code;
-
-	/** The id. */
-	@Id
-	@Column(length = 11, name = "id")
-	private Integer	id;
-
-	/** The name. */
-	@Column(length = 255, name = "name")
-	private String	name;
-
-	/** The status. */
-	@Column(length = 1, name = "status")
-	private Byte	status;
+	private static final long	serialVersionUID	= 1L;
+	private int					id;
+	private String				code;
+	private Timestamp			created;
+	private Date				modified;
+	private String				name;
+	private int					sort;
+	private byte				status;
+	private Set<Account>		accounts;
 
 	/**
 	 * Instantiates a new country.
@@ -40,76 +43,92 @@ public final class Country {
 	public Country() {
 	}
 
-	/**
-	 * Gets the code.
-	 *
-	 * @return the code
-	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@Column(nullable = false, length = 2)
 	public String getCode() {
 		return this.code;
 	}
 
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public Integer getId() {
-		return this.id;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
+	public Timestamp getCreated() {
+		return this.created;
+	}
+
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getModified() {
+		return this.modified;
+	}
+
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	@Column(nullable = false, length = 255)
 	public String getName() {
 		return this.name;
 	}
 
-	/**
-	 * Gets the status.
-	 *
-	 * @return the status
-	 */
-	public Byte getStatus() {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Column(nullable = false)
+	public int getSort() {
+		return this.sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
+	@Column(nullable = false)
+	public byte getStatus() {
 		return this.status;
 	}
 
-	/**
-	 * Sets the code.
-	 *
-	 * @param __code the new code
-	 */
-	public void setCode(String __code) {
-		this.code = __code;
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
-	/**
-	 * Sets the id.
-	 *
-	 * @param __id the new id
-	 */
-	public void setId(Integer __id) {
-		this.id = __id;
+	// bi-directional many-to-one association to Account
+	@OneToMany(mappedBy = "country")
+	public Set<Account> getAccounts() {
+		return this.accounts;
 	}
 
-	/**
-	 * Sets the name.
-	 *
-	 * @param __name the name to set
-	 */
-	public void setName(String __name) {
-		this.name = __name;
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
 	}
 
-	/**
-	 * Sets the status.
-	 *
-	 * @param __status the new status
-	 */
-	public void setStatus(Byte __status) {
-		this.status = __status;
+	public Account addAccount(Account account) {
+		getAccounts().add(account);
+		account.setCountry(this);
+
+		return account;
+	}
+
+	public Account removeAccount(Account account) {
+		getAccounts().remove(account);
+		account.setCountry(null);
+
+		return account;
 	}
 
 }

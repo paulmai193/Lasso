@@ -13,46 +13,67 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- DAO Layer -->
-	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO" lazy-init="false" scope="singleton">
+	<bean id="accountDAO" class="com.lasso.rest.dao.impl.ImplAccountDAO"
+		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO" lazy-init="false" scope="singleton">
+	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO"
+		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>	
-	<bean id="portfolioDAO" class="com.lasso.rest.dao.impl.ImplPortfolioDAO" lazy-init="false" scope="singleton">
+	</bean>
+	<bean id="portfolioDAO" class="com.lasso.rest.dao.impl.ImplPortfolioDAO"
+		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
 	<!-- Service Layer -->
-	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement" lazy-init="false" scope="singleton">
-		<property name="accountDAO" ref="accountDAO"/>	
+	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement"
+		lazy-init="false" scope="singleton">
+		<property name="accountDAO" ref="accountDAO" />
 	</bean>
-	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement" lazy-init="false" scope="singleton">
-		<property name="countryDAO" ref="countryDAO"/>
+	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement"
+		lazy-init="false" scope="singleton">
+		<property name="countryDAO" ref="countryDAO" />
 	</bean>
-	<bean id="portfolioManagement" class="com.lasso.rest.service.impl.ImplPortfolioManagement" lazy-init="false" scope="singleton">
-		<property name="portfolioDAO" ref="portfolioDAO"/>		
+	<bean id="uploadImageManagement" class="com.lasso.rest.service.impl.ImplUploadImageManagement"
+		lazy-init="false" scope="singleton">
+
+	</bean>
+	<bean id="portfolioManagement" class="com.lasso.rest.service.impl.ImplPortfolioManagement"
+		lazy-init="false" scope="singleton">
+		<property name="portfolioDAO" ref="portfolioDAO" />
 	</bean>
 
 	<!-- Filter Layer -->
-	<bean id="accountAuthenticateFilter" class="com.lasso.rest.controller.filter.AccountAuthenticateFilter" lazy-init="false">
-		<property name="accountManagement" ref="accountManagement"/>
+	<bean id="accountAuthenticateFilter"
+		class="com.lasso.rest.controller.filter.AccountAuthenticateFilter"
+		lazy-init="false">
+		<property name="accountManagement" ref="accountManagement" />
 	</bean>
 
 	<!-- Controller Layer -->
-	<bean id="baseController" class="com.lasso.rest.controller.BaseController" lazy-init="false"></bean>
-	<bean id="accountController" class="com.lasso.rest.controller.AccountController" lazy-init="false">
-		<property name="accountManagement" ref="accountManagement"/>
-		<property name="genericManagement" ref="genericManagement"/>
+	<bean id="baseController" class="com.lasso.rest.controller.BaseController"
+		lazy-init="false"></bean>
+	<bean id="accountController" class="com.lasso.rest.controller.AccountController"
+		lazy-init="false">
+		<property name="accountManagement" ref="accountManagement" />
+		<property name="genericManagement" ref="genericManagement" />
 	</bean>
-	<bean id="uploadController" class="com.lasso.rest.controller.UploadController" lazy-init="false">
-		<property name="accountManagement" ref="accountManagement"/>
+	<bean id="uploadController" class="com.lasso.rest.controller.UploadController"
+		lazy-init="false">
+		<property name="accountManagement" ref="accountManagement" />
+		<property name="uploadImageManagement" ref="uploadImageManagement" />
+		<property name="imageStoragePath"
+			value="/media/logia193/01D011276767D880/Box Sync/Java-Workspace-Ubuntu/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Lasso/img" />
+		<!-- <property name="imageStoragePath" value="/app/webroot/img/" /> -->
 	</bean>
-	<bean id="publicController" class="com.lasso.rest.controller.PublicController" lazy-init="false">
-		<property name="genericManagement" ref="genericManagement"/>
-	</bean>	
-	<bean id="portfolioController" class="com.lasso.rest.controller.PortfolioController" lazy-init="false">
-		<property name="portfolioManagement" ref="portfolioManagement"/>
+	<bean id="publicController" class="com.lasso.rest.controller.PublicController"
+		lazy-init="false">
+		<property name="genericManagement" ref="genericManagement" />
+	</bean>
+	<bean id="portfolioController" class="com.lasso.rest.controller.PortfolioController"
+		lazy-init="false">
+		<property name="portfolioManagement" ref="portfolioManagement" />
 	</bean>
 
 	<!-- Utility -->

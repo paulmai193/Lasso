@@ -3,9 +3,6 @@
  */
 package com.lasso.rest.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -32,19 +29,16 @@ public interface AccountManagement {
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
 	public void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest);
+	        AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
 	 *
 	 * @param __account the account
-	 * @param __fileStream the file stream
-	 * @param __destinationFile the destination location on disk
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __avatarName the avatar name
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public void changeAvatar(Account __account, InputStream __fileStream, File __destinationFile)
-			throws IOException, IllegalArgumentException;
+	public void changeAvatar(Account __account, String __avatarName);
 
 	/**
 	 * Change password.
@@ -83,9 +77,9 @@ public interface AccountManagement {
 	/**
 	 * User Logout.
 	 *
-	 * @param __idAccount the id account
+	 * @param __account the account
 	 */
-	public void logout(Integer __idAccount);
+	public void logout(Account __account);
 
 	/**
 	 * Register user account.
@@ -105,7 +99,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String resetPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	        throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Send activation email.
@@ -116,7 +110,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendActivationEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Send reset password email.
@@ -127,7 +121,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Validate the token to verify secured account.

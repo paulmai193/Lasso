@@ -3,7 +3,6 @@ package com.lasso.rest.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.UUID;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -34,6 +33,7 @@ import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.response.ChangeAvatarResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.AccountManagement;
+import com.lasso.rest.service.UploadImageManagement;
 
 /**
  * The Class UploadController.
@@ -49,7 +49,22 @@ public class UploadController extends BaseController implements Feature {
 
 	/** The account management. */
 	@Autowired
-	private AccountManagement accountManagement;
+	private AccountManagement		accountManagement;
+
+	/** The upload image management. */
+	@Autowired
+	private UploadImageManagement	uploadImageManagement;
+
+	/** The image storage path. */
+	private String					imageStoragePath;
+
+	public void setImageStoragePath(String __imageStoragePath) {
+		this.imageStoragePath = __imageStoragePath;
+	}
+
+	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
+		this.uploadImageManagement = __uploadImageManagement;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -97,15 +112,28 @@ public class UploadController extends BaseController implements Feature {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	public Response uploadAvatar(@Context SecurityContext __context,
-			@FormDataParam("file") InputStream __fileStream,
-			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
+	        @FormDataParam("file") InputStream __fileStream,
+	        @FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
 		if (__fileStream == null) {
 			throw new ObjectParamException("File not found");
 		}
-		Account _account = (Account) __context.getUserPrincipal();
-		File _avatar = new File("" + _account.getId() + "-" + UUID.randomUUID() + ".jpg");
+		File _avatar = new File(this.imageStoragePath + "/Accounts/Original"
+		        + this.uploadImageManagement.generateImageName());
 		try {
-			this.accountManagement.changeAvatar(_account, __fileStream, _avatar);
+			// Save original file
+			this.uploadImageManagement.saveFile(__fileStream, _avatar);
+
+			// Resize into 2 other size
+			File _iconAvatar = new File(
+			        this.imageStoragePath + "/Accounts/icon" + _avatar.getName());
+			this.uploadImageManagement.resizeImage(_avatar, _iconAvatar, 45D, 45D);
+			File _smallAvatar = new File(
+			        this.imageStoragePath + "/Accounts/small" + _avatar.getName());
+			this.uploadImageManagement.resizeImage(_avatar, _smallAvatar, 90D, 90D);
+
+			// Save avatar name to account
+			Account _account = (Account) __context.getUserPrincipal();
+			this.accountManagement.changeAvatar(_account, _avatar.getName());
 			return this.success(new ChangeAvatarResponse(_avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {

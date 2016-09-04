@@ -43,7 +43,7 @@ public class ImplAccountDAO implements AccountDAO {
 		}
 		else {
 			this.sessionFactory.getCurrentSession().update(__account);
-			return __account.getId();
+			return __account.getId().getId();
 		}
 
 	}
