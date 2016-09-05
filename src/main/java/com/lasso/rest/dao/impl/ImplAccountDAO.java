@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.AccountPK;
 
 /**
  * The Class ImplAccountDAO.
@@ -38,12 +39,12 @@ public class ImplAccountDAO implements AccountDAO {
 	 * @see com.lasso.rest.dao.AccountDAO#createAccount(com.lasso.rest.model.datasource.Account)
 	 */
 	public Integer createAccount(Account __account) {
-		if (__account.getId() == null) {
-			return (Integer) this.sessionFactory.getCurrentSession().save(__account);
-		}
-		else {
+		if (__account.getId().getId() > 0) {
 			this.sessionFactory.getCurrentSession().update(__account);
 			return __account.getId().getId();
+		}
+		else {
+			return ((AccountPK) this.sessionFactory.getCurrentSession().save(__account)).getId();
 		}
 
 	}
@@ -89,7 +90,7 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByToken(String __token) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Account.class);
-		_criteria.add(Restrictions.eq("token", __token));
+		_criteria.add(Restrictions.eq("appSession", __token));
 		return (Account) _criteria.uniqueResult();
 	}
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -55,16 +56,28 @@ public class UploadController extends BaseController implements Feature {
 	@Autowired
 	private UploadImageManagement	uploadImageManagement;
 
-	/** The image storage path. */
-	private String					imageStoragePath;
+	/** The web context storage path. */
+	private String					webContextStoragePath;
+
+	/** The avatar storage path. */
+	private String					avatarStoragePath;
 
 	/**
-	 * Sets the image storage path.
+	 * Sets the avatar storage path.
 	 *
-	 * @param __imageStoragePath the new image storage path
+	 * @param __avatarStoragePath the new avatar storage path
 	 */
-	public void setImageStoragePath(String __imageStoragePath) {
-		this.imageStoragePath = __imageStoragePath;
+	public void setAvatarStoragePath(String __avatarStoragePath) {
+		this.avatarStoragePath = __avatarStoragePath;
+	}
+
+	/**
+	 * Sets the web context storage path.
+	 *
+	 * @param __webContextStoragePath the new web context storage path
+	 */
+	public void setWebContextStoragePath(String __webContextStoragePath) {
+		this.webContextStoragePath = __webContextStoragePath;
 	}
 
 	/**
@@ -112,6 +125,7 @@ public class UploadController extends BaseController implements Feature {
 	 * Upload avatar.
 	 *
 	 * @param __context the context
+	 * @param __request the request
 	 * @param __fileStream the file stream
 	 * @param __fileMetaData the file meta data
 	 * @return the response
@@ -122,29 +136,31 @@ public class UploadController extends BaseController implements Feature {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	public Response uploadAvatar(@Context SecurityContext __context,
-	        @FormDataParam("file") InputStream __fileStream,
+	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
 	        @FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
 		if (__fileStream == null) {
 			throw new ObjectParamException("File not found");
 		}
-		File _avatar = new File(this.imageStoragePath + "/Accounts/Original"
+		File _avatar = new File(this.webContextStoragePath + this.avatarStoragePath + "/Original/"
 		        + this.uploadImageManagement.generateImageName());
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _avatar);
 
 			// Resize into 2 other size
-			File _iconAvatar = new File(
-			        this.imageStoragePath + "/Accounts/icon" + _avatar.getName());
+			File _iconAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
+			        + "/icon/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _iconAvatar, 45D, 45D);
-			File _smallAvatar = new File(
-			        this.imageStoragePath + "/Accounts/small" + _avatar.getName());
+			File _smallAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
+			        + "/small/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _smallAvatar, 90D, 90D);
 
 			// Save avatar name to account
 			Account _account = (Account) __context.getUserPrincipal();
 			this.accountManagement.changeAvatar(_account, _avatar.getName());
-			return this.success(new ChangeAvatarResponse(_avatar.getName()));
+			return this.success(new ChangeAvatarResponse("http://" + __request.getServerName() + ":"
+			        + __request.getServerPort() + __request.getContextPath()
+			        + this.avatarStoragePath + "/Original/" + _avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);

@@ -63,9 +63,11 @@
 		lazy-init="false">
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
-		<property name="imageStoragePath"
-			value="/media/logia193/01D011276767D880/Box Sync/Java-Workspace-Ubuntu/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Lasso/img" />
-		<!-- <property name="imageStoragePath" value="/app/webroot/img/" /> -->
+		<property name="webContextStoragePath"
+			value="/media/logia193/01D011276767D880/Box Sync/Java-Workspace-Ubuntu/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Lasso" />
+		<!-- <property name="webContextStoragePath" value="/app/webroot" /> -->
+		<property name="avatarStoragePath"
+			value="/img/Accounts" />
 	</bean>
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController"
 		lazy-init="false">

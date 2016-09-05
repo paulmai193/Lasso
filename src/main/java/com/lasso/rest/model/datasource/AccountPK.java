@@ -1,7 +1,9 @@
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * The primary key class for the accounts database table.
@@ -10,16 +12,16 @@ import javax.persistence.*;
  */
 @Embeddable
 public class AccountPK implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
-	//default serial version id, required for serializable classes.
-	private static final long serialVersionUID = 1L;
-	
+	// default serial version id, required for serializable classes.
+	private static final long	serialVersionUID	= 1L;
+
 	/** The id. */
-	private int id;
-	
+	private int					id;
+
 	/** The countrie id. */
-	private int countrieId;
+	private int					countrieId;
 
 	/**
 	 * Instantiates a new account PK.
@@ -28,15 +30,25 @@ public class AccountPK implements Serializable {
 	}
 
 	/**
+	 * Instantiates a new account PK.
+	 *
+	 * @param __countrieId the countrie id
+	 */
+	public AccountPK(int __countrieId) {
+		super();
+		this.countrieId = __countrieId;
+	}
+
+	/**
 	 * Gets the id.
 	 *
 	 * @return the id
 	 */
-	@Column(unique=true, nullable=false)
+	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
-	
+
 	/**
 	 * Sets the id.
 	 *
@@ -51,11 +63,11 @@ public class AccountPK implements Serializable {
 	 *
 	 * @return the countrie id
 	 */
-	@Column(name="countrie_id", unique=true, nullable=false)
+	@Column(name = "countrie_id", unique = true, nullable = false)
 	public int getCountrieId() {
 		return this.countrieId;
 	}
-	
+
 	/**
 	 * Sets the countrie id.
 	 *
@@ -65,7 +77,9 @@ public class AccountPK implements Serializable {
 		this.countrieId = countrieId;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals(Object other) {
@@ -75,13 +89,13 @@ public class AccountPK implements Serializable {
 		if (!(other instanceof AccountPK)) {
 			return false;
 		}
-		AccountPK castOther = (AccountPK)other;
-		return 
-			(this.id == castOther.id)
-			&& (this.countrieId == castOther.countrieId);
+		AccountPK castOther = (AccountPK) other;
+		return (this.id == castOther.id) && (this.countrieId == castOther.countrieId);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	public int hashCode() {
@@ -89,7 +103,7 @@ public class AccountPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.id;
 		hash = hash * prime + this.countrieId;
-		
+
 		return hash;
 	}
 }

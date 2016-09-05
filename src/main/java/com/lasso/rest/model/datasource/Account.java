@@ -117,37 +117,27 @@ public final class Account implements Principal, Serializable {
 	 * @param __accountRegister the account register
 	 */
 	public Account(AccountRegisterRequest __accountRegister) {
+		this.id = new AccountPK(__accountRegister.getCountry().getId());
+		this.alternativeContact = __accountRegister.getAlternativeContact();
+		this.image = "";
+		this.country = __accountRegister.getCountry();
+		this.created = new Date();
+		this.email = __accountRegister.getEmail().getValue();
+		this.modified = new Date();
+		this.name = __accountRegister.getName();
+		this.password = __accountRegister.getPassword();
+		this.handphoneNumber = __accountRegister.getPhone().getValue();
+		this.role = __accountRegister.getRole();
+		this.subscribe = (byte) (__accountRegister.getSubscribe() ? 1 : 0);
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
-			this.alternativeContact = __accountRegister.getAlternativeContact();
-			this.image = "";
-			this.country = __accountRegister.getCountry();
-			this.created = new Date();
-			this.email = __accountRegister.getEmail().getValue();
-			this.modified = new Date();
-			this.name = __accountRegister.getName();
-			this.password = __accountRegister.getPassword();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
-			this.handphoneNumber = __accountRegister.getPhone().getValue();
-			this.role = __accountRegister.getRole();
-			this.subscribe = (byte) (__accountRegister.getSubscribe() ? 1 : 0);
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
 			// User
-			this.alternativeContact = __accountRegister.getAlternativeContact();
-			this.image = "";
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone();
-			this.country = __accountRegister.getCountry();
-			this.created = new Date();
-			this.email = __accountRegister.getEmail().getValue();
-			this.modified = new Date();
-			this.name = __accountRegister.getName();
-			this.password = __accountRegister.getPassword();
-			this.handphoneNumber = __accountRegister.getPhone().getValue();
-			this.role = __accountRegister.getRole();
-			this.subscribe = (byte) (__accountRegister.getSubscribe() ? 1 : 0);
 		}
 
 	}

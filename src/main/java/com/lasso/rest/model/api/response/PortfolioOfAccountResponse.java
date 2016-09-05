@@ -70,9 +70,9 @@ class PortfolioOfAccountSerializer extends JsonSerializer<Portfolio> {
 
 	@Override
 	public void serialize(Portfolio __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	        throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
-		__gen.writeNumberField("id", __value.getId());
+		__gen.writeNumberField("id", __value.getId().getId());
 		__gen.writeStringField("title", __value.getTitle());
 		__gen.writeStringField("info", __value.getInfo());
 		__gen.writeEndObject();
