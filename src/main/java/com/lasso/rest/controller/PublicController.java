@@ -1,5 +1,6 @@
 package com.lasso.rest.controller;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -26,8 +27,7 @@ import com.lasso.rest.service.GenericManagement;
  */
 @Controller
 @Lazy(false)
-@Path("/public")
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/")
 public class PublicController extends BaseController {
 
 	/** The generic management. */
@@ -40,7 +40,8 @@ public class PublicController extends BaseController {
 	 * @return the countries
 	 */
 	@GET
-	@Path("/countries")
+	@Path("/public/countries")
+	@Produces(MediaType.APPLICATION_JSON)
 	public ListCountriesResponse getCountries() {
 		return new ListCountriesResponse(this.genericManagement.getAllCountries());
 	}
@@ -63,11 +64,11 @@ public class PublicController extends BaseController {
 	 * @throws URISyntaxException the URI syntax exception
 	 */
 	@GET
-	@Path("/active")
+	@Path("/public/active")
 	public Response testActive(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verfiy?type=active&otp=" + __otp;
+		        + __request.getServerPort() + "/verfiy?type=active&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 
@@ -80,12 +81,24 @@ public class PublicController extends BaseController {
 	 * @throws URISyntaxException the URI syntax exception
 	 */
 	@GET
-	@Path("/reset")
+	@Path("/public/reset")
 	public Response testReset(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verfiy?type=reset&otp=" + __otp;
+		        + __request.getServerPort() + "/verfiy?type=reset&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
+	}
+
+	/**
+	 * Index.
+	 *
+	 * @param __request the request
+	 * @return the input stream
+	 */
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public InputStream index(@Context HttpServletRequest __request) {
+		return __request.getServletContext().getResourceAsStream("index.jsp");
 	}
 
 }

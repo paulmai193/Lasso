@@ -3,6 +3,7 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * @author Paul Mai
  */
 @Entity
-@Table(catalog = "art_design", name = "styles")
+@Table(name = "styles")
 @DynamicInsert(true)
 @DynamicUpdate(true)
 public class Style implements Serializable {
@@ -28,20 +29,16 @@ public class Style implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The created. */
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
-
 	/** The id. */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int					id;
+
+	/** The created. */
+	private Date				created;
 
 	/** The image. */
 	private String				image;
 
 	/** The modified. */
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
 	/** The sort. */
@@ -60,75 +57,15 @@ public class Style implements Serializable {
 	}
 
 	/**
-	 * Gets the created.
-	 *
-	 * @return the created
-	 */
-	public Date getCreated() {
-		return this.created;
-	}
-
-	/**
 	 * Gets the id.
 	 *
 	 * @return the id
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
-	}
-
-	/**
-	 * Gets the image.
-	 *
-	 * @return the image
-	 */
-	public String getImage() {
-		return this.image;
-	}
-
-	/**
-	 * Gets the modified.
-	 *
-	 * @return the modified
-	 */
-	public Date getModified() {
-		return this.modified;
-	}
-
-	/**
-	 * Gets the sort.
-	 *
-	 * @return the sort
-	 */
-	public int getSort() {
-		return this.sort;
-	}
-
-	/**
-	 * Gets the status.
-	 *
-	 * @return the status
-	 */
-	public byte getStatus() {
-		return this.status;
-	}
-
-	/**
-	 * Gets the title.
-	 *
-	 * @return the title
-	 */
-	public String getTitle() {
-		return this.title;
-	}
-
-	/**
-	 * Sets the created.
-	 *
-	 * @param created the new created
-	 */
-	public void setCreated(Date created) {
-		this.created = created;
 	}
 
 	/**
@@ -141,12 +78,51 @@ public class Style implements Serializable {
 	}
 
 	/**
+	 * Gets the created.
+	 *
+	 * @return the created
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCreated() {
+		return this.created;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Gets the image.
+	 *
+	 * @return the image
+	 */
+	@Column(nullable = false, length = 45)
+	public String getImage() {
+		return this.image;
+	}
+
+	/**
 	 * Sets the image.
 	 *
 	 * @param image the new image
 	 */
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	/**
+	 * Gets the modified.
+	 *
+	 * @return the modified
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getModified() {
+		return this.modified;
 	}
 
 	/**
@@ -159,6 +135,15 @@ public class Style implements Serializable {
 	}
 
 	/**
+	 * Gets the sort.
+	 *
+	 * @return the sort
+	 */
+	public int getSort() {
+		return this.sort;
+	}
+
+	/**
 	 * Sets the sort.
 	 *
 	 * @param sort the new sort
@@ -168,12 +153,31 @@ public class Style implements Serializable {
 	}
 
 	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
+	public byte getStatus() {
+		return this.status;
+	}
+
+	/**
 	 * Sets the status.
 	 *
 	 * @param status the new status
 	 */
 	public void setStatus(byte status) {
 		this.status = status;
+	}
+
+	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
+	@Column(nullable = false, length = 45)
+	public String getTitle() {
+		return this.title;
 	}
 
 	/**

@@ -3,15 +3,14 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * The persistent class for the types_styles database table.
@@ -20,32 +19,21 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "types_styles")
-@NamedQuery(name = "TypesStyle.findAll", query = "SELECT t FROM TypesStyle t")
+@DynamicInsert(value = true)
+@DynamicUpdate(value = true)
 public class TypesStyle implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
+	/** The id. */
+	private TypesStylePK		id;
+
 	/** The created. */
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
-	/** The id. */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int					id;
-
 	/** The modified. */
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
-
-	/** The style id. */
-	@Column(name = "style_id")
-	private int					styleId;
-
-	/** The type id. */
-	@Column(name = "type_id")
-	private int					typeId;
 
 	/**
 	 * Instantiates a new types style.
@@ -54,48 +42,32 @@ public class TypesStyle implements Serializable {
 	}
 
 	/**
-	 * Gets the created.
-	 *
-	 * @return the created
-	 */
-	public Date getCreated() {
-		return this.created;
-	}
-
-	/**
 	 * Gets the id.
 	 *
 	 * @return the id
 	 */
-	public int getId() {
+	@EmbeddedId
+	public TypesStylePK getId() {
 		return this.id;
 	}
 
 	/**
-	 * Gets the modified.
+	 * Sets the id.
 	 *
-	 * @return the modified
+	 * @param id the new id
 	 */
-	public Date getModified() {
-		return this.modified;
+	public void setId(TypesStylePK id) {
+		this.id = id;
 	}
 
 	/**
-	 * Gets the style id.
+	 * Gets the created.
 	 *
-	 * @return the style id
+	 * @return the created
 	 */
-	public int getStyleId() {
-		return this.styleId;
-	}
-
-	/**
-	 * Gets the type id.
-	 *
-	 * @return the type id
-	 */
-	public int getTypeId() {
-		return this.typeId;
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCreated() {
+		return this.created;
 	}
 
 	/**
@@ -108,12 +80,13 @@ public class TypesStyle implements Serializable {
 	}
 
 	/**
-	 * Sets the id.
+	 * Gets the modified.
 	 *
-	 * @param id the new id
+	 * @return the modified
 	 */
-	public void setId(int id) {
-		this.id = id;
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getModified() {
+		return this.modified;
 	}
 
 	/**
@@ -123,24 +96,6 @@ public class TypesStyle implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-
-	/**
-	 * Sets the style id.
-	 *
-	 * @param styleId the new style id
-	 */
-	public void setStyleId(int styleId) {
-		this.styleId = styleId;
-	}
-
-	/**
-	 * Sets the type id.
-	 *
-	 * @param typeId the new type id
-	 */
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
 	}
 
 }

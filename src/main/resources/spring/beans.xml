@@ -52,8 +52,6 @@
 	</bean>
 
 	<!-- Controller Layer -->
-	<bean id="baseController" class="com.lasso.rest.controller.BaseController"
-		lazy-init="false"></bean>
 	<bean id="accountController" class="com.lasso.rest.controller.AccountController"
 		lazy-init="false">
 		<property name="accountManagement" ref="accountManagement" />

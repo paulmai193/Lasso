@@ -3,11 +3,10 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,7 +22,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * @author Paul Mai
  */
 @Entity
-@Table(catalog = "art_design", name = "types")
+@Table(name = "types")
 @DynamicInsert(true)
 @DynamicUpdate(true)
 public class Type implements Serializable {
@@ -31,25 +30,16 @@ public class Type implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The category. */
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_id")
-	private Category			category;
+	/** The id. */
+	private TypePK				id;
 
 	/** The created. */
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
-
-	/** The id. */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int					id;
 
 	/** The image. */
 	private String				image;
 
 	/** The modified. */
-	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
 	/** The sort. */
@@ -61,6 +51,9 @@ public class Type implements Serializable {
 	/** The title. */
 	private String				title;
 
+	/** The category. */
+	private Category			category;
+
 	/**
 	 * Instantiates a new type.
 	 */
@@ -68,12 +61,22 @@ public class Type implements Serializable {
 	}
 
 	/**
-	 * Gets the category.
+	 * Gets the id.
 	 *
-	 * @return the category
+	 * @return the id
 	 */
-	public Category getCategory() {
-		return this.category;
+	@EmbeddedId
+	public TypePK getId() {
+		return this.id;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(TypePK id) {
+		this.id = id;
 	}
 
 	/**
@@ -81,71 +84,9 @@ public class Type implements Serializable {
 	 *
 	 * @return the created
 	 */
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
-	}
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public int getId() {
-		return this.id;
-	}
-
-	/**
-	 * Gets the image.
-	 *
-	 * @return the image
-	 */
-	public String getImage() {
-		return this.image;
-	}
-
-	/**
-	 * Gets the modified.
-	 *
-	 * @return the modified
-	 */
-	public Date getModified() {
-		return this.modified;
-	}
-
-	/**
-	 * Gets the sort.
-	 *
-	 * @return the sort
-	 */
-	public int getSort() {
-		return this.sort;
-	}
-
-	/**
-	 * Gets the status.
-	 *
-	 * @return the status
-	 */
-	public byte getStatus() {
-		return this.status;
-	}
-
-	/**
-	 * Gets the title.
-	 *
-	 * @return the title
-	 */
-	public String getTitle() {
-		return this.title;
-	}
-
-	/**
-	 * Sets the category.
-	 *
-	 * @param __category the category to set
-	 */
-	public void setCategory(Category __category) {
-		this.category = __category;
 	}
 
 	/**
@@ -158,12 +99,13 @@ public class Type implements Serializable {
 	}
 
 	/**
-	 * Sets the id.
+	 * Gets the image.
 	 *
-	 * @param id the new id
+	 * @return the image
 	 */
-	public void setId(int id) {
-		this.id = id;
+	@Column(nullable = false, length = 45)
+	public String getImage() {
+		return this.image;
 	}
 
 	/**
@@ -176,12 +118,31 @@ public class Type implements Serializable {
 	}
 
 	/**
+	 * Gets the modified.
+	 *
+	 * @return the modified
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getModified() {
+		return this.modified;
+	}
+
+	/**
 	 * Sets the modified.
 	 *
 	 * @param modified the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+
+	/**
+	 * Gets the sort.
+	 *
+	 * @return the sort
+	 */
+	public int getSort() {
+		return this.sort;
 	}
 
 	/**
@@ -194,6 +155,15 @@ public class Type implements Serializable {
 	}
 
 	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
+	public byte getStatus() {
+		return this.status;
+	}
+
+	/**
 	 * Sets the status.
 	 *
 	 * @param status the new status
@@ -203,12 +173,43 @@ public class Type implements Serializable {
 	}
 
 	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
+	@Column(nullable = false, length = 45)
+	public String getTitle() {
+		return this.title;
+	}
+
+	/**
 	 * Sets the title.
 	 *
 	 * @param title the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	/**
+	 * Gets the category.
+	 *
+	 * @return the category
+	 */
+	// bi-directional many-to-one association to Category
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id", nullable = false, insertable = false, updatable = false)
+	public Category getCategory() {
+		return this.category;
+	}
+
+	/**
+	 * Sets the category.
+	 *
+	 * @param category the new category
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 }

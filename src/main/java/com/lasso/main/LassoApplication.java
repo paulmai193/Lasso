@@ -1,7 +1,7 @@
 /*
  * 
  */
-package com.lasso.rest.service;
+package com.lasso.main;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;

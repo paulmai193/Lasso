@@ -32,9 +32,9 @@ import com.lasso.rest.service.PortfolioManagement;
 @AccountAuthenticate
 public class PortfolioController extends BaseController {
 
-	/** The context. */
+	/** The validateContext. */
 	@Context
-	private SecurityContext		context;
+	private SecurityContext		validateContext;
 
 	/** The account management. */
 	@Autowired
@@ -49,7 +49,7 @@ public class PortfolioController extends BaseController {
 	@Path("/me/getall")
 	@AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
 	public ListPortfoliosResponse getAllPortfoliosOfAccount() {
-		Account _account = (Account) this.context.getUserPrincipal();
+		Account _account = (Account) this.validateContext.getUserPrincipal();
 		return new ListPortfoliosResponse(this.portfolioManagement.getAllPortfolios(_account));
 	}
 
@@ -66,7 +66,7 @@ public class PortfolioController extends BaseController {
 		if (__id == null) {
 
 		}
-		Account _account = (Account) this.context.getUserPrincipal();
+		Account _account = (Account) this.validateContext.getUserPrincipal();
 		return new PortfolioOfAccountResponse(
 				this.portfolioManagement.getPortfolio(_account, __id));
 	}
