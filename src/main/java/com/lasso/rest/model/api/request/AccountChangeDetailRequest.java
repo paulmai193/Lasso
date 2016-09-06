@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.datasource.Country;
-import com.lasso.rest.model.variable.EmailParam;
 import com.lasso.rest.model.variable.PhoneParam;
 
 /**
@@ -25,9 +24,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	/** The country code. */
 	@JsonProperty(value = "country_code")
 	private String		countryCode;
-
-	/** The email. */
-	private EmailParam	email;
 
 	/** The phone. */
 	private PhoneParam	phone;
@@ -58,7 +54,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	public void checkNotNull() throws ObjectParamException {
 		try {
 			Assert.notNull(this.countryCode);
-			Assert.notNull(this.email);
 			Assert.notNull(this.phone);
 		}
 		catch (Throwable _ex) {
@@ -82,15 +77,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 */
 	public String getCountryCode() {
 		return this.countryCode;
-	}
-
-	/**
-	 * Gets the email.
-	 *
-	 * @return the email
-	 */
-	public EmailParam getEmail() {
-		return this.email;
 	}
 
 	/**
@@ -118,21 +104,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 */
 	public void setCountryCode(String __countryCode) {
 		this.countryCode = __countryCode;
-	}
-
-	/**
-	 * Sets the email.
-	 *
-	 * @param __email the new email
-	 */
-	@JsonProperty(value = "email")
-	public void setEmail(String __email) {
-		try {
-			this.email = new EmailParam(__email);
-		}
-		catch (Exception _ex) {
-			this.email = null;
-		}
 	}
 
 	/**
