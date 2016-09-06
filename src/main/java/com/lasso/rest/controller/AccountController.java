@@ -61,6 +61,9 @@ public class AccountController extends BaseController {
 	@Autowired
 	private AccountManagement	accountManagement;
 
+	/** The avatar storage path. */
+	private String				avatarStoragePath;
+
 	/** The generic management. */
 	@Autowired
 	private GenericManagement	genericManagement;
@@ -78,9 +81,9 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_DESIGNER)
 	public Response changeDetailDesigner(@Context SecurityContext __validateContext,
-	        DesignerChangeDetailRequest __designerChangeDetailRequest) {
+			DesignerChangeDetailRequest __designerChangeDetailRequest) {
 		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
-		        __designerChangeDetailRequest);
+				__designerChangeDetailRequest);
 	}
 
 	/**
@@ -96,9 +99,9 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_USER)
 	public Response changeDetailUser(@Context SecurityContext __validateContext,
-	        UserChangeDetailRequest __userChangeDetailRequest) {
+			UserChangeDetailRequest __userChangeDetailRequest) {
 		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
-		        __userChangeDetailRequest);
+				__userChangeDetailRequest);
 	}
 
 	/**
@@ -114,35 +117,39 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public Response changePassword(@Context SecurityContext __context,
-	        ChangePasswordRequest __changePasswordRequest) {
+			ChangePasswordRequest __changePasswordRequest) {
 		__changePasswordRequest.checkNotNull();
 		Account _account = (Account) __context.getUserPrincipal();
 		if (this.accountManagement.changePassword(__changePasswordRequest.getOldPassword(),
-		        __changePasswordRequest.getNewPassword(), _account)) {
+				__changePasswordRequest.getNewPassword(), _account)) {
 			return this.success();
 		}
 		else {
 			return this.fail(new BaseResponse(true, "Current password not match."),
-			        Status.FORBIDDEN);
+					Status.FORBIDDEN);
 		}
 	}
 
 	/**
 	 * Gets the detail.
 	 *
-	 * @param __context the context
+	 * @param __validateContext the account validated context
+	 * @param __request the request
 	 * @return the response
 	 */
 	@GET
 	@Path("/detail/me")
 	@AccountAuthenticate
-	public DetailAccountResponse getDetail(@Context SecurityContext __context) {
-		Account _account = (Account) __context.getUserPrincipal();
+	public DetailAccountResponse getDetail(@Context SecurityContext __validateContext,
+			@Context HttpServletRequest __request) {
+		Account _account = (Account) __validateContext.getUserPrincipal();
+		String _prefixUrl = "http://" + __request.getServerName() + ":" + __request.getServerPort()
+		+ this.avatarStoragePath;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
-			return new DetailDesignerResponse(_account);
+			return new DetailDesignerResponse(_account, _prefixUrl);
 		}
 		else if (_account.getRole() == Constant.ROLE_USER) {
-			return new DetailUserResponse(_account);
+			return new DetailUserResponse(_account, _prefixUrl);
 		}
 		else {
 			throw new BadRequestException("This account's role not have any detail");
@@ -161,7 +168,7 @@ public class AccountController extends BaseController {
 	public LoginResponse login(LoginRequest __loginRequest) {
 		__loginRequest.checkNotNull();
 		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
-		        __loginRequest.getPassword());
+				__loginRequest.getPassword());
 	}
 
 	/**
@@ -189,7 +196,7 @@ public class AccountController extends BaseController {
 	@Path("/register/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerDesignerAccount(@Context HttpServletRequest __request,
-	        DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
 
@@ -206,7 +213,7 @@ public class AccountController extends BaseController {
 	@Path("/register/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response registerDesignerAccount(@Context HttpServletRequest __request,
-	        UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
 
@@ -224,15 +231,15 @@ public class AccountController extends BaseController {
 	@Path("/reset_password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@Context HttpServletRequest __request,
-	        ResetPasswordRequest __resetPasswordRequest)
-	        throws NotFoundException, AddressException, MessagingException {
+			ResetPasswordRequest __resetPasswordRequest)
+					throws NotFoundException, AddressException, MessagingException {
 		__resetPasswordRequest.checkNotNull();
 		String _refQuery = this.accountManagement
-		        .resetPassword(__resetPasswordRequest.getEmail().getValue());
+				.resetPassword(__resetPasswordRequest.getEmail().getValue());
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + "/public" + _refQuery;
+		+ __request.getContextPath() + "/public" + _refQuery;
 		this.accountManagement.sendResetPasswordEmail(__resetPasswordRequest.getEmail().getValue(),
-		        _refLink);
+				_refLink);
 		return this.success();
 	}
 
@@ -243,6 +250,15 @@ public class AccountController extends BaseController {
 	 */
 	public void setAccountManagement(AccountManagement __accountManagement) {
 		this.accountManagement = __accountManagement;
+	}
+
+	/**
+	 * Sets the avatar storage path.
+	 *
+	 * @param __avatarStoragePath the new avatar storage path
+	 */
+	public void setAvatarStoragePath(String __avatarStoragePath) {
+		this.avatarStoragePath = __avatarStoragePath;
 	}
 
 	/**
@@ -266,14 +282,14 @@ public class AccountController extends BaseController {
 	public Response verify(@QueryParam("type") String __type, @QueryParam("otp") String __otp) {
 		if (!__type.equalsIgnoreCase("active") && !__type.equalsIgnoreCase("reset")) {
 			return Response.status(Status.BAD_REQUEST)
-			        .entity(new BaseResponse(true, "Invalid verify type")).build();
+					.entity(new BaseResponse(true, "Invalid verify type")).build();
 		}
 		if (this.accountManagement.verifyAccount(__otp)) {
 			return this.success();
 		}
 		else {
 			return Response.status(Status.BAD_REQUEST).entity(new BaseResponse(true, "Invalid otp"))
-			        .build();
+					.build();
 		}
 	}
 
@@ -285,10 +301,10 @@ public class AccountController extends BaseController {
 	 * @return the response
 	 */
 	private Response changeAccountDetail(Account __account,
-	        AccountChangeDetailRequest __accountChangeDetailRequest) {
+			AccountChangeDetailRequest __accountChangeDetailRequest) {
 		__accountChangeDetailRequest.checkNotNull();
 		Country _country = this.genericManagement
-		        .getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
+				.getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
 		__accountChangeDetailRequest.setCountry(_country);
 		__accountChangeDetailRequest.checkCountryValid();
 		this.accountManagement.changeAccountDetail(__account, __accountChangeDetailRequest);
@@ -305,17 +321,17 @@ public class AccountController extends BaseController {
 	 * @throws MessagingException the messaging exception
 	 */
 	private Response registerNewAccount(HttpServletRequest __request,
-	        AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		__registerAccount.checkNotNull();
 		Country _country = this.genericManagement
-		        .getCountryIdByCode(__registerAccount.getCountryCode());
+				.getCountryIdByCode(__registerAccount.getCountryCode());
 		__registerAccount.setCountry(_country);
 		__registerAccount.checkCountryValid();
 		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + "/public" + _refQuery;
+		+ __request.getContextPath() + "/public" + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
-		        _refLink);
+				_refLink);
 		return this.success();
 	}
 }

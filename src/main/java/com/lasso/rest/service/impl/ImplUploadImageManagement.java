@@ -13,7 +13,7 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.apache.commons.io.FileUtils;
+import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 
 import com.lasso.rest.service.UploadImageManagement;
@@ -79,36 +79,19 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
-			/* Get size of image */
-			Double width = (double) sbi.getWidth();
-			Double height = (double) sbi.getHeight();
-			Double d;
-			/* Get proportion of scaled image */
-			if (__newSize > height && __newSize > width) {
-				FileUtils.copyFile(__sourceFile, __destinationFile);
+
+			/* Scale this image */
+			BufferedImage dbi = null;
+			if (sbi != null) {
+				try {
+					dbi = Scalr.resize(sbi, __newSize.intValue());
+				}
+				finally {
+					sbi.flush();
+				}
 			}
-			else {
-				if (width > height) {
-					d = width / height;
-					height = __newSize;
-					width = height * d;
-				}
-				else {
-					d = height / width;
-					width = __newSize;
-					height = width * d;
-				}
-				/* Scale this image */
-				BufferedImage dbi = null;
-				if (sbi != null) {
-					dbi = new BufferedImage(width.intValue(), height.intValue(), sbi.getType());
-					Graphics2D g = dbi.createGraphics();
-					g.drawImage(sbi, 0, 0, width.intValue(), height.intValue(), null);
-					g.dispose();
-				}
-				/* retrieve image */
-				ImageIO.write(dbi, "jpg", __destinationFile);
-			}
+			/* retrieve image */
+			ImageIO.write(dbi, "jpg", __destinationFile);
 		}
 	}
 
@@ -127,10 +110,13 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			/* Scale this image */
 			BufferedImage dbi = null;
 			if (sbi != null) {
-				dbi = new BufferedImage(__width.intValue(), __height.intValue(), sbi.getType());
-				Graphics2D g = dbi.createGraphics();
-				g.drawImage(sbi, 0, 0, __width.intValue(), __height.intValue(), null);
-				g.dispose();
+				try {
+					dbi = Scalr.resize(sbi, __width.intValue(), __height.intValue());
+				}
+				finally {
+					sbi.flush();
+				}
+
 			}
 			/* retrieve image */
 			ImageIO.write(dbi, "jpg", __destinationFile);

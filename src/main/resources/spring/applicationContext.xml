@@ -16,4 +16,5 @@
 
 	<import resource="datasource.xml"/>
 	<import resource="beans.xml"/>
+	<import resource="../config/globaldata.xml"/>
 </beans>

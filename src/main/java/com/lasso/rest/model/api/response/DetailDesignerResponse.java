@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -18,21 +17,25 @@ import com.lasso.rest.model.datasource.Account;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
+@JsonSerialize(using = DesignerDetailSerializer.class)
 public class DetailDesignerResponse extends BaseResponse implements DetailAccountResponse {
 
 	/** The account. */
-	@JsonProperty("data")
-	@JsonSerialize(using = DesignerDetailSerializer.class)
-	private Account account;
+	private Account	account;
+
+	/** The prefix url. */
+	private String	prefixUrl;
 
 	/**
 	 * Instantiates a new designer detail response.
 	 *
 	 * @param __account the account
+	 * @param __prefixUrl the prefix url
 	 */
-	public DetailDesignerResponse(Account __account) {
+	public DetailDesignerResponse(Account __account, String __prefixUrl) {
 		super();
 		this.account = __account;
+		this.prefixUrl = __prefixUrl;
 	}
 
 	/**
@@ -74,22 +77,57 @@ public class DetailDesignerResponse extends BaseResponse implements DetailAccoun
 		return this.account;
 	}
 
+	/**
+	 * Gets the prefix url.
+	 *
+	 * @return the prefix url
+	 */
+	public String getPrefixUrl() {
+		return this.prefixUrl;
+	}
+
 }
 
-class DesignerDetailSerializer extends JsonSerializer<Account> {
+class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 
 	@Override
-	public void serialize(Account __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	public void serialize(DetailDesignerResponse __value, JsonGenerator __gen,
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
-		__gen.writeStringField("name", __value.getName());
-		__gen.writeStringField("email", __value.getEmail());
-		__gen.writeStringField("phone", __value.getHandphoneNumber());
-		__gen.writeStringField("avatar", __value.getImage());
-		__gen.writeStringField("country", __value.getCountry().getName());
-		__gen.writeStringField("info", __value.getAccountInfo());
-		__gen.writeStringField("alt_contact", __value.getAlternativeContact());
-		__gen.writeNumberField("payment", __value.getPaymentMethod());
+		__gen.writeObjectField("error", __value.isError());
+		if (__value.isError()) {
+			__gen.writeObjectField("detail", __value.getDetail());
+			__gen.writeObjectField("message", __value.getMessage());
+		}
+
+		__gen.writeObjectFieldStart("data");
+		__gen.writeStringField("name", __value.getAccount().getName());
+		__gen.writeStringField("email", __value.getAccount().getEmail());
+		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
+
+		__gen.writeObjectFieldStart("avatar");
+		if (__value.getAccount().getImage().isEmpty()) {
+			__gen.writeStringField("original", "");
+			__gen.writeStringField("small", "");
+			__gen.writeStringField("icon", "");
+		}
+		else {
+			__gen.writeStringField("original",
+			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+			__gen.writeStringField("small",
+			        __value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
+			__gen.writeStringField("icon",
+			        __value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
+		}
+		__gen.writeEndObject();
+
+		__gen.writeStringField("country", __value.getAccount().getCountry().getName());
+		__gen.writeStringField("info", __value.getAccount().getAccountInfo() == null ? ""
+		        : __value.getAccount().getAccountInfo());
+		__gen.writeStringField("alt_contact", __value.getAccount().getAlternativeContact());
+		__gen.writeNumberField("payment", __value.getAccount().getPaymentMethod());
+		__gen.writeEndObject();
+
 		__gen.writeEndObject();
 	}
 

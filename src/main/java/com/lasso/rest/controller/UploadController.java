@@ -158,9 +158,14 @@ public class UploadController extends BaseController implements Feature {
 			// Save avatar name to account
 			Account _account = (Account) __context.getUserPrincipal();
 			this.accountManagement.changeAvatar(_account, _avatar.getName());
-			return this.success(new ChangeAvatarResponse(
-					"http://" + __request.getServerName() + ":" + __request.getServerPort()
-					+ this.avatarStoragePath + "/Original/" + _avatar.getName()));
+
+			// Response
+			String _prefixUrl = "http://" + __request.getServerName() + ":"
+					+ __request.getServerPort() + this.avatarStoragePath;
+			return this
+					.success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
+							_prefixUrl + "/small/" + _avatar.getName(),
+							_prefixUrl + "/icon/" + _avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);

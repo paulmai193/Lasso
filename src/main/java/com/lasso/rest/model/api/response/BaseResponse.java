@@ -5,6 +5,7 @@ package com.lasso.rest.model.api.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Class BaseResponse.
@@ -67,6 +68,7 @@ public class BaseResponse {
 	 *
 	 * @return the detail
 	 */
+	@JsonProperty("detail")
 	public String getDetail() {
 		return this.detail;
 	}
@@ -76,6 +78,7 @@ public class BaseResponse {
 	 *
 	 * @return the message
 	 */
+	@JsonProperty("message")
 	public String getMessage() {
 		return this.message;
 	}
@@ -85,6 +88,7 @@ public class BaseResponse {
 	 *
 	 * @return true, if is error
 	 */
+	@JsonProperty("error")
 	public boolean isError() {
 		return this.error;
 	}

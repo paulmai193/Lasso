@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="webContextStoragePath" class="java.lang.String">
+		<constructor-arg type="java.lang.String"
+			value="/usr/tomcat/apache-tomcat-8.0.36/webapps" />
+		<!-- <constructor-arg type="java.lang.String" value="/app/webroot" /> -->
+	</bean>
+
+	<bean id="avatarStoragePath" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="/img/Accounts" />
+	</bean>
+
+</beans>

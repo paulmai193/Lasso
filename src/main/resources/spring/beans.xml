@@ -58,16 +58,14 @@
 		lazy-init="false">
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="genericManagement" ref="genericManagement" />
+		<property name="avatarStoragePath" ref="avatarStoragePath" />
 	</bean>
 	<bean id="uploadController" class="com.lasso.rest.controller.UploadController"
 		lazy-init="false">
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
-		<property name="webContextStoragePath"
-			value="/usr/tomcat/apache-tomcat-8.0.33/webapps" />
-		<!-- <property name="webContextStoragePath" value="/app/webroot" /> -->
-		<property name="avatarStoragePath"
-			value="/img/Accounts" />
+		<property name="webContextStoragePath" ref="webContextStoragePath" />
+		<property name="avatarStoragePath" ref="avatarStoragePath" />
 	</bean>
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController"
 		lazy-init="false">
