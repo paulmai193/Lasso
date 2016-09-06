@@ -2,6 +2,7 @@ package com.lasso.rest.model.api.request;
 
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.define.Constant;
@@ -13,6 +14,7 @@ import com.lasso.exception.ObjectParamException;
  * @author Paul Mai
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserRegisterRequest extends AccountRegisterRequest {
 
 	/** The company address. */

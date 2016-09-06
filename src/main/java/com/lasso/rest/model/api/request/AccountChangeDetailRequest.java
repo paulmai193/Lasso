@@ -2,6 +2,7 @@ package com.lasso.rest.model.api.request;
 
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
@@ -15,6 +16,7 @@ import com.lasso.rest.model.variable.PhoneParam;
  * @author Paul Mai
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountChangeDetailRequest extends BaseRequest {
 
 	/** The country. */

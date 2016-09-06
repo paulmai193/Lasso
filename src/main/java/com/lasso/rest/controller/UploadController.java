@@ -52,42 +52,15 @@ public class UploadController extends BaseController implements Feature {
 	@Autowired
 	private AccountManagement		accountManagement;
 
+	/** The avatar storage path. */
+	private String					avatarStoragePath;
+
 	/** The upload image management. */
 	@Autowired
 	private UploadImageManagement	uploadImageManagement;
 
 	/** The web context storage path. */
 	private String					webContextStoragePath;
-
-	/** The avatar storage path. */
-	private String					avatarStoragePath;
-
-	/**
-	 * Sets the avatar storage path.
-	 *
-	 * @param __avatarStoragePath the new avatar storage path
-	 */
-	public void setAvatarStoragePath(String __avatarStoragePath) {
-		this.avatarStoragePath = __avatarStoragePath;
-	}
-
-	/**
-	 * Sets the web context storage path.
-	 *
-	 * @param __webContextStoragePath the new web context storage path
-	 */
-	public void setWebContextStoragePath(String __webContextStoragePath) {
-		this.webContextStoragePath = __webContextStoragePath;
-	}
-
-	/**
-	 * Sets the upload image management.
-	 *
-	 * @param __uploadImageManagement the new upload image management
-	 */
-	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
-		this.uploadImageManagement = __uploadImageManagement;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -122,6 +95,33 @@ public class UploadController extends BaseController implements Feature {
 	}
 
 	/**
+	 * Sets the avatar storage path.
+	 *
+	 * @param __avatarStoragePath the new avatar storage path
+	 */
+	public void setAvatarStoragePath(String __avatarStoragePath) {
+		this.avatarStoragePath = __avatarStoragePath;
+	}
+
+	/**
+	 * Sets the upload image management.
+	 *
+	 * @param __uploadImageManagement the new upload image management
+	 */
+	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
+		this.uploadImageManagement = __uploadImageManagement;
+	}
+
+	/**
+	 * Sets the web context storage path.
+	 *
+	 * @param __webContextStoragePath the new web context storage path
+	 */
+	public void setWebContextStoragePath(String __webContextStoragePath) {
+		this.webContextStoragePath = __webContextStoragePath;
+	}
+
+	/**
 	 * Upload avatar.
 	 *
 	 * @param __context the context
@@ -136,31 +136,31 @@ public class UploadController extends BaseController implements Feature {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	public Response uploadAvatar(@Context SecurityContext __context,
-	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-	        @FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
+			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
 		if (__fileStream == null) {
 			throw new ObjectParamException("File not found");
 		}
 		File _avatar = new File(this.webContextStoragePath + this.avatarStoragePath + "/Original/"
-		        + this.uploadImageManagement.generateImageName());
+				+ this.uploadImageManagement.generateImageName());
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _avatar);
 
 			// Resize into 2 other size
 			File _iconAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
-			        + "/icon/" + _avatar.getName());
+					+ "/icon/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _iconAvatar, 45D, 45D);
 			File _smallAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
-			        + "/small/" + _avatar.getName());
+					+ "/small/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _smallAvatar, 90D, 90D);
 
 			// Save avatar name to account
 			Account _account = (Account) __context.getUserPrincipal();
 			this.accountManagement.changeAvatar(_account, _avatar.getName());
-			return this.success(new ChangeAvatarResponse("http://" + __request.getServerName() + ":"
-			        + __request.getServerPort() + __request.getContextPath()
-			        + this.avatarStoragePath + "/Original/" + _avatar.getName()));
+			return this.success(new ChangeAvatarResponse(
+					"http://" + __request.getServerName() + ":" + __request.getServerPort()
+					+ this.avatarStoragePath + "/Original/" + _avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);

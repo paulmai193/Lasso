@@ -64,7 +64,7 @@
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
 		<property name="webContextStoragePath"
-			value="/media/logia193/01D011276767D880/Box Sync/Java-Workspace-Ubuntu/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Lasso" />
+			value="/usr/tomcat/apache-tomcat-8.0.33/webapps" />
 		<!-- <property name="webContextStoragePath" value="/app/webroot" /> -->
 		<property name="avatarStoragePath"
 			value="/img/Accounts" />

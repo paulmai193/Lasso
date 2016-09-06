@@ -5,6 +5,7 @@ package com.lasso.rest.model.api.request;
 
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
@@ -18,11 +19,8 @@ import com.lasso.rest.model.variable.PhoneParam;
  * @author Paul Mai
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountRegisterRequest extends BaseRequest {
-
-	/** The alternative contact. */
-	@JsonProperty("alt_contact")
-	private String		alternativeContact;
 
 	/** The country. */
 	private Country		country;
@@ -80,7 +78,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	@Override
 	public void checkNotNull() throws ObjectParamException {
 		try {
-			Assert.notNull(this.alternativeContact);
 			Assert.notNull(this.countryCode);
 			Assert.notNull(this.email);
 			Assert.notNull(this.name);
@@ -92,15 +89,6 @@ public class AccountRegisterRequest extends BaseRequest {
 		catch (Throwable _ex) {
 			throw new ObjectParamException("Some fields invalid");
 		}
-	}
-
-	/**
-	 * Gets the alternative contact.
-	 *
-	 * @return the alternative contact
-	 */
-	public String getAlternativeContact() {
-		return this.alternativeContact;
 	}
 
 	/**
@@ -173,15 +161,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public Boolean getSubscribe() {
 		return this.subscribe;
-	}
-
-	/**
-	 * Sets the alternative contact.
-	 *
-	 * @param __alternativeContact the new alternative contact
-	 */
-	public void setAlternativeContact(String __alternativeContact) {
-		this.alternativeContact = __alternativeContact;
 	}
 
 	/**

@@ -68,7 +68,7 @@ public class PortfolioController extends BaseController {
 		}
 		Account _account = (Account) this.context.getUserPrincipal();
 		return new PortfolioOfAccountResponse(
-		        this.portfolioManagement.getPortfolio(_account, __id));
+				this.portfolioManagement.getPortfolio(_account, __id));
 	}
 
 	/**

@@ -17,11 +17,11 @@ public class AccountPK implements Serializable {
 	// default serial version id, required for serializable classes.
 	private static final long	serialVersionUID	= 1L;
 
-	/** The id. */
-	private int					id;
-
 	/** The countrie id. */
 	private int					countrieId;
+
+	/** The id. */
+	private int					id;
 
 	/**
 	 * Instantiates a new account PK.
@@ -39,23 +39,21 @@ public class AccountPK implements Serializable {
 		this.countrieId = __countrieId;
 	}
 
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Column(unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof AccountPK)) {
+			return false;
+		}
+		AccountPK castOther = (AccountPK) other;
+		return (this.id == castOther.id) && (this.countrieId == castOther.countrieId);
 	}
 
 	/**
@@ -69,6 +67,31 @@ public class AccountPK implements Serializable {
 	}
 
 	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	@Column(unique = true, nullable = false)
+	public int getId() {
+		return this.id;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + this.id;
+		hash = hash * prime + this.countrieId;
+
+		return hash;
+	}
+
+	/**
 	 * Sets the countrie id.
 	 *
 	 * @param countrieId the new countrie id
@@ -77,33 +100,12 @@ public class AccountPK implements Serializable {
 		this.countrieId = countrieId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
 	 */
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof AccountPK)) {
-			return false;
-		}
-		AccountPK castOther = (AccountPK) other;
-		return (this.id == castOther.id) && (this.countrieId == castOther.countrieId);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode() {
-		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.id;
-		hash = hash * prime + this.countrieId;
-
-		return hash;
+	public void setId(int id) {
+		this.id = id;
 	}
 }

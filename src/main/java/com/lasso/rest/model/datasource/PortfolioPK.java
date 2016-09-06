@@ -17,14 +17,14 @@ public class PortfolioPK implements Serializable {
 	// default serial version id, required for serializable classes.
 	private static final long	serialVersionUID	= 1L;
 
-	/** The id. */
-	private int					id;
-
 	/** The account id. */
 	private int					accountId;
 
 	/** The categorie id. */
 	private int					categorieId;
+
+	/** The id. */
+	private int					id;
 
 	/** The style id. */
 	private int					styleId;
@@ -35,23 +35,23 @@ public class PortfolioPK implements Serializable {
 	public PortfolioPK() {
 	}
 
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	@Column(unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
+	@Override
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof PortfolioPK)) {
+			return false;
+		}
+		PortfolioPK castOther = (PortfolioPK) other;
+		return (this.id == castOther.id) && (this.accountId == castOther.accountId)
+				&& (this.categorieId == castOther.categorieId)
+				&& (this.styleId == castOther.styleId);
 	}
 
 	/**
@@ -65,15 +65,6 @@ public class PortfolioPK implements Serializable {
 	}
 
 	/**
-	 * Sets the account id.
-	 *
-	 * @param accountId the new account id
-	 */
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
-	}
-
-	/**
 	 * Gets the categorie id.
 	 *
 	 * @return the categorie id
@@ -84,12 +75,13 @@ public class PortfolioPK implements Serializable {
 	}
 
 	/**
-	 * Sets the categorie id.
+	 * Gets the id.
 	 *
-	 * @param categorieId the new categorie id
+	 * @return the id
 	 */
-	public void setCategorieId(int categorieId) {
-		this.categorieId = categorieId;
+	@Column(unique = true, nullable = false)
+	public int getId() {
+		return this.id;
 	}
 
 	/**
@@ -102,38 +94,12 @@ public class PortfolioPK implements Serializable {
 		return this.styleId;
 	}
 
-	/**
-	 * Sets the style id.
-	 *
-	 * @param styleId the new style id
-	 */
-	public void setStyleId(int styleId) {
-		this.styleId = styleId;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof PortfolioPK)) {
-			return false;
-		}
-		PortfolioPK castOther = (PortfolioPK) other;
-		return (this.id == castOther.id) && (this.accountId == castOther.accountId)
-		        && (this.categorieId == castOther.categorieId)
-		        && (this.styleId == castOther.styleId);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
@@ -143,5 +109,41 @@ public class PortfolioPK implements Serializable {
 		hash = hash * prime + this.styleId;
 
 		return hash;
+	}
+
+	/**
+	 * Sets the account id.
+	 *
+	 * @param accountId the new account id
+	 */
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
+	}
+
+	/**
+	 * Sets the categorie id.
+	 *
+	 * @param categorieId the new categorie id
+	 */
+	public void setCategorieId(int categorieId) {
+		this.categorieId = categorieId;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the style id.
+	 *
+	 * @param styleId the new style id
+	 */
+	public void setStyleId(int styleId) {
+		this.styleId = styleId;
 	}
 }

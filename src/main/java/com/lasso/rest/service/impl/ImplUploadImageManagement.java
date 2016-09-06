@@ -30,23 +30,12 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#generateImageName()
-	 */
-	@Override
-	public String generateImageName() {
-		return EncryptionUtil.uniqid("", false)
-		        + new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + ".jpg";
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.lasso.rest.service.UploadImageManagement#addWatermark(java.io.File, java.io.File,
 	 * javax.imageio.stream.ImageOutputStream)
 	 */
 	@Override
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-	        ImageOutputStream __destinationImageFile) throws IOException {
+			ImageOutputStream __destinationImageFile) throws IOException {
 		BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 		BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
 
@@ -70,41 +59,12 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#saveFile(java.io.InputStream, java.io.File)
+	 * @see com.lasso.rest.service.UploadImageManagement#generateImageName()
 	 */
 	@Override
-	public void saveFile(InputStream __fileStream, File __destinationFile)
-	        throws IOException, IllegalArgumentException {
-		BufferedImage _buffered = ImageIO.read(__fileStream);
-		if (_buffered == null) {
-			throw new IllegalArgumentException("File not image");
-		}
-		ImageIO.write(_buffered, "jpg", __destinationFile);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File,
-	 * java.lang.Double, java.lang.Double)
-	 */
-	@Override
-	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
-	        Double __width) throws IOException {
-		if (__sourceFile.isFile()) {
-			Image image = ImageIO.read(__sourceFile);
-			BufferedImage sbi = (BufferedImage) image;
-			/* Scale this image */
-			BufferedImage dbi = null;
-			if (sbi != null) {
-				dbi = new BufferedImage(__width.intValue(), __height.intValue(), sbi.getType());
-				Graphics2D g = dbi.createGraphics();
-				g.drawImage(sbi, 0, 0, __width.intValue(), __height.intValue(), null);
-				g.dispose();
-			}
-			/* retrieve image */
-			ImageIO.write(dbi, "jpg", __destinationFile);
-		}
+	public String generateImageName() {
+		return EncryptionUtil.uniqid("", false)
+				+ new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + ".jpg";
 	}
 
 	/*
@@ -115,7 +75,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
-	        throws IOException {
+			throws IOException {
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -150,6 +110,46 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 				ImageIO.write(dbi, "jpg", __destinationFile);
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File,
+	 * java.lang.Double, java.lang.Double)
+	 */
+	@Override
+	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
+			Double __width) throws IOException {
+		if (__sourceFile.isFile()) {
+			Image image = ImageIO.read(__sourceFile);
+			BufferedImage sbi = (BufferedImage) image;
+			/* Scale this image */
+			BufferedImage dbi = null;
+			if (sbi != null) {
+				dbi = new BufferedImage(__width.intValue(), __height.intValue(), sbi.getType());
+				Graphics2D g = dbi.createGraphics();
+				g.drawImage(sbi, 0, 0, __width.intValue(), __height.intValue(), null);
+				g.dispose();
+			}
+			/* retrieve image */
+			ImageIO.write(dbi, "jpg", __destinationFile);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UploadImageManagement#saveFile(java.io.InputStream, java.io.File)
+	 */
+	@Override
+	public void saveFile(InputStream __fileStream, File __destinationFile)
+			throws IOException, IllegalArgumentException {
+		BufferedImage _buffered = ImageIO.read(__fileStream);
+		if (_buffered == null) {
+			throw new IllegalArgumentException("File not image");
+		}
+		ImageIO.write(_buffered, "jpg", __destinationFile);
 	}
 
 }

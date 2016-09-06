@@ -30,14 +30,17 @@ public final class Country implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The id. */
-	private int					id;
+	/** The accounts. */
+	private Set<Account>		accounts;
 
 	/** The code. */
 	private String				code;
 
 	/** The created. */
 	private Timestamp			created;
+
+	/** The id. */
+	private int					id;
 
 	/** The modified. */
 	private Date				modified;
@@ -51,13 +54,53 @@ public final class Country implements Serializable {
 	/** The status. */
 	private byte				status;
 
-	/** The accounts. */
-	private Set<Account>		accounts;
-
 	/**
 	 * Instantiates a new country.
 	 */
 	public Country() {
+	}
+
+	/**
+	 * Adds the account.
+	 *
+	 * @param account the account
+	 * @return the account
+	 */
+	public Account addAccount(Account account) {
+		this.getAccounts().add(account);
+		account.setCountry(this);
+
+		return account;
+	}
+
+	/**
+	 * Gets the accounts.
+	 *
+	 * @return the accounts
+	 */
+	// bi-directional many-to-one association to Account
+	@OneToMany(mappedBy = "country")
+	public Set<Account> getAccounts() {
+		return this.accounts;
+	}
+
+	/**
+	 * Gets the code.
+	 *
+	 * @return the code
+	 */
+	@Column(nullable = false, length = 2)
+	public String getCode() {
+		return this.code;
+	}
+
+	/**
+	 * Gets the created.
+	 *
+	 * @return the created
+	 */
+	public Timestamp getCreated() {
+		return this.created;
 	}
 
 	/**
@@ -73,52 +116,6 @@ public final class Country implements Serializable {
 	}
 
 	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Gets the code.
-	 *
-	 * @return the code
-	 */
-	@Column(nullable = false, length = 2)
-	public String getCode() {
-		return this.code;
-	}
-
-	/**
-	 * Sets the code.
-	 *
-	 * @param code the new code
-	 */
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	/**
-	 * Gets the created.
-	 *
-	 * @return the created
-	 */
-	public Timestamp getCreated() {
-		return this.created;
-	}
-
-	/**
-	 * Sets the created.
-	 *
-	 * @param created the new created
-	 */
-	public void setCreated(Timestamp created) {
-		this.created = created;
-	}
-
-	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
@@ -126,15 +123,6 @@ public final class Country implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
-	}
-
-	/**
-	 * Sets the modified.
-	 *
-	 * @param modified the new modified
-	 */
-	public void setModified(Date modified) {
-		this.modified = modified;
 	}
 
 	/**
@@ -148,15 +136,6 @@ public final class Country implements Serializable {
 	}
 
 	/**
-	 * Sets the name.
-	 *
-	 * @param name the new name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * Gets the sort.
 	 *
 	 * @return the sort
@@ -164,15 +143,6 @@ public final class Country implements Serializable {
 	@Column(nullable = false)
 	public int getSort() {
 		return this.sort;
-	}
-
-	/**
-	 * Sets the sort.
-	 *
-	 * @param sort the new sort
-	 */
-	public void setSort(int sort) {
-		this.sort = sort;
 	}
 
 	/**
@@ -186,23 +156,16 @@ public final class Country implements Serializable {
 	}
 
 	/**
-	 * Sets the status.
+	 * Removes the account.
 	 *
-	 * @param status the new status
+	 * @param account the account
+	 * @return the account
 	 */
-	public void setStatus(byte status) {
-		this.status = status;
-	}
+	public Account removeAccount(Account account) {
+		this.getAccounts().remove(account);
+		account.setCountry(null);
 
-	/**
-	 * Gets the accounts.
-	 *
-	 * @return the accounts
-	 */
-	// bi-directional many-to-one association to Account
-	@OneToMany(mappedBy = "country")
-	public Set<Account> getAccounts() {
-		return this.accounts;
+		return account;
 	}
 
 	/**
@@ -215,29 +178,66 @@ public final class Country implements Serializable {
 	}
 
 	/**
-	 * Adds the account.
+	 * Sets the code.
 	 *
-	 * @param account the account
-	 * @return the account
+	 * @param code the new code
 	 */
-	public Account addAccount(Account account) {
-		getAccounts().add(account);
-		account.setCountry(this);
-
-		return account;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	/**
-	 * Removes the account.
+	 * Sets the created.
 	 *
-	 * @param account the account
-	 * @return the account
+	 * @param created the new created
 	 */
-	public Account removeAccount(Account account) {
-		getAccounts().remove(account);
-		account.setCountry(null);
+	public void setCreated(Timestamp created) {
+		this.created = created;
+	}
 
-		return account;
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param modified the new modified
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Sets the sort.
+	 *
+	 * @param sort the new sort
+	 */
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
 }

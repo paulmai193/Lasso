@@ -28,14 +28,14 @@ public class Portfolio implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The id. */
-	private PortfolioPK			id;
-
 	/** The amount. */
 	private double				amount;
 
 	/** The created. */
 	private Date				created;
+
+	/** The id. */
+	private PortfolioPK			id;
 
 	/** The image. */
 	private String				image;
@@ -59,25 +59,6 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	@EmbeddedId
-	public PortfolioPK getId() {
-		return this.id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(PortfolioPK id) {
-		this.id = id;
-	}
-
-	/**
 	 * Gets the amount.
 	 *
 	 * @return the amount
@@ -85,15 +66,6 @@ public class Portfolio implements Serializable {
 	@Column(nullable = false)
 	public double getAmount() {
 		return this.amount;
-	}
-
-	/**
-	 * Sets the amount.
-	 *
-	 * @param amount the new amount
-	 */
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 
 	/**
@@ -107,12 +79,13 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
-	 * Sets the created.
+	 * Gets the id.
 	 *
-	 * @param created the new created
+	 * @return the id
 	 */
-	public void setCreated(Date created) {
-		this.created = created;
+	@EmbeddedId
+	public PortfolioPK getId() {
+		return this.id;
 	}
 
 	/**
@@ -127,15 +100,6 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
-	 * Sets the image.
-	 *
-	 * @param image the new image
-	 */
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	/**
 	 * Gets the info.
 	 *
 	 * @return the info
@@ -143,15 +107,6 @@ public class Portfolio implements Serializable {
 	@Lob
 	public String getInfo() {
 		return this.info;
-	}
-
-	/**
-	 * Sets the info.
-	 *
-	 * @param info the new info
-	 */
-	public void setInfo(String info) {
-		this.info = info;
 	}
 
 	/**
@@ -165,30 +120,12 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
-	 * Sets the modified.
-	 *
-	 * @param modified the new modified
-	 */
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
-
-	/**
 	 * Gets the status.
 	 *
 	 * @return the status
 	 */
 	public byte getStatus() {
 		return this.status;
-	}
-
-	/**
-	 * Sets the status.
-	 *
-	 * @param status the new status
-	 */
-	public void setStatus(byte status) {
-		this.status = status;
 	}
 
 	/**
@@ -199,6 +136,69 @@ public class Portfolio implements Serializable {
 	@Column(nullable = false, length = 45)
 	public String getTitle() {
 		return this.title;
+	}
+
+	/**
+	 * Sets the amount.
+	 *
+	 * @param amount the new amount
+	 */
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(PortfolioPK id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
+	 * Sets the info.
+	 *
+	 * @param info the new info
+	 */
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param modified the new modified
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
 	/**

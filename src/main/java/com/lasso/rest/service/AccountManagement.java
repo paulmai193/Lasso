@@ -29,7 +29,7 @@ public interface AccountManagement {
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
 	public void changeAccountDetail(Account __account,
-	        AccountChangeDetailRequest __accountChangeDetailRequest);
+			AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
@@ -99,7 +99,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String resetPassword(String __email)
-	        throws NotFoundException, AddressException, MessagingException;
+			throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Send activation email.
@@ -110,7 +110,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendActivationEmail(String __email, String __refLink)
-	        throws AddressException, MessagingException;
+			throws AddressException, MessagingException;
 
 	/**
 	 * Send reset password email.
@@ -121,7 +121,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendResetPasswordEmail(String __email, String __refLink)
-	        throws AddressException, MessagingException;
+			throws AddressException, MessagingException;
 
 	/**
 	 * Validate the token to verify secured account.

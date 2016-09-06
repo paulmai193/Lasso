@@ -14,16 +14,22 @@ import javax.imageio.stream.ImageOutputStream;
 public interface UploadImageManagement {
 
 	/**
-	 * Resize image.
+	 * Adds the watermark.
 	 *
-	 * @param __sourceFile the source file
-	 * @param __destinationFile the destination file
-	 * @param __height the resize height
-	 * @param __width the resize width
+	 * @param __sourceImageFile the source image file
+	 * @param __watermarkImageFile the watermark image file
+	 * @param __destinationImageFile the destination image file
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
-	        Double __width) throws IOException;
+	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
+			ImageOutputStream __destinationImageFile) throws IOException;
+
+	/**
+	 * Generate image name.
+	 *
+	 * @return the string
+	 */
+	public String generateImageName();
 
 	/**
 	 * Resize image.
@@ -34,25 +40,19 @@ public interface UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
-	        throws IOException;
+			throws IOException;
 
 	/**
-	 * Generate image name.
+	 * Resize image.
 	 *
-	 * @return the string
-	 */
-	public String generateImageName();
-
-	/**
-	 * Adds the watermark.
-	 *
-	 * @param __sourceImageFile the source image file
-	 * @param __watermarkImageFile the watermark image file
-	 * @param __destinationImageFile the destination image file
+	 * @param __sourceFile the source file
+	 * @param __destinationFile the destination file
+	 * @param __height the resize height
+	 * @param __width the resize width
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-	        ImageOutputStream __destinationImageFile) throws IOException;
+	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
+			Double __width) throws IOException;
 
 	/**
 	 * Save file.
@@ -63,5 +63,5 @@ public interface UploadImageManagement {
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	public void saveFile(InputStream __fileStream, File __destinationFile)
-	        throws IOException, IllegalArgumentException;
+			throws IOException, IllegalArgumentException;
 }

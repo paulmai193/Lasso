@@ -6,6 +6,7 @@ package com.lasso.rest.controller;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -36,6 +37,9 @@ import com.lasso.rest.model.api.request.ResetPasswordRequest;
 import com.lasso.rest.model.api.request.UserChangeDetailRequest;
 import com.lasso.rest.model.api.request.UserRegisterRequest;
 import com.lasso.rest.model.api.response.BaseResponse;
+import com.lasso.rest.model.api.response.DetailAccountResponse;
+import com.lasso.rest.model.api.response.DetailDesignerResponse;
+import com.lasso.rest.model.api.response.DetailUserResponse;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Country;
@@ -64,7 +68,7 @@ public class AccountController extends BaseController {
 	/**
 	 * Change designer detail.
 	 *
-	 * @param __context the context
+	 * @param __validateContext the account validated context
 	 * @param __designerChangeDetailRequest the designer change detail request
 	 * @return the response
 	 */
@@ -72,11 +76,29 @@ public class AccountController extends BaseController {
 	@Path("/change_detail/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
-	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
-	public Response changeDesignerDetail(@Context SecurityContext __context,
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_DESIGNER)
+	public Response changeDetailDesigner(@Context SecurityContext __validateContext,
 	        DesignerChangeDetailRequest __designerChangeDetailRequest) {
-		return this.changeAccountDetail((Account) __context.getUserPrincipal(),
+		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
 		        __designerChangeDetailRequest);
+	}
+
+	/**
+	 * Change user detail.
+	 *
+	 * @param __validateContext the account validated context
+	 * @param __userChangeDetailRequest the user change detail request
+	 * @return the response
+	 */
+	@POST
+	@Path("/change_detail/user")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_USER)
+	public Response changeDetailUser(@Context SecurityContext __validateContext,
+	        UserChangeDetailRequest __userChangeDetailRequest) {
+		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
+		        __userChangeDetailRequest);
 	}
 
 	/**
@@ -106,21 +128,25 @@ public class AccountController extends BaseController {
 	}
 
 	/**
-	 * Change user detail.
+	 * Gets the detail.
 	 *
 	 * @param __context the context
-	 * @param __userChangeDetailRequest the user change detail request
 	 * @return the response
 	 */
-	@POST
-	@Path("/change_detail/user")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@GET
+	@Path("/detail/me")
 	@AccountAuthenticate
-	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
-	public Response changeUserDetail(@Context SecurityContext __context,
-	        UserChangeDetailRequest __userChangeDetailRequest) {
-		return this.changeAccountDetail((Account) __context.getUserPrincipal(),
-		        __userChangeDetailRequest);
+	public DetailAccountResponse getDetail(@Context SecurityContext __context) {
+		Account _account = (Account) __context.getUserPrincipal();
+		if (_account.getRole() == Constant.ROLE_DESIGNER) {
+			return new DetailDesignerResponse(_account);
+		}
+		else if (_account.getRole() == Constant.ROLE_USER) {
+			return new DetailUserResponse(_account);
+		}
+		else {
+			throw new BadRequestException("This account's role not have any detail");
+		}
 	}
 
 	/**
@@ -226,34 +252,6 @@ public class AccountController extends BaseController {
 	 */
 	public void setGenericManagement(GenericManagement __genericManagement) {
 		this.genericManagement = __genericManagement;
-	}
-
-	/**
-	 * Test account.
-	 *
-	 * @param __context the context
-	 * @return the response
-	 */
-	@GET
-	@Path("/test/role")
-	@AccountAuthenticate
-	@AccountAllow(roles = "" + Constant.ROLE_USER)
-	public Account testAccountRole(@Context SecurityContext __context) {
-		return (Account) __context.getUserPrincipal();
-	}
-
-	/**
-	 * Test account status.
-	 *
-	 * @param __context the context
-	 * @return the account
-	 */
-	@GET
-	@Path("/test/status")
-	@AccountAuthenticate
-	@AccountAllow(status = "" + Constant.ACC_NOT_ACTIVATE)
-	public Account testAccountStatus(@Context SecurityContext __context) {
-		return (Account) __context.getUserPrincipal();
 	}
 
 	/**

@@ -24,16 +24,23 @@ public class ImplPortfolioManagement implements PortfolioManagement {
 	@Autowired
 	private PortfolioDAO portfolioDAO;
 
-	/* (non-Javadoc)
-	 * @see com.lasso.rest.service.PortfolioManagement#getAllPortfolios(com.lasso.rest.model.datasource.Account)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.PortfolioManagement#getAllPortfolios(com.lasso.rest.model.datasource.
+	 * Account)
 	 */
 	@Override
 	public List<Portfolio> getAllPortfolios(Account __account) {
 		return this.portfolioDAO.getAllPortfoliosOfAccount(__account);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.lasso.rest.service.PortfolioManagement#getPortfolio(com.lasso.rest.model.datasource.Account, java.lang.Integer)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.PortfolioManagement#getPortfolio(com.lasso.rest.model.datasource.
+	 * Account, java.lang.Integer)
 	 */
 	@Override
 	public Portfolio getPortfolio(Account __account, Integer __id) {

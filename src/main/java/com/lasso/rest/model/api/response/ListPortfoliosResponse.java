@@ -90,7 +90,7 @@ class PortfolioSerializer extends JsonSerializer<List<Portfolio>> {
 
 	@Override
 	public void serialize(List<Portfolio> __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartArray();
 		for (Portfolio _portfolio : __value) {
 			__gen.writeStartObject();
