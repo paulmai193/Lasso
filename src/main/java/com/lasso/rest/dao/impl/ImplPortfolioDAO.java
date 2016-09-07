@@ -38,7 +38,7 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 		PortfolioPK _pk = new PortfolioPK();
 		_pk.setAccountId(__account.getId().getId());
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
-		        .createCriteria(Portfolio.class);
+				.createCriteria(Portfolio.class);
 		_criteria.add(Restrictions.eq("id", _pk));
 		return _criteria.list();
 	}
@@ -52,7 +52,7 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioOfAccount(Account __account, Integer __id) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
-		        .createCriteria(Portfolio.class);
+				.createCriteria(Portfolio.class);
 		_criteria.add(Restrictions.idEq(__id)).add(Restrictions.eq("account", __account));
 		return (Portfolio) _criteria.uniqueResult();
 	}

@@ -32,13 +32,13 @@ import com.lasso.rest.service.PortfolioManagement;
 @AccountAuthenticate
 public class PortfolioController extends BaseController {
 
-	/** The validateContext. */
-	@Context
-	private SecurityContext		validateContext;
-
 	/** The account management. */
 	@Autowired
 	private PortfolioManagement	portfolioManagement;
+
+	/** The validateContext. */
+	@Context
+	private SecurityContext		validateContext;
 
 	/**
 	 * Gets the all portfolios of account.

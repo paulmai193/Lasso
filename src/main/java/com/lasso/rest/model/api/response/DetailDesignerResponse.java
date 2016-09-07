@@ -92,7 +92,7 @@ class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 
 	@Override
 	public void serialize(DetailDesignerResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -113,17 +113,17 @@ class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
 			__gen.writeStringField("small",
-			        __value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
 			__gen.writeStringField("icon",
-			        __value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 
 		__gen.writeStringField("country", __value.getAccount().getCountry().getName());
 		__gen.writeStringField("info", __value.getAccount().getAccountInfo() == null ? ""
-		        : __value.getAccount().getAccountInfo());
+				: __value.getAccount().getAccountInfo());
 		__gen.writeStringField("alt_contact", __value.getAccount().getAlternativeContact());
 		__gen.writeNumberField("payment", __value.getAccount().getPaymentMethod());
 		__gen.writeEndObject();

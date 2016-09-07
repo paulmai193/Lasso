@@ -26,11 +26,11 @@ public class TypesStyle implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The id. */
-	private TypesStylePK		id;
-
 	/** The created. */
 	private Date				created;
+
+	/** The id. */
+	private TypesStylePK		id;
 
 	/** The modified. */
 	private Date				modified;
@@ -39,25 +39,6 @@ public class TypesStyle implements Serializable {
 	 * Instantiates a new types style.
 	 */
 	public TypesStyle() {
-	}
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	@EmbeddedId
-	public TypesStylePK getId() {
-		return this.id;
-	}
-
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(TypesStylePK id) {
-		this.id = id;
 	}
 
 	/**
@@ -71,12 +52,13 @@ public class TypesStyle implements Serializable {
 	}
 
 	/**
-	 * Sets the created.
+	 * Gets the id.
 	 *
-	 * @param created the new created
+	 * @return the id
 	 */
-	public void setCreated(Date created) {
-		this.created = created;
+	@EmbeddedId
+	public TypesStylePK getId() {
+		return this.id;
 	}
 
 	/**
@@ -87,6 +69,24 @@ public class TypesStyle implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(TypesStylePK id) {
+		this.id = id;
 	}
 
 	/**

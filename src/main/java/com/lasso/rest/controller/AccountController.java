@@ -175,6 +175,7 @@ public class AccountController extends BaseController {
 	 * Logout.
 	 *
 	 * @param __context the context
+	 * @return the response
 	 */
 	@GET
 	@Path("/logout")
@@ -189,14 +190,14 @@ public class AccountController extends BaseController {
 	 *
 	 * @param __request the request
 	 * @param __registerAccount the register account
-	 * @return the response
+	 * @return the login response
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
 	@POST
 	@Path("/register/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response registerDesignerAccount(@Context HttpServletRequest __request,
+	public LoginResponse registerDesignerAccount(@Context HttpServletRequest __request,
 	        DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
@@ -206,14 +207,14 @@ public class AccountController extends BaseController {
 	 *
 	 * @param __request the request
 	 * @param __registerAccount the register account
-	 * @return the response
+	 * @return the login response
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
 	@POST
 	@Path("/register/user")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response registerDesignerAccount(@Context HttpServletRequest __request,
+	public LoginResponse registerDesignerAccount(@Context HttpServletRequest __request,
 	        UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
@@ -321,7 +322,7 @@ public class AccountController extends BaseController {
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
-	private Response registerNewAccount(HttpServletRequest __request,
+	private LoginResponse registerNewAccount(HttpServletRequest __request,
 	        AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		__registerAccount.checkNotNull();
 		Country _country = this.genericManagement
@@ -333,6 +334,7 @@ public class AccountController extends BaseController {
 		        + __request.getContextPath() + "/public" + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
 		        _refLink);
-		return this.success();
+		return this.accountManagement.login(__registerAccount.getEmail().getValue(),
+		        __registerAccount.getPassword());
 	}
 }

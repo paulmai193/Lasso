@@ -1,5 +1,6 @@
 package com.lasso.rest.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,22 +9,80 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.rest.dao.ProjectDAO;
 import com.lasso.rest.model.datasource.Category;
+import com.lasso.rest.model.datasource.Style;
+import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.datasource.TypesStyle;
 import com.lasso.rest.service.ProjectManagement;
 
+/**
+ * The Class ImplProjectManagement.
+ *
+ * @author Paul Mai
+ */
 @Service
 @Transactional
 public class ImplProjectManagement implements ProjectManagement {
 
+	/** The project DAO. */
 	@Autowired
 	private ProjectDAO projectDAO;
 
-	public void setProjectDAO(ProjectDAO __projectDAO) {
-		this.projectDAO = __projectDAO;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.ProjectManagement#getCategoriesByPage(int, int)
+	 */
+	@Override
+	public List<Category> getCategoriesByIndex(int __index, int __size) {
+		return this.projectDAO.getCategories(__index, __size);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.ProjectManagement#getCategoryById(int)
+	 */
 	@Override
-	public List<Category> getCategoriesByPage(int __page, int __size) {
-		return this.projectDAO.getCategories(__page, __size);
+	public Category getCategoryById(int __idCategory) {
+		return this.projectDAO.getCategoryById(__idCategory);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.ProjectManagement#getSubCategoriesByPage(int, int, int)
+	 */
+	@Override
+	public List<Style> getSubCategoriesByIndex(int __idCategory, int __index, int __size) {
+		// Get Category from id
+		Category _category = this.projectDAO.getCategoryById(__idCategory);
+		if (_category == null) {
+			return new ArrayList<>();
+		}
+
+		// Get Type from Category
+		List<Type> _types = this.projectDAO.getTypesByCategory(_category);
+		if (_types.size() == 0) {
+			return new ArrayList<>();
+		}
+
+		// Get TypesStyle from Types
+		List<TypesStyle> _typesStyles = this.projectDAO.getTypesStylesByTypes(_types);
+		if (_typesStyles.size() == 0) {
+			return new ArrayList<>();
+		}
+
+		// Get Style from TypesStyles
+		return this.projectDAO.getStylesByTypes(_typesStyles, __index, __size);
+	}
+
+	/**
+	 * Sets the project DAO.
+	 *
+	 * @param __projectDAO the new project DAO
+	 */
+	public void setProjectDAO(ProjectDAO __projectDAO) {
+		this.projectDAO = __projectDAO;
 	}
 
 }

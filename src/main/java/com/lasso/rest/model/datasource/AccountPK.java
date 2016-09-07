@@ -17,8 +17,8 @@ public class AccountPK implements Serializable {
 	// default serial version id, required for serializable classes.
 	private static final long	serialVersionUID	= 1L;
 
-	/** The countrie id. */
-	private int					countrieId;
+	/** The country id. */
+	private int					countryId;
 
 	/** The id. */
 	private int					id;
@@ -32,11 +32,11 @@ public class AccountPK implements Serializable {
 	/**
 	 * Instantiates a new account PK.
 	 *
-	 * @param __countrieId the countrie id
+	 * @param __countryId the country id
 	 */
-	public AccountPK(int __countrieId) {
+	public AccountPK(int __countryId) {
 		super();
-		this.countrieId = __countrieId;
+		this.countryId = __countryId;
 	}
 
 	/*
@@ -53,17 +53,17 @@ public class AccountPK implements Serializable {
 			return false;
 		}
 		AccountPK castOther = (AccountPK) other;
-		return (this.id == castOther.id) && (this.countrieId == castOther.countrieId);
+		return (this.id == castOther.id) && (this.countryId == castOther.countryId);
 	}
 
 	/**
-	 * Gets the countrie id.
+	 * Gets the country id.
 	 *
-	 * @return the countrie id
+	 * @return the country id
 	 */
-	@Column(name = "countrie_id", unique = true, nullable = false)
-	public int getCountrieId() {
-		return this.countrieId;
+	@Column(name = "country_id", unique = true, nullable = false)
+	public int getCountryId() {
+		return this.countryId;
 	}
 
 	/**
@@ -86,18 +86,18 @@ public class AccountPK implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + this.id;
-		hash = hash * prime + this.countrieId;
+		hash = hash * prime + this.countryId;
 
 		return hash;
 	}
 
 	/**
-	 * Sets the countrie id.
+	 * Sets the country id.
 	 *
-	 * @param countrieId the new countrie id
+	 * @param countryId the new country id
 	 */
-	public void setCountrieId(int countrieId) {
-		this.countrieId = countrieId;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
 	/**

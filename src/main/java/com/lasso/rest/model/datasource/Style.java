@@ -29,11 +29,11 @@ public class Style implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The id. */
-	private int					id;
-
 	/** The created. */
 	private Date				created;
+
+	/** The id. */
+	private int					id;
 
 	/** The image. */
 	private String				image;
@@ -42,7 +42,7 @@ public class Style implements Serializable {
 	private Date				modified;
 
 	/** The sort. */
-	private int					sort;
+	private Integer				sort;
 
 	/** The status. */
 	private byte				status;
@@ -54,6 +54,16 @@ public class Style implements Serializable {
 	 * Instantiates a new style.
 	 */
 	public Style() {
+	}
+
+	/**
+	 * Gets the created.
+	 *
+	 * @return the created
+	 */
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCreated() {
+		return this.created;
 	}
 
 	/**
@@ -69,34 +79,6 @@ public class Style implements Serializable {
 	}
 
 	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Gets the created.
-	 *
-	 * @return the created
-	 */
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getCreated() {
-		return this.created;
-	}
-
-	/**
-	 * Sets the created.
-	 *
-	 * @param created the new created
-	 */
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-
-	/**
 	 * Gets the image.
 	 *
 	 * @return the image
@@ -104,15 +86,6 @@ public class Style implements Serializable {
 	@Column(nullable = false, length = 45)
 	public String getImage() {
 		return this.image;
-	}
-
-	/**
-	 * Sets the image.
-	 *
-	 * @param image the new image
-	 */
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 	/**
@@ -126,30 +99,12 @@ public class Style implements Serializable {
 	}
 
 	/**
-	 * Sets the modified.
-	 *
-	 * @param modified the new modified
-	 */
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
-
-	/**
 	 * Gets the sort.
 	 *
 	 * @return the sort
 	 */
-	public int getSort() {
+	public Integer getSort() {
 		return this.sort;
-	}
-
-	/**
-	 * Sets the sort.
-	 *
-	 * @param sort the new sort
-	 */
-	public void setSort(int sort) {
-		this.sort = sort;
 	}
 
 	/**
@@ -162,15 +117,6 @@ public class Style implements Serializable {
 	}
 
 	/**
-	 * Sets the status.
-	 *
-	 * @param status the new status
-	 */
-	public void setStatus(byte status) {
-		this.status = status;
-	}
-
-	/**
 	 * Gets the title.
 	 *
 	 * @return the title
@@ -178,6 +124,60 @@ public class Style implements Serializable {
 	@Column(nullable = false, length = 45)
 	public String getTitle() {
 		return this.title;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param modified the new modified
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the sort.
+	 *
+	 * @param sort the new sort
+	 */
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 
 	/**

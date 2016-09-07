@@ -31,11 +31,11 @@ public class Category implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The id. */
-	private int					id;
-
 	/** The created. */
 	private Date				created;
+
+	/** The id. */
+	private int					id;
 
 	/** The image. */
 	private String				image;
@@ -44,7 +44,7 @@ public class Category implements Serializable {
 	private Date				modified;
 
 	/** The sort. */
-	private int					sort;
+	private Integer				sort;
 
 	/** The status. */
 	private byte				status;
@@ -62,24 +62,16 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Gets the id.
+	 * Adds the type.
 	 *
-	 * @return the id
+	 * @param type the type
+	 * @return the type
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
+	public Type addType(Type type) {
+		this.getTypes().add(type);
+		type.setCategory(this);
 
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(int id) {
-		this.id = id;
+		return type;
 	}
 
 	/**
@@ -93,12 +85,15 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Sets the created.
+	 * Gets the id.
 	 *
-	 * @param created the new created
+	 * @return the id
 	 */
-	public void setCreated(Date created) {
-		this.created = created;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
+	public int getId() {
+		return this.id;
 	}
 
 	/**
@@ -112,15 +107,6 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Sets the image.
-	 *
-	 * @param image the new image
-	 */
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
@@ -131,30 +117,13 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Sets the modified.
-	 *
-	 * @param modified the new modified
-	 */
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
-
-	/**
 	 * Gets the sort.
 	 *
 	 * @return the sort
 	 */
-	public int getSort() {
+	@Column(nullable = true)
+	public Integer getSort() {
 		return this.sort;
-	}
-
-	/**
-	 * Sets the sort.
-	 *
-	 * @param sort the new sort
-	 */
-	public void setSort(int sort) {
-		this.sort = sort;
 	}
 
 	/**
@@ -167,15 +136,6 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Sets the status.
-	 *
-	 * @param status the new status
-	 */
-	public void setStatus(byte status) {
-		this.status = status;
-	}
-
-	/**
 	 * Gets the title.
 	 *
 	 * @return the title
@@ -183,15 +143,6 @@ public class Category implements Serializable {
 	@Column(nullable = false, length = 250)
 	public String getTitle() {
 		return this.title;
-	}
-
-	/**
-	 * Sets the title.
-	 *
-	 * @param title the new title
-	 */
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	/**
@@ -206,38 +157,88 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Sets the types.
-	 *
-	 * @param types the new types
-	 */
-	public void setTypes(Set<Type> types) {
-		this.types = types;
-	}
-
-	/**
-	 * Adds the type.
-	 *
-	 * @param type the type
-	 * @return the type
-	 */
-	public Type addType(Type type) {
-		getTypes().add(type);
-		type.setCategory(this);
-
-		return type;
-	}
-
-	/**
 	 * Removes the type.
 	 *
 	 * @param type the type
 	 * @return the type
 	 */
 	public Type removeType(Type type) {
-		getTypes().remove(type);
+		this.getTypes().remove(type);
 		type.setCategory(null);
 
 		return type;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param modified the new modified
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the sort.
+	 *
+	 * @param sort the new sort
+	 */
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+
+	/**
+	 * Sets the title.
+	 *
+	 * @param title the new title
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * Sets the types.
+	 *
+	 * @param types the new types
+	 */
+	public void setTypes(Set<Type> types) {
+		this.types = types;
 	}
 
 }

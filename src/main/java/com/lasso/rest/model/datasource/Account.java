@@ -131,7 +131,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-					.getAlternativeContact();
+			        .getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -221,7 +221,7 @@ public final class Account implements Principal, Serializable {
 	 */
 	// bi-directional many-to-one association to Country
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "countrie_id", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "country_id", nullable = false, insertable = false, updatable = false)
 	public Country getCountry() {
 		return this.country;
 	}

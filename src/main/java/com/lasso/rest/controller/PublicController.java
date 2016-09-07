@@ -47,6 +47,18 @@ public class PublicController extends BaseController {
 	}
 
 	/**
+	 * Index.
+	 *
+	 * @param __request the request
+	 * @return the input stream
+	 */
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public InputStream index(@Context HttpServletRequest __request) {
+		return __request.getServletContext().getResourceAsStream("index.jsp");
+	}
+
+	/**
 	 * Sets the generic management.
 	 *
 	 * @param __genericManagement the new generic management
@@ -66,9 +78,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/active")
 	public Response testActive(@Context HttpServletRequest __request,
-	        @QueryParam("otp") String __otp) throws URISyntaxException {
+			@QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-		        + __request.getServerPort() + "/verfiy?type=active&otp=" + __otp;
+				+ __request.getServerPort() + "/verfiy?type=active&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 
@@ -83,22 +95,10 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/reset")
 	public Response testReset(@Context HttpServletRequest __request,
-	        @QueryParam("otp") String __otp) throws URISyntaxException {
+			@QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-		        + __request.getServerPort() + "/verfiy?type=reset&otp=" + __otp;
+				+ __request.getServerPort() + "/verfiy?type=reset&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
-	}
-
-	/**
-	 * Index.
-	 *
-	 * @param __request the request
-	 * @return the input stream
-	 */
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public InputStream index(@Context HttpServletRequest __request) {
-		return __request.getServletContext().getResourceAsStream("index.jsp");
 	}
 
 }

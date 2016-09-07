@@ -89,7 +89,7 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 
 	@Override
 	public void serialize(DetailUserResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -110,11 +110,11 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
 			__gen.writeStringField("small",
-			        __value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
 			__gen.writeStringField("icon",
-			        __value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 
