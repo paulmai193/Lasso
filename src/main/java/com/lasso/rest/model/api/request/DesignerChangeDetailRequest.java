@@ -48,7 +48,7 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 			Assert.notNull(this.alternativeContact);
 		}
 		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid");
+			throw new ObjectParamException("Some fields invalid", _ex);
 		}
 	}
 

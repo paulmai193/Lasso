@@ -50,7 +50,7 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 			Assert.notNull(this.companyPhone);
 		}
 		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid");
+			throw new ObjectParamException("Some fields invalid", _ex);
 		}
 	}
 

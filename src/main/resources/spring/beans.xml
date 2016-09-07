@@ -84,6 +84,7 @@
 	<bean id="projectController" class="com.lasso.rest.controller.ProjectController"
 		lazy-init="false">
 		<property name="projectManagement" ref="projectManagement" />
+		<property name="categoryStoragePath" ref="categoryStoragePath" />
 	</bean>
 
 	<!-- Utility -->

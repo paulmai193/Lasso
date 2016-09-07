@@ -43,7 +43,7 @@ public class ChangePasswordRequest extends BaseRequest {
 			Assert.notNull(this.oldPassword);
 		}
 		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid");
+			throw new ObjectParamException("Some fields invalid", _ex);
 		}
 	}
 

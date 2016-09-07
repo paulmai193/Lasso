@@ -12,5 +12,9 @@
 	<bean id="avatarStoragePath" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="/img/Accounts" />
 	</bean>
+	
+	<bean id="categoryStoragePath" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="/img/Categories" />
+	</bean>
 
 </beans>

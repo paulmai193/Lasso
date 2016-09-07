@@ -57,7 +57,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 			Assert.notNull(this.phone);
 		}
 		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid");
+			throw new ObjectParamException("Some fields invalid", _ex);
 		}
 	}
 
