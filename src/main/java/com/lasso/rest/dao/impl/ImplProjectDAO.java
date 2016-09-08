@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -110,11 +109,11 @@ public class ImplProjectDAO implements ProjectDAO {
 			_pks.add(_type.getId().getId());
 		}
 		Session _session = this.sessionFactory.getCurrentSession();
-		// Criteria _criteria = _session.createCriteria(TypesStyle.class)
-		// .add(Restrictions.in("id", _pks));
-		String _queryString = "from TypesStyle where id.typeId in (:pks)";
-		Query _query = _session.createQuery(_queryString).setParameterList("pks", _pks);
-		return _query.list();
+		Criteria _criteria = _session.createCriteria(TypesStyle.class)
+		        .add(Restrictions.in("id.typeId", _pks));
+		// String _queryString = "from TypesStyle where id.typeId in (:pks)";
+		// Query _query = _session.createQuery(_queryString).setParameterList("pks", _pks);
+		return _criteria.list();
 	}
 
 	/**
