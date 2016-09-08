@@ -10,77 +10,77 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lasso.rest.model.datasource.Style;
+import com.lasso.rest.model.datasource.Project;
 
 /**
- * The Class ListSubCatoriesResponse.
+ * The Class ListProjectsResponse.
  *
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
-@JsonSerialize(using = ListSubCategoriesSerializer.class)
-public class ListSubCatoriesResponse extends BaseResponse {
+@JsonSerialize(using = ListProjectsSerializer.class)
+public class ListProjectsResponse extends BaseResponse {
 
-	/** The next page. */
-	private int			nextPage;
+	/** The next index. */
+	private int				nextIndex;
 
 	/** The prefix url. */
-	private String		prefixUrl;
+	private String			prefixUrl;
 
-	/** The styles. */
-	private List<Style>	styles;
+	/** The categories. */
+	private List<Project>	projects;
 
 	/**
-	 * Instantiates a new list sub catories response.
+	 * Instantiates a new list projects response.
 	 *
 	 * @param __error the error
 	 */
-	public ListSubCatoriesResponse(boolean __error) {
+	public ListProjectsResponse(boolean __error) {
 		super(__error);
 	}
 
 	/**
-	 * Instantiates a new list sub catories response.
+	 * Instantiates a new list projects response.
 	 *
 	 * @param __error the error
 	 * @param __message the message
 	 */
-	public ListSubCatoriesResponse(boolean __error, String __message) {
+	public ListProjectsResponse(boolean __error, String __message) {
 		super(__error, __message);
 	}
 
 	/**
-	 * Instantiates a new list sub catories response.
+	 * Instantiates a new list projects response.
 	 *
 	 * @param __error the error
 	 * @param __message the message
 	 * @param __detail the detail
 	 */
-	public ListSubCatoriesResponse(boolean __error, String __message, String __detail) {
+	public ListProjectsResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
 	}
 
 	/**
-	 * Instantiates a new list sub catories response.
+	 * Instantiates a new list projects response.
 	 *
+	 * @param __projects the projects
+	 * @param __nextIndex the next index
 	 * @param __prefixUrl the prefix url
-	 * @param __styles the styles
-	 * @param __nextPage the next page
 	 */
-	public ListSubCatoriesResponse(String __prefixUrl, List<Style> __styles, int __nextPage) {
+	public ListProjectsResponse(List<Project> __projects, int __nextIndex, String __prefixUrl) {
 		super();
+		this.projects = __projects;
+		this.nextIndex = __nextIndex;
 		this.prefixUrl = __prefixUrl;
-		this.styles = __styles;
-		this.nextPage = __nextPage;
 	}
 
 	/**
-	 * Gets the next page.
+	 * Gets the next index.
 	 *
-	 * @return the nextPage
+	 * @return the nextIndex
 	 */
-	public int getNextPage() {
-		return this.nextPage;
+	public int getNextIndex() {
+		return this.nextIndex;
 	}
 
 	/**
@@ -93,46 +93,46 @@ public class ListSubCatoriesResponse extends BaseResponse {
 	}
 
 	/**
-	 * Gets the styles.
+	 * Gets the projects.
 	 *
-	 * @return the styles
+	 * @return the projects
 	 */
-	public List<Style> getStyles() {
-		return this.styles;
+	public List<Project> getProjects() {
+		return this.projects;
 	}
 
 }
 
-class ListSubCategoriesSerializer extends JsonSerializer<ListSubCatoriesResponse> {
+class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
-	public void serialize(ListSubCatoriesResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
 			__gen.writeObjectField("detail", __value.getDetail());
 			__gen.writeObjectField("message", __value.getMessage());
 		}
-		__gen.writeNumberField("next_index", __value.getNextPage());
+		__gen.writeNumberField("next_index", __value.getNextIndex());
 		__gen.writeArrayFieldStart("data");
-		for (Style _style : __value.getStyles()) {
+		for (Project _project : __value.getProjects()) {
 			__gen.writeStartObject();
-			__gen.writeNumberField("style_id", _style.getId());
-			__gen.writeStringField("title", _style.getTitle());
+			__gen.writeNumberField("style_id", _project.getId().getId());
+			__gen.writeStringField("title", _project.getTitle());
 			__gen.writeObjectFieldStart("images");
-			if (_style.getImage().isEmpty()) {
+			if (_project.getImage().isEmpty()) {
 				__gen.writeStringField("original", "");
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 			}
 			else {
 				__gen.writeStringField("original",
-						__value.getPrefixUrl() + "/Original/" + _style.getImage());
+				        __value.getPrefixUrl() + "/Original/" + _project.getImage());
 				__gen.writeStringField("small",
-						__value.getPrefixUrl() + "/small/" + _style.getImage());
+				        __value.getPrefixUrl() + "/small/" + _project.getImage());
 				__gen.writeStringField("icon",
-						__value.getPrefixUrl() + "/icon/" + _style.getImage());
+				        __value.getPrefixUrl() + "/icon/" + _project.getImage());
 			}
 			__gen.writeEndObject();
 			__gen.writeEndObject();

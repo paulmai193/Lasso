@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.rest.dao.ProjectDAO;
 import com.lasso.rest.model.datasource.Category;
+import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.datasource.TypesStyle;
@@ -30,11 +31,13 @@ public class ImplProjectManagement implements ProjectManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getCategoriesByPage(int, int)
+	 * @see com.lasso.rest.service.ProjectManagement#getCategoriesByIndexAndKeyword(int, int,
+	 * java.lang.String)
 	 */
 	@Override
-	public List<Category> getCategoriesByIndex(int __index, int __size) {
-		return this.projectDAO.getCategories(__index, __size);
+	public List<Category> getCategoriesByIndexAndKeyword(int __index, int __size,
+			String __keyword) {
+		return this.projectDAO.getCategories(__index, __size, __keyword);
 	}
 
 	/*
@@ -50,10 +53,24 @@ public class ImplProjectManagement implements ProjectManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getSubCategoriesByPage(int, int, int)
+	 * @see com.lasso.rest.service.ProjectManagement#getProjectsBySubCategoryAndKeyword(int, int,
+	 * int, int, java.lang.String)
 	 */
 	@Override
-	public List<Style> getSubCategoriesByIndex(int __idCategory, int __index, int __size) {
+	public List<Project> getProjectsBySubCategoryAndKeyword(int __idCategory, int __idStyle,
+			int __index, int __size, String __keyword) {
+		return this.projectDAO.searchProjects(__idCategory, __idStyle, __keyword, __index, __size);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.ProjectManagement#getSubCategoriesByIndexAndKeyword(int, int,
+	 * int, java.lang.String)
+	 */
+	@Override
+	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
+			String __keyword) {
 		// Get Category from id
 		Category _category = this.projectDAO.getCategoryById(__idCategory);
 		if (_category == null) {
@@ -73,7 +90,7 @@ public class ImplProjectManagement implements ProjectManagement {
 		}
 
 		// Get Style from TypesStyles
-		return this.projectDAO.getStylesByTypes(_typesStyles, __index, __size);
+		return this.projectDAO.getStylesByTypesAndKeyword(_typesStyles, __index, __size, __keyword);
 	}
 
 	/**

@@ -81,10 +81,11 @@
 		lazy-init="false">
 		<property name="portfolioManagement" ref="portfolioManagement" />
 	</bean>
-	<bean id="projectController" class="com.lasso.rest.controller.ProjectController"
+	<bean id="browseController" class="com.lasso.rest.controller.BrowseController"
 		lazy-init="false">
 		<property name="projectManagement" ref="projectManagement" />
 		<property name="categoryStoragePath" ref="categoryStoragePath" />
+		<property name="projectStoragePath" ref="projectStoragePath" />
 	</bean>
 
 	<!-- Utility -->

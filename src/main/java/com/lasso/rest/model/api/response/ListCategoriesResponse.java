@@ -68,7 +68,7 @@ public class ListCategoriesResponse extends BaseResponse {
 	 * @param __nextIndex the next index
 	 */
 	public ListCategoriesResponse(String __prefixUrl, List<Category> __categories,
-	        int __nextIndex) {
+			int __nextIndex) {
 		super();
 		this.prefixUrl = __prefixUrl;
 		this.categories = __categories;
@@ -107,7 +107,7 @@ class ListCategoriesSerializer extends JsonSerializer<ListCategoriesResponse> {
 
 	@Override
 	public void serialize(ListCategoriesResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -118,7 +118,7 @@ class ListCategoriesSerializer extends JsonSerializer<ListCategoriesResponse> {
 		__gen.writeArrayFieldStart("data");
 		for (Category _category : __value.getCategories()) {
 			__gen.writeStartObject();
-			__gen.writeNumberField("id", _category.getId());
+			__gen.writeNumberField("category_id", _category.getId());
 			__gen.writeStringField("title", _category.getTitle());
 
 			__gen.writeObjectFieldStart("images");
@@ -129,11 +129,11 @@ class ListCategoriesSerializer extends JsonSerializer<ListCategoriesResponse> {
 			}
 			else {
 				__gen.writeStringField("original",
-				        __value.getPrefixUrl() + "/Original/" + _category.getImage());
+						__value.getPrefixUrl() + "/Original/" + _category.getImage());
 				__gen.writeStringField("small",
-				        __value.getPrefixUrl() + "/small/" + _category.getImage());
+						__value.getPrefixUrl() + "/small/" + _category.getImage());
 				__gen.writeStringField("icon",
-				        __value.getPrefixUrl() + "/icon/" + _category.getImage());
+						__value.getPrefixUrl() + "/icon/" + _category.getImage());
 			}
 			__gen.writeEndObject();
 

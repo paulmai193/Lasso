@@ -16,5 +16,9 @@
 	<bean id="categoryStoragePath" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="/img/Categories" />
 	</bean>
+	
+	<bean id="projectStoragePath" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="/img/Projects" />
+	</bean>
 
 </beans>

@@ -1,117 +1,231 @@
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the configurations database table.
- * 
+ *
+ * @author Paul Mai
  */
 @Entity
-@Table(name="configurations")
-@NamedQuery(name="Configuration.findAll", query="SELECT c FROM Configuration c")
+@Table(name = "configurations")
+@NamedQuery(name = "Configuration.findAll", query = "SELECT c FROM Configuration c")
 public class Configuration implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String description;
-	private byte editable;
-	private int id;
-	private String inputType;
-	private String name;
-	private String params;
-	private String title;
-	private String value;
-	private int weight;
 
+	/** The Constant serialVersionUID. */
+	private static final long	serialVersionUID	= 1L;
+
+	/** The description. */
+	private String				description;
+
+	/** The editable. */
+	private byte				editable;
+
+	/** The id. */
+	private int					id;
+
+	/** The input type. */
+	private String				inputType;
+
+	/** The name. */
+	private String				name;
+
+	/** The params. */
+	private String				params;
+
+	/** The title. */
+	private String				title;
+
+	/** The value. */
+	private String				value;
+
+	/** The weight. */
+	private int					weight;
+
+	/**
+	 * Instantiates a new configuration.
+	 */
 	public Configuration() {
 	}
 
-
-	@Column(nullable=false, length=250)
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
+	@Column(nullable = false, length = 250)
 	public String getDescription() {
 		return this.description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	@Column(nullable=false)
+	/**
+	 * Gets the editable.
+	 *
+	 * @return the editable
+	 */
+	@Column(nullable = false)
 	public byte getEditable() {
 		return this.editable;
 	}
 
-	public void setEditable(byte editable) {
-		this.editable = editable;
-	}
-
-
-	@Column(nullable=false)
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-	@Column(name="input_type", nullable=false, length=250)
+	/**
+	 * Gets the input type.
+	 *
+	 * @return the input type
+	 */
+	@Column(name = "input_type", nullable = false, length = 250)
 	public String getInputType() {
 		return this.inputType;
 	}
 
-	public void setInputType(String inputType) {
-		this.inputType = inputType;
-	}
-
-
-	@Column(nullable=false, length=64)
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	@Column(nullable = false, length = 64)
 	public String getName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
+	/**
+	 * Gets the params.
+	 *
+	 * @return the params
+	 */
 	@Lob
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public String getParams() {
 		return this.params;
 	}
 
-	public void setParams(String params) {
-		this.params = params;
-	}
-
-
-	@Column(nullable=false, length=250)
+	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
+	@Column(nullable = false, length = 250)
 	public String getTitle() {
 		return this.title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	@Lob
 	public String getValue() {
 		return this.value;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-
+	/**
+	 * Gets the weight.
+	 *
+	 * @return the weight
+	 */
 	public int getWeight() {
 		return this.weight;
 	}
 
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Sets the editable.
+	 *
+	 * @param editable the new editable
+	 */
+	public void setEditable(byte editable) {
+		this.editable = editable;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the input type.
+	 *
+	 * @param inputType the new input type
+	 */
+	public void setInputType(String inputType) {
+		this.inputType = inputType;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Sets the params.
+	 *
+	 * @param params the new params
+	 */
+	public void setParams(String params) {
+		this.params = params;
+	}
+
+	/**
+	 * Sets the title.
+	 *
+	 * @param title the new title
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * Sets the value.
+	 *
+	 * @param value the new value
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	/**
+	 * Sets the weight.
+	 *
+	 * @param weight the new weight
+	 */
 	public void setWeight(int weight) {
 		this.weight = weight;
 	}

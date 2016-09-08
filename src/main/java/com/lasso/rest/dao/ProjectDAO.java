@@ -3,6 +3,7 @@ package com.lasso.rest.dao;
 import java.util.List;
 
 import com.lasso.rest.model.datasource.Category;
+import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.datasource.TypesStyle;
@@ -19,9 +20,10 @@ public interface ProjectDAO {
 	 *
 	 * @param __offset the offset
 	 * @param __limit the limit
+	 * @param __keyword the keyword
 	 * @return the categories
 	 */
-	List<Category> getCategories(int __offset, int __limit);
+	List<Category> getCategories(int __offset, int __limit, String __keyword);
 
 	/**
 	 * Gets the category by id.
@@ -32,14 +34,16 @@ public interface ProjectDAO {
 	Category getCategoryById(int __idCategory);
 
 	/**
-	 * Gets the styles by types.
+	 * Gets the styles by types and keyword.
 	 *
 	 * @param __typesStyles the types styles
 	 * @param __offset the offset
 	 * @param __limit the limit
+	 * @param __keyword the keyword
 	 * @return the styles by types
 	 */
-	List<Style> getStylesByTypes(List<TypesStyle> __typesStyles, int __offset, int __limit);
+	List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
+			int __limit, String __keyword);
 
 	/**
 	 * Gets the types by category.
@@ -56,5 +60,18 @@ public interface ProjectDAO {
 	 * @return the types styles by types
 	 */
 	List<TypesStyle> getTypesStylesByTypes(List<Type> __types);
+
+	/**
+	 * Search projects.
+	 *
+	 * @param __idCategory the id category
+	 * @param __idStyle the id style
+	 * @param __keyword the keyword
+	 * @param __offset the offset
+	 * @param __limit the limit
+	 * @return the list
+	 */
+	List<Project> searchProjects(Integer __idCategory, Integer __idStyle, String __keyword,
+			int __offset, int __limit);
 
 }
