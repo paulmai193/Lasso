@@ -61,6 +61,19 @@ public class ImplProjectDAO implements ProjectDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.ProjectDAO#getProjectById(int)
+	 */
+	@Override
+	public Project getProjectById(int __idProject) {
+		Session _session = this.sessionFactory.getCurrentSession();
+		Criteria _criteria = _session.createCriteria(Project.class)
+		        .add(Restrictions.eq("id.id", __idProject));
+		return (Project) _criteria.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.ProjectDAO#getStylesByTypesAndKeyword(java.util.List, int, int,
 	 * java.lang.String)
 	 */

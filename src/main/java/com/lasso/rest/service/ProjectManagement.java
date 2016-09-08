@@ -32,6 +32,14 @@ public interface ProjectManagement {
 	Category getCategoryById(int __idCategory);
 
 	/**
+	 * Gets the project by id.
+	 *
+	 * @param __idProject the id project
+	 * @return the project by id
+	 */
+	Project getProjectById(int __idProject);
+
+	/**
 	 * Gets the projects by sub category and keyword.
 	 *
 	 * @param __idCategory the id category
@@ -42,7 +50,7 @@ public interface ProjectManagement {
 	 * @return the projects by sub category and keyword
 	 */
 	List<Project> getProjectsBySubCategoryAndKeyword(int __idCategory, int __idStyle, int __index,
-			int __size, String __keyword);
+	        int __size, String __keyword);
 
 	/**
 	 * Gets the sub categories by index and keyword.
@@ -54,6 +62,6 @@ public interface ProjectManagement {
 	 * @return the sub categories start from index
 	 */
 	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-			String __keyword);
+	        String __keyword);
 
 }

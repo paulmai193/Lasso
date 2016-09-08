@@ -36,7 +36,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Category> getCategoriesByIndexAndKeyword(int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		return this.projectDAO.getCategories(__index, __size, __keyword);
 	}
 
@@ -53,12 +53,22 @@ public class ImplProjectManagement implements ProjectManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.service.ProjectManagement#getProjectById(int)
+	 */
+	@Override
+	public Project getProjectById(int __idProject) {
+		return this.projectDAO.getProjectById(__idProject);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.service.ProjectManagement#getProjectsBySubCategoryAndKeyword(int, int,
 	 * int, int, java.lang.String)
 	 */
 	@Override
 	public List<Project> getProjectsBySubCategoryAndKeyword(int __idCategory, int __idStyle,
-			int __index, int __size, String __keyword) {
+	        int __index, int __size, String __keyword) {
 		return this.projectDAO.searchProjects(__idCategory, __idStyle, __keyword, __index, __size);
 	}
 
@@ -70,7 +80,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		// Get Category from id
 		Category _category = this.projectDAO.getCategoryById(__idCategory);
 		if (_category == null) {

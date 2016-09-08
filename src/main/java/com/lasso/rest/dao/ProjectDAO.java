@@ -34,6 +34,14 @@ public interface ProjectDAO {
 	Category getCategoryById(int __idCategory);
 
 	/**
+	 * Gets the project by id.
+	 *
+	 * @param __idProject the id project
+	 * @return the project by id
+	 */
+	Project getProjectById(int __idProject);
+
+	/**
 	 * Gets the styles by types and keyword.
 	 *
 	 * @param __typesStyles the types styles
@@ -43,7 +51,7 @@ public interface ProjectDAO {
 	 * @return the styles by types
 	 */
 	List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
-			int __limit, String __keyword);
+	        int __limit, String __keyword);
 
 	/**
 	 * Gets the types by category.
@@ -72,6 +80,6 @@ public interface ProjectDAO {
 	 * @return the list
 	 */
 	List<Project> searchProjects(Integer __idCategory, Integer __idStyle, String __keyword,
-			int __offset, int __limit);
+	        int __offset, int __limit);
 
 }

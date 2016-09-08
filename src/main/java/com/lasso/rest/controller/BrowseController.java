@@ -20,6 +20,7 @@ import com.lasso.rest.model.api.response.CategoryResponse;
 import com.lasso.rest.model.api.response.ListCategoriesResponse;
 import com.lasso.rest.model.api.response.ListProjectsResponse;
 import com.lasso.rest.model.api.response.ListSubCatoriesResponse;
+import com.lasso.rest.model.api.response.ProjectResponse;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
@@ -32,7 +33,7 @@ import com.lasso.rest.service.ProjectManagement;
  */
 @Controller
 @Lazy(false)
- @Path("/browse")
+@Path("/browse")
 @Produces(value = { MediaType.APPLICATION_JSON })
 @AccountAuthenticate
 public class BrowseController extends BaseController {
@@ -75,14 +76,14 @@ public class BrowseController extends BaseController {
 	}
 
 	/**
-	 * Gets the category by id.
+	 * Gets the category detail.
 	 *
 	 * @param __idCategory the id category
 	 * @return the category by id
 	 */
 	@GET
 	@Path("/category/detail")
-	public CategoryResponse getCategoryById(@QueryParam("id") int __idCategory) {
+	public CategoryResponse getCategoryDetail(@QueryParam("id") int __idCategory) {
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
 		        + this.request.getServerPort() + this.categoryStoragePath;
 		return new CategoryResponse(_prefixUrl,
@@ -109,6 +110,21 @@ public class BrowseController extends BaseController {
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
 		        + this.request.getServerPort() + this.projectStoragePath;
 		return new ListProjectsResponse(_projects, __index + _size, _prefixUrl);
+	}
+
+	/**
+	 * Gets the project detail.
+	 *
+	 * @param __idProject the id project
+	 * @return the project detail
+	 */
+	@GET
+	@Path("/project/detail")
+	public ProjectResponse getProjectDetail(@QueryParam("id") int __idProject) {
+		Project _project = this.projectManagement.getProjectById(__idProject);
+		String _prefixUrl = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.projectStoragePath;
+		return new ProjectResponse(_prefixUrl, _project);
 	}
 
 	/**
