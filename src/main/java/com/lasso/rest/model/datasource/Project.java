@@ -6,10 +6,12 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 /**
  * The persistent class for the projects database table.
@@ -18,7 +20,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "projects")
-@NamedQuery(name = "Project.findAll", query = "SELECT p FROM Project p")
+@DynamicInsert(true)
+@DynamicUpdate(true)
 public class Project implements Serializable {
 
 	/** The Constant serialVersionUID. */

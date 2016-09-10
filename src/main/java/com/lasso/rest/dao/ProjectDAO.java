@@ -3,6 +3,7 @@ package com.lasso.rest.dao;
 import java.util.List;
 
 import com.lasso.rest.model.datasource.Category;
+import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
@@ -81,5 +82,13 @@ public interface ProjectDAO {
 	 */
 	List<Project> searchProjects(Integer __idCategory, Integer __idStyle, String __keyword,
 	        int __offset, int __limit);
+
+	/**
+	 * Gets the portfolio by project.
+	 *
+	 * @param __project the project
+	 * @return the portfolio by project
+	 */
+	Portfolio getPortfolioByProject(Project __project);
 
 }

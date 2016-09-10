@@ -32,12 +32,12 @@ public interface ProjectManagement {
 	Category getCategoryById(int __idCategory);
 
 	/**
-	 * Gets the project by id.
+	 * Gets the project detail by id.
 	 *
 	 * @param __idProject the id project
 	 * @return the project by id
 	 */
-	Project getProjectById(int __idProject);
+	Project getProjectDetailById(int __idProject);
 
 	/**
 	 * Gets the projects by sub category and keyword.

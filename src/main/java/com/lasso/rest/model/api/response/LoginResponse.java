@@ -17,6 +17,10 @@ public class LoginResponse extends BaseResponse {
 	@JsonProperty("id")
 	private Integer	idAccount;
 
+	/** The name. */
+	@JsonProperty("name")
+	private String	name;
+
 	/** The role. */
 	private byte	role;
 
@@ -31,13 +35,16 @@ public class LoginResponse extends BaseResponse {
 	 * Instantiates a new login response.
 	 *
 	 * @param __idAccount the id account
+	 * @param __name the name
 	 * @param __token the token
 	 * @param __status the status
 	 * @param __role the value
 	 */
-	public LoginResponse(Integer __idAccount, String __token, byte __status, byte __role) {
+	public LoginResponse(Integer __idAccount, String __name, String __token, byte __status,
+	        byte __role) {
 		super();
 		this.idAccount = __idAccount;
+		this.name = __name;
 		this.token = __token;
 		this.status = __status;
 		this.role = __role;
@@ -50,6 +57,15 @@ public class LoginResponse extends BaseResponse {
 	 */
 	public Integer getIdAccount() {
 		return this.idAccount;
+	}
+
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return this.name;
 	}
 
 	/**
@@ -118,6 +134,15 @@ public class LoginResponse extends BaseResponse {
 	 */
 	public void setIdAccount(Integer __idAccount) {
 		this.idAccount = __idAccount;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param __name the new name
+	 */
+	public void setName(String __name) {
+		this.name = __name;
 	}
 
 	/**

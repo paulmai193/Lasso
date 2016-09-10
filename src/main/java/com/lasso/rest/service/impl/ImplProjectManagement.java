@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.rest.dao.ProjectDAO;
 import com.lasso.rest.model.datasource.Category;
+import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
@@ -56,8 +57,10 @@ public class ImplProjectManagement implements ProjectManagement {
 	 * @see com.lasso.rest.service.ProjectManagement#getProjectById(int)
 	 */
 	@Override
-	public Project getProjectById(int __idProject) {
-		return this.projectDAO.getProjectById(__idProject);
+	public Project getProjectDetailById(int __idProject) {
+		Project _project = this.projectDAO.getProjectById(__idProject);
+		Portfolio _portfolio = this.projectDAO.getPortfolioByProject(_project);
+		return null;
 	}
 
 	/*

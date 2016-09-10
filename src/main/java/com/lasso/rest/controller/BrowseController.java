@@ -121,7 +121,7 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/project/detail")
 	public ProjectResponse getProjectDetail(@QueryParam("id") int __idProject) {
-		Project _project = this.projectManagement.getProjectById(__idProject);
+		Project _project = this.projectManagement.getProjectDetailById(__idProject);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
 		        + this.request.getServerPort() + this.projectStoragePath;
 		return new ProjectResponse(_prefixUrl, _project);
