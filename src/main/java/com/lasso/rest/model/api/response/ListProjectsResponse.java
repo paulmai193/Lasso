@@ -107,7 +107,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
 	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -118,7 +118,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 		__gen.writeArrayFieldStart("data");
 		for (Project _project : __value.getProjects()) {
 			__gen.writeStartObject();
-			__gen.writeNumberField("style_id", _project.getId().getId());
+			__gen.writeNumberField("project_id", _project.getId().getId());
 			__gen.writeStringField("title", _project.getTitle());
 			__gen.writeObjectFieldStart("images");
 			if (_project.getImage().isEmpty()) {
@@ -128,11 +128,11 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("original",
-				        __value.getPrefixUrl() + "/Original/" + _project.getImage());
+						__value.getPrefixUrl() + "/Original/" + _project.getImage());
 				__gen.writeStringField("small",
-				        __value.getPrefixUrl() + "/small/" + _project.getImage());
+						__value.getPrefixUrl() + "/small/" + _project.getImage());
 				__gen.writeStringField("icon",
-				        __value.getPrefixUrl() + "/icon/" + _project.getImage());
+						__value.getPrefixUrl() + "/icon/" + _project.getImage());
 			}
 			__gen.writeEndObject();
 			__gen.writeEndObject();

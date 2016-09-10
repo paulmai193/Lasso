@@ -66,12 +66,12 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/category")
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index,
-	        @QueryParam("keyword") String __keyword) {
+			@QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-		        _size, __keyword);
+				_size, __keyword);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-		        + this.request.getServerPort() + this.categoryStoragePath;
+				+ this.request.getServerPort() + this.categoryStoragePath;
 		return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
 	}
 
@@ -85,9 +85,9 @@ public class BrowseController extends BaseController {
 	@Path("/category/detail")
 	public CategoryResponse getCategoryDetail(@QueryParam("id") int __idCategory) {
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-		        + this.request.getServerPort() + this.categoryStoragePath;
+				+ this.request.getServerPort() + this.categoryStoragePath;
 		return new CategoryResponse(_prefixUrl,
-		        this.projectManagement.getCategoryById(__idCategory));
+				this.projectManagement.getCategoryById(__idCategory));
 	}
 
 	/**
@@ -102,13 +102,13 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/project")
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-	        @QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
-	        @QueryParam("keyword") String __keyword) {
+			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
+			@QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Project> _projects = this.projectManagement.getProjectsBySubCategoryAndKeyword(
-		        __idCategory, __idStyle, __index, _size, __keyword);
+				__idCategory, __idStyle, __index, _size, __keyword);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-		        + this.request.getServerPort() + this.projectStoragePath;
+				+ this.request.getServerPort() + this.projectStoragePath;
 		return new ListProjectsResponse(_projects, __index + _size, _prefixUrl);
 	}
 
@@ -123,7 +123,7 @@ public class BrowseController extends BaseController {
 	public ProjectResponse getProjectDetail(@QueryParam("id") int __idProject) {
 		Project _project = this.projectManagement.getProjectDetailById(__idProject);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-		        + this.request.getServerPort() + this.projectStoragePath;
+				+ this.request.getServerPort() + this.projectStoragePath;
 		return new ProjectResponse(_prefixUrl, _project);
 	}
 
@@ -138,12 +138,12 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/sub_category")
 	public ListSubCatoriesResponse getSubCategories(@QueryParam("index") int __index,
-	        @QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
+			@QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-		        __index, _size, __keyword);
+				__index, _size, __keyword);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-		        + this.request.getServerPort() + this.categoryStoragePath;
+				+ this.request.getServerPort() + this.categoryStoragePath;
 		return new ListSubCatoriesResponse(_prefixUrl, _styles, __index + _size);
 	}
 

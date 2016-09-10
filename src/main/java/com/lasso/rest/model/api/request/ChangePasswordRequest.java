@@ -1,7 +1,5 @@
 package com.lasso.rest.model.api.request;
 
-import org.springframework.util.Assert;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -29,22 +27,6 @@ public class ChangePasswordRequest extends BaseRequest {
 	 * Instantiates a new change password request.
 	 */
 	public ChangePasswordRequest() {
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		try {
-			Assert.notNull(this.newPassword);
-			Assert.notNull(this.oldPassword);
-		}
-		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid", _ex);
-		}
 	}
 
 	/**
@@ -81,6 +63,21 @@ public class ChangePasswordRequest extends BaseRequest {
 	 */
 	public void setOldPassword(String __oldPassword) {
 		this.oldPassword = __oldPassword;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		if (this.newPassword == null || this.newPassword.isEmpty()) {
+			throw new ObjectParamException("Invalid new password");
+		}
+		if (this.oldPassword == null || this.oldPassword.isEmpty()) {
+			throw new ObjectParamException("Invalid old password");
+		}
 	}
 
 }

@@ -1,12 +1,11 @@
 package com.lasso.rest.model.api.request;
 
-import org.springframework.util.Assert;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.define.Constant;
 import com.lasso.exception.ObjectParamException;
+import com.lasso.rest.model.variable.PhoneParam;
 
 /**
  * The Class UserRegisterRequest.
@@ -19,39 +18,21 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 
 	/** The company address. */
 	@JsonProperty("com_address")
-	private String	companyAddress;
+	private String		companyAddress;
 
 	/** The company name. */
 	@JsonProperty("com_name")
-	private String	companyName;
+	private String		companyName;
 
 	/** The company phone. */
 	@JsonProperty("com_phone")
-	private String	companyPhone;
+	private PhoneParam	companyPhone;
 
 	/**
 	 * Instantiates a new user register request.
 	 */
 	public UserRegisterRequest() {
 		super(Constant.ROLE_USER);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.model.api.request.AccountRegisterRequest#checkNotNull()
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		super.checkNotNull();
-		try {
-			Assert.notNull(this.companyAddress);
-			Assert.notNull(this.companyName);
-			Assert.notNull(this.companyPhone);
-		}
-		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid", _ex);
-		}
 	}
 
 	/**
@@ -77,7 +58,7 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	 *
 	 * @return the company phone
 	 */
-	public String getCompanyPhone() {
+	public PhoneParam getCompanyPhone() {
 		return this.companyPhone;
 	}
 
@@ -104,7 +85,32 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	 *
 	 * @param __companyPhone the new company phone
 	 */
+	@JsonProperty("com_phone")
 	public void setCompanyPhone(String __companyPhone) {
-		this.companyPhone = __companyPhone;
+		try {
+			this.companyPhone = new PhoneParam(__companyPhone);
+		}
+		catch (Exception _ex) {
+			this.companyPhone = null;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.api.request.AccountRegisterRequest#checkNotNull()
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		super.validate();
+		if (this.companyAddress == null) {
+			throw new ObjectParamException("Invalid company address");
+		}
+		if (this.companyName == null) {
+			throw new ObjectParamException("Invalid company name");
+		}
+		if (this.companyPhone == null) {
+			throw new ObjectParamException("Invalid phone number");
+		}
 	}
 }

@@ -27,9 +27,10 @@ public interface UploadImageManagement {
 	/**
 	 * Generate image name.
 	 *
+	 * @param __extension the extension
 	 * @return the string
 	 */
-	public String generateImageName();
+	public String generateImageName(String __extension);
 
 	/**
 	 * Resize image.
@@ -59,9 +60,10 @@ public interface UploadImageManagement {
 	 *
 	 * @param __fileStream the file stream
 	 * @param __destinationFile the destination file
+	 * @param __extension the image extension
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public void saveFile(InputStream __fileStream, File __destinationFile)
+	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
 			throws IOException, IllegalArgumentException;
 }

@@ -50,7 +50,7 @@ public interface ProjectManagement {
 	 * @return the projects by sub category and keyword
 	 */
 	List<Project> getProjectsBySubCategoryAndKeyword(int __idCategory, int __idStyle, int __index,
-	        int __size, String __keyword);
+			int __size, String __keyword);
 
 	/**
 	 * Gets the sub categories by index and keyword.
@@ -62,6 +62,6 @@ public interface ProjectManagement {
 	 * @return the sub categories start from index
 	 */
 	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-	        String __keyword);
+			String __keyword);
 
 }

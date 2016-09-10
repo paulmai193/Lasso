@@ -138,14 +138,17 @@ public class UploadController extends BaseController implements Feature {
 	public Response uploadAvatar(@Context SecurityContext __context,
 			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
 			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
-		if (__fileStream == null) {
-			throw new ObjectParamException("File not found");
+		if (__fileStream == null && __fileMetaData == null) {
+			throw new ObjectParamException("Invalid file upload");
 		}
+		String _uploadedFileName = __fileMetaData.getFileName();
+		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
+				_uploadedFileName.length());
 		File _avatar = new File(this.webContextStoragePath + this.avatarStoragePath + "/Original/"
-				+ this.uploadImageManagement.generateImageName());
+				+ this.uploadImageManagement.generateImageName(_fileExtension));
 		try {
 			// Save original file
-			this.uploadImageManagement.saveFile(__fileStream, _avatar);
+			this.uploadImageManagement.saveFile(__fileStream, _avatar, _fileExtension);
 
 			// Resize into 2 other size
 			File _iconAvatar = new File(this.webContextStoragePath + this.avatarStoragePath

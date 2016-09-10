@@ -59,12 +59,12 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#generateImageName()
+	 * @see com.lasso.rest.service.UploadImageManagement#generateImageName(java.lang.String)
 	 */
 	@Override
-	public String generateImageName() {
+	public String generateImageName(String __extension) {
 		return EncryptionUtil.uniqid("", false)
-				+ new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + ".jpg";
+				+ new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
 	}
 
 	/*
@@ -126,16 +126,16 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#saveFile(java.io.InputStream, java.io.File)
+	 * @see com.lasso.rest.service.UploadImageManagement#saveFile(java.io.InputStream, java.io.File,
+	 * java.lang.String)
 	 */
 	@Override
-	public void saveFile(InputStream __fileStream, File __destinationFile)
+	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
 			throws IOException, IllegalArgumentException {
 		BufferedImage _buffered = ImageIO.read(__fileStream);
 		if (_buffered == null) {
 			throw new IllegalArgumentException("File not image");
 		}
-		ImageIO.write(_buffered, "jpg", __destinationFile);
+		ImageIO.write(_buffered, __extension, __destinationFile);
 	}
-
 }

@@ -3,8 +3,6 @@
  */
 package com.lasso.rest.model.api.request;
 
-import org.springframework.util.Assert;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,6 +41,10 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The phone. */
 	private PhoneParam	phone;
 
+	/** The push token. */
+	@JsonProperty("push_token")
+	private String		pushToken;
+
 	/** The value. */
 	private Byte		role;
 
@@ -67,27 +69,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	public void checkCountryValid() throws ObjectParamException {
 		if (this.country == null) {
 			throw new ObjectParamException("Illegal country code");
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		try {
-			Assert.notNull(this.countryCode);
-			Assert.notNull(this.email);
-			Assert.notNull(this.name);
-			Assert.notNull(this.password);
-			Assert.notNull(this.phone);
-			Assert.notNull(this.role);
-			Assert.notNull(this.subscribe);
-		}
-		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid", _ex);
 		}
 	}
 
@@ -143,6 +124,15 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public PhoneParam getPhone() {
 		return this.phone;
+	}
+
+	/**
+	 * Gets the push token.
+	 *
+	 * @return the push token
+	 */
+	public String getPushToken() {
+		return this.pushToken;
 	}
 
 	/**
@@ -230,6 +220,15 @@ public class AccountRegisterRequest extends BaseRequest {
 	}
 
 	/**
+	 * Sets the push token.
+	 *
+	 * @param __pushToken the new push token
+	 */
+	public void setPushToken(String __pushToken) {
+		this.pushToken = __pushToken;
+	}
+
+	/**
 	 * Sets the value.
 	 *
 	 * @param __role the new value
@@ -245,5 +244,38 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public void setSubscribe(Boolean __subscribe) {
 		this.subscribe = __subscribe;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		if (this.countryCode == null) {
+			throw new ObjectParamException("Invalid country code");
+		}
+		if (this.email == null) {
+			throw new ObjectParamException("Invalid email");
+		}
+		if (this.name == null) {
+			throw new ObjectParamException("Invalid name");
+		}
+		if (this.password == null) {
+			throw new ObjectParamException("Invalid password");
+		}
+		if (this.phone == null) {
+			throw new ObjectParamException("Invalid phone");
+		}
+		if (this.pushToken == null) {
+			throw new ObjectParamException("Invalid push token");
+		}
+		if (this.role == null) {
+			throw new ObjectParamException("Invalid role");
+		}
+		if (this.subscribe == null) {
+			throw new ObjectParamException("Invalid subcribe value");
+		}
 	}
 }

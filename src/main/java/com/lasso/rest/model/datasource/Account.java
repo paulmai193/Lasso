@@ -138,7 +138,8 @@ public final class Account implements Principal, Serializable {
 			// User
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
-			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone();
+			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
+					.getValue();
 		}
 
 	}

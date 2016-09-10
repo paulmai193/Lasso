@@ -1,7 +1,5 @@
 package com.lasso.rest.model.api.request;
 
-import org.springframework.util.Assert;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -27,21 +25,6 @@ public class ResetPasswordRequest extends BaseRequest {
 	public ResetPasswordRequest() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		try {
-			Assert.notNull(this.email);
-		}
-		catch (Throwable _ex) {
-			throw new ObjectParamException("Email invalid");
-		}
-	}
-
 	/**
 	 * Gets the email.
 	 *
@@ -65,6 +48,18 @@ public class ResetPasswordRequest extends BaseRequest {
 			this.email = null;
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		if (this.email == null) {
+			throw new ObjectParamException("Invalid email");
+		}
 	}
 
 }

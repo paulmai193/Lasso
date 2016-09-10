@@ -60,19 +60,25 @@ public class ImplProjectDAO implements ProjectDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * com.lasso.rest.dao.ProjectDAO#getPortfolioByProject(com.lasso.rest.model.datasource.Project)
+	 */
+	@Override
+	public Portfolio getPortfolioByProject(Project __project) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.ProjectDAO#getProjectById(int)
 	 */
 	@Override
 	public Project getProjectById(int __idProject) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class)
-		        .add(Restrictions.eq("id.id", __idProject));
+				.add(Restrictions.eq("id.id", __idProject));
 		return (Project) _criteria.uniqueResult();
-	}
-
-	@Override
-	public Portfolio getPortfolioByProject(Project __project) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/*
@@ -84,7 +90,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
-	        int __limit, String __keyword) {
+			int __limit, String __keyword) {
 		if (__typesStyles.size() == 0) {
 			return new ArrayList<>();
 		}
@@ -94,7 +100,7 @@ public class ImplProjectDAO implements ProjectDAO {
 			_ids.add(_typesStyle.getId().getStyleId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Style.class)
-		        .add(Restrictions.in("id", _ids));
+				.add(Restrictions.in("id", _ids));
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
@@ -112,7 +118,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	@Override
 	public List<Type> getTypesByCategory(Category __category) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-		        .add(Restrictions.eq("category", __category));
+				.add(Restrictions.eq("category", __category));
 		return _criteria.list();
 	}
 
@@ -134,7 +140,7 @@ public class ImplProjectDAO implements ProjectDAO {
 			_pks.add(_type.getId().getId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
-		        .createCriteria(TypesStyle.class).add(Restrictions.in("id.typeId", _pks));
+				.createCriteria(TypesStyle.class).add(Restrictions.in("id.typeId", _pks));
 		return _criteria.list();
 	}
 
@@ -147,7 +153,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Project> searchProjects(Integer __idCategory, Integer __idStyle, String __keyword,
-	        int __offset, int __limit) {
+			int __offset, int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
 		if (__idCategory != null) {
 			_criteria.add(Restrictions.eq("categoryId", __idCategory));

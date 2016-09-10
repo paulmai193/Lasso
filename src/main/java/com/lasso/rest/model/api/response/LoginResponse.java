@@ -41,7 +41,7 @@ public class LoginResponse extends BaseResponse {
 	 * @param __role the value
 	 */
 	public LoginResponse(Integer __idAccount, String __name, String __token, byte __status,
-	        byte __role) {
+			byte __role) {
 		super();
 		this.idAccount = __idAccount;
 		this.name = __name;

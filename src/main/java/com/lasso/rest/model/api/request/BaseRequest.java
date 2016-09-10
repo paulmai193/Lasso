@@ -16,9 +16,9 @@ public abstract class BaseRequest {
 	}
 
 	/**
-	 * Check all fields of this instance not null.
+	 * Validate request object.
 	 *
 	 * @throws ObjectParamException the object param exception
 	 */
-	public abstract void checkNotNull() throws ObjectParamException;
+	public abstract void validate() throws ObjectParamException;
 }

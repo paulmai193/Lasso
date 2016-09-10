@@ -29,9 +29,9 @@ public class NotSupportErrorHandler implements ExceptionMapper<NotSupportedExcep
 	public Response toResponse(NotSupportedException __exception) {
 		NotSupportErrorHandler.LOGGER.warn(__exception.getMessage(), __exception);
 		BaseResponse _errorResponse = new BaseResponse(true, __exception.getMessage(),
-		        __exception.getCause() == null ? null : __exception.getCause().getMessage());
+				__exception.getCause() == null ? null : __exception.getCause().getMessage());
 		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse)
-		        .build();
+				.build();
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.lasso.rest.model.api.request;
 
-import org.springframework.util.Assert;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,22 +40,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	public void checkCountryValid() throws ObjectParamException {
 		if (this.country == null) {
 			throw new ObjectParamException("Illegal country code");
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		try {
-			Assert.notNull(this.countryCode);
-			Assert.notNull(this.phone);
-		}
-		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid", _ex);
 		}
 	}
 
@@ -118,6 +100,21 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		}
 		catch (Exception _ex) {
 			this.phone = null;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		if (this.countryCode == null) {
+			throw new ObjectParamException("Invalid country code");
+		}
+		if (this.phone == null) {
+			throw new ObjectParamException("Invalid phone number");
 		}
 	}
 

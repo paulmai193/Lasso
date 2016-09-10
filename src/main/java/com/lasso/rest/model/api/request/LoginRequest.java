@@ -1,7 +1,5 @@
 package com.lasso.rest.model.api.request;
 
-import org.springframework.util.Assert;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,26 +22,14 @@ public class LoginRequest extends BaseRequest {
 	@JsonProperty("password")
 	private String		password;
 
+	/** The push token. */
+	@JsonProperty("push_token")
+	private String		pushToken;
+
 	/**
 	 * Instantiates a new login request.
 	 */
 	public LoginRequest() {
-	}
-
-	/**
-	 * Check not null.
-	 *
-	 * @throws ObjectParamException the object param exception
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		try {
-			Assert.notNull(this.email);
-			Assert.notNull(this.password);
-		}
-		catch (Exception _ex) {
-			throw new ObjectParamException("Email or password not valid");
-		}
 	}
 
 	/**
@@ -62,6 +48,15 @@ public class LoginRequest extends BaseRequest {
 	 */
 	public String getPassword() {
 		return this.password;
+	}
+
+	/**
+	 * Gets the push token.
+	 *
+	 * @return the push token
+	 */
+	public String getPushToken() {
+		return this.pushToken;
 	}
 
 	/**
@@ -86,6 +81,33 @@ public class LoginRequest extends BaseRequest {
 	 */
 	public void setPassword(String __password) {
 		this.password = __password;
+	}
+
+	/**
+	 * Sets the push token.
+	 *
+	 * @param __pushToken the new push token
+	 */
+	public void setPushToken(String __pushToken) {
+		this.pushToken = __pushToken;
+	}
+
+	/**
+	 * Check not null.
+	 *
+	 * @throws ObjectParamException the object param exception
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		if (this.email == null) {
+			throw new ObjectParamException("Invalid email");
+		}
+		if (this.password == null) {
+			throw new ObjectParamException("Invalid password");
+		}
+		if (this.pushToken == null) {
+			throw new ObjectParamException("Invalid push token");
+		}
 	}
 
 }

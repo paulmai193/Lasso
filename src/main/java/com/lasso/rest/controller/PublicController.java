@@ -78,9 +78,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/active")
 	public Response testActive(@Context HttpServletRequest __request,
-	        @QueryParam("otp") String __otp) throws URISyntaxException {
+			@QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-		        + __request.getServerPort() + "/verify?type=active&otp=" + __otp;
+				+ __request.getServerPort() + "/verify?type=active&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 
@@ -95,9 +95,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/reset")
 	public Response testReset(@Context HttpServletRequest __request,
-	        @QueryParam("otp") String __otp) throws URISyntaxException {
+			@QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-		        + __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
+				+ __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 

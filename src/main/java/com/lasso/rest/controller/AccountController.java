@@ -13,7 +13,6 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -36,6 +35,7 @@ import com.lasso.rest.model.api.request.LoginRequest;
 import com.lasso.rest.model.api.request.ResetPasswordRequest;
 import com.lasso.rest.model.api.request.UserChangeDetailRequest;
 import com.lasso.rest.model.api.request.UserRegisterRequest;
+import com.lasso.rest.model.api.request.VerifyAccountRequest;
 import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.DetailAccountResponse;
 import com.lasso.rest.model.api.response.DetailDesignerResponse;
@@ -81,9 +81,9 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_DESIGNER)
 	public Response changeDetailDesigner(@Context SecurityContext __validateContext,
-	        DesignerChangeDetailRequest __designerChangeDetailRequest) {
+			DesignerChangeDetailRequest __designerChangeDetailRequest) {
 		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
-		        __designerChangeDetailRequest);
+				__designerChangeDetailRequest);
 	}
 
 	/**
@@ -99,9 +99,9 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_USER)
 	public Response changeDetailUser(@Context SecurityContext __validateContext,
-	        UserChangeDetailRequest __userChangeDetailRequest) {
+			UserChangeDetailRequest __userChangeDetailRequest) {
 		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
-		        __userChangeDetailRequest);
+				__userChangeDetailRequest);
 	}
 
 	/**
@@ -117,16 +117,16 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public Response changePassword(@Context SecurityContext __context,
-	        ChangePasswordRequest __changePasswordRequest) {
-		__changePasswordRequest.checkNotNull();
+			ChangePasswordRequest __changePasswordRequest) {
+		__changePasswordRequest.validate();
 		Account _account = (Account) __context.getUserPrincipal();
 		if (this.accountManagement.changePassword(__changePasswordRequest.getOldPassword(),
-		        __changePasswordRequest.getNewPassword(), _account)) {
+				__changePasswordRequest.getNewPassword(), _account)) {
 			return this.success();
 		}
 		else {
 			return this.fail(new BaseResponse(true, "Current password not match."),
-			        Status.FORBIDDEN);
+					Status.FORBIDDEN);
 		}
 	}
 
@@ -141,10 +141,10 @@ public class AccountController extends BaseController {
 	@Path("/detail/me")
 	@AccountAuthenticate
 	public DetailAccountResponse getDetail(@Context SecurityContext __validateContext,
-	        @Context HttpServletRequest __request) {
+			@Context HttpServletRequest __request) {
 		Account _account = (Account) __validateContext.getUserPrincipal();
 		String _prefixUrl = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + this.avatarStoragePath;
+		+ this.avatarStoragePath;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
 			return new DetailDesignerResponse(_account, _prefixUrl);
 		}
@@ -166,9 +166,9 @@ public class AccountController extends BaseController {
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse login(LoginRequest __loginRequest) {
-		__loginRequest.checkNotNull();
+		__loginRequest.validate();
 		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
-		        __loginRequest.getPassword());
+				__loginRequest.getPassword());
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class AccountController extends BaseController {
 	@Path("/register/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse registerDesignerAccount(@Context HttpServletRequest __request,
-	        DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
 
@@ -215,7 +215,7 @@ public class AccountController extends BaseController {
 	@Path("/register/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse registerUserAccount(@Context HttpServletRequest __request,
-	        UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
+			UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		return this.registerNewAccount(__request, __registerAccount);
 	}
 
@@ -233,15 +233,15 @@ public class AccountController extends BaseController {
 	@Path("/reset_password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response resetPassword(@Context HttpServletRequest __request,
-	        ResetPasswordRequest __resetPasswordRequest)
-	        throws NotFoundException, AddressException, MessagingException {
-		__resetPasswordRequest.checkNotNull();
+			ResetPasswordRequest __resetPasswordRequest)
+					throws NotFoundException, AddressException, MessagingException {
+		__resetPasswordRequest.validate();
 		String _refQuery = this.accountManagement
-		        .resetPassword(__resetPasswordRequest.getEmail().getValue());
+				.resetPassword(__resetPasswordRequest.getEmail().getValue());
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + "/public" + _refQuery;
+		+ __request.getContextPath() + "/public" + _refQuery;
 		this.accountManagement.sendResetPasswordEmail(__resetPasswordRequest.getEmail().getValue(),
-		        _refLink);
+				_refLink);
 		return this.success();
 	}
 
@@ -275,18 +275,15 @@ public class AccountController extends BaseController {
 	/**
 	 * Verify.
 	 *
-	 * @param __type the type
-	 * @param __otp the otp
+	 * @param __verifyAccountRequest the verify account request
 	 * @return the login response
 	 */
-	@GET
+	@POST
 	@Path("/verify")
-	public LoginResponse verify(@QueryParam("type") String __type,
-	        @QueryParam("otp") String __otp) {
-		if (!__type.equalsIgnoreCase("active") && !__type.equalsIgnoreCase("reset")) {
-			throw new BadRequestException("Invalid verify type");
-		}
-		return this.accountManagement.verifyAccount(__otp);
+	@Consumes(MediaType.APPLICATION_JSON)
+	public LoginResponse verify(VerifyAccountRequest __verifyAccountRequest) {
+		__verifyAccountRequest.validate();
+		return this.accountManagement.verifyAccount(__verifyAccountRequest.getOtp());
 	}
 
 	/**
@@ -297,10 +294,10 @@ public class AccountController extends BaseController {
 	 * @return the response
 	 */
 	private Response changeAccountDetail(Account __account,
-	        AccountChangeDetailRequest __accountChangeDetailRequest) {
-		__accountChangeDetailRequest.checkNotNull();
+			AccountChangeDetailRequest __accountChangeDetailRequest) {
+		__accountChangeDetailRequest.validate();
 		Country _country = this.genericManagement
-		        .getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
+				.getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
 		__accountChangeDetailRequest.setCountry(_country);
 		__accountChangeDetailRequest.checkCountryValid();
 		this.accountManagement.changeAccountDetail(__account, __accountChangeDetailRequest);
@@ -317,18 +314,18 @@ public class AccountController extends BaseController {
 	 * @throws MessagingException the messaging exception
 	 */
 	private LoginResponse registerNewAccount(HttpServletRequest __request,
-	        AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
-		__registerAccount.checkNotNull();
+			AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
+		__registerAccount.validate();
 		Country _country = this.genericManagement
-		        .getCountryIdByCode(__registerAccount.getCountryCode());
+				.getCountryIdByCode(__registerAccount.getCountryCode());
 		__registerAccount.setCountry(_country);
 		__registerAccount.checkCountryValid();
 		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		        + __request.getContextPath() + "/public" + _refQuery;
+		+ __request.getContextPath() + "/public" + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
-		        _refLink);
+				_refLink);
 		return this.accountManagement.login(__registerAccount.getEmail().getValue(),
-		        __registerAccount.getPassword());
+				__registerAccount.getPassword());
 	}
 }

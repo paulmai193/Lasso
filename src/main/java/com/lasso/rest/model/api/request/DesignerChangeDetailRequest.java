@@ -1,7 +1,5 @@
 package com.lasso.rest.model.api.request;
 
-import org.springframework.util.Assert;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,23 +31,6 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 	 */
 	public DesignerChangeDetailRequest() {
 		super();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.model.api.request.AccountChangeDetailRequest#checkNotNull()
-	 */
-	@Override
-	public void checkNotNull() throws ObjectParamException {
-		super.checkNotNull();
-		try {
-			Assert.notNull(this.payment);
-			Assert.notNull(this.alternativeContact);
-		}
-		catch (Throwable _ex) {
-			throw new ObjectParamException("Some fields invalid", _ex);
-		}
 	}
 
 	/**
@@ -104,6 +85,22 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 	 */
 	public void setPayment(Byte __payment) {
 		this.payment = __payment;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.api.request.AccountChangeDetailRequest#checkNotNull()
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		super.validate();
+		if (this.alternativeContact == null) {
+			throw new ObjectParamException("Invalid alternative contact");
+		}
+		if (this.payment == null) {
+			throw new ObjectParamException("Invalid payment value");
+		}
 	}
 
 }
