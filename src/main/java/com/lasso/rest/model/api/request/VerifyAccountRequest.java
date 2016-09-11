@@ -95,7 +95,8 @@ public class VerifyAccountRequest extends BaseRequest {
 		if (this.otp == null) {
 			throw new ObjectParamException("Invalid OTP");
 		}
-		if (this.type == null || (!this.type.equalsIgnoreCase("active") && !this.type.equalsIgnoreCase("reset"))) {
+		if (this.type == null || (!this.type.equalsIgnoreCase("active")
+				&& !this.type.equalsIgnoreCase("reset"))) {
 			throw new ObjectParamException("Invalid activate type");
 		}
 		if (this.pushToken == null) {

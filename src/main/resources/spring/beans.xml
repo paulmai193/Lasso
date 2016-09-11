@@ -49,6 +49,7 @@
 	</bean>
 	<bean id="projectManagement" class="com.lasso.rest.service.impl.ImplProjectManagement"
 		lazy-init="false" scope="singleton">
+		<property name="accountDAO" ref="accountDAO" />
 		<property name="projectDAO" ref="projectDAO" />
 	</bean>
 
@@ -84,8 +85,11 @@
 	<bean id="browseController" class="com.lasso.rest.controller.BrowseController"
 		lazy-init="false">
 		<property name="projectManagement" ref="projectManagement" />
+		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="categoryStoragePath" ref="categoryStoragePath" />
 		<property name="projectStoragePath" ref="projectStoragePath" />
+		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
+		<property name="styleStoragePath" ref="styleStoragePath" />
 	</bean>
 
 	<!-- Utility -->

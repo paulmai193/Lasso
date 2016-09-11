@@ -21,14 +21,17 @@ import com.lasso.rest.model.datasource.Project;
 @JsonSerialize(using = ListProjectsSerializer.class)
 public class ListProjectsResponse extends BaseResponse {
 
+	/** The datas. {Project, designer avatar name} */
+	private List<Object[]>	datas;
+
 	/** The next index. */
 	private int				nextIndex;
 
-	/** The prefix url. */
-	private String			prefixUrl;
+	/** The prefix avatar url. */
+	private String			prefixAvatarUrl;
 
-	/** The categories. */
-	private List<Project>	projects;
+	/** The prefix project url. */
+	private String			prefixProjectUrl;
 
 	/**
 	 * Instantiates a new list projects response.
@@ -63,15 +66,27 @@ public class ListProjectsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list projects response.
 	 *
-	 * @param __projects the projects
 	 * @param __nextIndex the next index
-	 * @param __prefixUrl the prefix url
+	 * @param __prefixProjectUrl the prefix project url
+	 * @param __prefixAvatarUrl the prefix avatar url
+	 * @param __datas the datas
 	 */
-	public ListProjectsResponse(List<Project> __projects, int __nextIndex, String __prefixUrl) {
+	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl,
+			String __prefixAvatarUrl, List<Object[]> __datas) {
 		super();
-		this.projects = __projects;
 		this.nextIndex = __nextIndex;
-		this.prefixUrl = __prefixUrl;
+		this.prefixProjectUrl = __prefixProjectUrl;
+		this.prefixAvatarUrl = __prefixAvatarUrl;
+		this.datas = __datas;
+	}
+
+	/**
+	 * Gets the datas {Project, Desiger avatar name}.
+	 *
+	 * @return the datas
+	 */
+	public List<Object[]> getDatas() {
+		return this.datas;
 	}
 
 	/**
@@ -84,21 +99,21 @@ public class ListProjectsResponse extends BaseResponse {
 	}
 
 	/**
-	 * Gets the prefix url.
+	 * Gets the prefix avatar url.
 	 *
-	 * @return the prefixUrl
+	 * @return the prefix avatar url
 	 */
-	public String getPrefixUrl() {
-		return this.prefixUrl;
+	public String getPrefixAvatarUrl() {
+		return this.prefixAvatarUrl;
 	}
 
 	/**
-	 * Gets the projects.
+	 * Gets the prefix project url.
 	 *
-	 * @return the projects
+	 * @return the prefix project url
 	 */
-	public List<Project> getProjects() {
-		return this.projects;
+	public String getPrefixProjectUrl() {
+		return this.prefixProjectUrl;
 	}
 
 }
@@ -116,25 +131,33 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 		}
 		__gen.writeNumberField("next_index", __value.getNextIndex());
 		__gen.writeArrayFieldStart("data");
-		for (Project _project : __value.getProjects()) {
+		for (Object[] _data : __value.getDatas()) {
 			__gen.writeStartObject();
-			__gen.writeNumberField("project_id", _project.getId().getId());
-			__gen.writeStringField("title", _project.getTitle());
+			__gen.writeNumberField("project_id", ((Project) _data[0]).getId().getId());
+			__gen.writeStringField("title", ((Project) _data[0]).getTitle());
 			__gen.writeObjectFieldStart("images");
-			if (_project.getImage().isEmpty()) {
+			if (((Project) _data[0]).getImage().isEmpty()) {
 				__gen.writeStringField("original", "");
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 			}
 			else {
-				__gen.writeStringField("original",
-						__value.getPrefixUrl() + "/Original/" + _project.getImage());
-				__gen.writeStringField("small",
-						__value.getPrefixUrl() + "/small/" + _project.getImage());
+				__gen.writeStringField("original", __value.getPrefixProjectUrl() + "/Original/"
+						+ ((Project) _data[0]).getImage());
+				__gen.writeStringField("small", __value.getPrefixProjectUrl() + "/small/"
+						+ ((Project) _data[0]).getImage());
 				__gen.writeStringField("icon",
-						__value.getPrefixUrl() + "/icon/" + _project.getImage());
+						__value.getPrefixProjectUrl() + "/icon/" + ((Project) _data[0]).getImage());
 			}
 			__gen.writeEndObject();
+
+			if (((String) _data[1]).isEmpty()) {
+				__gen.writeStringField("designer_avatar", "");
+			}
+			else {
+				__gen.writeStringField("designer_avatar",
+						__value.getPrefixAvatarUrl() + "/icon/" + _data[1]);
+			}
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();

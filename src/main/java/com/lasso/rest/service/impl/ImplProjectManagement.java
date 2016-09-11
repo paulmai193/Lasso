@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.ProjectDAO;
+import com.lasso.rest.model.api.response.ListProjectsResponse;
+import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Project;
@@ -25,9 +28,13 @@ import com.lasso.rest.service.ProjectManagement;
 @Transactional
 public class ImplProjectManagement implements ProjectManagement {
 
+	/** The account DAO. */
+	@Autowired
+	private AccountDAO	accountDAO;
+
 	/** The project DAO. */
 	@Autowired
-	private ProjectDAO projectDAO;
+	private ProjectDAO	projectDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -63,16 +70,33 @@ public class ImplProjectManagement implements ProjectManagement {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getProjectsBySubCategoryAndKeyword(int, int,
-	 * int, int, java.lang.String)
+	/**
+	 * Gets the projects by sub category and keyword.
+	 *
+	 * @param __idStyle the id style
+	 * @param __index the index
+	 * @param __size the size
+	 * @param __keyword the keyword
+	 * @param __prefixProjectUrl the prefix project url
+	 * @param __prefixAvatarUrl the prefix avatar url
+	 * @return the projects by sub category and keyword
 	 */
 	@Override
-	public List<Project> getProjectsBySubCategoryAndKeyword(int __idCategory, int __idStyle,
-			int __index, int __size, String __keyword) {
-		return this.projectDAO.searchProjects(__idCategory, __idStyle, __keyword, __index, __size);
+	public ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index,
+			int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
+		List<Object[]> _datas = new ArrayList<>();
+		List<Project> _projects = this.projectDAO.searchProjects(__idStyle, __keyword, __index,
+				__size);
+		for (Project _project : _projects) {
+			Object[] _data = { _project, "" };
+			Account _account = this.accountDAO.getAccountById(_project.getId().getAccountId());
+			_data[1] = _account.getImage();
+
+			_datas.add(_data);
+		}
+		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
+				__prefixProjectUrl, __prefixAvatarUrl, _datas);
+		return _listProjectsResponse;
 	}
 
 	/*
@@ -104,6 +128,15 @@ public class ImplProjectManagement implements ProjectManagement {
 
 		// Get Style from TypesStyles
 		return this.projectDAO.getStylesByTypesAndKeyword(_typesStyles, __index, __size, __keyword);
+	}
+
+	/**
+	 * Sets the account DAO.
+	 *
+	 * @param __accountDAO the new account DAO
+	 */
+	public void setAccountDAO(AccountDAO __accountDAO) {
+		this.accountDAO = __accountDAO;
 	}
 
 	/**

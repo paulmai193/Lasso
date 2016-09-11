@@ -147,17 +147,14 @@ public class ImplProjectDAO implements ProjectDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.ProjectDAO#searchProjects(java.lang.Integer, java.lang.Integer,
-	 * java.lang.String, int, int)
+	 * @see com.lasso.rest.dao.ProjectDAO#searchProjects(java.lang.Integer, java.lang.String, int,
+	 * int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Project> searchProjects(Integer __idCategory, Integer __idStyle, String __keyword,
-			int __offset, int __limit) {
+	public List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset,
+			int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
-		if (__idCategory != null) {
-			_criteria.add(Restrictions.eq("categoryId", __idCategory));
-		}
 		if (__idStyle != null) {
 			_criteria.add(Restrictions.eq("id.styleId", __idStyle));
 		}

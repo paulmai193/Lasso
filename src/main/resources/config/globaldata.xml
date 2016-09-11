@@ -20,5 +20,17 @@
 	<bean id="projectStoragePath" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="/img/Projects" />
 	</bean>
+	
+	<bean id="styleStoragePath" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="/img/Styles" />
+	</bean>
+	
+	<bean id="portfolioStoragePath" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="/img/Portfolios" />
+	</bean>
+	
+	<bean id="jobStoragePath" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="/img/Jobs" />
+	</bean>
 
 </beans>

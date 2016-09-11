@@ -38,8 +38,14 @@ import com.lasso.rest.service.ProjectManagement;
 @AccountAuthenticate
 public class BrowseController extends BaseController {
 
+	/** The avatar storage path. */
+	private String				avatarStoragePath;
+
 	/** The category storage path. */
 	private String				categoryStoragePath;
+
+	/** The portfolio storage path. */
+	private String				portfolioStoragePath;
 
 	/** The project management. */
 	@Autowired
@@ -51,6 +57,9 @@ public class BrowseController extends BaseController {
 	/** The request. */
 	@Context
 	private HttpServletRequest	request;
+
+	/** The style storage path. */
+	private String				styleStoragePath;
 
 	/** The validateContext. */
 	@Context
@@ -66,12 +75,12 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/category")
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index,
-			@QueryParam("keyword") String __keyword) {
+	        @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-				_size, __keyword);
+		        _size, __keyword);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.categoryStoragePath;
+		        + this.request.getServerPort() + this.categoryStoragePath;
 		return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
 	}
 
@@ -85,16 +94,15 @@ public class BrowseController extends BaseController {
 	@Path("/category/detail")
 	public CategoryResponse getCategoryDetail(@QueryParam("id") int __idCategory) {
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.categoryStoragePath;
+		        + this.request.getServerPort() + this.categoryStoragePath;
 		return new CategoryResponse(_prefixUrl,
-				this.projectManagement.getCategoryById(__idCategory));
+		        this.projectManagement.getCategoryById(__idCategory));
 	}
 
 	/**
 	 * Gets the list projects by sub category.
 	 *
 	 * @param __index the index
-	 * @param __idCategory the id category
 	 * @param __idStyle the id style
 	 * @param __keyword the keyword
 	 * @return the list projects by sub category
@@ -102,14 +110,14 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/project")
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
-			@QueryParam("keyword") String __keyword) {
+	        @QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
-		List<Project> _projects = this.projectManagement.getProjectsBySubCategoryAndKeyword(
-				__idCategory, __idStyle, __index, _size, __keyword);
-		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.projectStoragePath;
-		return new ListProjectsResponse(_projects, __index + _size, _prefixUrl);
+		String _prefixAvatarUrl = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.avatarStoragePath;
+		String _prefixProjectUrl = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.projectStoragePath;
+		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index, _size,
+		        __keyword, _prefixProjectUrl, _prefixAvatarUrl);
 	}
 
 	/**
@@ -123,7 +131,7 @@ public class BrowseController extends BaseController {
 	public ProjectResponse getProjectDetail(@QueryParam("id") int __idProject) {
 		Project _project = this.projectManagement.getProjectDetailById(__idProject);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.projectStoragePath;
+		        + this.request.getServerPort() + this.projectStoragePath;
 		return new ProjectResponse(_prefixUrl, _project);
 	}
 
@@ -138,13 +146,22 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/sub_category")
 	public ListSubCatoriesResponse getSubCategories(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-				__index, _size, __keyword);
+		        __index, _size, __keyword);
 		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.categoryStoragePath;
+		        + this.request.getServerPort() + this.styleStoragePath;
 		return new ListSubCatoriesResponse(_prefixUrl, _styles, __index + _size);
+	}
+
+	/**
+	 * Sets the avatar storage path.
+	 *
+	 * @param __avatarStoragePath the new avatar storage path
+	 */
+	public void setAvatarStoragePath(String __avatarStoragePath) {
+		this.avatarStoragePath = __avatarStoragePath;
 	}
 
 	/**
@@ -154,6 +171,15 @@ public class BrowseController extends BaseController {
 	 */
 	public void setCategoryStoragePath(String __categoryStoragePath) {
 		this.categoryStoragePath = __categoryStoragePath;
+	}
+
+	/**
+	 * Sets the portfolio storage path.
+	 *
+	 * @param __portfolioStoragePath the new portfolio storage path
+	 */
+	public void setPortfolioStoragePath(String __portfolioStoragePath) {
+		this.portfolioStoragePath = __portfolioStoragePath;
 	}
 
 	/**
@@ -172,5 +198,14 @@ public class BrowseController extends BaseController {
 	 */
 	public void setProjectStoragePath(String __projectStoragePath) {
 		this.projectStoragePath = __projectStoragePath;
+	}
+
+	/**
+	 * Sets the style storage path.
+	 *
+	 * @param __styleStoragePath the new style storage path
+	 */
+	public void setStyleStoragePath(String __styleStoragePath) {
+		this.styleStoragePath = __styleStoragePath;
 	}
 }

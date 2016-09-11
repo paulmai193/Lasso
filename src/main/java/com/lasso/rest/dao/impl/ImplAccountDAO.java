@@ -67,7 +67,9 @@ public class ImplAccountDAO implements AccountDAO {
 	 * @see com.lasso.rest.dao.AccountDAO#getAccountById(java.lang.Integer)
 	 */
 	public Account getAccountById(Integer __id) {
-		return this.sessionFactory.getCurrentSession().get(Account.class, __id);
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Account.class);
+		_criteria.add(Restrictions.eq("id.id", __id));
+		return (Account) _criteria.uniqueResult();
 	}
 
 	/*

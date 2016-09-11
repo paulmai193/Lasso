@@ -2,6 +2,7 @@ package com.lasso.rest.service;
 
 import java.util.List;
 
+import com.lasso.rest.model.api.response.ListProjectsResponse;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
@@ -42,15 +43,16 @@ public interface ProjectManagement {
 	/**
 	 * Gets the projects by sub category and keyword.
 	 *
-	 * @param __idCategory the id category
 	 * @param __idStyle the id style
 	 * @param __index the index
 	 * @param __size the size
 	 * @param __keyword the keyword
+	 * @param __prefixProjectUrl the prefix project url
+	 * @param __prefixAvatarUrl the prefix avatar url
 	 * @return the projects by sub category and keyword
 	 */
-	List<Project> getProjectsBySubCategoryAndKeyword(int __idCategory, int __idStyle, int __index,
-			int __size, String __keyword);
+	ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index, int __size,
+	        String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl);
 
 	/**
 	 * Gets the sub categories by index and keyword.
@@ -62,6 +64,6 @@ public interface ProjectManagement {
 	 * @return the sub categories start from index
 	 */
 	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-			String __keyword);
+	        String __keyword);
 
 }

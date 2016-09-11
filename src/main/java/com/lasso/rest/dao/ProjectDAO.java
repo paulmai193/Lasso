@@ -81,14 +81,12 @@ public interface ProjectDAO {
 	/**
 	 * Search projects.
 	 *
-	 * @param __idCategory the id category
 	 * @param __idStyle the id style
 	 * @param __keyword the keyword
 	 * @param __offset the offset
 	 * @param __limit the limit
 	 * @return the list
 	 */
-	List<Project> searchProjects(Integer __idCategory, Integer __idStyle, String __keyword,
-			int __offset, int __limit);
+	List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset, int __limit);
 
 }
