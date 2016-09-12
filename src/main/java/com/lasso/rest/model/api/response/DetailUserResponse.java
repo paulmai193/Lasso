@@ -101,6 +101,7 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		__gen.writeStringField("name", __value.getAccount().getName());
 		__gen.writeStringField("email", __value.getAccount().getEmail());
 		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
+		__gen.writeNumberField("reward", __value.getAccount().getRewards());
 
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage().isEmpty()) {
