@@ -34,9 +34,10 @@ public final class EncryptionUtil {
 	private static final String	DEFAULT_PASSWORD	= "phskyd5NjS";
 
 	/** The Constant DIGITS_POWER. */
-	private static final int[] DIGITS_POWER
+	private static final int[]	DIGITS_POWER
 	// 0 1 2 3 4 5 6 7 8
-	= { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000 };
+	= { 1, 10, 100, 1000, 10000, 100000, 1000000,
+			10000000, 100000000 };
 
 	/** The Constant ITERATION_COUNT. */
 	private final static int	ITERATION_COUNT		= 31;

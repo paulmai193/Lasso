@@ -3,6 +3,8 @@ package com.lasso.rest.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,11 +70,18 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Override
 	public ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
 			String __prefixAvatarUrl) {
-		Project _project = this.projectDAO.getProjectById(__idProject);
-		Portfolio _portfolio = this.projectDAO.getPortfolioByProject(_project);
-		Account _account = this.accountDAO.getAccountById(_portfolio.getId().getAccountId());
-		return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
-				_portfolio, _account);
+		try {
+			Project _project = this.projectDAO.getProjectById(__idProject);
+			Category _category = this.projectDAO.getCategoryById(_project.getCategoryId());
+			Portfolio _portfolio = this.projectDAO.getPortfolioByProject(_project);
+			Account _account = this.accountDAO.getAccountById(_portfolio.getId().getAccountId());
+			return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
+					_portfolio, _account, _category);
+		}
+		catch (NullPointerException _ex) {
+			throw new NotFoundException("No detail information");
+		}
+
 	}
 
 	/*

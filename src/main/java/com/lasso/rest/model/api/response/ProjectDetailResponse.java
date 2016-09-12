@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Project;
 
@@ -21,6 +22,9 @@ import com.lasso.rest.model.datasource.Project;
 @JsonInclude(value = Include.NON_NULL)
 @JsonSerialize(using = ProjectSerializer.class)
 public class ProjectDetailResponse extends BaseResponse {
+
+	/** The category. */
+	private Category	category;
 
 	/** The designer. */
 	private Account		designer;
@@ -75,15 +79,26 @@ public class ProjectDetailResponse extends BaseResponse {
 	 * @param __project the project
 	 * @param __portfolio the portfolio
 	 * @param __designer the designer
+	 * @param __category the category
 	 */
 	public ProjectDetailResponse(String __prefixPortfolioUrl, String __prefixAvatarUrl,
-			Project __project, Portfolio __portfolio, Account __designer) {
+	        Project __project, Portfolio __portfolio, Account __designer, Category __category) {
 		super();
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
 		this.prefixAvatarUrl = __prefixAvatarUrl;
 		this.project = __project;
 		this.portfolio = __portfolio;
 		this.designer = __designer;
+		this.category = __category;
+	}
+
+	/**
+	 * Gets the category.
+	 *
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return this.category;
 	}
 
 	/**
@@ -130,14 +145,13 @@ public class ProjectDetailResponse extends BaseResponse {
 	public Project getProject() {
 		return this.project;
 	}
-
 }
 
 class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 
 	@Override
 	public void serialize(ProjectDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -149,12 +163,21 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 		__gen.writeStringField("project_title", __value.getProject().getTitle());
 		__gen.writeStringField("portfolio_title", __value.getProject().getTitle());
 		__gen.writeStringField("portfolio_info", __value.getPortfolio().getInfo());
+		__gen.writeStringField("category_title", __value.getCategory().getTitle());
+		__gen.writeNumberField("reward", __value.getDesigner().getRewards());
+
+		// FIXME get true publish date
+		__gen.writeStringField("publish", "Published 19 Feb in The Straits Times and TODAY.");
+
+		// FIXME get true agency
+		__gen.writeStringField("agency", "BBH");
+
 		if (__value.getDesigner().getImage().isEmpty()) {
 			__gen.writeStringField("designer_avatar", "");
 		}
 		else {
 			__gen.writeStringField("designer_avatar",
-					__value.getPrefixAvatarUrl() + "/small/" + __value.getDesigner().getImage());
+			        __value.getPrefixAvatarUrl() + "/small/" + __value.getDesigner().getImage());
 		}
 		__gen.writeArrayFieldStart("images");
 		if (!__value.getPortfolio().getImage().isEmpty()) {
@@ -162,9 +185,9 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeStartObject();
 					__gen.writeStringField("original",
-							__value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
+					        __value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
 					__gen.writeStringField("small",
-							__value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
+					        __value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
 					__gen.writeEndObject();
 				}
 			}
