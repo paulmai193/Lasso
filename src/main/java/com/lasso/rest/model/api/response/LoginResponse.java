@@ -21,6 +21,10 @@ public class LoginResponse extends BaseResponse {
 	@JsonProperty("name")
 	private String	name;
 
+	/** The rewards. */
+	@JsonProperty("reward")
+	private int		rewards;
+
 	/** The role. */
 	private byte	role;
 
@@ -30,10 +34,6 @@ public class LoginResponse extends BaseResponse {
 	/** The token. */
 	@JsonProperty("token")
 	private String	token;
-
-	/** The rewards. */
-	@JsonProperty("reward")
-	private int		rewards;
 
 	/**
 	 * Instantiates a new login response.
@@ -46,7 +46,7 @@ public class LoginResponse extends BaseResponse {
 	 * @param __rewards the rewards
 	 */
 	public LoginResponse(Integer __idAccount, String __name, String __token, byte __status,
-	        byte __role, int __rewards) {
+			byte __role, int __rewards) {
 		super();
 		this.idAccount = __idAccount;
 		this.name = __name;
@@ -72,6 +72,15 @@ public class LoginResponse extends BaseResponse {
 	 */
 	public String getName() {
 		return this.name;
+	}
+
+	/**
+	 * Gets the rewards.
+	 *
+	 * @return the rewards
+	 */
+	public int getRewards() {
+		return this.rewards;
 	}
 
 	/**
@@ -134,15 +143,6 @@ public class LoginResponse extends BaseResponse {
 	}
 
 	/**
-	 * Gets the rewards.
-	 *
-	 * @return the rewards
-	 */
-	public int getRewards() {
-		return this.rewards;
-	}
-
-	/**
 	 * Sets the id account.
 	 *
 	 * @param __idAccount the new id account
@@ -158,6 +158,15 @@ public class LoginResponse extends BaseResponse {
 	 */
 	public void setName(String __name) {
 		this.name = __name;
+	}
+
+	/**
+	 * Sets the rewards.
+	 *
+	 * @param __rewards the new rewards
+	 */
+	public void setRewards(int __rewards) {
+		this.rewards = __rewards;
 	}
 
 	/**
@@ -185,14 +194,5 @@ public class LoginResponse extends BaseResponse {
 	 */
 	public void setToken(String __token) {
 		this.token = __token;
-	}
-
-	/**
-	 * Sets the rewards.
-	 *
-	 * @param __rewards the new rewards
-	 */
-	public void setRewards(int __rewards) {
-		this.rewards = __rewards;
 	}
 }

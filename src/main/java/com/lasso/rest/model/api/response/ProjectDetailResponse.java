@@ -22,16 +22,20 @@ import com.lasso.rest.model.datasource.Project;
 @JsonSerialize(using = ProjectSerializer.class)
 public class ProjectDetailResponse extends BaseResponse {
 
-	private String		prefixPortfolioUrl;
+	/** The designer. */
+	private Account		designer;
 
+	/** The portfolio. */
+	private Portfolio	portfolio;
+
+	/** The prefix avatar url. */
 	private String		prefixAvatarUrl;
+
+	/** The prefix portfolio url. */
+	private String		prefixPortfolioUrl;
 
 	/** The categories. */
 	private Project		project;
-
-	private Portfolio	portfolio;
-
-	private Account		designer;
 
 	/**
 	 * Instantiates a new project response.
@@ -63,14 +67,59 @@ public class ProjectDetailResponse extends BaseResponse {
 		super(__error, __message, __detail);
 	}
 
-	public ProjectDetailResponse(String __prefixPortfolioUrl, String __prefixAvatarUrl, Project __project,
-	        Portfolio __portfolio, Account __designer) {
+	/**
+	 * Instantiates a new project detail response.
+	 *
+	 * @param __prefixPortfolioUrl the prefix portfolio url
+	 * @param __prefixAvatarUrl the prefix avatar url
+	 * @param __project the project
+	 * @param __portfolio the portfolio
+	 * @param __designer the designer
+	 */
+	public ProjectDetailResponse(String __prefixPortfolioUrl, String __prefixAvatarUrl,
+			Project __project, Portfolio __portfolio, Account __designer) {
 		super();
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
 		this.prefixAvatarUrl = __prefixAvatarUrl;
 		this.project = __project;
 		this.portfolio = __portfolio;
 		this.designer = __designer;
+	}
+
+	/**
+	 * Gets the designer.
+	 *
+	 * @return the designer
+	 */
+	public Account getDesigner() {
+		return this.designer;
+	}
+
+	/**
+	 * Gets the portfolio.
+	 *
+	 * @return the portfolio
+	 */
+	public Portfolio getPortfolio() {
+		return this.portfolio;
+	}
+
+	/**
+	 * Gets the prefix avatar url.
+	 *
+	 * @return the prefixAvatarUrl
+	 */
+	public String getPrefixAvatarUrl() {
+		return this.prefixAvatarUrl;
+	}
+
+	/**
+	 * Gets the prefix portfolio url.
+	 *
+	 * @return the prefixPortfolioUrl
+	 */
+	public String getPrefixPortfolioUrl() {
+		return this.prefixPortfolioUrl;
 	}
 
 	/**
@@ -82,40 +131,13 @@ public class ProjectDetailResponse extends BaseResponse {
 		return this.project;
 	}
 
-	/**
-	 * @return the prefixPortfolioUrl
-	 */
-	public String getPrefixPortfolioUrl() {
-		return this.prefixPortfolioUrl;
-	}
-
-	/**
-	 * @return the prefixAvatarUrl
-	 */
-	public String getPrefixAvatarUrl() {
-		return this.prefixAvatarUrl;
-	}
-
-	/**
-	 * @return the portfolio
-	 */
-	public Portfolio getPortfolio() {
-		return this.portfolio;
-	}
-
-	/**
-	 */
-	public Account getDesigner() {
-		return this.designer;
-	}
-
 }
 
 class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 
 	@Override
 	public void serialize(ProjectDetailResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -132,7 +154,7 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 		}
 		else {
 			__gen.writeStringField("designer_avatar",
-			        __value.getPrefixAvatarUrl() + "/small/" + __value.getDesigner().getImage());
+					__value.getPrefixAvatarUrl() + "/small/" + __value.getDesigner().getImage());
 		}
 		__gen.writeArrayFieldStart("images");
 		if (!__value.getPortfolio().getImage().isEmpty()) {
@@ -140,9 +162,9 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeStartObject();
 					__gen.writeStringField("original",
-					        __value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
+							__value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
 					__gen.writeStringField("small",
-					        __value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
+							__value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
 					__gen.writeEndObject();
 				}
 			}

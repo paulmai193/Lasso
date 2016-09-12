@@ -50,7 +50,7 @@ public class PortfolioPK implements Serializable {
 		}
 		PortfolioPK castOther = (PortfolioPK) other;
 		return (this.id == castOther.id) && (this.accountId == castOther.accountId)
-		        && (this.categoryId == castOther.categoryId) && (this.styleId == castOther.styleId);
+				&& (this.categoryId == castOther.categoryId) && (this.styleId == castOther.styleId);
 	}
 
 	/**
@@ -63,6 +63,11 @@ public class PortfolioPK implements Serializable {
 		return this.accountId;
 	}
 
+	/**
+	 * Gets the category id.
+	 *
+	 * @return the category id
+	 */
 	@Column(name = "category_id", nullable = false)
 	public int getCategoryId() {
 		return this.categoryId;
@@ -114,6 +119,11 @@ public class PortfolioPK implements Serializable {
 		this.accountId = accountId;
 	}
 
+	/**
+	 * Sets the category id.
+	 *
+	 * @param categoryId the new category id
+	 */
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}

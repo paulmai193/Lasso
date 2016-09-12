@@ -94,8 +94,14 @@ public final class Account implements Principal, Serializable {
 	/** The payment method. */
 	private byte				paymentMethod;
 
+	/** The rewards. */
+	private int					rewards				= 1;
+
 	/** The role. */
 	private byte				role;
+
+	/** The settings. */
+	private String				settings;
 
 	/** The status. */
 	private byte				status;
@@ -105,12 +111,6 @@ public final class Account implements Principal, Serializable {
 
 	/** The web session. */
 	private String				webSession;
-
-	/** The settings. */
-	private String				settings;
-
-	/** The rewards. */
-	private int					rewards;
 
 	/**
 	 * Instantiates a new account.
@@ -138,7 +138,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-			        .getAlternativeContact();
+					.getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -146,7 +146,7 @@ public final class Account implements Principal, Serializable {
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
-			        .getValue();
+					.getValue();
 		}
 
 	}
@@ -335,6 +335,16 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
+	 * Gets the rewards.
+	 *
+	 * @return the rewards
+	 */
+	@ColumnDefault("1")
+	public int getRewards() {
+		return this.rewards;
+	}
+
+	/**
 	 * Gets the role.
 	 *
 	 * @return the role
@@ -342,6 +352,16 @@ public final class Account implements Principal, Serializable {
 	@Column(nullable = false)
 	public byte getRole() {
 		return this.role;
+	}
+
+	/**
+	 * Gets the settings.
+	 *
+	 * @return the settings
+	 */
+	@Lob
+	public String getSettings() {
+		return this.settings;
 	}
 
 	/**
@@ -371,26 +391,6 @@ public final class Account implements Principal, Serializable {
 	@Column(name = "web_session", length = 45)
 	public String getWebSession() {
 		return this.webSession;
-	}
-
-	/**
-	 * Gets the rewards.
-	 *
-	 * @return the rewards
-	 */
-	@ColumnDefault("1")
-	public int getRewards() {
-		return this.rewards;
-	}
-
-	/**
-	 * Gets the settings.
-	 *
-	 * @return the settings
-	 */
-	@Lob
-	public String getSettings() {
-		return this.settings;
 	}
 
 	/**
@@ -563,12 +563,30 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
+	 * Sets the rewards.
+	 *
+	 * @param __rewards the new rewards
+	 */
+	public void setRewards(int __rewards) {
+		this.rewards = __rewards;
+	}
+
+	/**
 	 * Sets the role.
 	 *
 	 * @param role the new role
 	 */
 	public void setRole(byte role) {
 		this.role = role;
+	}
+
+	/**
+	 * Sets the settings.
+	 *
+	 * @param __settings the new settings
+	 */
+	public void setSettings(String __settings) {
+		this.settings = __settings;
 	}
 
 	/**
@@ -596,23 +614,5 @@ public final class Account implements Principal, Serializable {
 	 */
 	public void setWebSession(String webSession) {
 		this.webSession = webSession;
-	}
-
-	/**
-	 * Sets the rewards.
-	 *
-	 * @param __rewards the new rewards
-	 */
-	public void setRewards(int __rewards) {
-		this.rewards = __rewards;
-	}
-
-	/**
-	 * Sets the settings.
-	 *
-	 * @param __settings the new settings
-	 */
-	public void setSettings(String __settings) {
-		this.settings = __settings;
 	}
 }
