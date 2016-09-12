@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -105,6 +106,12 @@ public final class Account implements Principal, Serializable {
 	/** The web session. */
 	private String				webSession;
 
+	/** The settings. */
+	private String				settings;
+
+	/** The rewards. */
+	private int					rewards;
+
 	/**
 	 * Instantiates a new account.
 	 */
@@ -131,7 +138,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-					.getAlternativeContact();
+			        .getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -139,7 +146,7 @@ public final class Account implements Principal, Serializable {
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
-					.getValue();
+			        .getValue();
 		}
 
 	}
@@ -367,6 +374,26 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
+	 * Gets the rewards.
+	 *
+	 * @return the rewards
+	 */
+	@ColumnDefault("1")
+	public int getRewards() {
+		return this.rewards;
+	}
+
+	/**
+	 * Gets the settings.
+	 *
+	 * @return the settings
+	 */
+	@Lob
+	public String getSettings() {
+		return this.settings;
+	}
+
+	/**
 	 * Sets the account info.
 	 *
 	 * @param accountInfo the new account info
@@ -569,5 +596,23 @@ public final class Account implements Principal, Serializable {
 	 */
 	public void setWebSession(String webSession) {
 		this.webSession = webSession;
+	}
+
+	/**
+	 * Sets the rewards.
+	 *
+	 * @param __rewards the new rewards
+	 */
+	public void setRewards(int __rewards) {
+		this.rewards = __rewards;
+	}
+
+	/**
+	 * Sets the settings.
+	 *
+	 * @param __settings the new settings
+	 */
+	public void setSettings(String __settings) {
+		this.settings = __settings;
 	}
 }

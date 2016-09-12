@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.ProjectDAO;
 import com.lasso.rest.model.api.response.ListProjectsResponse;
+import com.lasso.rest.model.api.response.ProjectDetailResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
@@ -44,7 +45,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Category> getCategoriesByIndexAndKeyword(int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		return this.projectDAO.getCategories(__index, __size, __keyword);
 	}
 
@@ -61,32 +62,31 @@ public class ImplProjectManagement implements ProjectManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getProjectById(int)
+	 * @see com.lasso.rest.service.ProjectManagement#getProjectDetailById(int, java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
-	public Project getProjectDetailById(int __idProject) {
+	public ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
+	        String __prefixAvatarUrl) {
 		Project _project = this.projectDAO.getProjectById(__idProject);
 		Portfolio _portfolio = this.projectDAO.getPortfolioByProject(_project);
-		return null;
+		Account _account = this.accountDAO.getAccountById(_portfolio.getId().getAccountId());
+		return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
+		        _portfolio, _account);
 	}
 
-	/**
-	 * Gets the projects by sub category and keyword.
-	 *
-	 * @param __idStyle the id style
-	 * @param __index the index
-	 * @param __size the size
-	 * @param __keyword the keyword
-	 * @param __prefixProjectUrl the prefix project url
-	 * @param __prefixAvatarUrl the prefix avatar url
-	 * @return the projects by sub category and keyword
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.ProjectManagement#getProjectsBySubCategoryAndKeyword(int, int,
+	 * int, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index,
-			int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
+	        int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
 		List<Object[]> _datas = new ArrayList<>();
 		List<Project> _projects = this.projectDAO.searchProjects(__idStyle, __keyword, __index,
-				__size);
+		        __size);
 		for (Project _project : _projects) {
 			Object[] _data = { _project, "" };
 			Account _account = this.accountDAO.getAccountById(_project.getId().getAccountId());
@@ -95,7 +95,7 @@ public class ImplProjectManagement implements ProjectManagement {
 			_datas.add(_data);
 		}
 		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
-				__prefixProjectUrl, __prefixAvatarUrl, _datas);
+		        __prefixProjectUrl, __prefixAvatarUrl, _datas);
 		return _listProjectsResponse;
 	}
 
@@ -107,7 +107,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		// Get Category from id
 		Category _category = this.projectDAO.getCategoryById(__idCategory);
 		if (_category == null) {

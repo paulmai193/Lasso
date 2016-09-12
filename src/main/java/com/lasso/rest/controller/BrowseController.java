@@ -20,9 +20,8 @@ import com.lasso.rest.model.api.response.CategoryResponse;
 import com.lasso.rest.model.api.response.ListCategoriesResponse;
 import com.lasso.rest.model.api.response.ListProjectsResponse;
 import com.lasso.rest.model.api.response.ListSubCatoriesResponse;
-import com.lasso.rest.model.api.response.ProjectResponse;
+import com.lasso.rest.model.api.response.ProjectDetailResponse;
 import com.lasso.rest.model.datasource.Category;
-import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.service.ProjectManagement;
 
@@ -128,11 +127,13 @@ public class BrowseController extends BaseController {
 	 */
 	@GET
 	@Path("/project/detail")
-	public ProjectResponse getProjectDetail(@QueryParam("id") int __idProject) {
-		Project _project = this.projectManagement.getProjectDetailById(__idProject);
-		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-		        + this.request.getServerPort() + this.projectStoragePath;
-		return new ProjectResponse(_prefixUrl, _project);
+	public ProjectDetailResponse getProjectDetail(@QueryParam("id") int __idProject) {
+		String _prefixPortforlioUrl = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.portfolioStoragePath;
+		String _prefixAvatarUrl = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.avatarStoragePath;
+		return this.projectManagement.getProjectDetailById(__idProject, _prefixPortforlioUrl,
+		        _prefixAvatarUrl);
 	}
 
 	/**

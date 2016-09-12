@@ -31,6 +31,10 @@ public class LoginResponse extends BaseResponse {
 	@JsonProperty("token")
 	private String	token;
 
+	/** The rewards. */
+	@JsonProperty("reward")
+	private int		rewards;
+
 	/**
 	 * Instantiates a new login response.
 	 *
@@ -39,15 +43,17 @@ public class LoginResponse extends BaseResponse {
 	 * @param __token the token
 	 * @param __status the status
 	 * @param __role the value
+	 * @param __rewards the rewards
 	 */
 	public LoginResponse(Integer __idAccount, String __name, String __token, byte __status,
-			byte __role) {
+	        byte __role, int __rewards) {
 		super();
 		this.idAccount = __idAccount;
 		this.name = __name;
 		this.token = __token;
 		this.status = __status;
 		this.role = __role;
+		this.rewards = __rewards;
 	}
 
 	/**
@@ -128,6 +134,15 @@ public class LoginResponse extends BaseResponse {
 	}
 
 	/**
+	 * Gets the rewards.
+	 *
+	 * @return the rewards
+	 */
+	public int getRewards() {
+		return this.rewards;
+	}
+
+	/**
 	 * Sets the id account.
 	 *
 	 * @param __idAccount the new id account
@@ -172,4 +187,12 @@ public class LoginResponse extends BaseResponse {
 		this.token = __token;
 	}
 
+	/**
+	 * Sets the rewards.
+	 *
+	 * @param __rewards the new rewards
+	 */
+	public void setRewards(int __rewards) {
+		this.rewards = __rewards;
+	}
 }

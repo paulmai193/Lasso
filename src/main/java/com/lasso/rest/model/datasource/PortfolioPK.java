@@ -20,8 +20,8 @@ public class PortfolioPK implements Serializable {
 	/** The account id. */
 	private int					accountId;
 
-	/** The categorie id. */
-	private int					categorieId;
+	/** The category id. */
+	private int					categoryId;
 
 	/** The id. */
 	private int					id;
@@ -50,8 +50,7 @@ public class PortfolioPK implements Serializable {
 		}
 		PortfolioPK castOther = (PortfolioPK) other;
 		return (this.id == castOther.id) && (this.accountId == castOther.accountId)
-				&& (this.categorieId == castOther.categorieId)
-				&& (this.styleId == castOther.styleId);
+		        && (this.categoryId == castOther.categoryId) && (this.styleId == castOther.styleId);
 	}
 
 	/**
@@ -59,19 +58,14 @@ public class PortfolioPK implements Serializable {
 	 *
 	 * @return the account id
 	 */
-	@Column(name = "account_id", unique = true, nullable = false)
+	@Column(name = "account_id", nullable = false)
 	public int getAccountId() {
 		return this.accountId;
 	}
 
-	/**
-	 * Gets the categorie id.
-	 *
-	 * @return the categorie id
-	 */
-	@Column(name = "categorie_id", unique = true, nullable = false)
-	public int getCategorieId() {
-		return this.categorieId;
+	@Column(name = "category_id", nullable = false)
+	public int getCategoryId() {
+		return this.categoryId;
 	}
 
 	/**
@@ -79,7 +73,7 @@ public class PortfolioPK implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false, unique = true)
 	public int getId() {
 		return this.id;
 	}
@@ -89,7 +83,7 @@ public class PortfolioPK implements Serializable {
 	 *
 	 * @return the style id
 	 */
-	@Column(name = "style_id", unique = true, nullable = false)
+	@Column(name = "style_id", nullable = false)
 	public int getStyleId() {
 		return this.styleId;
 	}
@@ -105,7 +99,7 @@ public class PortfolioPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.id;
 		hash = hash * prime + this.accountId;
-		hash = hash * prime + this.categorieId;
+		hash = hash * prime + this.categoryId;
 		hash = hash * prime + this.styleId;
 
 		return hash;
@@ -120,13 +114,8 @@ public class PortfolioPK implements Serializable {
 		this.accountId = accountId;
 	}
 
-	/**
-	 * Sets the categorie id.
-	 *
-	 * @param categorieId the new categorie id
-	 */
-	public void setCategorieId(int categorieId) {
-		this.categorieId = categorieId;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	/**

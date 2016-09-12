@@ -3,8 +3,8 @@ package com.lasso.rest.service;
 import java.util.List;
 
 import com.lasso.rest.model.api.response.ListProjectsResponse;
+import com.lasso.rest.model.api.response.ProjectDetailResponse;
 import com.lasso.rest.model.datasource.Category;
-import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
 
 /**
@@ -36,9 +36,12 @@ public interface ProjectManagement {
 	 * Gets the project detail by id.
 	 *
 	 * @param __idProject the id project
+	 * @param __prefixPortfolioUrl the prefix portfolio url
+	 * @param __prefixAvatarUrl the prefix avatar url
 	 * @return the project by id
 	 */
-	Project getProjectDetailById(int __idProject);
+	ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
+	        String __prefixAvatarUrl);
 
 	/**
 	 * Gets the projects by sub category and keyword.
