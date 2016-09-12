@@ -51,6 +51,18 @@ public interface AccountManagement {
 	public boolean changePassword(String __oldPassword, String __newPassword, Account __account);
 
 	/**
+	 * Forgot password.
+	 *
+	 * @param __email the email
+	 * @return the query string to verify reset password request
+	 * @throws NotFoundException the not found exception
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	public String forgotPassword(String __email)
+			throws NotFoundException, AddressException, MessagingException;
+
+	/**
 	 * Gets the all accounts.
 	 *
 	 * @return the all accounts in DB
@@ -90,16 +102,20 @@ public interface AccountManagement {
 	public String registerUserAccount(AccountRegisterRequest __registerAccount);
 
 	/**
-	 * Request to reset password given by email.
+	 * Resend activate.
 	 *
-	 * @param __email the email
-	 * @return the query string to verify reset password request
-	 * @throws NotFoundException the not found exception
-	 * @throws AddressException the address exception
-	 * @throws MessagingException the messaging exception
+	 * @param __account the account
+	 * @return the string
 	 */
-	public String resetPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	public String resendActivate(Account __account);
+
+	/**
+	 * Reset password.
+	 *
+	 * @param __account the account will reset password
+	 * @param __password the new password
+	 */
+	public void resetPassword(Account __account, String __password);
 
 	/**
 	 * Send activation email.

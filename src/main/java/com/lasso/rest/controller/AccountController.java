@@ -31,6 +31,7 @@ import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.ChangePasswordRequest;
 import com.lasso.rest.model.api.request.DesignerChangeDetailRequest;
 import com.lasso.rest.model.api.request.DesignerRegisterRequest;
+import com.lasso.rest.model.api.request.ForgetPasswordRequest;
 import com.lasso.rest.model.api.request.LoginRequest;
 import com.lasso.rest.model.api.request.ResetPasswordRequest;
 import com.lasso.rest.model.api.request.UserChangeDetailRequest;
@@ -68,10 +69,17 @@ public class AccountController extends BaseController {
 	@Autowired
 	private GenericManagement	genericManagement;
 
+	/** The request. */
+	@Context
+	private HttpServletRequest	request;
+
+	/** The validate context. */
+	@Context
+	private SecurityContext		validateContext;
+
 	/**
 	 * Change designer detail.
 	 *
-	 * @param __validateContext the account validated context
 	 * @param __designerChangeDetailRequest the designer change detail request
 	 * @return the response
 	 */
@@ -80,16 +88,15 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_DESIGNER)
-	public Response changeDetailDesigner(@Context SecurityContext __validateContext,
-			DesignerChangeDetailRequest __designerChangeDetailRequest) {
-		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
-				__designerChangeDetailRequest);
+	public Response changeDetailDesigner(
+	        DesignerChangeDetailRequest __designerChangeDetailRequest) {
+		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
+		        __designerChangeDetailRequest);
 	}
 
 	/**
 	 * Change user detail.
 	 *
-	 * @param __validateContext the account validated context
 	 * @param __userChangeDetailRequest the user change detail request
 	 * @return the response
 	 */
@@ -98,16 +105,14 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_USER)
-	public Response changeDetailUser(@Context SecurityContext __validateContext,
-			UserChangeDetailRequest __userChangeDetailRequest) {
-		return this.changeAccountDetail((Account) __validateContext.getUserPrincipal(),
-				__userChangeDetailRequest);
+	public Response changeDetailUser(UserChangeDetailRequest __userChangeDetailRequest) {
+		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
+		        __userChangeDetailRequest);
 	}
 
 	/**
 	 * Change password.
 	 *
-	 * @param __context the context
 	 * @param __changePasswordRequest the change password request
 	 * @return the response
 	 */
@@ -116,35 +121,56 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
-	public Response changePassword(@Context SecurityContext __context,
-			ChangePasswordRequest __changePasswordRequest) {
+	public Response changePassword(ChangePasswordRequest __changePasswordRequest) {
 		__changePasswordRequest.validate();
-		Account _account = (Account) __context.getUserPrincipal();
+		Account _account = (Account) this.validateContext.getUserPrincipal();
 		if (this.accountManagement.changePassword(__changePasswordRequest.getOldPassword(),
-				__changePasswordRequest.getNewPassword(), _account)) {
+		        __changePasswordRequest.getNewPassword(), _account)) {
 			return this.success();
 		}
 		else {
 			return this.fail(new BaseResponse(true, "Current password not match."),
-					Status.FORBIDDEN);
+			        Status.FORBIDDEN);
 		}
+	}
+
+	/**
+	 * Forget password.
+	 *
+	 * @param __forgetPasswordRequest the forget password request
+	 * @return the response
+	 * @throws NotFoundException the not found exception
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	@POST
+	@Path("/forget_password")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response forgetPassword(ForgetPasswordRequest __forgetPasswordRequest)
+	        throws NotFoundException, AddressException, MessagingException {
+		__forgetPasswordRequest.validate();
+		String _refQuery = this.accountManagement
+		        .forgotPassword(__forgetPasswordRequest.getEmail().getValue());
+		String _refLink = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.request.getContextPath() + "/public"
+		        + _refQuery;
+		this.accountManagement.sendResetPasswordEmail(__forgetPasswordRequest.getEmail().getValue(),
+		        _refLink);
+		return this.success();
 	}
 
 	/**
 	 * Gets the detail.
 	 *
-	 * @param __validateContext the account validated context
-	 * @param __request the request
 	 * @return the response
 	 */
 	@GET
 	@Path("/detail/me")
 	@AccountAuthenticate
-	public DetailAccountResponse getDetail(@Context SecurityContext __validateContext,
-			@Context HttpServletRequest __request) {
-		Account _account = (Account) __validateContext.getUserPrincipal();
-		String _prefixUrl = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		+ this.avatarStoragePath;
+	public DetailAccountResponse getDetail() {
+		Account _account = (Account) this.validateContext.getUserPrincipal();
+		String _prefixUrl = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.avatarStoragePath;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
 			return new DetailDesignerResponse(_account, _prefixUrl);
 		}
@@ -168,27 +194,25 @@ public class AccountController extends BaseController {
 	public LoginResponse login(LoginRequest __loginRequest) {
 		__loginRequest.validate();
 		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
-				__loginRequest.getPassword());
+		        __loginRequest.getPassword());
 	}
 
 	/**
 	 * Logout.
 	 *
-	 * @param __context the context
 	 * @return the response
 	 */
 	@GET
 	@Path("/logout")
 	@AccountAuthenticate
-	public Response logout(@Context SecurityContext __context) {
-		this.accountManagement.logout((Account) __context.getUserPrincipal());
+	public Response logout() {
+		this.accountManagement.logout((Account) this.validateContext.getUserPrincipal());
 		return this.success();
 	}
 
 	/**
 	 * Register designer account.
 	 *
-	 * @param __request the request
 	 * @param __registerAccount the register account
 	 * @return the login response
 	 * @throws AddressException the address exception
@@ -197,15 +221,14 @@ public class AccountController extends BaseController {
 	@POST
 	@Path("/register/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public LoginResponse registerDesignerAccount(@Context HttpServletRequest __request,
-			DesignerRegisterRequest __registerAccount) throws AddressException, MessagingException {
-		return this.registerNewAccount(__request, __registerAccount);
+	public LoginResponse registerDesignerAccount(DesignerRegisterRequest __registerAccount)
+	        throws AddressException, MessagingException {
+		return this.registerNewAccount(this.request, __registerAccount);
 	}
 
 	/**
 	 * Register user account.
 	 *
-	 * @param __request the request
 	 * @param __registerAccount the register account
 	 * @return the login response
 	 * @throws AddressException the address exception
@@ -214,15 +237,34 @@ public class AccountController extends BaseController {
 	@POST
 	@Path("/register/user")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public LoginResponse registerUserAccount(@Context HttpServletRequest __request,
-			UserRegisterRequest __registerAccount) throws AddressException, MessagingException {
-		return this.registerNewAccount(__request, __registerAccount);
+	public LoginResponse registerUserAccount(UserRegisterRequest __registerAccount)
+	        throws AddressException, MessagingException {
+		return this.registerNewAccount(this.request, __registerAccount);
 	}
 
 	/**
-	 * Forgot password.
+	 * Resend activate email.
 	 *
-	 * @param __request the request
+	 * @return the response
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	@POST
+	@Path("/resend_activate")
+	@AccountAuthenticate
+	public Response resendActivateEmail() throws AddressException, MessagingException {
+		Account _account = (Account) this.validateContext.getUserPrincipal();
+		String _refQuery = this.accountManagement.resendActivate(_account);
+		String _refLink = "http://" + this.request.getServerName() + ":"
+		        + this.request.getServerPort() + this.request.getContextPath() + "/public"
+		        + _refQuery;
+		this.accountManagement.sendActivationEmail(_account.getEmail(), _refLink);
+		return this.success();
+	}
+
+	/**
+	 * Reset password.
+	 *
 	 * @param __resetPasswordRequest the reset password request
 	 * @return the response
 	 * @throws NotFoundException the not found exception
@@ -232,16 +274,12 @@ public class AccountController extends BaseController {
 	@POST
 	@Path("/reset_password")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response resetPassword(@Context HttpServletRequest __request,
-			ResetPasswordRequest __resetPasswordRequest)
-					throws NotFoundException, AddressException, MessagingException {
+	@AccountAuthenticate
+	public Response resetPassword(ResetPasswordRequest __resetPasswordRequest)
+	        throws NotFoundException, AddressException, MessagingException {
 		__resetPasswordRequest.validate();
-		String _refQuery = this.accountManagement
-				.resetPassword(__resetPasswordRequest.getEmail().getValue());
-		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		+ __request.getContextPath() + "/public" + _refQuery;
-		this.accountManagement.sendResetPasswordEmail(__resetPasswordRequest.getEmail().getValue(),
-				_refLink);
+		Account _account = (Account) this.validateContext.getUserPrincipal();
+		this.accountManagement.resetPassword(_account, __resetPasswordRequest.getPassword());
 		return this.success();
 	}
 
@@ -294,10 +332,10 @@ public class AccountController extends BaseController {
 	 * @return the response
 	 */
 	private Response changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest) {
+	        AccountChangeDetailRequest __accountChangeDetailRequest) {
 		__accountChangeDetailRequest.validate();
 		Country _country = this.genericManagement
-				.getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
+		        .getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
 		__accountChangeDetailRequest.setCountry(_country);
 		__accountChangeDetailRequest.checkCountryValid();
 		this.accountManagement.changeAccountDetail(__account, __accountChangeDetailRequest);
@@ -314,18 +352,18 @@ public class AccountController extends BaseController {
 	 * @throws MessagingException the messaging exception
 	 */
 	private LoginResponse registerNewAccount(HttpServletRequest __request,
-			AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
+	        AccountRegisterRequest __registerAccount) throws AddressException, MessagingException {
 		__registerAccount.validate();
 		Country _country = this.genericManagement
-				.getCountryIdByCode(__registerAccount.getCountryCode());
+		        .getCountryIdByCode(__registerAccount.getCountryCode());
 		__registerAccount.setCountry(_country);
 		__registerAccount.checkCountryValid();
 		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
 		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		+ __request.getContextPath() + "/public" + _refQuery;
+		        + __request.getContextPath() + "/public" + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
-				_refLink);
+		        _refLink);
 		return this.accountManagement.login(__registerAccount.getEmail().getValue(),
-				__registerAccount.getPassword());
+		        __registerAccount.getPassword());
 	}
 }
