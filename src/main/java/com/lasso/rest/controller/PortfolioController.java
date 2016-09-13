@@ -20,11 +20,12 @@ import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.response.ListPortfoliosResponse;
-import com.lasso.rest.model.api.response.PortfolioOfAccountResponse;
+import com.lasso.rest.model.api.response.PortfolioDetailResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Style;
+import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.PortfolioManagement;
 import com.lasso.rest.service.ProjectManagement;
 
@@ -90,18 +91,29 @@ public class PortfolioController extends BaseController {
 	 * Gets the portfolio of account.
 	 *
 	 * @param __id the id
-	 * @return the portfolio of account
 	 */
 	@GET
 	@Path("/me/detail")
-	public PortfolioOfAccountResponse getPortfolioOfAccount(@QueryParam("id") Integer __id) {
+	public PortfolioDetailResponse getPortfolioOfAccount(@QueryParam("id") Integer __id) {
 		if (__id == null) {
 			throw new NotFoundException("Portfolio not found");
 		}
 		else {
 			Account _account = (Account) this.validateContext.getUserPrincipal();
-			return new PortfolioOfAccountResponse(
-			        this.portfolioManagement.getPortfolio(_account, __id));
+			Portfolio _portfolio = this.portfolioManagement.getPortfolio(_account, __id);
+			if (_portfolio == null) {
+				throw new NotFoundException("Portfolio not found");
+			}
+			else {
+				Category _category = this.projectManagement
+				        .getCategoryById(_portfolio.getId().getCategoryId());
+				Style _style = this.projectManagement.getStyleById(_portfolio.getId().getStyleId());
+				Type _type = this.projectManagement
+				        .getTypeByIdPortfolio(_portfolio.getId().getId());
+				String __prefixUrl = this.httpHost + this.portfolioStoragePath;
+				return new PortfolioDetailResponse(_portfolio, _category, _style, _type,
+				        __prefixUrl);
+			}
 		}
 	}
 
