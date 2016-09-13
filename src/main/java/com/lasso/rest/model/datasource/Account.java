@@ -8,9 +8,11 @@ import java.security.Principal;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -74,7 +76,7 @@ public final class Account implements Principal, Serializable {
 	private String				handphoneNumber;
 
 	/** The id. */
-	private AccountPK			id;
+	private Integer				id;
 
 	/** The image. */
 	private String				image;
@@ -124,7 +126,7 @@ public final class Account implements Principal, Serializable {
 	 * @param __accountRegister the account register
 	 */
 	public Account(AccountRegisterRequest __accountRegister) {
-		this.id = new AccountPK(__accountRegister.getCountry().getId());
+		// this.id = new AccountPK(__accountRegister.getCountry().getId());
 		this.image = "";
 		this.country = __accountRegister.getCountry();
 		this.created = new Date();
@@ -138,7 +140,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-					.getAlternativeContact();
+			        .getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -146,7 +148,7 @@ public final class Account implements Principal, Serializable {
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
-					.getValue();
+			        .getValue();
 		}
 
 	}
@@ -228,8 +230,8 @@ public final class Account implements Principal, Serializable {
 	 * @return the country
 	 */
 	// bi-directional many-to-one association to Country
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "country_id", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "country_id", nullable = false, insertable = true, updatable = true)
 	public Country getCountry() {
 		return this.country;
 	}
@@ -269,8 +271,14 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @return the id
 	 */
-	@EmbeddedId
-	public AccountPK getId() {
+	// @EmbeddedId
+	// public AccountPK getId() {
+	// return this.id;
+	// }
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -497,7 +505,11 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(AccountPK id) {
+	// public void setId(AccountPK id) {
+	// this.id = id;
+	// }
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

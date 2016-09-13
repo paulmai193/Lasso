@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -81,8 +82,13 @@ public class BrowseController extends BaseController {
 		int _size = 8;
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
 		        _size, __keyword);
-		String _prefixUrl = this.httpHost + this.categoryStoragePath;
-		return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
+		if (_categories.isEmpty()) {
+			throw new NotFoundException("Data not found");
+		}
+		else {
+			String _prefixUrl = this.httpHost + this.categoryStoragePath;
+			return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
+		}
 	}
 
 	/**
@@ -95,8 +101,13 @@ public class BrowseController extends BaseController {
 	@Path("/category/detail")
 	public CategoryResponse getCategoryDetail(@QueryParam("id") int __idCategory) {
 		String _prefixUrl = this.httpHost + this.categoryStoragePath;
-		return new CategoryResponse(_prefixUrl,
-		        this.projectManagement.getCategoryById(__idCategory));
+		Category _category = this.projectManagement.getCategoryById(__idCategory);
+		if (_category == null) {
+			throw new NotFoundException("Category not found");
+		}
+		else {
+			return new CategoryResponse(_prefixUrl, _category);
+		}
 	}
 
 	/**
@@ -148,8 +159,13 @@ public class BrowseController extends BaseController {
 		int _size = 8;
 		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
 		        __index, _size, __keyword);
-		String _prefixUrl = this.httpHost + this.styleStoragePath;
-		return new ListSubCatoriesResponse(_prefixUrl, _styles, __index + _size);
+		if (_styles.isEmpty()) {
+			throw new NotFoundException("Data not found");
+		}
+		else {
+			String _prefixUrl = this.httpHost + this.styleStoragePath;
+			return new ListSubCatoriesResponse(_prefixUrl, _styles, __index + _size);
+		}
 	}
 
 	/**

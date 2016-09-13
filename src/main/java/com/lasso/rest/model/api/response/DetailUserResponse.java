@@ -90,7 +90,7 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 
 	@Override
 	public void serialize(DetailUserResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -104,8 +104,8 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
 		__gen.writeNumberField("reward", __value.getAccount().getRewards());
 		__gen.writeStringField("status",
-				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
-						: "activate");
+		        __value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+		                : "activate");
 
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage().isEmpty()) {
@@ -115,15 +115,17 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
 			__gen.writeStringField("small",
-					__value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
 			__gen.writeStringField("icon",
-					__value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 
-		__gen.writeStringField("country", __value.getAccount().getCountry().getName());
+		__gen.writeStringField("country_name", __value.getAccount().getCountry().getName());
+		__gen.writeStringField("country_code", __value.getAccount().getCountry().getCode());
+
 		__gen.writeStringField("com_address", __value.getAccount().getCompanyAddress());
 		__gen.writeStringField("com_name", __value.getAccount().getCompanyName());
 		__gen.writeStringField("com_phone", __value.getAccount().getCompanyTelephone());

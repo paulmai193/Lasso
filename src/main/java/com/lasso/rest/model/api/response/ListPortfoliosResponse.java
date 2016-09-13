@@ -5,13 +5,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lasso.rest.model.datasource.Portfolio;
 
 /**
  * The Class ListPortfoliosResponse.
@@ -19,11 +17,11 @@ import com.lasso.rest.model.datasource.Portfolio;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
+@JsonSerialize(using = ListPortfolioSerializer.class)
 public class ListPortfoliosResponse extends BaseResponse {
 
-	/** The portfolios. */
-	@JsonProperty("data")
-	private List<Portfolio> portfolios;
+	/** The datas. {portfolio, category, style} */
+	private List<Object[]> datas;
 
 	/**
 	 * Instantiates a new list portfolios response.
@@ -55,50 +53,34 @@ public class ListPortfoliosResponse extends BaseResponse {
 		super(__error, __message, __detail);
 	}
 
-	/**
-	 * Instantiates a new list portfolios response.
-	 *
-	 * @param __portfolios the portfolios
-	 */
-	public ListPortfoliosResponse(List<Portfolio> __portfolios) {
+	public ListPortfoliosResponse(List<Object[]> __datas) {
 		super();
-		this.portfolios = __portfolios;
+		this.datas = __datas;
 	}
 
 	/**
-	 * Gets the portfolios.
-	 *
-	 * @return the portfolios
+	 * @return the datas {portfolio, category, style}
 	 */
-	@JsonSerialize(using = PortfolioSerializer.class)
-	@JsonProperty("data")
-	public List<Portfolio> getPortfolios() {
-		return this.portfolios;
+	public List<Object[]> getDatas() {
+		return this.datas;
 	}
 
 	/**
-	 * Sets the portfolios.
-	 *
-	 * @param __portfolios the portfolios to set
+	 * @param __datas the datas to set {portfolio, category, style}
 	 */
-	public void setPortfolios(List<Portfolio> __portfolios) {
-		this.portfolios = __portfolios;
+	public void setDatas(List<Object[]> __datas) {
+		this.datas = __datas;
 	}
+
 }
 
-class PortfolioSerializer extends JsonSerializer<List<Portfolio>> {
+class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 
 	@Override
-	public void serialize(List<Portfolio> __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
-		__gen.writeStartArray();
-		for (Portfolio _portfolio : __value) {
-			__gen.writeStartObject();
-			__gen.writeNumberField("id", _portfolio.getId().getId());
-			__gen.writeStringField("title", _portfolio.getTitle());
-			__gen.writeEndObject();
-		}
-		__gen.writeEndArray();
+	public void serialize(ListPortfoliosResponse __value, JsonGenerator __gen,
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+		// TODO Auto-generated method stub
+
 	}
 
 }
