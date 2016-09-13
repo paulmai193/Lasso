@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.PortfolioDAO;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Portfolio;
-import com.lasso.rest.model.datasource.PortfolioPK;
 
 /**
  * The Class ImplPortfolioDAO.
@@ -35,11 +34,9 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Portfolio> getAllPortfoliosOfAccount(Account __account) {
-		PortfolioPK _pk = new PortfolioPK();
-		_pk.setAccountId(__account.getId());
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
 		        .createCriteria(Portfolio.class);
-		_criteria.add(Restrictions.eq("id", _pk));
+		_criteria.add(Restrictions.eq("id.accountId", __account.getId()));
 		return _criteria.list();
 	}
 

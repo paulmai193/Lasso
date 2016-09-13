@@ -108,21 +108,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
-	 */
-	@Override
-	public void validate() throws ObjectParamException {
-		if (this.countryCode == null) {
-			throw new ObjectParamException("Invalid country code");
-		}
-		if (this.phone == null) {
-			throw new ObjectParamException("Invalid phone number");
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -132,6 +117,21 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		}
 		catch (JsonProcessingException ex) {
 			return super.toString();
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.model.api.request.BaseRequest#checkNotNull()
+	 */
+	@Override
+	public void validate() throws ObjectParamException {
+		if (this.countryCode == null) {
+			throw new ObjectParamException("Invalid country code");
+		}
+		if (this.phone == null) {
+			throw new ObjectParamException("Invalid phone number");
 		}
 	}
 

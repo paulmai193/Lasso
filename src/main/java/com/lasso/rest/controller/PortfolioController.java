@@ -41,10 +41,17 @@ import com.lasso.rest.service.ProjectManagement;
 @AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
 public class PortfolioController extends BaseController {
 
-	/** The account management. */
+	/** The http host. */
+	private String				httpHost;
+
+	/** The portfolio management. */
 	@Autowired
 	private PortfolioManagement	portfolioManagement;
 
+	/** The portfolio storage path. */
+	private String				portfolioStoragePath;
+
+	/** The project management. */
 	@Autowired
 	private ProjectManagement	projectManagement;
 
@@ -52,34 +59,13 @@ public class PortfolioController extends BaseController {
 	@Context
 	private SecurityContext		validateContext;
 
-	private String				httpHost;
-	private String				portforlioStoragePath;
-
-	/**
-	 * @param __httpHost the httpHost to set
-	 */
-	public void setHttpHost(String __httpHost) {
-		this.httpHost = __httpHost;
-	}
-
-	/**
-	 * @param __portforlioStoragePath the portforlioStoragePath to set
-	 */
-	public void setPortforlioStoragePath(String __portforlioStoragePath) {
-		this.portforlioStoragePath = __portforlioStoragePath;
-	}
-
-	public void setProjectManagement(ProjectManagement __projectManagement) {
-		this.projectManagement = __projectManagement;
-	}
-
 	/**
 	 * Gets the all portfolios of account.
 	 *
 	 * @return the all portfolios of account
 	 */
 	@GET
-	@Path("/me/getall")
+	@Path("/me")
 	public ListPortfoliosResponse getAllPortfoliosOfAccount() {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Portfolio> _portfolios = this.portfolioManagement.getAllPortfolios(_account);
@@ -95,7 +81,8 @@ public class PortfolioController extends BaseController {
 				Object[] _data = { _portfolio, _category, _style };
 				_datas.add(_data);
 			}
-			return new ListPortfoliosResponse(_datas);
+			String _prefixUrl = this.httpHost + this.portfolioStoragePath;
+			return new ListPortfoliosResponse(_datas, _prefixUrl);
 		}
 	}
 
@@ -106,7 +93,7 @@ public class PortfolioController extends BaseController {
 	 * @return the portfolio of account
 	 */
 	@GET
-	@Path("/me/get")
+	@Path("/me/detail")
 	public PortfolioOfAccountResponse getPortfolioOfAccount(@QueryParam("id") Integer __id) {
 		if (__id == null) {
 			throw new NotFoundException("Portfolio not found");
@@ -119,11 +106,38 @@ public class PortfolioController extends BaseController {
 	}
 
 	/**
+	 * Sets the http host.
+	 *
+	 * @param __httpHost the httpHost to set
+	 */
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
+	}
+
+	/**
 	 * Sets the portfolio management.
 	 *
 	 * @param __portfolioManagement the new portfolio management
 	 */
 	public void setPortfolioManagement(PortfolioManagement __portfolioManagement) {
 		this.portfolioManagement = __portfolioManagement;
+	}
+
+	/**
+	 * Sets the portfolio storage path.
+	 *
+	 * @param __portfolioStoragePath the new portfolio storage path
+	 */
+	public void setPortfolioStoragePath(String __portfolioStoragePath) {
+		this.portfolioStoragePath = __portfolioStoragePath;
+	}
+
+	/**
+	 * Sets the project management.
+	 *
+	 * @param __projectManagement the new project management
+	 */
+	public void setProjectManagement(ProjectManagement __projectManagement) {
+		this.projectManagement = __projectManagement;
 	}
 }

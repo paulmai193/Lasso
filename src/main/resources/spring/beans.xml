@@ -84,6 +84,8 @@
 	<bean id="portfolioController" class="com.lasso.rest.controller.PortfolioController"
 		lazy-init="false">
 		<property name="portfolioManagement" ref="portfolioManagement" />
+		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
+		<property name="httpHost" ref="httpHost"/>
 	</bean>
 	<bean id="browseController" class="com.lasso.rest.controller.BrowseController"
 		lazy-init="false">
