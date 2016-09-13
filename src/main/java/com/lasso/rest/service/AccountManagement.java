@@ -82,9 +82,10 @@ public interface AccountManagement {
 	 *
 	 * @param __email the email
 	 * @param __password the password
+	 * @param __prefixAvatarUrl the prefix avatar url
 	 * @return the login response
 	 */
-	public LoginResponse login(String __email, String __password);
+	public LoginResponse login(String __email, String __password, String __prefixAvatarUrl);
 
 	/**
 	 * User Logout.
@@ -151,8 +152,9 @@ public interface AccountManagement {
 	 * Verify account.
 	 *
 	 * @param __otp the otp
+	 * @param __prefixAvatarUrl the prefix avatar url
 	 * @return the login response
 	 */
-	public LoginResponse verifyAccount(String __otp);
+	public LoginResponse verifyAccount(String __otp, String __prefixAvatarUrl);
 
 }

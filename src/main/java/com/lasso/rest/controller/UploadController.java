@@ -55,6 +55,9 @@ public class UploadController extends BaseController implements Feature {
 	/** The avatar storage path. */
 	private String					avatarStoragePath;
 
+	/** The http host. */
+	private String					httpHost;
+
 	/** The upload image management. */
 	@Autowired
 	private UploadImageManagement	uploadImageManagement;
@@ -101,6 +104,15 @@ public class UploadController extends BaseController implements Feature {
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
+	}
+
+	/**
+	 * Sets the http host.
+	 *
+	 * @param __httpHost the new http host
+	 */
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
 	}
 
 	/**
@@ -163,8 +175,7 @@ public class UploadController extends BaseController implements Feature {
 			this.accountManagement.changeAvatar(_account, _avatar.getName());
 
 			// Response
-			String _prefixUrl = "http://" + __request.getServerName() + ":"
-					+ __request.getServerPort() + this.avatarStoragePath;
+			String _prefixUrl = this.httpHost + this.avatarStoragePath;
 			return this
 					.success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
 							_prefixUrl + "/small/" + _avatar.getName(),

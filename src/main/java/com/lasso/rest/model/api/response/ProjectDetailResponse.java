@@ -82,7 +82,7 @@ public class ProjectDetailResponse extends BaseResponse {
 	 * @param __category the category
 	 */
 	public ProjectDetailResponse(String __prefixPortfolioUrl, String __prefixAvatarUrl,
-	        Project __project, Portfolio __portfolio, Account __designer, Category __category) {
+			Project __project, Portfolio __portfolio, Account __designer, Category __category) {
 		super();
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
 		this.prefixAvatarUrl = __prefixAvatarUrl;
@@ -151,7 +151,7 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 
 	@Override
 	public void serialize(ProjectDetailResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -177,7 +177,7 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 		}
 		else {
 			__gen.writeStringField("designer_avatar",
-			        __value.getPrefixAvatarUrl() + "/small/" + __value.getDesigner().getImage());
+					__value.getPrefixAvatarUrl() + "/small/" + __value.getDesigner().getImage());
 		}
 		__gen.writeArrayFieldStart("images");
 		if (!__value.getPortfolio().getImage().isEmpty()) {
@@ -185,9 +185,9 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeStartObject();
 					__gen.writeStringField("original",
-					        __value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
+							__value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
 					__gen.writeStringField("small",
-					        __value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
+							__value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
 					__gen.writeEndObject();
 				}
 			}

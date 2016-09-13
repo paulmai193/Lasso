@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.rest.model.datasource.Account;
 
 /**
@@ -102,6 +103,9 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		__gen.writeStringField("email", __value.getAccount().getEmail());
 		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
 		__gen.writeNumberField("reward", __value.getAccount().getRewards());
+		__gen.writeStringField("status",
+				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+						: "activate");
 
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage().isEmpty()) {

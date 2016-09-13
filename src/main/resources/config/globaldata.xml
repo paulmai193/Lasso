@@ -32,5 +32,9 @@
 	<bean id="jobStoragePath" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="/img/Jobs" />
 	</bean>
+	
+	<bean id="httpHost" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="http://voohooo.com.vn:8081" />
+	</bean>
 
 </beans>

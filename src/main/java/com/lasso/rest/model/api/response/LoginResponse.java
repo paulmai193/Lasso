@@ -1,9 +1,16 @@
 package com.lasso.rest.model.api.response;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.define.Constant;
+import com.lasso.rest.model.datasource.Account;
 
 /**
  * The Class LoginResponse.
@@ -11,126 +18,48 @@ import com.lasso.define.Constant;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
+@JsonSerialize(using = LoginSerializer.class)
 public class LoginResponse extends BaseResponse {
 
-	/** The id account. */
-	@JsonProperty("id")
-	private Integer	idAccount;
+	/** The account. */
+	private Account	account;
 
-	/** The name. */
-	@JsonProperty("name")
-	private String	name;
-
-	/** The rewards. */
-	@JsonProperty("reward")
-	private int		rewards;
-
-	/** The role. */
-	private byte	role;
-
-	/** The account status. */
-	private byte	status;
+	/** The prefix url. */
+	private String	prefixUrl;
 
 	/** The token. */
-	@JsonProperty("token")
 	private String	token;
 
 	/**
 	 * Instantiates a new login response.
 	 *
-	 * @param __idAccount the id account
-	 * @param __name the name
 	 * @param __token the token
-	 * @param __status the status
-	 * @param __role the value
-	 * @param __rewards the rewards
+	 * @param __account the account
+	 * @param __prefixUrl the prefix url
 	 */
-	public LoginResponse(Integer __idAccount, String __name, String __token, byte __status,
-			byte __role, int __rewards) {
+	public LoginResponse(String __token, Account __account, String __prefixUrl) {
 		super();
-		this.idAccount = __idAccount;
-		this.name = __name;
 		this.token = __token;
-		this.status = __status;
-		this.role = __role;
-		this.rewards = __rewards;
+		this.account = __account;
+		this.prefixUrl = __prefixUrl;
 	}
 
 	/**
-	 * Gets the id account.
+	 * Gets the account.
 	 *
-	 * @return the id account
+	 * @return the account
 	 */
-	public Integer getIdAccount() {
-		return this.idAccount;
+	public Account getAccount() {
+		return this.account;
 	}
 
 	/**
-	 * Gets the name.
+	 * Gets the prefix url.
 	 *
-	 * @return the name
+	 * @return the prefixUrl
 	 */
-	public String getName() {
-		return this.name;
-	}
-
-	/**
-	 * Gets the rewards.
-	 *
-	 * @return the rewards
-	 */
-	public int getRewards() {
-		return this.rewards;
-	}
-
-	/**
-	 * Gets the value.
-	 *
-	 * @return the value
-	 */
-	public byte getRole() {
-		return this.role;
-	}
-
-	/**
-	 * Gets the value name.
-	 *
-	 * @return the value name
-	 */
-	@JsonProperty("role")
-	public String getRoleName() {
-		switch (this.role) {
-			case Constant.ROLE_DESIGNER:
-				return "designer";
-
-			default:
-				return "user";
-		}
-	}
-
-	/**
-	 * Gets the status.
-	 *
-	 * @return the status
-	 */
-	public byte getStatus() {
-		return this.status;
-	}
-
-	/**
-	 * Gets the status name.
-	 *
-	 * @return the status name
-	 */
-	@JsonProperty("status")
-	public String getStatusName() {
-		switch (this.status) {
-			case Constant.ACC_NOT_ACTIVATE:
-				return "in_activate";
-
-			default:
-				return "activate";
-		}
+	public String getPrefixUrl() {
+		return this.prefixUrl;
 	}
 
 	/**
@@ -143,56 +72,72 @@ public class LoginResponse extends BaseResponse {
 	}
 
 	/**
-	 * Sets the id account.
+	 * Sets the account.
 	 *
-	 * @param __idAccount the new id account
+	 * @param __account the account to set
 	 */
-	public void setIdAccount(Integer __idAccount) {
-		this.idAccount = __idAccount;
+	public void setAccount(Account __account) {
+		this.account = __account;
 	}
 
 	/**
-	 * Sets the name.
+	 * Sets the prefix url.
 	 *
-	 * @param __name the new name
+	 * @param __prefixUrl the prefixUrl to set
 	 */
-	public void setName(String __name) {
-		this.name = __name;
-	}
-
-	/**
-	 * Sets the rewards.
-	 *
-	 * @param __rewards the new rewards
-	 */
-	public void setRewards(int __rewards) {
-		this.rewards = __rewards;
-	}
-
-	/**
-	 * Sets the value.
-	 *
-	 * @param __role the new value
-	 */
-	public void setRole(byte __role) {
-		this.role = __role;
-	}
-
-	/**
-	 * Sets the status.
-	 *
-	 * @param __status the new status
-	 */
-	public void setStatus(byte __status) {
-		this.status = __status;
+	public void setPrefixUrl(String __prefixUrl) {
+		this.prefixUrl = __prefixUrl;
 	}
 
 	/**
 	 * Sets the token.
 	 *
-	 * @param __token the new token
+	 * @param __token the token to set
 	 */
 	public void setToken(String __token) {
 		this.token = __token;
 	}
+
+}
+
+class LoginSerializer extends JsonSerializer<LoginResponse> {
+
+	@Override
+	public void serialize(LoginResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+		__gen.writeStartObject();
+
+		__gen.writeObjectField("error", __value.isError());
+		if (__value.isError()) {
+			__gen.writeObjectField("detail", __value.getDetail());
+			__gen.writeObjectField("message", __value.getMessage());
+		}
+		__gen.writeStringField("role",
+				__value.getAccount().getRole() == Constant.ROLE_DESIGNER ? "designer" : "user");
+		__gen.writeStringField("status",
+				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+						: "activate");
+		__gen.writeNumberField("id", __value.getAccount().getId().getId());
+		__gen.writeStringField("name", __value.getAccount().getName());
+		__gen.writeNumberField("reward", __value.getAccount().getRewards());
+		__gen.writeObjectFieldStart("avatar");
+		if (__value.getAccount().getImage().isEmpty()) {
+			__gen.writeStringField("original", "");
+			__gen.writeStringField("small", "");
+			__gen.writeStringField("icon", "");
+		}
+		else {
+			__gen.writeStringField("original",
+					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+			__gen.writeStringField("small",
+					__value.getPrefixUrl() + "/small/" + __value.getAccount().getImage());
+			__gen.writeStringField("icon",
+					__value.getPrefixUrl() + "/icon/" + __value.getAccount().getImage());
+		}
+		__gen.writeEndObject();
+		__gen.writeStringField("token", __value.getToken());
+
+		__gen.writeEndObject();
+	}
+
 }

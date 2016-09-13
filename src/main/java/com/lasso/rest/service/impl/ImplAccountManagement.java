@@ -165,10 +165,11 @@ public class ImplAccountManagement implements AccountManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.AccountManagement#login(java.lang.String, java.lang.String)
+	 * @see com.lasso.rest.service.AccountManagement#login(java.lang.String, java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
-	public LoginResponse login(String __email, String __password) {
+	public LoginResponse login(String __email, String __password, String __prefixAvatarUrl) {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		LoginResponse _response;
 		if (_account == null) {
@@ -182,8 +183,7 @@ public class ImplAccountManagement implements AccountManagement {
 			_account.setAppSession(_token);
 			this.accountDAO.updateAccount(_account);
 
-			_response = new LoginResponse(_account.getId().getId(), _account.getName(), _token,
-					_account.getStatus(), _account.getRole(), _account.getRewards());
+			_response = new LoginResponse(_token, _account, __prefixAvatarUrl);
 		}
 
 		return _response;
@@ -192,6 +192,7 @@ public class ImplAccountManagement implements AccountManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.service.AccountManagement#logout(com.lasso.rest.model.datasource.Account)
 	 */
 	@Override
 	public void logout(Account __account) {
@@ -312,10 +313,11 @@ public class ImplAccountManagement implements AccountManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.AccountManagement#verifyAccount(java.lang.String)
+	 * @see com.lasso.rest.service.AccountManagement#verifyAccount(java.lang.String,
+	 * java.lang.String)
 	 */
 	@Override
-	public LoginResponse verifyAccount(String __otp) {
+	public LoginResponse verifyAccount(String __otp, String __prefixAvatarUrl) {
 		Account _account = this.accountDAO.getAccountByOtp(__otp);
 		if (_account == null) {
 			throw new BadRequestException("Invalid otp");
@@ -325,7 +327,7 @@ public class ImplAccountManagement implements AccountManagement {
 			_account.setStatus(Constant.ACC_ACTIVATE);
 			_account.setModified();
 			this.accountDAO.updateAccount(_account);
-			return this.login(_account.getEmail(), _account.getPassword());
+			return this.login(_account.getEmail(), _account.getPassword(), __prefixAvatarUrl);
 		}
 	}
 }

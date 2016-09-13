@@ -69,6 +69,9 @@ public class AccountController extends BaseController {
 	@Autowired
 	private GenericManagement	genericManagement;
 
+	/** The http host. */
+	private String				httpHost;
+
 	/** The request. */
 	@Context
 	private HttpServletRequest	request;
@@ -169,8 +172,7 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	public DetailAccountResponse getDetail() {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
-		String _prefixUrl = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.avatarStoragePath;
+		String _prefixUrl = this.httpHost + this.avatarStoragePath;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
 			return new DetailDesignerResponse(_account, _prefixUrl);
 		}
@@ -193,8 +195,9 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse login(LoginRequest __loginRequest) {
 		__loginRequest.validate();
+		String _prefixUrl = this.httpHost + this.avatarStoragePath;
 		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
-				__loginRequest.getPassword());
+				__loginRequest.getPassword(), _prefixUrl);
 	}
 
 	/**
@@ -311,6 +314,15 @@ public class AccountController extends BaseController {
 	}
 
 	/**
+	 * Sets the http host.
+	 *
+	 * @param __httpHost the new http host
+	 */
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
+	}
+
+	/**
 	 * Verify.
 	 *
 	 * @param __verifyAccountRequest the verify account request
@@ -321,7 +333,8 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse verify(VerifyAccountRequest __verifyAccountRequest) {
 		__verifyAccountRequest.validate();
-		return this.accountManagement.verifyAccount(__verifyAccountRequest.getOtp());
+		String _prefixUrl = this.httpHost + this.avatarStoragePath;
+		return this.accountManagement.verifyAccount(__verifyAccountRequest.getOtp(), _prefixUrl);
 	}
 
 	/**
@@ -363,7 +376,8 @@ public class AccountController extends BaseController {
 		+ __request.getContextPath() + "/public" + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
 				_refLink);
+		String _prefixUrl = this.httpHost + this.avatarStoragePath;
 		return this.accountManagement.login(__registerAccount.getEmail().getValue(),
-				__registerAccount.getPassword());
+				__registerAccount.getPassword(), _prefixUrl);
 	}
 }

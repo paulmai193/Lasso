@@ -66,6 +66,8 @@
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="genericManagement" ref="genericManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
+		<property name="httpHost" ref="httpHost"/>
+		
 	</bean>
 	<bean id="uploadController" class="com.lasso.rest.controller.UploadController"
 		lazy-init="false">
@@ -73,6 +75,7 @@
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
 		<property name="webContextStoragePath" ref="webContextStoragePath" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
+		<property name="httpHost" ref="httpHost"/>
 	</bean>
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController"
 		lazy-init="false">
@@ -90,6 +93,7 @@
 		<property name="projectStoragePath" ref="projectStoragePath" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
 		<property name="styleStoragePath" ref="styleStoragePath" />
+		<property name="httpHost" ref="httpHost"/>
 	</bean>
 
 	<!-- Utility -->
