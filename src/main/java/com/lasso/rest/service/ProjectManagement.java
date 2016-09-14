@@ -34,6 +34,14 @@ public interface ProjectManagement {
 	Category getCategoryById(int __idCategory);
 
 	/**
+	 * Gets the list types by id category.
+	 *
+	 * @param __idCategory the id category
+	 * @return the list types by id category
+	 */
+	List<Type> getListTypesByIdCategory(int __idCategory);
+
+	/**
 	 * Gets the list types by id portfolio.
 	 *
 	 * @param __idPortfolio the id portfolio

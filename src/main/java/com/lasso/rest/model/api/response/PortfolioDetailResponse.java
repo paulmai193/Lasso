@@ -202,7 +202,12 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();
+
+		__gen.writeObjectFieldStart("style");
+		__gen.writeNumberField("style_id", __value.getStyle().getId());
 		__gen.writeStringField("style_title", __value.getStyle().getTitle());
+		__gen.writeEndObject();
+
 		__gen.writeNumberField("amount", __value.getPortfolio().getAmount());
 		__gen.writeStringField("info", __value.getPortfolio().getInfo());
 
