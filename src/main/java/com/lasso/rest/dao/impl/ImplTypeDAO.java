@@ -1,5 +1,8 @@
 package com.lasso.rest.dao.impl;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +26,13 @@ public class ImplTypeDAO implements TypeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.TypeDAO#getById(int)
+	 * @see com.lasso.rest.dao.TypeDAO#getListByByListIds(java.util.List)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public Type getById(int __idType) {
-		return (Type) this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-				.add(Restrictions.eq("id.id", __idType)).uniqueResult();
+	public List<Type> getListByByListIds(List<Integer> __listIdsType) {
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class);
+		_criteria.add(Restrictions.in("id.id", __listIdsType));
+		return _criteria.list();
 	}
-
 }

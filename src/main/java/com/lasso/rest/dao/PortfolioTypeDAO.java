@@ -1,5 +1,7 @@
 package com.lasso.rest.dao;
 
+import java.util.List;
+
 import com.lasso.rest.model.datasource.PortfolioType;
 
 /**
@@ -10,10 +12,10 @@ import com.lasso.rest.model.datasource.PortfolioType;
 public interface PortfolioTypeDAO {
 
 	/**
-	 * Gets the by id portfolio.
+	 * Gets the list by id portfolio.
 	 *
 	 * @param __idPortfolio the id portfolio
-	 * @return the by id portfolio
+	 * @return the list by id portfolio
 	 */
-	public PortfolioType getByIdPortfolio(int __idPortfolio);
+	public List<PortfolioType> getListByIdPortfolio(int __idPortfolio);
 }

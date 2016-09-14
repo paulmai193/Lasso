@@ -1,6 +1,7 @@
 package com.lasso.rest.model.api.response;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Style;
@@ -19,6 +21,7 @@ import com.lasso.rest.model.datasource.Type;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
+@JsonSerialize(using = PortfolioDetailSerializer.class)
 public class PortfolioDetailResponse extends BaseResponse {
 
 	/** The category. */
@@ -33,8 +36,8 @@ public class PortfolioDetailResponse extends BaseResponse {
 	/** The style. */
 	private Style		style;
 
-	/** The type. */
-	private Type		type;
+	/** The types. */
+	private List<Type>	types;
 
 	/**
 	 * Instantiates a new portfolio detail response.
@@ -69,20 +72,20 @@ public class PortfolioDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new portfolio detail response.
 	 *
-	 * @param __portfolio the portfolio
 	 * @param __category the category
-	 * @param __style the style
-	 * @param __type the type
+	 * @param __portfolio the portfolio
 	 * @param __prefixPortfolioUrl the prefix portfolio url
+	 * @param __style the style
+	 * @param __types the types
 	 */
-	public PortfolioDetailResponse(Portfolio __portfolio, Category __category, Style __style,
-			Type __type, String __prefixPortfolioUrl) {
+	public PortfolioDetailResponse(Category __category, Portfolio __portfolio,
+	        String __prefixPortfolioUrl, Style __style, List<Type> __types) {
 		super();
-		this.portfolio = __portfolio;
 		this.category = __category;
-		this.style = __style;
-		this.type = __type;
+		this.portfolio = __portfolio;
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
+		this.style = __style;
+		this.types = __types;
 	}
 
 	/**
@@ -122,12 +125,12 @@ public class PortfolioDetailResponse extends BaseResponse {
 	}
 
 	/**
-	 * Gets the type.
+	 * Gets the types.
 	 *
-	 * @return the type
+	 * @return the types
 	 */
-	public Type getType() {
-		return this.type;
+	public List<Type> getTypes() {
+		return this.types;
 	}
 
 	/**
@@ -167,12 +170,12 @@ public class PortfolioDetailResponse extends BaseResponse {
 	}
 
 	/**
-	 * Sets the type.
+	 * Sets the types.
 	 *
-	 * @param __type the type to set
+	 * @param __types the new types
 	 */
-	public void setType(Type __type) {
-		this.type = __type;
+	public void setTypes(List<Type> __types) {
+		this.types = __types;
 	}
 
 }
@@ -181,7 +184,7 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 
 	@Override
 	public void serialize(PortfolioDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -191,7 +194,14 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 		__gen.writeObjectFieldStart("data");
 		__gen.writeStringField("portfolio_title", __value.getPortfolio().getTitle());
 		__gen.writeStringField("category_title", __value.getCategory().getTitle());
-		__gen.writeStringField("type_title", __value.getType().getTitle());
+		__gen.writeArrayFieldStart("type_title");
+		for (Type _type : __value.getTypes()) {
+			__gen.writeStartObject();
+			__gen.writeNumberField("type_id", _type.getId().getId());
+			__gen.writeStringField("type_title", _type.getTitle());
+			__gen.writeEndObject();
+		}
+		__gen.writeEndArray();
 		__gen.writeStringField("style_title", __value.getStyle().getTitle());
 		__gen.writeNumberField("amount", __value.getPortfolio().getAmount());
 		__gen.writeStringField("info", __value.getPortfolio().getInfo());
@@ -201,7 +211,7 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 			for (String _portfolioImage : __value.getPortfolio().getImage().split(",")) {
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeString(
-							__value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
+					        __value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
 				}
 			}
 		}

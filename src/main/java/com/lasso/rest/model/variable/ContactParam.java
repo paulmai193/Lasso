@@ -17,6 +17,9 @@ public class ContactParam extends AbstractParam<String> {
 	/** The Constant CONTACT_EMAIL. */
 	public static final byte		CONTACT_EMAIL	= 1;
 
+	/** The Constant CONTACT_EMPTY. */
+	public static final byte		CONTACT_EMPTY	= 3;
+
 	/** The Constant CONTACT_PHONE. */
 	public static final byte		CONTACT_PHONE	= 2;
 
@@ -59,8 +62,11 @@ public class ContactParam extends AbstractParam<String> {
 			case CONTACT_EMAIL:
 				return "Email: " + this.getOriginalParam();
 
-			default:
+			case CONTACT_PHONE:
 				return "Phone: " + this.getOriginalParam();
+
+			default:
+				return "Empty";
 		}
 	}
 
@@ -71,7 +77,11 @@ public class ContactParam extends AbstractParam<String> {
 	 */
 	@Override
 	protected String parse(String __param) throws Throwable {
-		if (Pattern.compile(ContactParam.EMAIL_PATTERN).matcher(__param).matches()) {
+		if (__param.isEmpty()) {
+			this.contactType = ContactParam.CONTACT_EMPTY;
+			return __param;
+		}
+		else if (Pattern.compile(ContactParam.EMAIL_PATTERN).matcher(__param).matches()) {
 			this.contactType = ContactParam.CONTACT_EMAIL;
 			return __param;
 		}

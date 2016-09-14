@@ -28,7 +28,11 @@ public class PhoneParam extends ContactParam {
 	 */
 	@Override
 	protected String parse(String __param) throws Throwable {
-		if (Pattern.compile(ContactParam.PHONE_PATTERN).matcher(__param).matches()) {
+		if (__param.isEmpty()) {
+			this.contactType = ContactParam.CONTACT_EMPTY;
+			return __param;
+		}
+		else if (Pattern.compile(ContactParam.PHONE_PATTERN).matcher(__param).matches()) {
 			this.contactType = ContactParam.CONTACT_PHONE;
 			return __param;
 		}

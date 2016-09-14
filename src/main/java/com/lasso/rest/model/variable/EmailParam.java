@@ -31,7 +31,11 @@ public class EmailParam extends ContactParam {
 	 */
 	@Override
 	protected String parse(String __param) throws Throwable {
-		if (Pattern.compile(ContactParam.EMAIL_PATTERN).matcher(__param).matches()) {
+		if (__param.isEmpty()) {
+			this.contactType = ContactParam.CONTACT_EMPTY;
+			return __param;
+		}
+		else if (Pattern.compile(ContactParam.EMAIL_PATTERN).matcher(__param).matches()) {
 			this.contactType = ContactParam.CONTACT_EMAIL;
 			return __param;
 		}

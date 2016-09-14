@@ -25,8 +25,11 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	private String		companyName;
 
 	/** The company phone. */
-	@JsonProperty("com_phone")
 	private PhoneParam	companyPhone;
+
+	/** The company phone string. */
+	@JsonProperty("com_phone")
+	private String		companyPhoneString;
 
 	/**
 	 * Instantiates a new user register request.
@@ -85,14 +88,17 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	 *
 	 * @param __companyPhone the new company phone
 	 */
-	@JsonProperty("com_phone")
-	public void setCompanyPhone(String __companyPhone) {
-		try {
-			this.companyPhone = new PhoneParam(__companyPhone);
-		}
-		catch (Exception _ex) {
-			this.companyPhone = null;
-		}
+	public void setCompanyPhone(PhoneParam __companyPhone) {
+		this.companyPhone = __companyPhone;
+	}
+
+	/**
+	 * Sets the company phone string.
+	 *
+	 * @param __companyPhoneString the new company phone string
+	 */
+	public void setCompanyPhoneString(String __companyPhoneString) {
+		this.companyPhoneString = __companyPhoneString;
 	}
 
 	/*
@@ -109,8 +115,11 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 		if (this.companyName == null) {
 			throw new ObjectParamException("Invalid company name");
 		}
-		if (this.companyPhone == null) {
-			throw new ObjectParamException("Invalid phone number");
+		if (this.companyPhoneString == null) {
+			throw new ObjectParamException("Invalid company phone number");
+		}
+		else {
+			this.companyPhone = new PhoneParam(this.companyPhoneString);
 		}
 	}
 }

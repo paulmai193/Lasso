@@ -267,22 +267,22 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	@Override
 	public void validate() throws ObjectParamException {
-		if (this.countryCode == null) {
+		if (this.countryCode == null || this.countryCode.isEmpty()) {
 			throw new ObjectParamException("Invalid country code");
 		}
-		if (this.emailString == null) {
+		if (this.emailString == null || this.emailString.isEmpty()) {
 			throw new ObjectParamException("Invalid email");
 		}
 		else {
 			this.email = new EmailParam(this.emailString);
 		}
-		if (this.name == null) {
+		if (this.name == null || this.name.isEmpty()) {
 			throw new ObjectParamException("Invalid name");
 		}
-		if (this.password == null) {
+		if (this.password == null || this.password.isEmpty()) {
 			throw new ObjectParamException("Invalid password");
 		}
-		if (this.phoneString == null) {
+		if (this.phoneString == null || this.phoneString.isEmpty()) {
 			throw new ObjectParamException("Invalid phone");
 		}
 		else {

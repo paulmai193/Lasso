@@ -34,6 +34,14 @@ public interface ProjectManagement {
 	Category getCategoryById(int __idCategory);
 
 	/**
+	 * Gets the list types by id portfolio.
+	 *
+	 * @param __idPortfolio the id portfolio
+	 * @return the list types by id portfolio
+	 */
+	List<Type> getListTypesByIdPortfolio(int __idPortfolio);
+
+	/**
 	 * Gets the project detail by id.
 	 *
 	 * @param __idProject the id project
@@ -77,13 +85,5 @@ public interface ProjectManagement {
 	 */
 	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
 			String __keyword);
-
-	/**
-	 * Gets the type by id portfolio.
-	 *
-	 * @param __idPortfolio the id portfolio
-	 * @return the type by id portfolio
-	 */
-	Type getTypeByIdPortfolio(int __idPortfolio);
 
 }

@@ -106,14 +106,20 @@ public class PortfolioController extends BaseController {
 				throw new NotFoundException("Portfolio not found");
 			}
 			else {
-				Category _category = this.projectManagement
-						.getCategoryById(_portfolio.getId().getCategoryId());
-				Style _style = this.projectManagement.getStyleById(_portfolio.getId().getStyleId());
-				Type _type = this.projectManagement
-						.getTypeByIdPortfolio(_portfolio.getId().getId());
-				String __prefixUrl = this.httpHost + this.portfolioStoragePath;
-				return new PortfolioDetailResponse(_portfolio, _category, _style, _type,
-						__prefixUrl);
+				try {
+					Category _category = this.projectManagement
+							.getCategoryById(_portfolio.getId().getCategoryId());
+					Style _style = this.projectManagement
+							.getStyleById(_portfolio.getId().getStyleId());
+					List<Type> _types = this.projectManagement
+							.getListTypesByIdPortfolio(_portfolio.getId().getId());
+					String _prefixUrl = this.httpHost + this.portfolioStoragePath;
+					return new PortfolioDetailResponse(_category, _portfolio, _prefixUrl, _style,
+							_types);
+				}
+				catch (NullPointerException _ex) {
+					throw new NotFoundException("Portfolio detail not found", _ex);
+				}
 			}
 		}
 	}

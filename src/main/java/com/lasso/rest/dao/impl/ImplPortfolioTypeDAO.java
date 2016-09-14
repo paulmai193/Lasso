@@ -1,5 +1,7 @@
 package com.lasso.rest.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,11 @@ public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 	 * 
 	 * @see com.lasso.rest.dao.PortfolioTypeDAO#getByIdPortfolio(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public PortfolioType getByIdPortfolio(int __idPortfolio) {
-		return (PortfolioType) this.sessionFactory.getCurrentSession()
-				.createCriteria(PortfolioType.class)
-				.add(Restrictions.eq("portfolioId", __idPortfolio)).uniqueResult();
+	public List<PortfolioType> getListByIdPortfolio(int __idPortfolio) {
+		return this.sessionFactory.getCurrentSession().createCriteria(PortfolioType.class)
+				.add(Restrictions.eq("portfolioId", __idPortfolio)).list();
 	}
 
 }

@@ -50,7 +50,7 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	public Portfolio getPortfolioOfAccount(Account __account, Integer __id) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
 				.createCriteria(Portfolio.class);
-		_criteria.add(Restrictions.idEq(__id))
+		_criteria.add(Restrictions.eq("id.id", __id))
 		.add(Restrictions.eq("id.accountId", __account.getId()));
 		return (Portfolio) _criteria.uniqueResult();
 	}

@@ -134,10 +134,10 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 */
 	@Override
 	public void validate() throws ObjectParamException {
-		if (this.countryCode == null) {
+		if (this.countryCode == null || this.countryCode.isEmpty()) {
 			throw new ObjectParamException("Invalid country code");
 		}
-		if (this.phoneString == null) {
+		if (this.phoneString == null || this.phoneString.isEmpty()) {
 			throw new ObjectParamException("Invalid phone");
 		}
 		else {

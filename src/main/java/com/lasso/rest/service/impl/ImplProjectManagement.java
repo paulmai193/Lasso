@@ -75,6 +75,22 @@ public class ImplProjectManagement implements ProjectManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.service.ProjectManagement#getTypeByIdPortfolio(int)
+	 */
+	@Override
+	public List<Type> getListTypesByIdPortfolio(int __idPortfolio) {
+		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO
+				.getListByIdPortfolio(__idPortfolio);
+		List<Integer> _listIdsType = new ArrayList<>();
+		for (PortfolioType _portfolioType : _portfolioTypes) {
+			_listIdsType.add(_portfolioType.getTypeId());
+		}
+		return this.typeDAO.getListByByListIds(_listIdsType);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.service.ProjectManagement#getProjectDetailById(int, java.lang.String,
 	 * java.lang.String)
 	 */
@@ -163,17 +179,6 @@ public class ImplProjectManagement implements ProjectManagement {
 
 		// Get Style from TypesStyles
 		return this.projectDAO.getStylesByTypesAndKeyword(_typesStyles, __index, __size, __keyword);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getTypeByIdPortfolio(int)
-	 */
-	@Override
-	public Type getTypeByIdPortfolio(int __idPortfolio) {
-		PortfolioType _portfolioType = this.portfolioTypeDAO.getByIdPortfolio(__idPortfolio);
-		return this.typeDAO.getById(_portfolioType.getTypeId());
 	}
 
 	/**
