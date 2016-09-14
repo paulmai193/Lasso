@@ -79,7 +79,7 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * @param __types the types
 	 */
 	public PortfolioDetailResponse(Category __category, Portfolio __portfolio,
-	        String __prefixPortfolioUrl, Style __style, List<Type> __types) {
+			String __prefixPortfolioUrl, Style __style, List<Type> __types) {
 		super();
 		this.category = __category;
 		this.portfolio = __portfolio;
@@ -184,7 +184,7 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 
 	@Override
 	public void serialize(PortfolioDetailResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -211,7 +211,7 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 			for (String _portfolioImage : __value.getPortfolio().getImage().split(",")) {
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeString(
-					        __value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
+							__value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage);
 				}
 			}
 		}

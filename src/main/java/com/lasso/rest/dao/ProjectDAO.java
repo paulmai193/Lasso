@@ -51,12 +51,21 @@ public interface ProjectDAO {
 	Project getProjectById(int __idProject);
 
 	/**
+	 * Gets the ramdom.
+	 *
+	 * @param __idStyle the id style
+	 * @param __limit the limit
+	 * @return the ramdom
+	 */
+	List<Project> getRamdom(Integer __idStyle, int __limit);
+
+	/**
 	 * Gets the style by id.
 	 *
 	 * @param __styleId the style id
 	 * @return the style by id
 	 */
-	Style getstyleById(int __styleId);
+	Style getStyleById(int __styleId);
 
 	/**
 	 * Gets the styles by types and keyword.

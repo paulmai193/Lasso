@@ -124,20 +124,18 @@ public class ImplProjectManagement implements ProjectManagement {
 		List<Project> _projects = this.projectDAO.searchProjects(__idStyle, __keyword, __index,
 				__size);
 		if (_projects.isEmpty()) {
-			throw new NotFoundException("Data not found");
+			_projects = this.projectDAO.getRamdom(__idStyle, __size);
 		}
-		else {
-			for (Project _project : _projects) {
-				Object[] _data = { _project, "" };
-				Account _account = this.accountDAO.getAccountById(_project.getId().getAccountId());
-				_data[1] = _account.getImage();
+		for (Project _project : _projects) {
+			Object[] _data = { _project, "" };
+			Account _account = this.accountDAO.getAccountById(_project.getId().getAccountId());
+			_data[1] = _account.getImage();
 
-				_datas.add(_data);
-			}
-			ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
-					__prefixProjectUrl, __prefixAvatarUrl, _datas);
-			return _listProjectsResponse;
+			_datas.add(_data);
 		}
+		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
+				__prefixProjectUrl, __prefixAvatarUrl, _datas);
+		return _listProjectsResponse;
 	}
 
 	/*
@@ -147,7 +145,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public Style getStyleById(int __styleId) {
-		return this.projectDAO.getstyleById(__styleId);
+		return this.projectDAO.getStyleById(__styleId);
 	}
 
 	/*
