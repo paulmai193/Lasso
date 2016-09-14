@@ -17,7 +17,10 @@ import com.lasso.rest.model.variable.EmailParam;
 public class ForgetPasswordRequest extends BaseRequest {
 
 	/** The email. */
-	private EmailParam email;
+	private EmailParam	email;
+
+	/** The email string. */
+	private String		emailString;
 
 	/**
 	 * Instantiates a new forgot password request.
@@ -39,15 +42,18 @@ public class ForgetPasswordRequest extends BaseRequest {
 	 *
 	 * @param __email the new email
 	 */
-	@JsonProperty("email")
-	public void setEmail(String __email) {
-		try {
-			this.email = new EmailParam(__email);
-		}
-		catch (Exception _ex) {
-			this.email = null;
-		}
+	public void setEmail(EmailParam __email) {
+		this.email = __email;
+	}
 
+	/**
+	 * Sets the email string.
+	 *
+	 * @param __emailString the new email string
+	 */
+	@JsonProperty("email")
+	public void setEmailString(String __emailString) {
+		this.emailString = __emailString;
 	}
 
 	/*
@@ -57,8 +63,11 @@ public class ForgetPasswordRequest extends BaseRequest {
 	 */
 	@Override
 	public void validate() throws ObjectParamException {
-		if (this.email == null) {
+		if (this.emailString == null) {
 			throw new ObjectParamException("Invalid email");
+		}
+		else {
+			this.email = new EmailParam(this.emailString);
 		}
 	}
 

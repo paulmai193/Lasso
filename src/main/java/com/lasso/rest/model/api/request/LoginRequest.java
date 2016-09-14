@@ -18,6 +18,9 @@ public class LoginRequest extends BaseRequest {
 	/** The email. */
 	private EmailParam	email;
 
+	/** The email string. */
+	private String		emailString;
+
 	/** The password. */
 	@JsonProperty("password")
 	private String		password;
@@ -60,18 +63,22 @@ public class LoginRequest extends BaseRequest {
 	}
 
 	/**
-	 * Sets the email param.
+	 * Sets the email.
 	 *
-	 * @param __email the new email param
+	 * @param __email the new email
+	 */
+	public void setEmail(EmailParam __email) {
+		this.email = __email;
+	}
+
+	/**
+	 * Sets the email string.
+	 *
+	 * @param __emailString the new email string
 	 */
 	@JsonProperty("email")
-	public void setEmailParam(String __email) {
-		try {
-			this.email = new EmailParam(__email);
-		}
-		catch (Exception _ex) {
-			this.email = null;
-		}
+	public void setEmailString(String __emailString) {
+		this.emailString = __emailString;
 	}
 
 	/**
@@ -99,8 +106,11 @@ public class LoginRequest extends BaseRequest {
 	 */
 	@Override
 	public void validate() throws ObjectParamException {
-		if (this.email == null) {
+		if (this.emailString == null) {
 			throw new ObjectParamException("Invalid email");
+		}
+		else {
+			this.email = new EmailParam(this.emailString);
 		}
 		if (this.password == null) {
 			throw new ObjectParamException("Invalid password");

@@ -33,7 +33,7 @@ public class PhoneParam extends ContactParam {
 			return __param;
 		}
 		else {
-			throw new ObjectParamException("Not phone number format");
+			throw new ObjectParamException("Not phone number format: " + __param);
 		}
 	}
 }

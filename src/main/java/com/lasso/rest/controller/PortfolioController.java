@@ -77,7 +77,7 @@ public class PortfolioController extends BaseController {
 			List<Object[]> _datas = new ArrayList<>(); // {portfolio, category, style}
 			for (Portfolio _portfolio : _portfolios) {
 				Category _category = this.projectManagement
-				        .getCategoryById(_portfolio.getId().getCategoryId());
+						.getCategoryById(_portfolio.getId().getCategoryId());
 				Style _style = this.projectManagement.getStyleById(_portfolio.getId().getStyleId());
 				Object[] _data = { _portfolio, _category, _style };
 				_datas.add(_data);
@@ -91,6 +91,7 @@ public class PortfolioController extends BaseController {
 	 * Gets the portfolio of account.
 	 *
 	 * @param __id the id
+	 * @return the portfolio of account
 	 */
 	@GET
 	@Path("/me/detail")
@@ -106,13 +107,13 @@ public class PortfolioController extends BaseController {
 			}
 			else {
 				Category _category = this.projectManagement
-				        .getCategoryById(_portfolio.getId().getCategoryId());
+						.getCategoryById(_portfolio.getId().getCategoryId());
 				Style _style = this.projectManagement.getStyleById(_portfolio.getId().getStyleId());
 				Type _type = this.projectManagement
-				        .getTypeByIdPortfolio(_portfolio.getId().getId());
+						.getTypeByIdPortfolio(_portfolio.getId().getId());
 				String __prefixUrl = this.httpHost + this.portfolioStoragePath;
 				return new PortfolioDetailResponse(_portfolio, _category, _style, _type,
-				        __prefixUrl);
+						__prefixUrl);
 			}
 		}
 	}

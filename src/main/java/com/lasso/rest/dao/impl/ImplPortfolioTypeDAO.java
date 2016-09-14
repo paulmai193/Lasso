@@ -8,6 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.PortfolioTypeDAO;
 import com.lasso.rest.model.datasource.PortfolioType;
 
+/**
+ * The Class ImplPortfolioTypeDAO.
+ *
+ * @author Paul Mai
+ */
 @Repository
 public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 
@@ -15,11 +20,16 @@ public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.PortfolioTypeDAO#getByIdPortfolio(int)
+	 */
 	@Override
 	public PortfolioType getByIdPortfolio(int __idPortfolio) {
 		return (PortfolioType) this.sessionFactory.getCurrentSession()
-		        .createCriteria(PortfolioType.class)
-		        .add(Restrictions.eq("portfolioId", __idPortfolio)).uniqueResult();
+				.createCriteria(PortfolioType.class)
+				.add(Restrictions.eq("portfolioId", __idPortfolio)).uniqueResult();
 	}
 
 }

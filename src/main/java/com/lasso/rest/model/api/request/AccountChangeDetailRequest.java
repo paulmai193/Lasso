@@ -28,6 +28,9 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	/** The phone. */
 	private PhoneParam	phone;
 
+	/** The phone string. */
+	private String		phoneString;
+
 	/**
 	 * Instantiates a new account change detail request.
 	 */
@@ -95,14 +98,18 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 *
 	 * @param __phone the new phone
 	 */
+	public void setPhone(PhoneParam __phone) {
+		this.phone = __phone;
+	}
+
+	/**
+	 * Sets the phone string.
+	 *
+	 * @param __phoneString the new phone string
+	 */
 	@JsonProperty(value = "phone")
-	public void setPhone(String __phone) {
-		try {
-			this.phone = new PhoneParam(__phone);
-		}
-		catch (Exception _ex) {
-			this.phone = null;
-		}
+	public void setPhoneString(String __phoneString) {
+		this.phoneString = __phoneString;
 	}
 
 	/*
@@ -130,8 +137,11 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		if (this.countryCode == null) {
 			throw new ObjectParamException("Invalid country code");
 		}
-		if (this.phone == null) {
-			throw new ObjectParamException("Invalid phone number");
+		if (this.phoneString == null) {
+			throw new ObjectParamException("Invalid phone");
+		}
+		else {
+			this.phone = new PhoneParam(this.phoneString);
 		}
 	}
 

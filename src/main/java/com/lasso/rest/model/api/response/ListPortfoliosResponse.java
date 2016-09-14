@@ -113,7 +113,7 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 
 	@Override
 	public void serialize(ListPortfoliosResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {

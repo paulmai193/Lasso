@@ -24,7 +24,7 @@ public class ContactParam extends AbstractParam<String> {
 	protected static final String	EMAIL_PATTERN	= "[^@]+@[^@]+\\.[^@]+";
 
 	/** The Constant PHONE_PATTERN. */
-	protected static final String	PHONE_PATTERN	= "\\d+";
+	protected static final String	PHONE_PATTERN	= "^[\\d{1}\\+[(\\d{1}\\+)]]+\\d+";
 
 	/** The contact type. */
 	protected byte					contactType;
@@ -80,7 +80,7 @@ public class ContactParam extends AbstractParam<String> {
 			return __param;
 		}
 		else {
-			throw new ObjectParamException("Not email or phone number format");
+			throw new ObjectParamException("Not email or phone number format: " + __param);
 		}
 	}
 }

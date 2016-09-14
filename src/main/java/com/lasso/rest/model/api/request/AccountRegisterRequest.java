@@ -30,6 +30,9 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The email. */
 	private EmailParam	email;
 
+	/** The email string. */
+	private String		emailString;
+
 	/** The name. */
 	@JsonProperty(value = "name")
 	private String		name;
@@ -40,6 +43,9 @@ public class AccountRegisterRequest extends BaseRequest {
 
 	/** The phone. */
 	private PhoneParam	phone;
+
+	/** The phone string. */
+	private String		phoneString;
 
 	/** The push token. */
 	@JsonProperty("push_token")
@@ -176,14 +182,18 @@ public class AccountRegisterRequest extends BaseRequest {
 	 *
 	 * @param __email the new email
 	 */
+	public void setEmail(EmailParam __email) {
+		this.email = __email;
+	}
+
+	/**
+	 * Sets the email string.
+	 *
+	 * @param __emailString the new email string
+	 */
 	@JsonProperty(value = "email")
-	public void setEmail(String __email) {
-		try {
-			this.email = new EmailParam(__email);
-		}
-		catch (Exception _ex) {
-			this.email = null;
-		}
+	public void setEmailString(String __emailString) {
+		this.emailString = __emailString;
 	}
 
 	/**
@@ -209,14 +219,18 @@ public class AccountRegisterRequest extends BaseRequest {
 	 *
 	 * @param __phone the new phone
 	 */
+	public void setPhone(PhoneParam __phone) {
+		this.phone = __phone;
+	}
+
+	/**
+	 * Sets the phone string.
+	 *
+	 * @param __phoneString the new phone string
+	 */
 	@JsonProperty(value = "phone")
-	public void setPhone(String __phone) {
-		try {
-			this.phone = new PhoneParam(__phone);
-		}
-		catch (Exception _ex) {
-			this.phone = null;
-		}
+	public void setPhoneString(String __phoneString) {
+		this.phoneString = __phoneString;
 	}
 
 	/**
@@ -256,8 +270,11 @@ public class AccountRegisterRequest extends BaseRequest {
 		if (this.countryCode == null) {
 			throw new ObjectParamException("Invalid country code");
 		}
-		if (this.email == null) {
+		if (this.emailString == null) {
 			throw new ObjectParamException("Invalid email");
+		}
+		else {
+			this.email = new EmailParam(this.emailString);
 		}
 		if (this.name == null) {
 			throw new ObjectParamException("Invalid name");
@@ -265,8 +282,11 @@ public class AccountRegisterRequest extends BaseRequest {
 		if (this.password == null) {
 			throw new ObjectParamException("Invalid password");
 		}
-		if (this.phone == null) {
+		if (this.phoneString == null) {
 			throw new ObjectParamException("Invalid phone");
+		}
+		else {
+			this.phone = new PhoneParam(this.phoneString);
 		}
 		if (this.pushToken == null) {
 			throw new ObjectParamException("Invalid push token");
