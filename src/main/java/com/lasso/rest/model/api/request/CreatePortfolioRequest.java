@@ -25,6 +25,12 @@ public class CreatePortfolioRequest extends BaseRequest {
 	@JsonProperty("image")
 	private List<String>	images;
 
+	@JsonProperty("portfolio_info")
+	private String			info;
+
+	@JsonProperty("amount")
+	private Double			amount	= 0D;
+
 	public CreatePortfolioRequest() {
 	}
 
@@ -44,6 +50,9 @@ public class CreatePortfolioRequest extends BaseRequest {
 		}
 		if (images == null) {
 			throw new ObjectParamException("Invalid image");
+		}
+		if (info == null) {
+			throw new ObjectParamException("Invalid portfolio info");
 		}
 	}
 
@@ -115,6 +124,34 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 */
 	public void setImages(List<String> __images) {
 		this.images = __images;
+	}
+
+	/**
+	 * @return the info
+	 */
+	public String getInfo() {
+		return this.info;
+	}
+
+	/**
+	 * @param __info the info to set
+	 */
+	public void setInfo(String __info) {
+		this.info = __info;
+	}
+
+	/**
+	 * @return the amount
+	 */
+	public Double getAmount() {
+		return this.amount;
+	}
+
+	/**
+	 * @param __amount the amount to set
+	 */
+	public void setAmount(Double __amount) {
+		this.amount = __amount;
 	}
 
 }

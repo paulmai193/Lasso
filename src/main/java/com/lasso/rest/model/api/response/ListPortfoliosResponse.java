@@ -113,7 +113,7 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 
 	@Override
 	public void serialize(ListPortfoliosResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -123,7 +123,7 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 		__gen.writeArrayFieldStart("data");
 		for (Object[] _data : __value.getDatas()) {
 			__gen.writeStartObject();
-			__gen.writeNumberField("id", ((Portfolio) _data[0]).getId().getId());
+			__gen.writeNumberField("id", ((Portfolio) _data[0]).getId());
 			__gen.writeStringField("portfolio_title", ((Portfolio) _data[0]).getTitle());
 			__gen.writeStringField("category_title", ((Category) _data[1]).getTitle());
 			__gen.writeStringField("style_title", ((Style) _data[2]).getTitle());

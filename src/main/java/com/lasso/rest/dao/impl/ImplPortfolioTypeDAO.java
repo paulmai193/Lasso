@@ -22,6 +22,10 @@ public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	public void setSessionFactory(SessionFactory __sessionFactory) {
+		this.sessionFactory = __sessionFactory;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -31,7 +35,7 @@ public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 	@Override
 	public List<PortfolioType> getListByIdPortfolio(int __idPortfolio) {
 		return this.sessionFactory.getCurrentSession().createCriteria(PortfolioType.class)
-				.add(Restrictions.eq("portfolioId", __idPortfolio)).list();
+		        .add(Restrictions.eq("portfolioId", __idPortfolio)).list();
 	}
 
 }

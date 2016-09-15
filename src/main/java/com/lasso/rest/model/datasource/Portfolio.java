@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,8 +36,17 @@ public class Portfolio implements Serializable {
 	/** The created. */
 	private Date				created;
 
+	/** The account id. */
+	private int					accountId;
+
+	/** The category id. */
+	private int					categoryId;
+
 	/** The id. */
-	private PortfolioPK			id;
+	private int					id;
+
+	/** The style id. */
+	private int					styleId;
 
 	/** The image. */
 	private String				image;
@@ -58,6 +69,22 @@ public class Portfolio implements Serializable {
 	public Portfolio() {
 	}
 
+	public Portfolio(double __amount, Date __created, int __accountId, int __categoryId,
+	        int __styleId, String __image, String __info, Date __modified, byte __status,
+	        String __title) {
+		super();
+		this.amount = __amount;
+		this.created = __created;
+		this.accountId = __accountId;
+		this.categoryId = __categoryId;
+		this.styleId = __styleId;
+		this.image = __image;
+		this.info = __info;
+		this.modified = __modified;
+		this.status = __status;
+		this.title = __title;
+	}
+
 	/**
 	 * Gets the amount.
 	 *
@@ -76,16 +103,6 @@ public class Portfolio implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
-	}
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	@EmbeddedId
-	public PortfolioPK getId() {
-		return this.id;
 	}
 
 	/**
@@ -157,12 +174,62 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
+	 * @return the accountId
 	 */
-	public void setId(PortfolioPK id) {
-		this.id = id;
+	public int getAccountId() {
+		return this.accountId;
+	}
+
+	/**
+	 * @param __accountId the accountId to set
+	 */
+	public void setAccountId(int __accountId) {
+		this.accountId = __accountId;
+	}
+
+	/**
+	 * @return the categoryId
+	 */
+	public int getCategoryId() {
+		return this.categoryId;
+	}
+
+	/**
+	 * @param __categoryId the categoryId to set
+	 */
+	public void setCategoryId(int __categoryId) {
+		this.categoryId = __categoryId;
+	}
+
+	/**
+	 * @return the id
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, unique = true)
+	public int getId() {
+		return this.id;
+	}
+
+	/**
+	 * @param __id the id to set
+	 */
+	public void setId(int __id) {
+		this.id = __id;
+	}
+
+	/**
+	 * @return the styleId
+	 */
+	public int getStyleId() {
+		return this.styleId;
+	}
+
+	/**
+	 * @param __styleId the styleId to set
+	 */
+	public void setStyleId(int __styleId) {
+		this.styleId = __styleId;
 	}
 
 	/**

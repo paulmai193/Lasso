@@ -1,0 +1,47 @@
+package com.lasso.rest.dao.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.lasso.rest.dao.TypeStyleDAO;
+import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.datasource.TypesStyle;
+
+@Repository
+public class ImplTypeStyleDAO implements TypeStyleDAO {
+
+	/** The session factory. */
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	public void setSessionFactory(SessionFactory __sessionFactory) {
+		this.sessionFactory = __sessionFactory;
+	}
+
+	public ImplTypeStyleDAO() {
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TypesStyle> getTypesStylesByTypes(List<Type> __types) {
+		if (__types.size() == 0) {
+			return new ArrayList<>();
+		}
+
+		List<Integer> _pks = new ArrayList<>();
+		for (Type _type : __types) {
+
+			_pks.add(_type.getId().getId());
+		}
+		Criteria _criteria = this.sessionFactory.getCurrentSession()
+		        .createCriteria(TypesStyle.class).add(Restrictions.in("id.typeId", _pks));
+		return _criteria.list();
+	}
+
+}

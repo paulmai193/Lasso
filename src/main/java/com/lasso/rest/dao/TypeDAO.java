@@ -2,6 +2,7 @@ package com.lasso.rest.dao;
 
 import java.util.List;
 
+import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Type;
 
 /**
@@ -18,4 +19,12 @@ public interface TypeDAO {
 	 * @return the list by by list ids
 	 */
 	public List<Type> getListByByListIds(List<Integer> __listIdsType);
+
+	/**
+	 * Gets the types by category.
+	 *
+	 * @param __category the category
+	 * @return the types by category
+	 */
+	List<Type> getTypesByCategory(Category __category);
 }

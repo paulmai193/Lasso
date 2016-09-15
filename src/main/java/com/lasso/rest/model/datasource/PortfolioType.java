@@ -56,6 +56,14 @@ public class PortfolioType implements Serializable {
 	public PortfolioType() {
 	}
 
+	public PortfolioType(Date __created, Date __modified, int __portfolioId, int __typeId) {
+		super();
+		this.created = __created;
+		this.modified = __modified;
+		this.portfolioId = __portfolioId;
+		this.typeId = __typeId;
+	}
+
 	/**
 	 * Gets the created.
 	 *

@@ -17,6 +17,10 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="categoryDAO" class="com.lasso.rest.dao.impl.ImplCategoryDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -25,7 +29,23 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="portfolioTypeDAO" class="com.lasso.rest.dao.impl.ImplPortfolioTypeDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="projectDAO" class="com.lasso.rest.dao.impl.ImplProjectDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="styleDAO" class="com.lasso.rest.dao.impl.ImplStyleDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="typeDAO" class="com.lasso.rest.dao.impl.ImplTypeDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="typeStyleDAO" class="com.lasso.rest.dao.impl.ImplTypeStyleDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
@@ -50,16 +70,14 @@
 	<bean id="projectManagement" class="com.lasso.rest.service.impl.ImplProjectManagement"
 		lazy-init="false" scope="singleton">
 		<property name="accountDAO" ref="accountDAO" />
+		<property name="categoryDAO" ref="categoryDAO" />
+		<property name="portfolioDAO" ref="portfolioDAO" />
+		<property name="portfolioTypeDAO" ref="portfolioTypeDAO" />
 		<property name="projectDAO" ref="projectDAO" />
+		<property name="styleDAO" ref="styleDAO" />
+		<property name="typeDAO" ref="typeDAO" />
 	</bean>
-
-	<!-- Filter Layer -->
-	<bean id="accountAuthenticateFilter"
-		class="com.lasso.rest.controller.filter.AccountAuthenticateFilter"
-		lazy-init="false">
-		<property name="accountManagement" ref="accountManagement" />
-	</bean>
-
+	
 	<!-- Controller Layer -->
 	<bean id="accountController" class="com.lasso.rest.controller.AccountController"
 		lazy-init="false">
@@ -97,6 +115,13 @@
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
 		<property name="styleStoragePath" ref="styleStoragePath" />
 		<property name="httpHost" ref="httpHost"/>
+	</bean>
+	
+	<!-- Filter Layer -->
+	<bean id="accountAuthenticateFilter"
+		class="com.lasso.rest.controller.filter.AccountAuthenticateFilter"
+		lazy-init="false">
+		<property name="accountManagement" ref="accountManagement" />
 	</bean>
 
 	<!-- Utility -->

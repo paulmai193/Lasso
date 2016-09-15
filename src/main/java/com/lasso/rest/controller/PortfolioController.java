@@ -81,8 +81,8 @@ public class PortfolioController extends BaseController {
 			List<Object[]> _datas = new ArrayList<>(); // {portfolio, category, style}
 			for (Portfolio _portfolio : _portfolios) {
 				Category _category = this.projectManagement
-				        .getCategoryById(_portfolio.getId().getCategoryId());
-				Style _style = this.projectManagement.getStyleById(_portfolio.getId().getStyleId());
+				        .getCategoryById(_portfolio.getCategoryId());
+				Style _style = this.projectManagement.getStyleById(_portfolio.getStyleId());
 				Object[] _data = { _portfolio, _category, _style };
 				_datas.add(_data);
 			}
@@ -112,11 +112,10 @@ public class PortfolioController extends BaseController {
 			else {
 				try {
 					Category _category = this.projectManagement
-					        .getCategoryById(_portfolio.getId().getCategoryId());
-					Style _style = this.projectManagement
-					        .getStyleById(_portfolio.getId().getStyleId());
+					        .getCategoryById(_portfolio.getCategoryId());
+					Style _style = this.projectManagement.getStyleById(_portfolio.getStyleId());
 					List<Type> _types = this.projectManagement
-					        .getListTypesByIdPortfolio(_portfolio.getId().getId());
+					        .getListTypesByIdPortfolio(_portfolio.getId());
 					String _prefixUrl = this.httpHost + this.portfolioStoragePath;
 					return new PortfolioDetailResponse(_category, _portfolio, _prefixUrl, _style,
 					        _types);
@@ -133,7 +132,8 @@ public class PortfolioController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createPortfolio(CreatePortfolioRequest __createPortfolioRequest) {
 		__createPortfolioRequest.validate();
-
+		Account _desiger = (Account) this.validateContext.getUserPrincipal();
+		this.portfolioManagement.createPortfolio(_desiger, __createPortfolioRequest);
 		return this.success();
 	}
 

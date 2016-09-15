@@ -10,9 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.rest.dao.AccountDAO;
+import com.lasso.rest.dao.CategoryDAO;
+import com.lasso.rest.dao.PortfolioDAO;
 import com.lasso.rest.dao.PortfolioTypeDAO;
 import com.lasso.rest.dao.ProjectDAO;
+import com.lasso.rest.dao.StyleDAO;
 import com.lasso.rest.dao.TypeDAO;
+import com.lasso.rest.dao.TypeStyleDAO;
 import com.lasso.rest.model.api.response.ListProjectsResponse;
 import com.lasso.rest.model.api.response.ProjectDetailResponse;
 import com.lasso.rest.model.datasource.Account;
@@ -38,6 +42,12 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Autowired
 	private AccountDAO			accountDAO;
 
+	@Autowired
+	private CategoryDAO			categoryDAO;
+
+	@Autowired
+	private PortfolioDAO		portfolioDAO;
+
 	/** The portfolio type DAO. */
 	@Autowired
 	private PortfolioTypeDAO	portfolioTypeDAO;
@@ -46,9 +56,19 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Autowired
 	private ProjectDAO			projectDAO;
 
+	@Autowired
+	private StyleDAO			styleDAO;
+
 	/** The type DAO. */
 	@Autowired
 	private TypeDAO				typeDAO;
+
+	@Autowired
+	private TypeStyleDAO		typeStyleDAO;
+
+	public void setTypeStyleDAO(TypeStyleDAO __typeStyleDAO) {
+		this.typeStyleDAO = __typeStyleDAO;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -59,7 +79,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Override
 	public List<Category> getCategoriesByIndexAndKeyword(int __index, int __size,
 	        String __keyword) {
-		return this.projectDAO.getCategories(__index, __size, __keyword);
+		return this.categoryDAO.getCategories(__index, __size, __keyword);
 	}
 
 	/*
@@ -69,7 +89,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public Category getCategoryById(int __idCategory) {
-		return this.projectDAO.getCategoryById(__idCategory);
+		return this.categoryDAO.getCategoryById(__idCategory);
 	}
 
 	/*
@@ -79,8 +99,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Type> getListTypesByIdCategory(int __idCategory) {
-		Category _category = this.projectDAO.getCategoryById(__idCategory);
-		List<Type> _types = this.projectDAO.getTypesByCategory(_category);
+		Category _category = this.categoryDAO.getCategoryById(__idCategory);
+		List<Type> _types = this.typeDAO.getTypesByCategory(_category);
 		return _types;
 	}
 
@@ -111,9 +131,9 @@ public class ImplProjectManagement implements ProjectManagement {
 	        String __prefixAvatarUrl) {
 		try {
 			Project _project = this.projectDAO.getProjectById(__idProject);
-			Category _category = this.projectDAO.getCategoryById(_project.getCategoryId());
-			Portfolio _portfolio = this.projectDAO.getPortfolioByProject(_project);
-			Account _account = this.accountDAO.getAccountById(_portfolio.getId().getAccountId());
+			Category _category = this.categoryDAO.getCategoryById(_project.getCategoryId());
+			Portfolio _portfolio = this.portfolioDAO.getPortfolioByProject(_project);
+			Account _account = this.accountDAO.getAccountById(_portfolio.getAccountId());
 			return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
 			        _portfolio, _account, _category);
 		}
@@ -157,7 +177,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public Style getStyleById(int __styleId) {
-		return this.projectDAO.getStyleById(__styleId);
+		return this.styleDAO.getStyleById(__styleId);
 	}
 
 	/*
@@ -170,25 +190,25 @@ public class ImplProjectManagement implements ProjectManagement {
 	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
 	        String __keyword) {
 		// Get Category from id
-		Category _category = this.projectDAO.getCategoryById(__idCategory);
+		Category _category = this.categoryDAO.getCategoryById(__idCategory);
 		if (_category == null) {
 			return new ArrayList<>();
 		}
 
 		// Get Type from Category
-		List<Type> _types = this.projectDAO.getTypesByCategory(_category);
+		List<Type> _types = this.typeDAO.getTypesByCategory(_category);
 		if (_types.size() == 0) {
 			return new ArrayList<>();
 		}
 
 		// Get TypesStyle from Types
-		List<TypesStyle> _typesStyles = this.projectDAO.getTypesStylesByTypes(_types);
+		List<TypesStyle> _typesStyles = this.typeStyleDAO.getTypesStylesByTypes(_types);
 		if (_typesStyles.size() == 0) {
 			return new ArrayList<>();
 		}
 
 		// Get Style from TypesStyles
-		return this.projectDAO.getStylesByTypesAndKeyword(_typesStyles, __index, __size, __keyword);
+		return this.styleDAO.getStylesByTypesAndKeyword(_typesStyles, __index, __size, __keyword);
 	}
 
 	/**
@@ -198,6 +218,14 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	public void setAccountDAO(AccountDAO __accountDAO) {
 		this.accountDAO = __accountDAO;
+	}
+
+	public void setCategoryDAO(CategoryDAO __categoryDAO) {
+		this.categoryDAO = __categoryDAO;
+	}
+
+	public void setPortfolioDAO(PortfolioDAO __portfolioDAO) {
+		this.portfolioDAO = __portfolioDAO;
 	}
 
 	/**
@@ -216,6 +244,10 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	public void setProjectDAO(ProjectDAO __projectDAO) {
 		this.projectDAO = __projectDAO;
+	}
+
+	public void setStyleDAO(StyleDAO __styleDAO) {
+		this.styleDAO = __styleDAO;
 	}
 
 	/**
