@@ -38,13 +38,11 @@ public class ImplAccountDAO implements AccountDAO {
 	 * @see com.lasso.rest.dao.AccountDAO#createAccount(com.lasso.rest.model.datasource.Account)
 	 */
 	public Integer createAccount(Account __account) {
-		// if (__account.getId().getId() > 0) {
 		if (__account.getId() != null) {
 			this.sessionFactory.getCurrentSession().update(__account);
 			return __account.getId();
 		}
 		else {
-			// return ((AccountPK) this.sessionFactory.getCurrentSession().save(__account)).getId();
 			return (Integer) this.sessionFactory.getCurrentSession().save(__account);
 		}
 

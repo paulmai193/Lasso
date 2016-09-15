@@ -5,6 +5,11 @@ import java.util.List;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.datasource.TypesStyle;
 
+/**
+ * The Interface TypeStyleDAO.
+ *
+ * @author Paul Mai
+ */
 public interface TypeStyleDAO {
 
 	/**

@@ -56,6 +56,14 @@ public class PortfolioType implements Serializable {
 	public PortfolioType() {
 	}
 
+	/**
+	 * Instantiates a new portfolio type.
+	 *
+	 * @param __created the created
+	 * @param __modified the modified
+	 * @param __portfolioId the portfolio id
+	 * @param __typeId the type id
+	 */
 	public PortfolioType(Date __created, Date __modified, int __portfolioId, int __typeId) {
 		super();
 		this.created = __created;

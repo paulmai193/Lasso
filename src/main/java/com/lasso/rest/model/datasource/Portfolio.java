@@ -1,6 +1,7 @@
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,6 +17,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.lasso.rest.model.api.request.EditPortfolioRequest;
+
 /**
  * The Class Portfolio.
  *
@@ -30,23 +33,20 @@ public class Portfolio implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The amount. */
-	private double				amount;
-
-	/** The created. */
-	private Date				created;
-
 	/** The account id. */
 	private int					accountId;
+
+	/** The amount. */
+	private double				amount;
 
 	/** The category id. */
 	private int					categoryId;
 
+	/** The created. */
+	private Date				created;
+
 	/** The id. */
 	private int					id;
-
-	/** The style id. */
-	private int					styleId;
 
 	/** The image. */
 	private String				image;
@@ -60,6 +60,9 @@ public class Portfolio implements Serializable {
 	/** The status. */
 	private byte				status;
 
+	/** The style id. */
+	private int					styleId;
+
 	/** The title. */
 	private String				title;
 
@@ -69,9 +72,23 @@ public class Portfolio implements Serializable {
 	public Portfolio() {
 	}
 
+	/**
+	 * Instantiates a new portfolio.
+	 *
+	 * @param __amount the amount
+	 * @param __created the created
+	 * @param __accountId the account id
+	 * @param __categoryId the category id
+	 * @param __styleId the style id
+	 * @param __image the image
+	 * @param __info the info
+	 * @param __modified the modified
+	 * @param __status the status
+	 * @param __title the title
+	 */
 	public Portfolio(double __amount, Date __created, int __accountId, int __categoryId,
-	        int __styleId, String __image, String __info, Date __modified, byte __status,
-	        String __title) {
+			int __styleId, String __image, String __info, Date __modified, byte __status,
+			String __title) {
 		super();
 		this.amount = __amount;
 		this.created = __created;
@@ -86,6 +103,16 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
+	 * Gets the account id.
+	 *
+	 * @return the accountId
+	 */
+	@Column(name = "account_id", nullable = false)
+	public int getAccountId() {
+		return this.accountId;
+	}
+
+	/**
 	 * Gets the amount.
 	 *
 	 * @return the amount
@@ -96,6 +123,16 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
+	 * Gets the category id.
+	 *
+	 * @return the categoryId
+	 */
+	@Column(name = "category_id", nullable = false)
+	public int getCategoryId() {
+		return this.categoryId;
+	}
+
+	/**
 	 * Gets the created.
 	 *
 	 * @return the created
@@ -103,6 +140,17 @@ public class Portfolio implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
 	}
 
 	/**
@@ -146,6 +194,16 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
+	 * Gets the style id.
+	 *
+	 * @return the styleId
+	 */
+	@Column(name = "style_id", nullable = false)
+	public int getStyleId() {
+		return this.styleId;
+	}
+
+	/**
 	 * Gets the title.
 	 *
 	 * @return the title
@@ -153,6 +211,15 @@ public class Portfolio implements Serializable {
 	@Column(nullable = false, length = 45)
 	public String getTitle() {
 		return this.title;
+	}
+
+	/**
+	 * Sets the account id.
+	 *
+	 * @param __accountId the accountId to set
+	 */
+	public void setAccountId(int __accountId) {
+		this.accountId = __accountId;
 	}
 
 	/**
@@ -165,6 +232,15 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
+	 * Sets the category id.
+	 *
+	 * @param __categoryId the categoryId to set
+	 */
+	public void setCategoryId(int __categoryId) {
+		this.categoryId = __categoryId;
+	}
+
+	/**
 	 * Sets the created.
 	 *
 	 * @param created the new created
@@ -174,62 +250,12 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
-	 * @return the accountId
-	 */
-	public int getAccountId() {
-		return this.accountId;
-	}
-
-	/**
-	 * @param __accountId the accountId to set
-	 */
-	public void setAccountId(int __accountId) {
-		this.accountId = __accountId;
-	}
-
-	/**
-	 * @return the categoryId
-	 */
-	public int getCategoryId() {
-		return this.categoryId;
-	}
-
-	/**
-	 * @param __categoryId the categoryId to set
-	 */
-	public void setCategoryId(int __categoryId) {
-		this.categoryId = __categoryId;
-	}
-
-	/**
-	 * @return the id
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, unique = true)
-	public int getId() {
-		return this.id;
-	}
-
-	/**
+	 * Sets the id.
+	 *
 	 * @param __id the id to set
 	 */
 	public void setId(int __id) {
 		this.id = __id;
-	}
-
-	/**
-	 * @return the styleId
-	 */
-	public int getStyleId() {
-		return this.styleId;
-	}
-
-	/**
-	 * @param __styleId the styleId to set
-	 */
-	public void setStyleId(int __styleId) {
-		this.styleId = __styleId;
 	}
 
 	/**
@@ -269,12 +295,38 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
+	 * Sets the style id.
+	 *
+	 * @param __styleId the styleId to set
+	 */
+	public void setStyleId(int __styleId) {
+		this.styleId = __styleId;
+	}
+
+	/**
 	 * Sets the title.
 	 *
 	 * @param title the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	/**
+	 * Update.
+	 *
+	 * @param __editPortfolioRequest the edit portfolio request
+	 */
+	public void update(EditPortfolioRequest __editPortfolioRequest) {
+		this.setAmount(__editPortfolioRequest.getAmount());
+		this.setCategoryId(__editPortfolioRequest.getIdCategory());
+		String _image = Arrays.toString(__editPortfolioRequest.getImages().toArray());
+		_image = _image.substring(1, _image.length() - 1);
+		this.setImage(_image);
+		this.setInfo(__editPortfolioRequest.getInfo());
+		this.setModified(new Date());
+		this.setStyleId(__editPortfolioRequest.getIdStyle());
+		this.setTitle(__editPortfolioRequest.getTitle());
 	}
 
 }

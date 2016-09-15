@@ -61,18 +61,15 @@ public class UploadController extends BaseController implements Feature {
 	/** The http host. */
 	private String					httpHost;
 
+	/** The temporary storage path. */
+	private String					temporaryStoragePath;
+
 	/** The upload image management. */
 	@Autowired
 	private UploadImageManagement	uploadImageManagement;
 
 	/** The web context storage path. */
 	private String					webContextStoragePath;
-
-	private String					temporaryStoragePath;
-
-	public void setTemporaryStoragePath(String __temporaryStoragePath) {
-		this.temporaryStoragePath = __temporaryStoragePath;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -125,6 +122,15 @@ public class UploadController extends BaseController implements Feature {
 	}
 
 	/**
+	 * Sets the temporary storage path.
+	 *
+	 * @param __temporaryStoragePath the new temporary storage path
+	 */
+	public void setTemporaryStoragePath(String __temporaryStoragePath) {
+		this.temporaryStoragePath = __temporaryStoragePath;
+	}
+
+	/**
 	 * Sets the upload image management.
 	 *
 	 * @param __uploadImageManagement the new upload image management
@@ -157,26 +163,26 @@ public class UploadController extends BaseController implements Feature {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	public Response uploadAvatar(@Context SecurityContext __context,
-	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-	        @FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
+			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
 		if (__fileStream == null && __fileMetaData == null) {
 			throw new ObjectParamException("Invalid file upload");
 		}
 		String _uploadedFileName = __fileMetaData.getFileName();
 		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
-		        _uploadedFileName.length());
+				_uploadedFileName.length());
 		File _avatar = new File(this.webContextStoragePath + this.avatarStoragePath + "/Original/"
-		        + this.uploadImageManagement.generateImageName(_fileExtension));
+				+ this.uploadImageManagement.generateImageName(_fileExtension));
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _avatar, _fileExtension);
 
 			// Resize into 2 other size
 			File _iconAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
-			        + "/icon/" + _avatar.getName());
+					+ "/icon/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _iconAvatar, 45D, 45D);
 			File _smallAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
-			        + "/small/" + _avatar.getName());
+					+ "/small/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _smallAvatar, 90D, 90D);
 
 			// Save avatar name to account
@@ -186,31 +192,41 @@ public class UploadController extends BaseController implements Feature {
 			// Response
 			String _prefixUrl = this.httpHost + this.avatarStoragePath;
 			return this
-			        .success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
-			                _prefixUrl + "/small/" + _avatar.getName(),
-			                _prefixUrl + "/icon/" + _avatar.getName()));
+					.success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
+							_prefixUrl + "/small/" + _avatar.getName(),
+							_prefixUrl + "/icon/" + _avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);
 		}
 	}
 
+	/**
+	 * Upload portfolio.
+	 *
+	 * @param __context the context
+	 * @param __request the request
+	 * @param __fileStream the file stream
+	 * @param __fileMetaData the file meta data
+	 * @return the response
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@POST
 	@Path("/portfolio")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	@AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
 	public Response uploadPortfolio(@Context SecurityContext __context,
-	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-	        @FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
+			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
 		if (__fileStream == null && __fileMetaData == null) {
 			throw new ObjectParamException("Invalid file upload");
 		}
 		String _uploadedFileName = __fileMetaData.getFileName();
 		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
-		        _uploadedFileName.length());
+				_uploadedFileName.length());
 		File _image = new File(this.webContextStoragePath + this.temporaryStoragePath + "/"
-		        + this.uploadImageManagement.generateImageName(_fileExtension));
+				+ this.uploadImageManagement.generateImageName(_fileExtension));
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _image, _fileExtension);
@@ -224,7 +240,7 @@ public class UploadController extends BaseController implements Feature {
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new UploadPortfolioResponse(true, _ex.getMessage()),
-			        Status.BAD_REQUEST);
+					Status.BAD_REQUEST);
 		}
 	}
 

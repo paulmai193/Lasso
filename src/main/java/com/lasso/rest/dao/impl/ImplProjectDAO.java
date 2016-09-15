@@ -33,7 +33,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	@Override
 	public Project getProjectById(int __idProject) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class)
-		        .add(Restrictions.eq("id.id", __idProject));
+				.add(Restrictions.eq("id.id", __idProject));
 		return (Project) _criteria.uniqueResult();
 	}
 
@@ -49,8 +49,9 @@ public class ImplProjectDAO implements ProjectDAO {
 		if (__idStyle != null) {
 			_criteria.add(Restrictions.eq("id.styleId", __idStyle));
 		}
-		_criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"));
-		_criteria.addOrder(Order.asc("title")).setMaxResults(__limit);
+		_criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"))
+		.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("title"))
+		.setMaxResults(__limit);
 		return _criteria.list();
 	}
 
@@ -63,7 +64,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset,
-	        int __limit) {
+			int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
 		if (__idStyle != null) {
 			_criteria.add(Restrictions.eq("id.styleId", __idStyle));
@@ -71,7 +72,8 @@ public class ImplProjectDAO implements ProjectDAO {
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
-		_criteria.addOrder(Order.asc("title")).setFirstResult(__offset).setMaxResults(__limit);
+		_criteria.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("title"))
+		.setFirstResult(__offset).setMaxResults(__limit);
 		return _criteria.list();
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,10 +25,6 @@ public class ImplTypeDAO implements TypeDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void setSessionFactory(SessionFactory __sessionFactory) {
-		this.sessionFactory = __sessionFactory;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -36,16 +33,32 @@ public class ImplTypeDAO implements TypeDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Type> getListByByListIds(List<Integer> __listIdsType) {
-		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class);
-		_criteria.add(Restrictions.in("id.id", __listIdsType));
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
+				.add(Restrictions.in("id.id", __listIdsType))
+				.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("title"));
 		return _criteria.list();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.TypeDAO#getTypesByCategory(com.lasso.rest.model.datasource.Category)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Type> getTypesByCategory(Category __category) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-		        .add(Restrictions.eq("category", __category));
+				.add(Restrictions.eq("category", __category))
+				.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("title"));
 		return _criteria.list();
+	}
+
+	/**
+	 * Sets the session factory.
+	 *
+	 * @param __sessionFactory the new session factory
+	 */
+	public void setSessionFactory(SessionFactory __sessionFactory) {
+		this.sessionFactory = __sessionFactory;
 	}
 }

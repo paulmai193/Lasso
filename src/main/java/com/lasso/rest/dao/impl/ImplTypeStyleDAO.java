@@ -13,6 +13,11 @@ import com.lasso.rest.dao.TypeStyleDAO;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.datasource.TypesStyle;
 
+/**
+ * The Class ImplTypeStyleDAO.
+ *
+ * @author Paul Mai
+ */
 @Repository
 public class ImplTypeStyleDAO implements TypeStyleDAO {
 
@@ -20,13 +25,17 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void setSessionFactory(SessionFactory __sessionFactory) {
-		this.sessionFactory = __sessionFactory;
-	}
-
+	/**
+	 * Instantiates a new impl type style DAO.
+	 */
 	public ImplTypeStyleDAO() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.TypeStyleDAO#getTypesStylesByTypes(java.util.List)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TypesStyle> getTypesStylesByTypes(List<Type> __types) {
@@ -40,8 +49,17 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 			_pks.add(_type.getId().getId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
-		        .createCriteria(TypesStyle.class).add(Restrictions.in("id.typeId", _pks));
+				.createCriteria(TypesStyle.class).add(Restrictions.in("id.typeId", _pks));
 		return _criteria.list();
+	}
+
+	/**
+	 * Sets the session factory.
+	 *
+	 * @param __sessionFactory the new session factory
+	 */
+	public void setSessionFactory(SessionFactory __sessionFactory) {
+		this.sessionFactory = __sessionFactory;
 	}
 
 }

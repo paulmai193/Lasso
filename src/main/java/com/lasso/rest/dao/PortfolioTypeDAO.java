@@ -12,10 +12,24 @@ import com.lasso.rest.model.datasource.PortfolioType;
 public interface PortfolioTypeDAO {
 
 	/**
+	 * Creates the portfolio type.
+	 *
+	 * @param __portfolioType the portfolio type
+	 */
+	void createPortfolioType(PortfolioType __portfolioType);
+
+	/**
 	 * Gets the list by id portfolio.
 	 *
 	 * @param __idPortfolio the id portfolio
 	 * @return the list by id portfolio
 	 */
-	public List<PortfolioType> getListByIdPortfolio(int __idPortfolio);
+	List<PortfolioType> getListByIdPortfolio(int __idPortfolio);
+
+	/**
+	 * Removes the by portfolio id.
+	 *
+	 * @param __idPortfolio the id portfolio
+	 */
+	void removeByPortfolioId(int __idPortfolio);
 }

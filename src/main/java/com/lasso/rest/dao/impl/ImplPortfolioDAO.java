@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,16 +30,50 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * com.lasso.rest.dao.PortfolioDAO#createPortfolio(com.lasso.rest.model.datasource.Portfolio)
+	 */
+	@Override
+	public Integer createPortfolio(Portfolio __portfolio) {
+		return (Integer) this.sessionFactory.getCurrentSession().save(__portfolio);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * com.lasso.rest.dao.PortfolioDAO#getAllPortfoliosOfAccount(com.lasso.rest.model.datasource.
 	 * Account)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Portfolio> getAllPortfoliosOfAccount(Account __account) {
-		Criteria _criteria = this.sessionFactory.getCurrentSession()
-		        .createCriteria(Portfolio.class);
-		_criteria.add(Restrictions.eq("id.accountId", __account.getId()));
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
+				.add(Restrictions.eq("accountId", __account.getId()))
+				.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("title"));
 		return _criteria.list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.PortfolioDAO#getPortfolioById(java.lang.Integer)
+	 */
+	@Override
+	public Portfolio getPortfolioById(Integer __id) {
+		return this.sessionFactory.getCurrentSession().get(Portfolio.class, __id);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.PortfolioDAO#getPortfolioByProject(com.lasso.rest.model.datasource.
+	 * Project)
+	 */
+	@Override
+	public Portfolio getPortfolioByProject(Project __project) {
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
+				.add(Restrictions.eq("id", __project.getId().getPortfolioId()));
+		return (Portfolio) _criteria.uniqueResult();
 	}
 
 	/*
@@ -50,21 +85,9 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioOfAccount(Account __account, Integer __id) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
-		        .createCriteria(Portfolio.class);
-		_criteria.add(Restrictions.eq("id.id", __id))
-		        .add(Restrictions.eq("id.accountId", __account.getId()));
-		return (Portfolio) _criteria.uniqueResult();
-	}
-
-	@Override
-	public Integer createPortfolio(Portfolio __portfolio) {
-		return (Integer) this.sessionFactory.getCurrentSession().save(__portfolio);
-	}
-
-	@Override
-	public Portfolio getPortfolioByProject(Project __project) {
-		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-		        .add(Restrictions.eq("id.id", __project.getId().getPortfolioId()));
+				.createCriteria(Portfolio.class);
+		_criteria.add(Restrictions.eq("id", __id))
+		.add(Restrictions.eq("accountId", __account.getId()));
 		return (Portfolio) _criteria.uniqueResult();
 	}
 
@@ -75,6 +98,17 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	 */
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.dao.PortfolioDAO#updatePortfolio(com.lasso.rest.model.datasource.Portfolio)
+	 */
+	@Override
+	public void updatePortfolio(Portfolio __portfolio) {
+		this.sessionFactory.getCurrentSession().update(__portfolio);
 	}
 
 }

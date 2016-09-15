@@ -5,6 +5,11 @@ import java.util.List;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.TypesStyle;
 
+/**
+ * The Interface StyleDAO.
+ *
+ * @author Paul Mai
+ */
 public interface StyleDAO {
 
 	/**
@@ -25,5 +30,5 @@ public interface StyleDAO {
 	 * @return the styles by types
 	 */
 	List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
-	        int __limit, String __keyword);
+			int __limit, String __keyword);
 }
