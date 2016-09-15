@@ -83,7 +83,7 @@ public class Configuration implements Serializable {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
