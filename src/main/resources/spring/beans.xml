@@ -21,6 +21,10 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="configurationDAO" class="com.lasso.rest.dao.impl.ImplConfigurationDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -53,11 +57,13 @@
 	<!-- Service Layer -->
 	<bean id="accountManagement" class="com.lasso.rest.service.impl.ImplAccountManagement"
 		lazy-init="false" scope="singleton">
+		<property name="emailUtil" ref="emailUtil" />
 		<property name="accountDAO" ref="accountDAO" />
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement"
 		lazy-init="false" scope="singleton">
 		<property name="countryDAO" ref="countryDAO" />
+		<property name="configurationDAO" ref="configurationDAO"/>
 	</bean>
 	<bean id="uploadImageManagement" class="com.lasso.rest.service.impl.ImplUploadImageManagement"
 		lazy-init="false" scope="singleton">
@@ -128,8 +134,9 @@
 
 	<!-- Utility -->
 	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized"
-		factory-method="getInstance" lazy-init="false">
-		<property name="propertyFile" value="classpath:config/email.properties"></property>
+		lazy-init="false" scope="prototype">
+		<!-- <property name="propertyFile" value="classpath:config/email.properties"></property> -->
+		<property name="genericManagement" ref="genericManagement"/>
 	</bean>
 
 </beans>

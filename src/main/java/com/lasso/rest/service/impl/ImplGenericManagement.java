@@ -3,13 +3,18 @@
  */
 package com.lasso.rest.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lasso.rest.dao.ConfigurationDAO;
 import com.lasso.rest.dao.CountryDAO;
+import com.lasso.rest.model.datasource.Configuration;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.GenericManagement;
 
@@ -24,7 +29,19 @@ public class ImplGenericManagement implements GenericManagement {
 
 	/** The country DAO. */
 	@Autowired
-	private CountryDAO countryDAO;
+	private CountryDAO			countryDAO;
+	/** The configuration DAO. */
+	@Autowired
+	private ConfigurationDAO	configurationDAO;
+
+	/**
+	 * Sets the configuration DAO.
+	 *
+	 * @param __configurationDAO the new configuration DAO
+	 */
+	public void setConfigurationDAO(ConfigurationDAO __configurationDAO) {
+		this.configurationDAO = __configurationDAO;
+	}
 
 	/**
 	 * Instantiates a new impl generic management.
@@ -65,6 +82,25 @@ public class ImplGenericManagement implements GenericManagement {
 	 */
 	public void setCountryDAO(CountryDAO __countryDAO) {
 		this.countryDAO = __countryDAO;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.GenericManagement#loadConfig()
+	 */
+	@Override
+	public Map<String, String> loadConfig() {
+		Map<String, String> _mapConfig = new HashMap<>();
+		this.configurationDAO.loadConfig().forEach(new Consumer<Configuration>() {
+
+			@Override
+			public void accept(Configuration __t) {
+				_mapConfig.put(__t.getName(), __t.getValue());
+			}
+		});
+		;
+		return _mapConfig;
 	}
 
 }

@@ -4,6 +4,7 @@
 package com.lasso.rest.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.lasso.rest.model.datasource.Country;
 
@@ -19,7 +20,7 @@ public interface GenericManagement {
 	 *
 	 * @return the all countries
 	 */
-	public List<Country> getAllCountries();
+	List<Country> getAllCountries();
 
 	/**
 	 * Gets the country id by code.
@@ -27,5 +28,12 @@ public interface GenericManagement {
 	 * @param __countryCode the country code
 	 * @return the country id by code
 	 */
-	public Country getCountryIdByCode(String __countryCode);
+	Country getCountryIdByCode(String __countryCode);
+
+	/**
+	 * Load config.
+	 *
+	 * @return the map
+	 */
+	Map<String, String> loadConfig();
 }

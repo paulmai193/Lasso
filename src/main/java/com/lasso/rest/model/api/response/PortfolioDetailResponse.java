@@ -194,7 +194,7 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 		__gen.writeObjectFieldStart("data");
 		__gen.writeStringField("portfolio_title", __value.getPortfolio().getTitle());
 		__gen.writeStringField("category_title", __value.getCategory().getTitle());
-		__gen.writeArrayFieldStart("type_title");
+		__gen.writeArrayFieldStart("types");
 		for (Type _type : __value.getTypes()) {
 			__gen.writeStartObject();
 			__gen.writeNumberField("type_id", _type.getId());
@@ -203,10 +203,10 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 		}
 		__gen.writeEndArray();
 
-		__gen.writeObjectFieldStart("style");
+		// __gen.writeObjectFieldStart("style");
 		__gen.writeNumberField("style_id", __value.getStyle().getId());
 		__gen.writeStringField("style_title", __value.getStyle().getTitle());
-		__gen.writeEndObject();
+		// __gen.writeEndObject();
 
 		__gen.writeNumberField("amount", __value.getPortfolio().getAmount());
 		__gen.writeStringField("info", __value.getPortfolio().getInfo());

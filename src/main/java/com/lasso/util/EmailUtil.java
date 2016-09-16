@@ -30,7 +30,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.springframework.core.io.Resource;
+import com.lasso.rest.service.GenericManagement;
 
 /**
  * The Class EmailUtil.
@@ -39,37 +39,34 @@ import org.springframework.core.io.Resource;
  */
 public final class EmailUtil {
 
-	/** The instance. */
-	private static EmailUtil instance;
-
-	/**
-	 * Gets the single instance of EmailUtil.
-	 *
-	 * @return single instance of EmailUtil
-	 */
-	public static synchronized EmailUtil getInstance() {
-		if (EmailUtil.instance == null) {
-			EmailUtil.instance = new EmailUtil();
-		}
-		return EmailUtil.instance;
-	}
-
 	/** The password. */
-	private String		password;
+	private String				password;
 
-	/** The property file. */
-	private Resource	propertyFile;
+	// /** The property file. */
+	// private Resource propertyFile;
 
 	/** The session. */
-	private Session		session;
+	private Session				session;
 
 	/** The username. */
-	private String		username;
+	private String				username;
+
+	/** The generic management. */
+	private GenericManagement	genericManagement;
+
+	/**
+	 * Sets the generic management.
+	 *
+	 * @param __genericManagement the new generic management
+	 */
+	public void setGenericManagement(GenericManagement __genericManagement) {
+		this.genericManagement = __genericManagement;
+	}
 
 	/**
 	 * Instantiates a new email util.
 	 */
-	private EmailUtil() {
+	public EmailUtil() {
 	}
 
 	/**
@@ -83,7 +80,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __subject, String __content, File __attachment,
-			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
+	        Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
 		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
 		this.sendEmail(__subject, __content, _attachments, __recipients);
@@ -100,7 +97,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __subject, String __content, List<File> __attachments,
-			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
+	        Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
 
 		// Create a default MimeMessage object.
 		MimeMessage _message = new MimeMessage(this.session);
@@ -136,7 +133,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __subject, String __content,
-			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
+	        Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
 
 		MimeMessage _message = new MimeMessage(this.session);
 
@@ -162,8 +159,8 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-			File __attachment, RecipientType __receipientType)
-					throws AddressException, MessagingException {
+	        File __attachment, RecipientType __receipientType)
+	        throws AddressException, MessagingException {
 		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
 		this.sendEmail(__recipients, __subject, __content, _attachments, __receipientType);
@@ -181,8 +178,8 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-			List<File> __attachments, RecipientType __receipientType)
-					throws AddressException, MessagingException {
+	        List<File> __attachments, RecipientType __receipientType)
+	        throws AddressException, MessagingException {
 		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__receipientType, __recipients);
 		this.sendEmail(__subject, __content, __attachments, _mapRecipients);
@@ -199,20 +196,20 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-			RecipientType __recipientType) throws AddressException, MessagingException {
+	        RecipientType __recipientType) throws AddressException, MessagingException {
 		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__recipientType, __recipients);
 		this.sendEmail(__subject, __content, _mapRecipients);
 	}
 
-	/**
-	 * Sets the property file.
-	 *
-	 * @param __propertyFile the new property file
-	 */
-	public void setPropertyFile(final Resource __propertyFile) {
-		this.propertyFile = __propertyFile;
-	}
+	// /**
+	// * Sets the property file.
+	// *
+	// * @param __propertyFile the new property file
+	// */
+	// public void setPropertyFile(final Resource __propertyFile) {
+	// this.propertyFile = __propertyFile;
+	// }
 
 	/**
 	 * Attach file.
@@ -222,7 +219,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	private synchronized void attachFile(Multipart __multipart, File __file)
-			throws MessagingException {
+	        throws MessagingException {
 		BodyPart _attachPart = new MimeBodyPart();
 		DataSource _source = new FileDataSource(__file);
 		_attachPart.setDataHandler(new DataHandler(_source));
@@ -239,12 +236,23 @@ public final class EmailUtil {
 	 */
 	@SuppressWarnings("unused")
 	private void initialized() throws FileNotFoundException, IOException, URISyntaxException {
+		// Properties _props = new Properties();
+		// _props.load(this.propertyFile.getInputStream());
+		// this.username = _props.containsKey("email.username") ?
+		// _props.getProperty("email.username")
+		// : "n/a";
+		// this.password = _props.containsKey("email.password") ?
+		// _props.getProperty("email.password")
+		// : "n/a";
+
+		Map<String, String> _mapConfig = this.genericManagement.loadConfig();
+		this.username = _mapConfig.get("EmailConfig.email_username");
+		this.password = _mapConfig.get("EmailConfig.email_password");
 		Properties _props = new Properties();
-		_props.load(this.propertyFile.getInputStream());
-		this.username = _props.containsKey("email.username") ? _props.getProperty("email.username")
-				: "n/a";
-		this.password = _props.containsKey("email.password") ? _props.getProperty("email.password")
-				: "n/a";
+		_props.setProperty("mail.smtp.auth", "true");
+		_props.setProperty("mail.smtp.starttls.enable", "true");
+		_props.setProperty("mail.smtp.host", _mapConfig.get("EmailConfig.email_host"));
+		_props.setProperty("mail.smtp.port", _mapConfig.get("EmailConfig.email_port"));
 
 		this.session = Session.getInstance(_props, new javax.mail.Authenticator() {
 
