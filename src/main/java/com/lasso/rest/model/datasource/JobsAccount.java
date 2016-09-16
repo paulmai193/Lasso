@@ -3,8 +3,11 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,22 +29,49 @@ public class JobsAccount implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
+	/** The account id. */
+	@Column(name = "account_id")
+	private int					accountId;
+
 	/** The confirm. */
 	private byte				confirm;
 
+	/** The counter. */
+	private double				counter;
+
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
+	private byte				deleted;
+
 	/** The id. */
-	private JobsAccountPK		id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int					id;
+
+	/** The job id. */
+	@Column(name = "job_id")
+	private int					jobId;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
 	/**
 	 * Instantiates a new jobs account.
 	 */
 	public JobsAccount() {
+	}
+
+	/**
+	 * Gets the account id.
+	 *
+	 * @return the account id
+	 */
+	public int getAccountId() {
+		return this.accountId;
 	}
 
 	/**
@@ -54,13 +84,30 @@ public class JobsAccount implements Serializable {
 	}
 
 	/**
+	 * Gets the counter.
+	 *
+	 * @return the counter
+	 */
+	public double getCounter() {
+		return this.counter;
+	}
+
+	/**
 	 * Gets the created.
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public byte getDeleted() {
+		return this.deleted;
 	}
 
 	/**
@@ -68,9 +115,17 @@ public class JobsAccount implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@EmbeddedId
-	public JobsAccountPK getId() {
+	public int getId() {
 		return this.id;
+	}
+
+	/**
+	 * Gets the job id.
+	 *
+	 * @return the job id
+	 */
+	public int getJobId() {
+		return this.jobId;
 	}
 
 	/**
@@ -78,9 +133,17 @@ public class JobsAccount implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
+	}
+
+	/**
+	 * Sets the account id.
+	 *
+	 * @param accountId the new account id
+	 */
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 	/**
@@ -93,6 +156,15 @@ public class JobsAccount implements Serializable {
 	}
 
 	/**
+	 * Sets the counter.
+	 *
+	 * @param counter the new counter
+	 */
+	public void setCounter(double counter) {
+		this.counter = counter;
+	}
+
+	/**
 	 * Sets the created.
 	 *
 	 * @param created the new created
@@ -102,12 +174,30 @@ public class JobsAccount implements Serializable {
 	}
 
 	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
 	 * Sets the id.
 	 *
 	 * @param id the new id
 	 */
-	public void setId(JobsAccountPK id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * Sets the job id.
+	 *
+	 * @param jobId the new job id
+	 */
+	public void setJobId(int jobId) {
+		this.jobId = jobId;
 	}
 
 	/**

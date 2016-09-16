@@ -72,7 +72,7 @@ public class ListProjectsResponse extends BaseResponse {
 	 * @param __datas the datas
 	 */
 	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl,
-			String __prefixAvatarUrl, List<Object[]> __datas) {
+	        String __prefixAvatarUrl, List<Object[]> __datas) {
 		super();
 		this.nextIndex = __nextIndex;
 		this.prefixProjectUrl = __prefixProjectUrl;
@@ -122,7 +122,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
 	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -133,7 +133,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 		__gen.writeArrayFieldStart("data");
 		for (Object[] _data : __value.getDatas()) {
 			__gen.writeStartObject();
-			__gen.writeNumberField("project_id", ((Project) _data[0]).getId().getId());
+			__gen.writeNumberField("project_id", ((Project) _data[0]).getId());
 			__gen.writeStringField("title", ((Project) _data[0]).getTitle());
 			__gen.writeObjectFieldStart("images");
 			if (((Project) _data[0]).getImage().isEmpty()) {
@@ -143,11 +143,11 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("original", __value.getPrefixProjectUrl() + "/Original/"
-						+ ((Project) _data[0]).getImage());
+				        + ((Project) _data[0]).getImage());
 				__gen.writeStringField("small", __value.getPrefixProjectUrl() + "/small/"
-						+ ((Project) _data[0]).getImage());
+				        + ((Project) _data[0]).getImage());
 				__gen.writeStringField("icon",
-						__value.getPrefixProjectUrl() + "/icon/" + ((Project) _data[0]).getImage());
+				        __value.getPrefixProjectUrl() + "/icon/" + ((Project) _data[0]).getImage());
 			}
 			__gen.writeEndObject();
 
@@ -156,7 +156,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("designer_avatar",
-						__value.getPrefixAvatarUrl() + "/icon/" + _data[1]);
+				        __value.getPrefixAvatarUrl() + "/icon/" + _data[1]);
 			}
 			__gen.writeEndObject();
 		}

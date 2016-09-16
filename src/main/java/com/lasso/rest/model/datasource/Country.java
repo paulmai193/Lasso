@@ -4,9 +4,8 @@
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,22 +30,35 @@ public final class Country implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The accounts. */
-	private Set<Account>		accounts;
+	// bi-directional many-to-one association to Account
+	@OneToMany(mappedBy = "country")
+	private List<Account>		accounts;
 
 	/** The code. */
 	private String				code;
 
 	/** The created. */
-	private Timestamp			created;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				created;
+
+	/** The deleted. */
+	private byte				deleted;
 
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
 	/** The name. */
 	private String				name;
+
+	/** The phone code. */
+	@Column(name = "phone_code")
+	private int					phoneCode;
 
 	/** The sort. */
 	private int					sort;
@@ -78,9 +90,7 @@ public final class Country implements Serializable {
 	 *
 	 * @return the accounts
 	 */
-	// bi-directional many-to-one association to Account
-	@OneToMany(mappedBy = "country")
-	public Set<Account> getAccounts() {
+	public List<Account> getAccounts() {
 		return this.accounts;
 	}
 
@@ -89,7 +99,6 @@ public final class Country implements Serializable {
 	 *
 	 * @return the code
 	 */
-	@Column(nullable = false, length = 2)
 	public String getCode() {
 		return this.code;
 	}
@@ -99,8 +108,17 @@ public final class Country implements Serializable {
 	 *
 	 * @return the created
 	 */
-	public Timestamp getCreated() {
+	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public byte getDeleted() {
+		return this.deleted;
 	}
 
 	/**
@@ -108,9 +126,6 @@ public final class Country implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -120,7 +135,6 @@ public final class Country implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
 	}
@@ -130,9 +144,17 @@ public final class Country implements Serializable {
 	 *
 	 * @return the name
 	 */
-	@Column(nullable = false, length = 255)
 	public String getName() {
 		return this.name;
+	}
+
+	/**
+	 * Gets the phone code.
+	 *
+	 * @return the phone code
+	 */
+	public int getPhoneCode() {
+		return this.phoneCode;
 	}
 
 	/**
@@ -140,7 +162,6 @@ public final class Country implements Serializable {
 	 *
 	 * @return the sort
 	 */
-	@Column(nullable = false)
 	public int getSort() {
 		return this.sort;
 	}
@@ -150,7 +171,6 @@ public final class Country implements Serializable {
 	 *
 	 * @return the status
 	 */
-	@Column(nullable = false)
 	public byte getStatus() {
 		return this.status;
 	}
@@ -173,7 +193,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param accounts the new accounts
 	 */
-	public void setAccounts(Set<Account> accounts) {
+	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
 
@@ -191,8 +211,17 @@ public final class Country implements Serializable {
 	 *
 	 * @param created the new created
 	 */
-	public void setCreated(Timestamp created) {
+	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
 	}
 
 	/**
@@ -220,6 +249,15 @@ public final class Country implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Sets the phone code.
+	 *
+	 * @param phoneCode the new phone code
+	 */
+	public void setPhoneCode(int phoneCode) {
+		this.phoneCode = phoneCode;
 	}
 
 	/**

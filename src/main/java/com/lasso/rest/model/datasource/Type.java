@@ -3,11 +3,10 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,22 +30,28 @@ public class Type implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The category. */
+	// bi-directional many-to-one association to Category
+	@ManyToOne
 	private Category			category;
 
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
+	private byte				deleted;
+
 	/** The id. */
-	private TypePK				id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int					id;
 
 	/** The image. */
 	private String				image;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
-
-	/** The sort. */
-	private Integer				sort;
 
 	/** The status. */
 	private byte				status;
@@ -65,9 +70,6 @@ public class Type implements Serializable {
 	 *
 	 * @return the category
 	 */
-	// bi-directional many-to-one association to Category
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id", nullable = false, insertable = false, updatable = false)
 	public Category getCategory() {
 		return this.category;
 	}
@@ -77,9 +79,17 @@ public class Type implements Serializable {
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public byte getDeleted() {
+		return this.deleted;
 	}
 
 	/**
@@ -87,8 +97,7 @@ public class Type implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@EmbeddedId
-	public TypePK getId() {
+	public int getId() {
 		return this.id;
 	}
 
@@ -97,7 +106,6 @@ public class Type implements Serializable {
 	 *
 	 * @return the image
 	 */
-	@Column(nullable = false, length = 45)
 	public String getImage() {
 		return this.image;
 	}
@@ -107,18 +115,8 @@ public class Type implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
-	}
-
-	/**
-	 * Gets the sort.
-	 *
-	 * @return the sort
-	 */
-	public Integer getSort() {
-		return this.sort;
 	}
 
 	/**
@@ -135,7 +133,6 @@ public class Type implements Serializable {
 	 *
 	 * @return the title
 	 */
-	@Column(nullable = false, length = 45)
 	public String getTitle() {
 		return this.title;
 	}
@@ -159,11 +156,20 @@ public class Type implements Serializable {
 	}
 
 	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
 	 * Sets the id.
 	 *
 	 * @param id the new id
 	 */
-	public void setId(TypePK id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -183,15 +189,6 @@ public class Type implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-
-	/**
-	 * Sets the sort.
-	 *
-	 * @param sort the new sort
-	 */
-	public void setSort(Integer sort) {
-		this.sort = sort;
 	}
 
 	/**

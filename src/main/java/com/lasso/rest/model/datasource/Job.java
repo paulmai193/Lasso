@@ -31,48 +31,85 @@ public class Job implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The account id. */
+	@Column(name = "account_id")
 	private int					accountId;
 
 	/** The assets url. */
+	@Column(name = "assets_url")
 	private String				assetsUrl;
 
 	/** The budget. */
 	private double				budget;
 
 	/** The category id. */
+	@Column(name = "category_id")
 	private int					categoryId;
 
+	/** The completed. */
+	private byte				completed;
+
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
+
+	/** The deleted. */
+	private byte				deleted;
 
 	/** The description. */
 	private String				description;
 
+	/** The discount. */
+	private double				discount;
+
 	/** The further information. */
+	@Lob
+	@Column(name = "further_information")
 	private String				furtherInformation;
 
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
 	/** The latest submission. */
+	@Temporal(TemporalType.DATE)
+	@Column(name = "latest_submission")
 	private Date				latestSubmission;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
 	/** The objective. */
 	private String				objective;
 
+	/** The paid. */
+	private byte				paid;
+
 	/** The reference. */
+	@Lob
 	private String				reference;
+
+	/** The stage. */
+	private byte				stage;
+
+	/** The stage date. */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "stage_date")
+	private Date				stageDate;
 
 	/** The status. */
 	private byte				status;
 
+	/** The step. */
+	private byte				step;
+
 	/** The style id. */
+	@Column(name = "style_id")
 	private int					styleId;
 
 	/** The submission. */
+	@Temporal(TemporalType.DATE)
 	private Date				submission;
 
 	/**
@@ -86,7 +123,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the account id
 	 */
-	@Column(name = "account_id", nullable = false)
 	public int getAccountId() {
 		return this.accountId;
 	}
@@ -96,7 +132,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the assets url
 	 */
-	@Column(name = "assets_url", length = 250)
 	public String getAssetsUrl() {
 		return this.assetsUrl;
 	}
@@ -106,7 +141,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the budget
 	 */
-	@Column(nullable = false)
 	public double getBudget() {
 		return this.budget;
 	}
@@ -116,9 +150,17 @@ public class Job implements Serializable {
 	 *
 	 * @return the category id
 	 */
-	@Column(name = "category_id", nullable = false)
 	public int getCategoryId() {
 		return this.categoryId;
+	}
+
+	/**
+	 * Gets the completed.
+	 *
+	 * @return the completed
+	 */
+	public byte getCompleted() {
+		return this.completed;
 	}
 
 	/**
@@ -126,9 +168,17 @@ public class Job implements Serializable {
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public byte getDeleted() {
+		return this.deleted;
 	}
 
 	/**
@@ -136,9 +186,17 @@ public class Job implements Serializable {
 	 *
 	 * @return the description
 	 */
-	@Column(nullable = false, length = 200)
 	public String getDescription() {
 		return this.description;
+	}
+
+	/**
+	 * Gets the discount.
+	 *
+	 * @return the discount
+	 */
+	public double getDiscount() {
+		return this.discount;
 	}
 
 	/**
@@ -146,8 +204,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the further information
 	 */
-	@Lob
-	@Column(name = "further_information")
 	public String getFurtherInformation() {
 		return this.furtherInformation;
 	}
@@ -157,9 +213,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -169,8 +222,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the latest submission
 	 */
-	@Temporal(TemporalType.DATE)
-	@Column(name = "latest_submission", nullable = false)
 	public Date getLatestSubmission() {
 		return this.latestSubmission;
 	}
@@ -180,7 +231,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
 	}
@@ -190,9 +240,17 @@ public class Job implements Serializable {
 	 *
 	 * @return the objective
 	 */
-	@Column(length = 200)
 	public String getObjective() {
 		return this.objective;
+	}
+
+	/**
+	 * Gets the paid.
+	 *
+	 * @return the paid
+	 */
+	public byte getPaid() {
+		return this.paid;
 	}
 
 	/**
@@ -200,9 +258,26 @@ public class Job implements Serializable {
 	 *
 	 * @return the reference
 	 */
-	@Lob
 	public String getReference() {
 		return this.reference;
+	}
+
+	/**
+	 * Gets the stage.
+	 *
+	 * @return the stage
+	 */
+	public byte getStage() {
+		return this.stage;
+	}
+
+	/**
+	 * Gets the stage date.
+	 *
+	 * @return the stage date
+	 */
+	public Date getStageDate() {
+		return this.stageDate;
 	}
 
 	/**
@@ -215,11 +290,19 @@ public class Job implements Serializable {
 	}
 
 	/**
+	 * Gets the step.
+	 *
+	 * @return the step
+	 */
+	public byte getStep() {
+		return this.step;
+	}
+
+	/**
 	 * Gets the style id.
 	 *
 	 * @return the style id
 	 */
-	@Column(name = "style_id", nullable = false)
 	public int getStyleId() {
 		return this.styleId;
 	}
@@ -229,8 +312,6 @@ public class Job implements Serializable {
 	 *
 	 * @return the submission
 	 */
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
 	public Date getSubmission() {
 		return this.submission;
 	}
@@ -272,6 +353,15 @@ public class Job implements Serializable {
 	}
 
 	/**
+	 * Sets the completed.
+	 *
+	 * @param completed the new completed
+	 */
+	public void setCompleted(byte completed) {
+		this.completed = completed;
+	}
+
+	/**
 	 * Sets the created.
 	 *
 	 * @param created the new created
@@ -281,12 +371,30 @@ public class Job implements Serializable {
 	}
 
 	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
 	 * Sets the description.
 	 *
 	 * @param description the new description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * Sets the discount.
+	 *
+	 * @param discount the new discount
+	 */
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 
 	/**
@@ -335,6 +443,15 @@ public class Job implements Serializable {
 	}
 
 	/**
+	 * Sets the paid.
+	 *
+	 * @param paid the new paid
+	 */
+	public void setPaid(byte paid) {
+		this.paid = paid;
+	}
+
+	/**
 	 * Sets the reference.
 	 *
 	 * @param reference the new reference
@@ -344,12 +461,39 @@ public class Job implements Serializable {
 	}
 
 	/**
+	 * Sets the stage.
+	 *
+	 * @param stage the new stage
+	 */
+	public void setStage(byte stage) {
+		this.stage = stage;
+	}
+
+	/**
+	 * Sets the stage date.
+	 *
+	 * @param stageDate the new stage date
+	 */
+	public void setStageDate(Date stageDate) {
+		this.stageDate = stageDate;
+	}
+
+	/**
 	 * Sets the status.
 	 *
 	 * @param status the new status
 	 */
 	public void setStatus(byte status) {
 		this.status = status;
+	}
+
+	/**
+	 * Sets the step.
+	 *
+	 * @param step the new step
+	 */
+	public void setStep(byte step) {
+		this.step = step;
 	}
 
 	/**

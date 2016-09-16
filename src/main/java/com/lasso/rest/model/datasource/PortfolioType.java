@@ -21,7 +21,7 @@ import org.hibernate.annotations.DynamicUpdate;
  * @author Paul Mai
  */
 @Entity
-@Table(catalog = "art_design", name = "portfolios_types")
+@Table(name = "portfolios_types")
 @DynamicInsert(true)
 @DynamicUpdate(true)
 public class PortfolioType implements Serializable {
@@ -35,7 +35,7 @@ public class PortfolioType implements Serializable {
 
 	/** The id. */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
 	/** The modified. */

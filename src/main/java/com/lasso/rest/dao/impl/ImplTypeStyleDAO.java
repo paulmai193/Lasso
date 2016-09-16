@@ -45,11 +45,10 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 
 		List<Integer> _pks = new ArrayList<>();
 		for (Type _type : __types) {
-
-			_pks.add(_type.getId().getId());
+			_pks.add(_type.getId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
-				.createCriteria(TypesStyle.class).add(Restrictions.in("id.typeId", _pks));
+		        .createCriteria(TypesStyle.class).add(Restrictions.in("typeId", _pks));
 		return _criteria.list();
 	}
 

@@ -2,9 +2,8 @@ package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,19 +31,23 @@ public class Category implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
+	private byte				deleted;
+
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
 	/** The image. */
 	private String				image;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
-
-	/** The sort. */
-	private Integer				sort;
 
 	/** The status. */
 	private byte				status;
@@ -53,7 +56,9 @@ public class Category implements Serializable {
 	private String				title;
 
 	/** The types. */
-	private Set<Type>			types;
+	// bi-directional many-to-one association to Type
+	@OneToMany(mappedBy = "category")
+	private List<Type>			types;
 
 	/**
 	 * Instantiates a new category.
@@ -79,9 +84,17 @@ public class Category implements Serializable {
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public byte getDeleted() {
+		return this.deleted;
 	}
 
 	/**
@@ -89,9 +102,6 @@ public class Category implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -101,7 +111,6 @@ public class Category implements Serializable {
 	 *
 	 * @return the image
 	 */
-	@Column(nullable = false, length = 45)
 	public String getImage() {
 		return this.image;
 	}
@@ -111,19 +120,8 @@ public class Category implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
-	}
-
-	/**
-	 * Gets the sort.
-	 *
-	 * @return the sort
-	 */
-	@Column(nullable = true)
-	public Integer getSort() {
-		return this.sort;
 	}
 
 	/**
@@ -140,7 +138,6 @@ public class Category implements Serializable {
 	 *
 	 * @return the title
 	 */
-	@Column(nullable = false, length = 250)
 	public String getTitle() {
 		return this.title;
 	}
@@ -150,9 +147,7 @@ public class Category implements Serializable {
 	 *
 	 * @return the types
 	 */
-	// bi-directional many-to-one association to Type
-	@OneToMany(mappedBy = "category")
-	public Set<Type> getTypes() {
+	public List<Type> getTypes() {
 		return this.types;
 	}
 
@@ -176,6 +171,15 @@ public class Category implements Serializable {
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
 	}
 
 	/**
@@ -206,15 +210,6 @@ public class Category implements Serializable {
 	}
 
 	/**
-	 * Sets the sort.
-	 *
-	 * @param sort the new sort
-	 */
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
-
-	/**
 	 * Sets the status.
 	 *
 	 * @param status the new status
@@ -237,7 +232,7 @@ public class Category implements Serializable {
 	 *
 	 * @param types the new types
 	 */
-	public void setTypes(Set<Type> types) {
+	public void setTypes(List<Type> types) {
 		this.types = types;
 	}
 

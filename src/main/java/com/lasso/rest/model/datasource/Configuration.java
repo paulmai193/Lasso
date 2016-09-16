@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -18,7 +17,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "configurations")
-@NamedQuery(name = "Configuration.findAll", query = "SELECT c FROM Configuration c")
 public class Configuration implements Serializable {
 
 	/** The Constant serialVersionUID. */
@@ -31,21 +29,26 @@ public class Configuration implements Serializable {
 	private byte				editable;
 
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
 	/** The input type. */
+	@Column(name = "input_type")
 	private String				inputType;
 
 	/** The name. */
 	private String				name;
 
 	/** The params. */
+	@Lob
 	private String				params;
 
 	/** The title. */
 	private String				title;
 
 	/** The value. */
+	@Lob
 	private String				value;
 
 	/** The weight. */
@@ -62,7 +65,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the description
 	 */
-	@Column(nullable = false, length = 250)
 	public String getDescription() {
 		return this.description;
 	}
@@ -72,7 +74,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the editable
 	 */
-	@Column(nullable = false)
 	public byte getEditable() {
 		return this.editable;
 	}
@@ -82,9 +83,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -94,7 +92,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the input type
 	 */
-	@Column(name = "input_type", nullable = false, length = 250)
 	public String getInputType() {
 		return this.inputType;
 	}
@@ -104,7 +101,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the name
 	 */
-	@Column(nullable = false, length = 64)
 	public String getName() {
 		return this.name;
 	}
@@ -114,8 +110,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the params
 	 */
-	@Lob
-	@Column(nullable = false)
 	public String getParams() {
 		return this.params;
 	}
@@ -125,7 +119,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the title
 	 */
-	@Column(nullable = false, length = 250)
 	public String getTitle() {
 		return this.title;
 	}
@@ -135,7 +128,6 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the value
 	 */
-	@Lob
 	public String getValue() {
 		return this.value;
 	}

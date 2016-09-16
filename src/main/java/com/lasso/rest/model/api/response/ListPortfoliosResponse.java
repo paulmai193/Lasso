@@ -132,7 +132,14 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 			if (!((Portfolio) _data[0]).getImage().isEmpty()) {
 				for (String _portfolioImage : ((Portfolio) _data[0]).getImage().split(",")) {
 					if (!_portfolioImage.trim().isEmpty()) {
-						__gen.writeString(__value.getPrefixUrl() + "/small/" + _portfolioImage);
+						__gen.writeStartObject();
+						__gen.writeStringField("original",
+								__value.getPrefixUrl() + "/Original/" + _portfolioImage.trim());
+						__gen.writeStringField("small",
+								__value.getPrefixUrl() + "/small/" + _portfolioImage.trim());
+						__gen.writeStringField("icon",
+								__value.getPrefixUrl() + "/icon/" + _portfolioImage.trim());
+						__gen.writeEndObject();
 					}
 				}
 			}

@@ -88,12 +88,13 @@ class CountriesSerializer extends JsonSerializer<List<Country>> {
 
 	@Override
 	public void serialize(List<Country> __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartArray();
 		for (Country _country : __value) {
 			__gen.writeStartObject();
 			__gen.writeStringField("country_code", _country.getCode());
 			__gen.writeStringField("country_name", _country.getName());
+			__gen.writeNumberField("phone_code", _country.getPhoneCode());
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();

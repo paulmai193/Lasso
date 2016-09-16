@@ -90,11 +90,11 @@ class ListTypeSerializer extends JsonSerializer<List<Type>> {
 
 	@Override
 	public void serialize(List<Type> __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	        throws IOException, JsonProcessingException {
 		__gen.writeStartArray();
 		for (Type _type : __value) {
 			__gen.writeStartObject();
-			__gen.writeNumberField("id", _type.getId().getId());
+			__gen.writeNumberField("id", _type.getId());
 			__gen.writeStringField("title", _type.getTitle());
 			__gen.writeEndObject();
 		}

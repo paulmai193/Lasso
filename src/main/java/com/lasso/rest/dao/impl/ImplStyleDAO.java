@@ -52,21 +52,21 @@ public class ImplStyleDAO implements StyleDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
-			int __limit, String __keyword) {
+	        int __limit, String __keyword) {
 		if (__typesStyles.size() == 0) {
 			return new ArrayList<>();
 		}
 		List<Integer> _ids = new ArrayList<>();
 		for (TypesStyle _typesStyle : __typesStyles) {
-			_ids.add(_typesStyle.getId().getStyleId());
+			_ids.add(_typesStyle.getStyleId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Style.class)
-				.add(Restrictions.in("id", _ids));
+		        .add(Restrictions.in("id", _ids));
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("title"))
-		.setFirstResult(__offset).setMaxResults(__limit);
+		        .setFirstResult(__offset).setMaxResults(__limit);
 		return _criteria.list();
 	}
 

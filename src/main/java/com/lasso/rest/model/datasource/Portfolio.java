@@ -34,33 +34,45 @@ public class Portfolio implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The account id. */
+	@Column(name = "account_id")
 	private int					accountId;
 
 	/** The amount. */
 	private double				amount;
 
 	/** The category id. */
+	@Column(name = "category_id")
 	private int					categoryId;
 
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
+	private byte				deleted;
+
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
 	/** The image. */
+	@Lob
 	private String				image;
 
 	/** The info. */
+	@Lob
 	private String				info;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
 	/** The status. */
 	private byte				status;
 
 	/** The style id. */
+	@Column(name = "style_id")
 	private int					styleId;
 
 	/** The title. */
@@ -87,8 +99,8 @@ public class Portfolio implements Serializable {
 	 * @param __title the title
 	 */
 	public Portfolio(double __amount, Date __created, int __accountId, int __categoryId,
-			int __styleId, String __image, String __info, Date __modified, byte __status,
-			String __title) {
+	        int __styleId, String __image, String __info, Date __modified, byte __status,
+	        String __title) {
 		super();
 		this.amount = __amount;
 		this.created = __created;
@@ -105,9 +117,8 @@ public class Portfolio implements Serializable {
 	/**
 	 * Gets the account id.
 	 *
-	 * @return the accountId
+	 * @return the account id
 	 */
-	@Column(name = "account_id", nullable = false)
 	public int getAccountId() {
 		return this.accountId;
 	}
@@ -117,7 +128,6 @@ public class Portfolio implements Serializable {
 	 *
 	 * @return the amount
 	 */
-	@Column(nullable = false)
 	public double getAmount() {
 		return this.amount;
 	}
@@ -125,9 +135,8 @@ public class Portfolio implements Serializable {
 	/**
 	 * Gets the category id.
 	 *
-	 * @return the categoryId
+	 * @return the category id
 	 */
-	@Column(name = "category_id", nullable = false)
 	public int getCategoryId() {
 		return this.categoryId;
 	}
@@ -137,9 +146,17 @@ public class Portfolio implements Serializable {
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public byte getDeleted() {
+		return this.deleted;
 	}
 
 	/**
@@ -147,8 +164,6 @@ public class Portfolio implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -158,8 +173,6 @@ public class Portfolio implements Serializable {
 	 *
 	 * @return the image
 	 */
-	@Lob
-	@Column(nullable = false)
 	public String getImage() {
 		return this.image;
 	}
@@ -169,7 +182,6 @@ public class Portfolio implements Serializable {
 	 *
 	 * @return the info
 	 */
-	@Lob
 	public String getInfo() {
 		return this.info;
 	}
@@ -179,7 +191,6 @@ public class Portfolio implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
 	}
@@ -196,9 +207,8 @@ public class Portfolio implements Serializable {
 	/**
 	 * Gets the style id.
 	 *
-	 * @return the styleId
+	 * @return the style id
 	 */
-	@Column(name = "style_id", nullable = false)
 	public int getStyleId() {
 		return this.styleId;
 	}
@@ -208,7 +218,6 @@ public class Portfolio implements Serializable {
 	 *
 	 * @return the title
 	 */
-	@Column(nullable = false, length = 45)
 	public String getTitle() {
 		return this.title;
 	}
@@ -216,10 +225,10 @@ public class Portfolio implements Serializable {
 	/**
 	 * Sets the account id.
 	 *
-	 * @param __accountId the accountId to set
+	 * @param accountId the new account id
 	 */
-	public void setAccountId(int __accountId) {
-		this.accountId = __accountId;
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 	/**
@@ -234,10 +243,10 @@ public class Portfolio implements Serializable {
 	/**
 	 * Sets the category id.
 	 *
-	 * @param __categoryId the categoryId to set
+	 * @param categoryId the new category id
 	 */
-	public void setCategoryId(int __categoryId) {
-		this.categoryId = __categoryId;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	/**
@@ -250,12 +259,21 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
 	 * Sets the id.
 	 *
-	 * @param __id the id to set
+	 * @param id the new id
 	 */
-	public void setId(int __id) {
-		this.id = __id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -297,10 +315,10 @@ public class Portfolio implements Serializable {
 	/**
 	 * Sets the style id.
 	 *
-	 * @param __styleId the styleId to set
+	 * @param styleId the new style id
 	 */
-	public void setStyleId(int __styleId) {
-		this.styleId = __styleId;
+	public void setStyleId(int styleId) {
+		this.styleId = styleId;
 	}
 
 	/**

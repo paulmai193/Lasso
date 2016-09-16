@@ -3,8 +3,11 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,13 +30,25 @@ public class JobsType implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
 	/** The id. */
-	private JobsTypePK			id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int					id;
+
+	/** The job id. */
+	@Column(name = "job_id")
+	private int					jobId;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
+
+	/** The type id. */
+	@Column(name = "type_id")
+	private int					typeId;
 
 	/**
 	 * Instantiates a new jobs type.
@@ -46,7 +61,6 @@ public class JobsType implements Serializable {
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
 	}
@@ -56,9 +70,17 @@ public class JobsType implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@EmbeddedId
-	public JobsTypePK getId() {
+	public int getId() {
 		return this.id;
+	}
+
+	/**
+	 * Gets the job id.
+	 *
+	 * @return the job id
+	 */
+	public int getJobId() {
+		return this.jobId;
 	}
 
 	/**
@@ -66,9 +88,17 @@ public class JobsType implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
+	}
+
+	/**
+	 * Gets the type id.
+	 *
+	 * @return the type id
+	 */
+	public int getTypeId() {
+		return this.typeId;
 	}
 
 	/**
@@ -85,8 +115,17 @@ public class JobsType implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(JobsTypePK id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * Sets the job id.
+	 *
+	 * @param jobId the new job id
+	 */
+	public void setJobId(int jobId) {
+		this.jobId = jobId;
 	}
 
 	/**
@@ -96,6 +135,15 @@ public class JobsType implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+
+	/**
+	 * Sets the type id.
+	 *
+	 * @param typeId the new type id
+	 */
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 }

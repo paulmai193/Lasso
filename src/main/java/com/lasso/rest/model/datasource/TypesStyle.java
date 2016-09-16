@@ -3,8 +3,11 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,13 +30,25 @@ public class TypesStyle implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
 	/** The id. */
-	private TypesStylePK		id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int					id;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
+
+	/** The style id. */
+	@Column(name = "style_id")
+	private int					styleId;
+
+	/** The type id. */
+	@Column(name = "type_id")
+	private int					typeId;
 
 	/**
 	 * Instantiates a new types style.
@@ -46,7 +61,6 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
 	}
@@ -56,8 +70,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@EmbeddedId
-	public TypesStylePK getId() {
+	public int getId() {
 		return this.id;
 	}
 
@@ -66,9 +79,26 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
+	}
+
+	/**
+	 * Gets the style id.
+	 *
+	 * @return the style id
+	 */
+	public int getStyleId() {
+		return this.styleId;
+	}
+
+	/**
+	 * Gets the type id.
+	 *
+	 * @return the type id
+	 */
+	public int getTypeId() {
+		return this.typeId;
 	}
 
 	/**
@@ -85,7 +115,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(TypesStylePK id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -96,6 +126,24 @@ public class TypesStyle implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+
+	/**
+	 * Sets the style id.
+	 *
+	 * @param styleId the new style id
+	 */
+	public void setStyleId(int styleId) {
+		this.styleId = styleId;
+	}
+
+	/**
+	 * Sets the type id.
+	 *
+	 * @param typeId the new type id
+	 */
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 
 }

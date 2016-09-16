@@ -3,7 +3,6 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,19 +29,23 @@ public class Style implements Serializable {
 	private static final long	serialVersionUID	= 1L;
 
 	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
+	private byte				deleted;
+
 	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
 	/** The image. */
 	private String				image;
 
 	/** The modified. */
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
-
-	/** The sort. */
-	private Integer				sort;
 
 	/** The status. */
 	private byte				status;
@@ -61,9 +64,17 @@ public class Style implements Serializable {
 	 *
 	 * @return the created
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return this.created;
+	}
+
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public byte getDeleted() {
+		return this.deleted;
 	}
 
 	/**
@@ -71,9 +82,6 @@ public class Style implements Serializable {
 	 *
 	 * @return the id
 	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(unique = true, nullable = false)
 	public int getId() {
 		return this.id;
 	}
@@ -83,7 +91,6 @@ public class Style implements Serializable {
 	 *
 	 * @return the image
 	 */
-	@Column(nullable = false, length = 45)
 	public String getImage() {
 		return this.image;
 	}
@@ -93,18 +100,8 @@ public class Style implements Serializable {
 	 *
 	 * @return the modified
 	 */
-	@Temporal(TemporalType.TIMESTAMP)
 	public Date getModified() {
 		return this.modified;
-	}
-
-	/**
-	 * Gets the sort.
-	 *
-	 * @return the sort
-	 */
-	public Integer getSort() {
-		return this.sort;
 	}
 
 	/**
@@ -121,7 +118,6 @@ public class Style implements Serializable {
 	 *
 	 * @return the title
 	 */
-	@Column(nullable = false, length = 45)
 	public String getTitle() {
 		return this.title;
 	}
@@ -133,6 +129,15 @@ public class Style implements Serializable {
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+
+	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
 	}
 
 	/**
@@ -160,15 +165,6 @@ public class Style implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-
-	/**
-	 * Sets the sort.
-	 *
-	 * @param sort the new sort
-	 */
-	public void setSort(Integer sort) {
-		this.sort = sort;
 	}
 
 	/**
