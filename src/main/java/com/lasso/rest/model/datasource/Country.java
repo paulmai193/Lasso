@@ -61,7 +61,7 @@ public final class Country implements Serializable {
 	private int					phoneCode;
 
 	/** The sort. */
-	private int					sort;
+	private Integer				sort;
 
 	/** The status. */
 	private byte				status;
@@ -265,7 +265,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param sort the new sort
 	 */
-	public void setSort(int sort) {
+	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 

@@ -40,7 +40,9 @@ public class ImplStyleDAO implements StyleDAO {
 	 */
 	@Override
 	public Style getStyleById(int __styleId) {
-		return this.sessionFactory.getCurrentSession().get(Style.class, __styleId);
+		return (Style) this.sessionFactory.getCurrentSession().createCriteria(Style.class)
+		        .add(Restrictions.idEq(__styleId)).add(Restrictions.eq("deleted", (byte) 0))
+		        .uniqueResult();
 	}
 
 	/*
@@ -65,8 +67,8 @@ public class ImplStyleDAO implements StyleDAO {
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
-		_criteria.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("title"))
-		        .setFirstResult(__offset).setMaxResults(__limit);
+		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .addOrder(Order.asc("sort")).setFirstResult(__offset).setMaxResults(__limit);
 		return _criteria.list();
 	}
 

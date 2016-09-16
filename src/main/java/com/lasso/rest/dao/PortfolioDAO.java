@@ -19,7 +19,7 @@ public interface PortfolioDAO {
 	 * @param __portfolio the portfolio
 	 * @return the portfolio ID
 	 */
-	public Integer createPortfolio(Portfolio __portfolio);
+	Integer createPortfolio(Portfolio __portfolio);
 
 	/**
 	 * Gets the all portfolios of account.
@@ -27,7 +27,7 @@ public interface PortfolioDAO {
 	 * @param __account the account
 	 * @return the all portfolios of account
 	 */
-	public List<Portfolio> getAllPortfoliosOfAccount(Account __account);
+	List<Portfolio> getAllPortfoliosOfAccount(Account __account);
 
 	/**
 	 * Gets the portfolio by portfolio ID.
@@ -35,7 +35,7 @@ public interface PortfolioDAO {
 	 * @param __id the id
 	 * @return the portfolio by id
 	 */
-	public Portfolio getPortfolioById(Integer __id);
+	Portfolio getPortfolioById(Integer __id);
 
 	/**
 	 * Gets the portfolio of account.
@@ -44,14 +44,14 @@ public interface PortfolioDAO {
 	 * @param __id the id
 	 * @return the portfolio of account
 	 */
-	public Portfolio getPortfolioOfAccount(Account __account, Integer __id);
+	Portfolio getPortfolioOfAccount(Account __account, Integer __id);
 
 	/**
 	 * Update portfolio.
 	 *
 	 * @param __portfolio the portfolio
 	 */
-	public void updatePortfolio(Portfolio __portfolio);
+	void updatePortfolio(Portfolio __portfolio);
 
 	/**
 	 * Gets the portfolio by project.
@@ -60,4 +60,5 @@ public interface PortfolioDAO {
 	 * @return the portfolio by project
 	 */
 	Portfolio getPortfolioByProject(Project __project);
+
 }

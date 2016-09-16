@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -72,7 +73,7 @@ public class PortfolioController extends BaseController {
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createPortfolio(CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException {
+	        throws IOException {
 		__createPortfolioRequest.validate();
 		Account _desiger = (Account) this.validateContext.getUserPrincipal();
 		this.designerManagement.createPortfolio(_desiger, __createPortfolioRequest);
@@ -93,8 +94,42 @@ public class PortfolioController extends BaseController {
 		__editPortfolioRequest.validate();
 		try {
 			Account _desiger = (Account) this.validateContext.getUserPrincipal();
-			this.designerManagement.editPortfolio(_desiger, __editPortfolioRequest);
-			return this.success();
+			Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger,
+			        __editPortfolioRequest.getId());
+			if (_portfolio == null) {
+				throw new NotFoundException("Portfolio not found");
+			}
+			else {
+				this.designerManagement.editPortfolio(_portfolio, __editPortfolioRequest);
+				return this.success();
+			}
+		}
+		catch (NullPointerException _ex) {
+			throw new NotFoundException("Portfolio not found", _ex);
+		}
+	}
+
+	/**
+	 * Edits the portfolio.
+	 *
+	 * @param __idPortfolio the id portfolio
+	 * @return the response
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@DELETE
+	@Path("/delete")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response editPortfolio(@QueryParam("id") int __idPortfolio) throws IOException {
+		try {
+			Account _desiger = (Account) this.validateContext.getUserPrincipal();
+			Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger, __idPortfolio);
+			if (_portfolio == null) {
+				throw new NotFoundException("Portfolio not found");
+			}
+			else {
+				this.designerManagement.deletePortfolio(_portfolio);
+				return this.success();
+			}
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("Portfolio not found", _ex);
@@ -117,7 +152,7 @@ public class PortfolioController extends BaseController {
 			List<Object[]> _datas = new ArrayList<>(); // {portfolio, category, style}
 			for (Portfolio _portfolio : _portfolios) {
 				Category _category = this.designerManagement
-						.getCategoryById(_portfolio.getCategoryId());
+				        .getCategoryById(_portfolio.getCategoryId());
 				Style _style = this.designerManagement.getStyleById(_portfolio.getStyleId());
 				Object[] _data = { _portfolio, _category, _style };
 				_datas.add(_data);
@@ -148,16 +183,16 @@ public class PortfolioController extends BaseController {
 			else {
 				try {
 					Category _category = this.designerManagement
-							.getCategoryById(_portfolio.getCategoryId());
+					        .getCategoryById(_portfolio.getCategoryId());
 					Style _style = this.designerManagement.getStyleById(_portfolio.getStyleId());
 					List<Type> _types = this.designerManagement
-							.getListTypesByIdPortfolio(_portfolio.getId());
+					        .getListTypesByIdPortfolio(_portfolio.getId());
 					if (_types.isEmpty()) {
 						throw new NotFoundException("Portfolio detail not found");
 					}
 					String _prefixUrl = this.httpHost + this.portfolioStoragePath;
 					return new PortfolioDetailResponse(_category, _portfolio, _prefixUrl, _style,
-							_types);
+					        _types);
 				}
 				catch (NullPointerException _ex) {
 					throw new NotFoundException("Portfolio detail not found", _ex);

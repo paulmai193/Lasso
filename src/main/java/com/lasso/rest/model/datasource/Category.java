@@ -49,6 +49,9 @@ public class Category implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
+	/** The sort. */
+	private Integer				sort;
+
 	/** The status. */
 	private byte				status;
 
@@ -122,6 +125,15 @@ public class Category implements Serializable {
 	 */
 	public Date getModified() {
 		return this.modified;
+	}
+
+	/**
+	 * Gets the sort.
+	 *
+	 * @return the sort
+	 */
+	public int getSort() {
+		return this.sort;
 	}
 
 	/**
@@ -207,6 +219,15 @@ public class Category implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+
+	/**
+	 * Sets the sort.
+	 *
+	 * @param __sort the new sort
+	 */
+	public void setSort(Integer __sort) {
+		this.sort = __sort;
 	}
 
 	/**

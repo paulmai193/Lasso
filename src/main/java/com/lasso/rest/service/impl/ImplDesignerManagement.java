@@ -44,13 +44,13 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException {
+	        throws IOException {
 		String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray());
 		_image = _image.substring(1, _image.length() - 1);
 		Portfolio _portfolio = new Portfolio(__createPortfolioRequest.getAmount(), new Date(),
-				__desiger.getId(), __createPortfolioRequest.getIdCategory(),
-				__createPortfolioRequest.getIdStyle(), _image, __createPortfolioRequest.getInfo(),
-				new Date(), (byte) 1, __createPortfolioRequest.getTitle());
+		        __desiger.getId(), __createPortfolioRequest.getIdCategory(),
+		        __createPortfolioRequest.getIdStyle(), _image, __createPortfolioRequest.getInfo(),
+		        new Date(), (byte) 1, __createPortfolioRequest.getTitle());
 		int _id = this.getPortfolioDAO().createPortfolio(_portfolio);
 		for (int _idType : __createPortfolioRequest.getIdTypes()) {
 			PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id, _idType);
@@ -60,10 +60,10 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		// Copy portfolio images from temporary directory to resource directory
 		for (String _tempFileName : __createPortfolioRequest.getImages()) {
 			File _tempFile = new File(
-					this.webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+			        this.webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 			if (_tempFile.exists()) {
 				FileUtils.moveFileToDirectory(_tempFile,
-						new File(this.webContextStoragePath + this.portfolioStoragePath), false);
+				        new File(this.webContextStoragePath + this.portfolioStoragePath), false);
 			}
 		}
 	}
@@ -72,40 +72,43 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 * (non-Javadoc)
 	 * 
 	 * @see com.lasso.rest.service.DesignerManagement#editPortfolio(com.lasso.rest.model.datasource.
-	 * Account, com.lasso.rest.model.api.request.EditPortfolioRequest)
+	 * Portfolio, com.lasso.rest.model.api.request.EditPortfolioRequest)
 	 */
 	@Override
-	public void editPortfolio(Account __desiger, EditPortfolioRequest __editPortfolioRequest)
-			throws IOException {
-		String _image = Arrays.toString(__editPortfolioRequest.getImages().toArray());
-		_image = _image.substring(1, _image.length() - 1);
-		Portfolio _portfolio = this.getPortfolioDAO()
-				.getPortfolioById(__editPortfolioRequest.getId());
-		if (_portfolio == null) {
-			throw new NullPointerException("Portfolio not found");
-		}
-		_portfolio.update(__editPortfolioRequest);
-		this.getPortfolioDAO().updatePortfolio(_portfolio);
+	public void editPortfolio(Portfolio __portfolio, EditPortfolioRequest __editPortfolioRequest)
+	        throws IOException {
+		__portfolio.update(__editPortfolioRequest);
+		this.getPortfolioDAO().updatePortfolio(__portfolio);
 
 		// Remove all old portfolio type
-		this.getPortfolioTypeDAO().removeByPortfolioId(_portfolio.getId());
+		this.getPortfolioTypeDAO().removeByPortfolioId(__portfolio.getId());
 
 		// Insert new portfolio type
 		for (int _idType : __editPortfolioRequest.getIdTypes()) {
 			PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(),
-					_portfolio.getId(), _idType);
+			        __portfolio.getId(), _idType);
 			this.getPortfolioTypeDAO().createPortfolioType(_portfolioType);
 		}
 
 		// Copy portfolio images from temporary directory to resource directory
 		for (String _tempFileName : __editPortfolioRequest.getImages()) {
 			File _tempFile = new File(
-					this.webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+			        this.webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 			if (_tempFile.exists()) {
 				FileUtils.moveFileToDirectory(_tempFile,
-						new File(this.webContextStoragePath + this.portfolioStoragePath), false);
+				        new File(this.webContextStoragePath + this.portfolioStoragePath), false);
 			}
 		}
+	}
+
+	@Override
+	public void deletePortfolio(Portfolio __portfolio) {
+		// Remove all old portfolio type
+		this.getPortfolioTypeDAO().removeByPortfolioId(__portfolio.getId());
+
+		// Delete this portfolio
+		__portfolio.setDeleted((byte) 1);
+		this.getPortfolioDAO().updatePortfolio(__portfolio);
 	}
 
 	/*

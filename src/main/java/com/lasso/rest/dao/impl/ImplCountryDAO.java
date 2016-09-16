@@ -45,7 +45,8 @@ public class ImplCountryDAO implements CountryDAO {
 		if (!__code.equalsIgnoreCase("all")) {
 			_criteria.add(Restrictions.eq("code", __code));
 		}
-		_criteria.add(Restrictions.eq("status", (byte) 1)).addOrder(Order.asc("name"));
+		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .addOrder(Order.asc("sort")).addOrder(Order.asc("name"));
 		return _criteria.list();
 	}
 

@@ -23,17 +23,17 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException;
+	        throws IOException;
 
 	/**
 	 * Edits the portfolio.
 	 *
-	 * @param __desiger the desiger
+	 * @param __portfolio the portfolio
 	 * @param __editPortfolioRequest the edit portfolio request
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void editPortfolio(Account __desiger, EditPortfolioRequest __editPortfolioRequest)
-			throws IOException;
+	void editPortfolio(Portfolio __portfolio, EditPortfolioRequest __editPortfolioRequest)
+	        throws IOException;
 
 	/**
 	 * Gets the all portfolios.
@@ -51,5 +51,12 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @return the portfolio
 	 */
 	Portfolio getPortfolio(Account __account, Integer __id);
+
+	/**
+	 * Delete portfolio.
+	 *
+	 * @param __portfolio the portfolio
+	 */
+	void deletePortfolio(Portfolio __portfolio);
 
 }
