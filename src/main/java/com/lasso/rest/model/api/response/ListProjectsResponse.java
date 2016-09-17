@@ -140,14 +140,17 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 				__gen.writeStringField("original", "");
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
+				__gen.writeStringField("retina", "");
 			}
 			else {
 				__gen.writeStringField("original", __value.getPrefixProjectUrl() + "/Original/"
 				        + ((Project) _data[0]).getImage());
-				__gen.writeStringField("small", __value.getPrefixProjectUrl() + "/small/"
+				__gen.writeStringField("small", __value.getPrefixProjectUrl() + "/Small/"
 				        + ((Project) _data[0]).getImage());
 				__gen.writeStringField("icon",
-				        __value.getPrefixProjectUrl() + "/icon/" + ((Project) _data[0]).getImage());
+				        __value.getPrefixProjectUrl() + "/Icon/" + ((Project) _data[0]).getImage());
+				__gen.writeStringField("retina", __value.getPrefixProjectUrl() + "/Retina/"
+				        + ((Project) _data[0]).getImage());
 			}
 			__gen.writeEndObject();
 

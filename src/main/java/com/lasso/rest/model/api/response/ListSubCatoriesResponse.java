@@ -107,7 +107,7 @@ class ListSubCategoriesSerializer extends JsonSerializer<ListSubCatoriesResponse
 
 	@Override
 	public void serialize(ListSubCatoriesResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -125,14 +125,17 @@ class ListSubCategoriesSerializer extends JsonSerializer<ListSubCatoriesResponse
 				__gen.writeStringField("original", "");
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
+				__gen.writeStringField("retina", "");
 			}
 			else {
 				__gen.writeStringField("original",
-						__value.getPrefixUrl() + "/Original/" + _style.getImage());
+				        __value.getPrefixUrl() + "/Original/" + _style.getImage());
 				__gen.writeStringField("small",
-						__value.getPrefixUrl() + "/small/" + _style.getImage());
+				        __value.getPrefixUrl() + "/Small/" + _style.getImage());
 				__gen.writeStringField("icon",
-						__value.getPrefixUrl() + "/icon/" + _style.getImage());
+				        __value.getPrefixUrl() + "/Icon/" + _style.getImage());
+				__gen.writeStringField("retina",
+				        __value.getPrefixUrl() + "/Retina/" + _style.getImage());
 			}
 			__gen.writeEndObject();
 			__gen.writeEndObject();

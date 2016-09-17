@@ -219,9 +219,19 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 					__gen.writeStringField("original", __value.getPrefixPortfolioUrl()
 					        + "/Original/" + _portfolioImage.trim());
 					__gen.writeStringField("small",
-					        __value.getPrefixPortfolioUrl() + "/small/" + _portfolioImage.trim());
+					        __value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage.trim());
 					__gen.writeStringField("icon",
-					        __value.getPrefixPortfolioUrl() + "/icon/" + _portfolioImage.trim());
+					        __value.getPrefixPortfolioUrl() + "/Icon/" + _portfolioImage.trim());
+					__gen.writeStringField("retina",
+					        __value.getPrefixPortfolioUrl() + "/Retina/" + _portfolioImage.trim());
+					__gen.writeEndObject();
+				}
+				else {
+					__gen.writeStartObject();
+					__gen.writeStringField("original", "");
+					__gen.writeStringField("small", "");
+					__gen.writeStringField("icon", "");
+					__gen.writeStringField("retina", "");
 					__gen.writeEndObject();
 				}
 			}

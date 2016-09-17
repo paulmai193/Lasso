@@ -22,9 +22,4 @@ public final class Constant {
 	/** The Constant ROLE_USER. */
 	public static final byte	ROLE_USER			= 0;
 
-	/** The storage path avatar. */
-	public static String		STORAGE_PATH_AVATAR;
-
-	/** The storage path web context. */
-	public static String		STORAGE_PATH_WEB_CONTEXT;
 }

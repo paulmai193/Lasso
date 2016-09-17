@@ -17,6 +17,9 @@ import com.lasso.rest.dao.CountryDAO;
 import com.lasso.rest.model.datasource.Configuration;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.GenericManagement;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Class ImplGenericManagement.
@@ -33,6 +36,18 @@ public class ImplGenericManagement implements GenericManagement {
 	/** The configuration DAO. */
 	@Autowired
 	private ConfigurationDAO	configurationDAO;
+
+	/** The web context storage path. */
+	private String				webContextStoragePath;
+
+	/**
+	 * Sets the web context storage path.
+	 *
+	 * @param __webContextStoragePath the new web context storage path
+	 */
+	public void setWebContextStoragePath(String __webContextStoragePath) {
+		this.webContextStoragePath = __webContextStoragePath;
+	}
 
 	/**
 	 * Sets the configuration DAO.
@@ -101,6 +116,24 @@ public class ImplGenericManagement implements GenericManagement {
 		});
 		;
 		return _mapConfig;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.GenericManagement#loadWebContextStoragePath(java.lang.String)
+	 */
+	@Override
+	public String loadWebContextStoragePath(String __app_session) throws UnirestException {
+		if (this.webContextStoragePath == null || this.webContextStoragePath.isEmpty()) {
+			HttpResponse<String> _response = Unirest.post("http://lasso.voolatech.com/image_path")
+			        .header("cache-control", "no-cache")
+			        .header("content-type", "application/x-www-form-urlencoded")
+			        .body("app_session=" + __app_session).asString();
+			this.webContextStoragePath = _response.getBody();
+		}
+
+		return this.webContextStoragePath;
 	}
 
 }

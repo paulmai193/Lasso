@@ -43,4 +43,14 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>logs</web-resource-name>
+			<url-pattern>/logs/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>manager</role-name>
+		</auth-constraint>
+	</security-constraint>
+
 </web-app>

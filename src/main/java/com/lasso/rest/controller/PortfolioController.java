@@ -34,6 +34,7 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.DesignerManagement;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Class PortfolioController.
@@ -68,12 +69,13 @@ public class PortfolioController extends BaseController {
 	 * @param __createPortfolioRequest the create portfolio request
 	 * @return the response
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
 	 */
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createPortfolio(CreatePortfolioRequest __createPortfolioRequest)
-	        throws IOException {
+	        throws IOException, UnirestException {
 		__createPortfolioRequest.validate();
 		Account _desiger = (Account) this.validateContext.getUserPrincipal();
 		this.designerManagement.createPortfolio(_desiger, __createPortfolioRequest);
@@ -86,11 +88,13 @@ public class PortfolioController extends BaseController {
 	 * @param __editPortfolioRequest the edit portfolio request
 	 * @return the response
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
 	 */
 	@POST
 	@Path("/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editPortfolio(EditPortfolioRequest __editPortfolioRequest) throws IOException {
+	public Response editPortfolio(EditPortfolioRequest __editPortfolioRequest)
+	        throws IOException, UnirestException {
 		__editPortfolioRequest.validate();
 		try {
 			Account _desiger = (Account) this.validateContext.getUserPrincipal();
@@ -100,7 +104,7 @@ public class PortfolioController extends BaseController {
 				throw new NotFoundException("Portfolio not found");
 			}
 			else {
-				this.designerManagement.editPortfolio(_portfolio, __editPortfolioRequest);
+				this.designerManagement.editPortfolio(_desiger, _portfolio, __editPortfolioRequest);
 				return this.success();
 			}
 		}

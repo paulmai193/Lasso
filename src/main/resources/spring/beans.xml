@@ -64,6 +64,7 @@
 		lazy-init="false" scope="singleton">
 		<property name="countryDAO" ref="countryDAO" />
 		<property name="configurationDAO" ref="configurationDAO"/>
+		<property name="webContextStoragePath" ref="webContextStoragePath" />
 	</bean>
 	<bean id="uploadImageManagement" class="com.lasso.rest.service.impl.ImplUploadImageManagement"
 		lazy-init="false" scope="singleton">
@@ -81,7 +82,8 @@
 	<bean id="designerManagement" class="com.lasso.rest.service.impl.ImplDesignerManagement"
 		lazy-init="false" scope="singleton" >
 		<property name="portfolioDAO" ref="portfolioDAO" />
-		<property name="webContextStoragePath" ref="webContextStoragePath"/>
+		<!-- <property name="webContextStoragePath" ref="webContextStoragePath"/> -->
+		<property name="genericManagement" ref="genericManagement" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath"/>
 		<property name="temporaryStoragePath" ref="temporaryStoragePath"/>
 	</bean>
@@ -99,7 +101,8 @@
 		lazy-init="false">
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
-		<property name="webContextStoragePath" ref="webContextStoragePath" />
+		<property name="genericManagement" ref="genericManagement" />
+		<!-- <property name="webContextStoragePath" ref="webContextStoragePath" /> -->
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
 		<property name="httpHost" ref="httpHost"/>
@@ -135,7 +138,7 @@
 	<!-- Utility -->
 	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized"
 		lazy-init="false" scope="prototype">
-		<!-- <property name="propertyFile" value="classpath:config/email.properties"></property> -->
+		<property name="propertyFile" value="classpath:config/email.properties"/>
 		<property name="genericManagement" ref="genericManagement"/>
 	</bean>
 

@@ -32,10 +32,11 @@ public class ChangeAvatarResponse extends BaseResponse {
 	 * @param __original the original avatar
 	 * @param __small the small avatar
 	 * @param __icon the icon avatar
+	 * @param __retina the retina
 	 */
-	public ChangeAvatarResponse(String __original, String __small, String __icon) {
+	public ChangeAvatarResponse(String __original, String __small, String __icon, String __retina) {
 		super();
-		this.avatarLink = new AvatarLink(__original, __icon, __small);
+		this.avatarLink = new AvatarLink(__original, __icon, __small, __retina);
 	}
 
 	/**
@@ -73,15 +74,20 @@ class AvatarLink {
 	@JsonProperty("small")
 	private String	smalAvatar;
 
+	@JsonProperty("retina")
+	private String	retinaAvatar;
+
 	public AvatarLink(String __avatarName) {
 
 	}
 
-	public AvatarLink(String __originalAvatar, String __iconAvatar, String __smalAvatar) {
+	public AvatarLink(String __originalAvatar, String __iconAvatar, String __smalAvatar,
+	        String __retinaAvatar) {
 		super();
 		this.originalAvatar = __originalAvatar;
 		this.iconAvatar = __iconAvatar;
 		this.smalAvatar = __smalAvatar;
+		this.retinaAvatar = __retinaAvatar;
 	}
 
 	/**
@@ -96,6 +102,15 @@ class AvatarLink {
 	 */
 	public String getOriginalAvatar() {
 		return this.originalAvatar;
+	}
+
+	/**
+	 * Gets the retina avatar.
+	 *
+	 * @return the retina avatar
+	 */
+	public String getRetinaAvatar() {
+		return this.retinaAvatar;
 	}
 
 	/**
@@ -124,6 +139,15 @@ class AvatarLink {
 	 */
 	public void setSmalAvatar(String __smalAvatar) {
 		this.smalAvatar = __smalAvatar;
+	}
+
+	/**
+	 * Sets the retina avatar.
+	 *
+	 * @param __retinaAvatar the new retina avatar
+	 */
+	public void setRetinaAvatar(String __retinaAvatar) {
+		this.retinaAvatar = __retinaAvatar;
 	}
 
 }

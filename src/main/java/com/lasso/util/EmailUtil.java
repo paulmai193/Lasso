@@ -30,6 +30,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.springframework.core.io.Resource;
+
 import com.lasso.rest.service.GenericManagement;
 
 /**
@@ -42,8 +44,8 @@ public final class EmailUtil {
 	/** The password. */
 	private String				password;
 
-	// /** The property file. */
-	// private Resource propertyFile;
+	/** The property file. */
+	private Resource			propertyFile;
 
 	/** The session. */
 	private Session				session;
@@ -202,14 +204,14 @@ public final class EmailUtil {
 		this.sendEmail(__subject, __content, _mapRecipients);
 	}
 
-	// /**
-	// * Sets the property file.
-	// *
-	// * @param __propertyFile the new property file
-	// */
-	// public void setPropertyFile(final Resource __propertyFile) {
-	// this.propertyFile = __propertyFile;
-	// }
+	/**
+	 * Sets the property file.
+	 *
+	 * @param __propertyFile the new property file
+	 */
+	public void setPropertyFile(final Resource __propertyFile) {
+		this.propertyFile = __propertyFile;
+	}
 
 	/**
 	 * Attach file.
@@ -250,8 +252,18 @@ public final class EmailUtil {
 		this.password = _mapConfig.get("EmailConfig.email_password");
 		Properties _props = new Properties();
 		_props.setProperty("mail.smtp.auth", "true");
-		_props.setProperty("mail.smtp.starttls.enable", "true");
-		_props.setProperty("mail.smtp.host", _mapConfig.get("EmailConfig.email_host"));
+		String _emailHost = _mapConfig.get("EmailConfig.email_host");
+		if (_emailHost.contains("ssl://")) {
+			_emailHost = _emailHost.replace("ssl://", "");
+			_props.setProperty("mail.smtp.ssl.enable", "true");
+			_props.setProperty("mail.smtp.socketFactory.port",
+			        _mapConfig.get("EmailConfig.email_port"));
+			_props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		}
+		else {
+			_props.setProperty("mail.smtp.starttls.enable", "true");
+		}
+		_props.setProperty("mail.smtp.host", _emailHost);
 		_props.setProperty("mail.smtp.port", _mapConfig.get("EmailConfig.email_port"));
 
 		this.session = Session.getInstance(_props, new javax.mail.Authenticator() {

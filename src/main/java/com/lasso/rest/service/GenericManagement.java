@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lasso.rest.model.datasource.Country;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Interface GenericManagement.
@@ -36,4 +37,13 @@ public interface GenericManagement {
 	 * @return the map
 	 */
 	Map<String, String> loadConfig();
+
+	/**
+	 * Load web context storage path.
+	 *
+	 * @param __app_session the app session
+	 * @return the string
+	 * @throws UnirestException the unirest exception
+	 */
+	String loadWebContextStoragePath(String __app_session) throws UnirestException;
 }

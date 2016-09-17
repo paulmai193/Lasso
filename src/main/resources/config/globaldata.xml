@@ -3,42 +3,42 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="webContextStoragePath" class="java.lang.String">
+	<bean id="webContextStoragePath" class="java.lang.String" scope="singleton">
 		<constructor-arg type="java.lang.String"
-			value="/usr/tomcat/apache-tomcat-8.0.36/webapps" />
+			value="" />
 		<!-- <constructor-arg type="java.lang.String" value="/app/webroot" /> -->
 	</bean>
 
 	<bean id="avatarStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/img/Accounts" />
+		<constructor-arg type="java.lang.String" value="/Users" />
 	</bean>
 	
 	<bean id="categoryStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/img/Categories" />
+		<constructor-arg type="java.lang.String" value="/Categories" />
 	</bean>
 	
 	<bean id="jobStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/img/Jobs" />
+		<constructor-arg type="java.lang.String" value="/Jobs" />
 	</bean>
 	
 	<bean id="portfolioStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/img/Portfolios" />
+		<constructor-arg type="java.lang.String" value="/Portfolios" />
 	</bean>
 	
 	<bean id="projectStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/img/Projects" />
+		<constructor-arg type="java.lang.String" value="/Projects" />
 	</bean>
 	
 	<bean id="styleStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/img/Styles" />
+		<constructor-arg type="java.lang.String" value="/Styles" />
 	</bean>
 	
 	<bean id="temporaryStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/img/temp" />
+		<constructor-arg type="java.lang.String" value="/temp" />
 	</bean>
 	
 	<bean id="httpHost" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="http://voohooo.com.vn:8081" />
+		<constructor-arg type="java.lang.String" value="http://lasso.voolatech.com/img" />
 	</bean>
 
 </beans>

@@ -37,7 +37,9 @@ import com.lasso.rest.model.api.response.ChangeAvatarResponse;
 import com.lasso.rest.model.api.response.UploadPortfolioResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.AccountManagement;
+import com.lasso.rest.service.GenericManagement;
 import com.lasso.rest.service.UploadImageManagement;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Class UploadController.
@@ -68,8 +70,21 @@ public class UploadController extends BaseController implements Feature {
 	@Autowired
 	private UploadImageManagement	uploadImageManagement;
 
-	/** The web context storage path. */
-	private String					webContextStoragePath;
+	/** The generic management. */
+	@Autowired
+	private GenericManagement		genericManagement;
+
+	/**
+	 * Sets the generic management.
+	 *
+	 * @param __genericManagement the new generic management
+	 */
+	public void setGenericManagement(GenericManagement __genericManagement) {
+		this.genericManagement = __genericManagement;
+	}
+
+	// /** The web context storage path. */
+	// private String webContextStoragePath;
 
 	/*
 	 * (non-Javadoc)
@@ -139,14 +154,14 @@ public class UploadController extends BaseController implements Feature {
 		this.uploadImageManagement = __uploadImageManagement;
 	}
 
-	/**
-	 * Sets the web context storage path.
-	 *
-	 * @param __webContextStoragePath the new web context storage path
-	 */
-	public void setWebContextStoragePath(String __webContextStoragePath) {
-		this.webContextStoragePath = __webContextStoragePath;
-	}
+	// /**
+	// * Sets the web context storage path.
+	// *
+	// * @param __webContextStoragePath the new web context storage path
+	// */
+	// public void setWebContextStoragePath(String __webContextStoragePath) {
+	// this.webContextStoragePath = __webContextStoragePath;
+	// }
 
 	/**
 	 * Upload avatar.
@@ -157,44 +172,54 @@ public class UploadController extends BaseController implements Feature {
 	 * @param __fileMetaData the file meta data
 	 * @return the response
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
 	 */
 	@POST
 	@Path("/avatar")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	public Response uploadAvatar(@Context SecurityContext __context,
-			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
+	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+	        @FormDataParam("file") FormDataContentDisposition __fileMetaData)
+	        throws IOException, UnirestException {
+		Account _account = (Account) __context.getUserPrincipal();
+		String _webContextStoragePath = this.genericManagement
+		        .loadWebContextStoragePath(_account.getAppSession());
 		if (__fileStream == null && __fileMetaData == null) {
 			throw new ObjectParamException("Invalid file upload");
 		}
 		String _uploadedFileName = __fileMetaData.getFileName();
 		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
-				_uploadedFileName.length());
-		File _avatar = new File(this.webContextStoragePath + this.avatarStoragePath + "/Original/"
-				+ this.uploadImageManagement.generateImageName(_fileExtension));
+		        _uploadedFileName.length());
+		File _avatar = new File(_webContextStoragePath + this.avatarStoragePath + "/Original/"
+		        + this.uploadImageManagement.generateImageName(_fileExtension));
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _avatar, _fileExtension);
 
-			// Resize into 2 other size
-			File _iconAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
-					+ "/icon/" + _avatar.getName());
+			// Resize into 3 other size
+			File _iconAvatar = new File(
+			        _webContextStoragePath + this.avatarStoragePath + "/Icon/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _iconAvatar, 45D, 45D);
-			File _smallAvatar = new File(this.webContextStoragePath + this.avatarStoragePath
-					+ "/small/" + _avatar.getName());
+			File _smallAvatar = new File(_webContextStoragePath + this.avatarStoragePath + "/Small/"
+			        + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _smallAvatar, 90D, 90D);
+			// File _retinaAvatar = new File(_webContextStoragePath + this.avatarStoragePath
+			// + "/Retina/" + _avatar.getName());
+			// Logger.getLogger(getClass())
+			// .debug("Avatar storage path: " + _retinaAvatar.getAbsolutePath());
+			// this.uploadImageManagement.resizeImage(_avatar, _retinaAvatar, 180D, 180D);
 
 			// Save avatar name to account
-			Account _account = (Account) __context.getUserPrincipal();
 			this.accountManagement.changeAvatar(_account, _avatar.getName());
 
 			// Response
 			String _prefixUrl = this.httpHost + this.avatarStoragePath;
 			return this
-					.success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
-							_prefixUrl + "/small/" + _avatar.getName(),
-							_prefixUrl + "/icon/" + _avatar.getName()));
+			        .success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
+			                _prefixUrl + "/Small/" + _avatar.getName(),
+			                _prefixUrl + "/Icon/" + _avatar.getName(),
+			                _prefixUrl + "/Retina/" + _avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);
@@ -210,6 +235,7 @@ public class UploadController extends BaseController implements Feature {
 	 * @param __fileMetaData the file meta data
 	 * @return the response
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
 	 */
 	@POST
 	@Path("/portfolio")
@@ -217,30 +243,33 @@ public class UploadController extends BaseController implements Feature {
 	@AccountAuthenticate
 	@AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
 	public Response uploadPortfolio(@Context SecurityContext __context,
-			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-			@FormDataParam("file") FormDataContentDisposition __fileMetaData) throws IOException {
+	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+	        @FormDataParam("file") FormDataContentDisposition __fileMetaData)
+	        throws IOException, UnirestException {
+		Account _designer = (Account) __context.getUserPrincipal();
 		if (__fileStream == null && __fileMetaData == null) {
 			throw new ObjectParamException("Invalid file upload");
 		}
 		String _uploadedFileName = __fileMetaData.getFileName();
 		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
-				_uploadedFileName.length());
-		File _image = new File(this.webContextStoragePath + this.temporaryStoragePath + "/"
-				+ this.uploadImageManagement.generateImageName(_fileExtension));
+		        _uploadedFileName.length());
+		File _image = new File(
+		        this.genericManagement.loadWebContextStoragePath(_designer.getAppSession())
+		                + this.temporaryStoragePath + "/"
+		                + this.uploadImageManagement.generateImageName(_fileExtension));
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _image, _fileExtension);
 
 			// Save avatar name to account
-			Account _account = (Account) __context.getUserPrincipal();
-			this.accountManagement.changeAvatar(_account, _image.getName());
+			this.accountManagement.changeAvatar(_designer, _image.getName());
 
 			// Response
 			return this.success(new UploadPortfolioResponse(_image.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new UploadPortfolioResponse(true, _ex.getMessage()),
-					Status.BAD_REQUEST);
+			        Status.BAD_REQUEST);
 		}
 	}
 
