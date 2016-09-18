@@ -82,8 +82,8 @@
 	<bean id="designerManagement" class="com.lasso.rest.service.impl.ImplDesignerManagement"
 		lazy-init="false" scope="singleton" >
 		<property name="portfolioDAO" ref="portfolioDAO" />
-		<!-- <property name="webContextStoragePath" ref="webContextStoragePath"/> -->
 		<property name="genericManagement" ref="genericManagement" />
+		<property name="uploadImageManagement" ref="uploadImageManagement" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath"/>
 		<property name="temporaryStoragePath" ref="temporaryStoragePath"/>
 	</bean>
@@ -102,7 +102,6 @@
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
 		<property name="genericManagement" ref="genericManagement" />
-		<!-- <property name="webContextStoragePath" ref="webContextStoragePath" /> -->
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
 		<property name="httpHost" ref="httpHost"/>

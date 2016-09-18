@@ -34,7 +34,7 @@
 	</bean>
 	
 	<bean id="temporaryStoragePath" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="/temp" />
+		<constructor-arg type="java.lang.String" value="/caches" />
 	</bean>
 	
 	<bean id="httpHost" class="java.lang.String">

@@ -271,11 +271,19 @@ public class ImplAccountManagement implements AccountManagement {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.lasso.rest.service.AccountManagement#sendActivationEmail(java.lang.String,
-	 * java.lang.String)
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void sendActivationEmail(String __email, String __refLink)
+	public void sendActivationEmail(String __email, String __refLink, String __registerType)
 	        throws AddressException, MessagingException {
+		// Load content depend on register type
+		String _content;
+		if (__registerType.equalsIgnoreCase("designer")) {
+
+		}
+		else {
+
+		}
 		emailUtil.sendEmail(__email, "Xác thực tài khoản",
 		        "Vui lòng bấm vào link sau để xác thực tài khoản:<br>" + __refLink,
 		        RecipientType.TO);

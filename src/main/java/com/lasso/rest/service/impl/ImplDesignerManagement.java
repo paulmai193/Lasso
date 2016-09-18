@@ -18,6 +18,7 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.service.DesignerManagement;
 import com.lasso.rest.service.GenericManagement;
+import com.lasso.rest.service.UploadImageManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
@@ -30,17 +31,24 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class ImplDesignerManagement extends ImplProjectManagement implements DesignerManagement {
 
 	/** The portfolio storage path. */
-	private String				portfolioStoragePath;
+	private String					portfolioStoragePath;
 
 	/** The temporary storage path. */
-	private String				temporaryStoragePath;
+	private String					temporaryStoragePath;
 
 	// /** The web context storage path. */
 	// private String webContextStoragePath;
 
 	/** The generic management. */
 	@Autowired
-	private GenericManagement	genericManagement;
+	private GenericManagement		genericManagement;
+
+	@Autowired
+	private UploadImageManagement	uploadImageManagement;
+
+	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
+		this.uploadImageManagement = __uploadImageManagement;
+	}
 
 	/**
 	 * Sets the generic management.
@@ -80,8 +88,21 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			File _tempFile = new File(
 			        _webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 			if (_tempFile.exists()) {
-				FileUtils.moveFileToDirectory(_tempFile,
-				        new File(_webContextStoragePath + this.portfolioStoragePath), false);
+				// Move original file
+				FileUtils.copyFileToDirectory(_tempFile,
+				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Original"),
+				        false);
+
+				// Resize into 3 other size
+				File _icon = new File(_webContextStoragePath + this.portfolioStoragePath + "/Icon/"
+				        + _tempFileName);
+				this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
+				File _small = new File(_webContextStoragePath + this.portfolioStoragePath
+				        + "/Small/" + _tempFileName);
+				this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
+				File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
+				        + "/Retina/" + _tempFileName);
+				this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
 			}
 		}
 	}
