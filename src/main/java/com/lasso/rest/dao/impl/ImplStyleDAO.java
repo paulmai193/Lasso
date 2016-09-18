@@ -36,10 +36,10 @@ public class ImplStyleDAO implements StyleDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.StyleDAO#getStyleById(int)
+	 * @see com.lasso.rest.dao.StyleDAO#getById(int)
 	 */
 	@Override
-	public Style getStyleById(int __styleId) {
+	public Style getById(int __styleId) {
 		return (Style) this.sessionFactory.getCurrentSession().createCriteria(Style.class)
 				.add(Restrictions.idEq(__styleId)).add(Restrictions.eq("deleted", (byte) 0))
 				.uniqueResult();

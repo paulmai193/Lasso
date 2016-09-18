@@ -16,15 +16,15 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 /**
- * The Class PortfolioType.
+ * The persistent class for the jobs_types database table.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(name = "portfolios_types")
+@Table(name = "jobs_types")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public class PortfolioType implements Serializable {
+public class JobsType implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
@@ -38,38 +38,22 @@ public class PortfolioType implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				id;
 
+	/** The job id. */
+	@Column(name = "job_id")
+	private Integer				jobId;
+
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
-
-	/** The portfolio id. */
-	@Column(name = "portfolio_id")
-	private Integer				portfolioId;
 
 	/** The type id. */
 	@Column(name = "type_id")
 	private Integer				typeId;
 
 	/**
-	 * Instantiates a new portfolio type.
+	 * Instantiates a new jobs type.
 	 */
-	public PortfolioType() {
-	}
-
-	/**
-	 * Instantiates a new portfolio type.
-	 *
-	 * @param __created the created
-	 * @param __modified the modified
-	 * @param __portfolioId the portfolio id
-	 * @param __typeId the type id
-	 */
-	public PortfolioType(Date __created, Date __modified, Integer __portfolioId, Integer __typeId) {
-		super();
-		this.created = __created;
-		this.modified = __modified;
-		this.portfolioId = __portfolioId;
-		this.typeId = __typeId;
+	public JobsType() {
 	}
 
 	/**
@@ -91,21 +75,21 @@ public class PortfolioType implements Serializable {
 	}
 
 	/**
+	 * Gets the job id.
+	 *
+	 * @return the job id
+	 */
+	public Integer getJobId() {
+		return this.jobId;
+	}
+
+	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
 	 */
 	public Date getModified() {
 		return this.modified;
-	}
-
-	/**
-	 * Gets the portfolio id.
-	 *
-	 * @return the portfolio id
-	 */
-	public Integer getPortfolioId() {
-		return this.portfolioId;
 	}
 
 	/**
@@ -136,21 +120,21 @@ public class PortfolioType implements Serializable {
 	}
 
 	/**
+	 * Sets the job id.
+	 *
+	 * @param jobId the new job id
+	 */
+	public void setJobId(Integer jobId) {
+		this.jobId = jobId;
+	}
+
+	/**
 	 * Sets the modified.
 	 *
 	 * @param modified the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-
-	/**
-	 * Sets the portfolio id.
-	 *
-	 * @param portfolioId the new portfolio id
-	 */
-	public void setPortfolioId(Integer portfolioId) {
-		this.portfolioId = portfolioId;
 	}
 
 	/**

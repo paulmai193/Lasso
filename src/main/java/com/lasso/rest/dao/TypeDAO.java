@@ -10,7 +10,15 @@ import com.lasso.rest.model.datasource.Type;
  *
  * @author Paul Mai
  */
-public interface TypeDAO {
+public interface TypeDAO extends HibernateSession {
+
+	/**
+	 * Gets the by id.
+	 *
+	 * @param __typeId the type id
+	 * @return the by id
+	 */
+	Type getById(int __typeId);
 
 	/**
 	 * Gets the list by by list ids.
@@ -18,7 +26,7 @@ public interface TypeDAO {
 	 * @param __listIdsType the list ids type
 	 * @return the list by by list ids
 	 */
-	public List<Type> getListByByListIds(List<Integer> __listIdsType);
+	List<Type> getListByByListIds(List<Integer> __listIdsType);
 
 	/**
 	 * Gets the types by category.

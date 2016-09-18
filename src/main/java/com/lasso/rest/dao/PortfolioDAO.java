@@ -11,7 +11,7 @@ import com.lasso.rest.model.datasource.Project;
  *
  * @author Paul Mai
  */
-public interface PortfolioDAO {
+public interface PortfolioDAO extends HibernateSession {
 
 	/**
 	 * Creates the portfolio.

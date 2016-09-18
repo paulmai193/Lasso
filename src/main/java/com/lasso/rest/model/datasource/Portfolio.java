@@ -1,6 +1,7 @@
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,16 +17,18 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.lasso.rest.model.api.request.EditPortfolioRequest;
+
 /**
- * The persistent class for the projects database table.
+ * The persistent class for the portfolios database table.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(name = "projects")
+@Table(name = "portfolios")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public class Project implements Serializable {
+public class Portfolio implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
@@ -32,6 +36,9 @@ public class Project implements Serializable {
 	/** The account id. */
 	@Column(name = "account_id")
 	private Integer				accountId;
+
+	/** The amount. */
+	private Double				amount;
 
 	/** The category id. */
 	@Column(name = "category_id")
@@ -50,15 +57,16 @@ public class Project implements Serializable {
 	private Integer				id;
 
 	/** The image. */
+	@Lob
 	private String				image;
+
+	/** The info. */
+	@Lob
+	private String				info;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
-
-	/** The portfolio id. */
-	@Column(name = "portfolio_id")
-	private Integer				portfolioId;
 
 	/** The status. */
 	private Byte				status;
@@ -70,14 +78,40 @@ public class Project implements Serializable {
 	/** The title. */
 	private String				title;
 
-	/** The type id. */
-	@Column(name = "type_id")
-	private Integer				typeId;
+	/**
+	 * Instantiates a new portfolio.
+	 */
+	public Portfolio() {
+	}
 
 	/**
-	 * Instantiates a new project.
+	 * Instantiates a new portfolio.
+	 *
+	 * @param __amount the amount
+	 * @param __created the created
+	 * @param __accountId the account id
+	 * @param __categoryId the category id
+	 * @param __styleId the style id
+	 * @param __image the image
+	 * @param __info the info
+	 * @param __modified the modified
+	 * @param __status the status
+	 * @param __title the title
 	 */
-	public Project() {
+	public Portfolio(double __amount, Date __created, int __accountId, int __categoryId,
+			int __styleId, String __image, String __info, Date __modified, byte __status,
+			String __title) {
+		super();
+		this.amount = __amount;
+		this.created = __created;
+		this.accountId = __accountId;
+		this.categoryId = __categoryId;
+		this.styleId = __styleId;
+		this.image = __image;
+		this.info = __info;
+		this.modified = __modified;
+		this.status = __status;
+		this.title = __title;
 	}
 
 	/**
@@ -87,6 +121,15 @@ public class Project implements Serializable {
 	 */
 	public Integer getAccountId() {
 		return this.accountId;
+	}
+
+	/**
+	 * Gets the amount.
+	 *
+	 * @return the amount
+	 */
+	public Double getAmount() {
+		return this.amount;
 	}
 
 	/**
@@ -135,21 +178,21 @@ public class Project implements Serializable {
 	}
 
 	/**
+	 * Gets the info.
+	 *
+	 * @return the info
+	 */
+	public String getInfo() {
+		return this.info;
+	}
+
+	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
 	 */
 	public Date getModified() {
 		return this.modified;
-	}
-
-	/**
-	 * Gets the portfolio id.
-	 *
-	 * @return the portfolio id
-	 */
-	public Integer getPortfolioId() {
-		return this.portfolioId;
 	}
 
 	/**
@@ -180,21 +223,21 @@ public class Project implements Serializable {
 	}
 
 	/**
-	 * Gets the type id.
-	 *
-	 * @return the type id
-	 */
-	public Integer getTypeId() {
-		return this.typeId;
-	}
-
-	/**
 	 * Sets the account id.
 	 *
 	 * @param accountId the new account id
 	 */
 	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
+	}
+
+	/**
+	 * Sets the amount.
+	 *
+	 * @param amount the new amount
+	 */
+	public void setAmount(Double amount) {
+		this.amount = amount;
 	}
 
 	/**
@@ -243,21 +286,21 @@ public class Project implements Serializable {
 	}
 
 	/**
+	 * Sets the info.
+	 *
+	 * @param info the new info
+	 */
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
+	/**
 	 * Sets the modified.
 	 *
 	 * @param modified the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-
-	/**
-	 * Sets the portfolio id.
-	 *
-	 * @param portfolioId the new portfolio id
-	 */
-	public void setPortfolioId(Integer portfolioId) {
-		this.portfolioId = portfolioId;
 	}
 
 	/**
@@ -288,12 +331,20 @@ public class Project implements Serializable {
 	}
 
 	/**
-	 * Sets the type id.
+	 * Update.
 	 *
-	 * @param typeId the new type id
+	 * @param __editPortfolioRequest the edit portfolio request
 	 */
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
+	public void update(EditPortfolioRequest __editPortfolioRequest) {
+		this.setAmount(__editPortfolioRequest.getAmount());
+		this.setCategoryId(__editPortfolioRequest.getIdCategory());
+		String _image = Arrays.toString(__editPortfolioRequest.getImages().toArray());
+		_image = _image.substring(1, _image.length() - 1);
+		this.setImage(_image);
+		this.setInfo(__editPortfolioRequest.getInfo());
+		this.setModified(new Date());
+		this.setStyleId(__editPortfolioRequest.getIdStyle());
+		this.setTitle(__editPortfolioRequest.getTitle());
 	}
 
 }

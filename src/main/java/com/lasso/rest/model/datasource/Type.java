@@ -1,19 +1,13 @@
-/*
- * 
- */
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,26 +16,22 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 /**
- * The Class Country.
+ * The persistent class for the types database table.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(name = "countries")
+@Table(name = "types")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public final class Country implements Serializable {
+public class Type implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The accounts. */
-	// bi-directional many-to-one association to Account
-	@OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
-	private List<Account>		accounts;
-
-	/** The code. */
-	private String				code;
+	/** The category id. */
+	@Column(name = "category_id")
+	private Integer				categoryId;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,16 +45,12 @@ public final class Country implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				id;
 
+	/** The image. */
+	private String				image;
+
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
-
-	/** The name. */
-	private String				name;
-
-	/** The phone code. */
-	@Column(name = "phone_code")
-	private Integer				phoneCode;
 
 	/** The sort. */
 	private Integer				sort;
@@ -72,41 +58,22 @@ public final class Country implements Serializable {
 	/** The status. */
 	private Byte				status;
 
+	/** The title. */
+	private String				title;
+
 	/**
-	 * Instantiates a new country.
+	 * Instantiates a new type.
 	 */
-	public Country() {
+	public Type() {
 	}
 
 	/**
-	 * Adds the account.
+	 * Gets the category id.
 	 *
-	 * @param account the account
-	 * @return the account
+	 * @return the category id
 	 */
-	public Account addAccount(Account account) {
-		this.getAccounts().add(account);
-		account.setCountry(this);
-
-		return account;
-	}
-
-	/**
-	 * Gets the accounts.
-	 *
-	 * @return the accounts
-	 */
-	public List<Account> getAccounts() {
-		return this.accounts;
-	}
-
-	/**
-	 * Gets the code.
-	 *
-	 * @return the code
-	 */
-	public String getCode() {
-		return this.code;
+	public Integer getCategoryId() {
+		return this.categoryId;
 	}
 
 	/**
@@ -137,30 +104,21 @@ public final class Country implements Serializable {
 	}
 
 	/**
+	 * Gets the image.
+	 *
+	 * @return the image
+	 */
+	public String getImage() {
+		return this.image;
+	}
+
+	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
 	 */
 	public Date getModified() {
 		return this.modified;
-	}
-
-	/**
-	 * Gets the name.
-	 *
-	 * @return the name
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	/**
-	 * Gets the phone code.
-	 *
-	 * @return the phone code
-	 */
-	public Integer getPhoneCode() {
-		return this.phoneCode;
 	}
 
 	/**
@@ -182,34 +140,21 @@ public final class Country implements Serializable {
 	}
 
 	/**
-	 * Removes the account.
+	 * Gets the title.
 	 *
-	 * @param account the account
-	 * @return the account
+	 * @return the title
 	 */
-	public Account removeAccount(Account account) {
-		this.getAccounts().remove(account);
-		account.setCountry(null);
-
-		return account;
+	public String getTitle() {
+		return this.title;
 	}
 
 	/**
-	 * Sets the accounts.
+	 * Sets the category id.
 	 *
-	 * @param accounts the new accounts
+	 * @param categoryId the new category id
 	 */
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
-	}
-
-	/**
-	 * Sets the code.
-	 *
-	 * @param code the new code
-	 */
-	public void setCode(String code) {
-		this.code = code;
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	/**
@@ -240,30 +185,21 @@ public final class Country implements Serializable {
 	}
 
 	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
 	 * Sets the modified.
 	 *
 	 * @param modified the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-
-	/**
-	 * Sets the name.
-	 *
-	 * @param name the new name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Sets the phone code.
-	 *
-	 * @param phoneCode the new phone code
-	 */
-	public void setPhoneCode(Integer phoneCode) {
-		this.phoneCode = phoneCode;
 	}
 
 	/**
@@ -282,6 +218,15 @@ public final class Country implements Serializable {
 	 */
 	public void setStatus(Byte status) {
 		this.status = status;
+	}
+
+	/**
+	 * Sets the title.
+	 *
+	 * @param title the new title
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

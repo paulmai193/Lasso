@@ -9,7 +9,7 @@ import com.lasso.rest.model.datasource.Project;
  *
  * @author Paul Mai
  */
-public interface ProjectDAO {
+public interface ProjectDAO extends HibernateSession {
 
 	/**
 	 * Gets the project by id.

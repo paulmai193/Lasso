@@ -12,7 +12,7 @@ import com.lasso.rest.model.datasource.Country;
  *
  * @author Paul Mai
  */
-public interface CountryDAO {
+public interface CountryDAO extends HibernateSession {
 
 	/**
 	 * Gets the country ids by code.

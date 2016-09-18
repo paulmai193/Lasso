@@ -9,7 +9,7 @@ import com.lasso.rest.model.datasource.PortfolioType;
  *
  * @author Paul Mai
  */
-public interface PortfolioTypeDAO {
+public interface PortfolioTypeDAO extends HibernateSession {
 
 	/**
 	 * Creates the portfolio type.

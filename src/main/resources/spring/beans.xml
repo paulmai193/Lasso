@@ -29,6 +29,18 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="jobDAO" class="com.lasso.rest.dao.impl.ImplJobDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="jobAccountDAO" class="com.lasso.rest.dao.impl.ImplJobAccountDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="jobTypeDAO" class="com.lasso.rest.dao.impl.ImplJobTypeDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="portfolioDAO" class="com.lasso.rest.dao.impl.ImplPortfolioDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -63,7 +75,7 @@
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement"
 		lazy-init="false" scope="singleton">
 		<property name="countryDAO" ref="countryDAO" />
-		<property name="configurationDAO" ref="configurationDAO"/>
+		<property name="configurationDAO" ref="configurationDAO" />
 		<property name="webContextStoragePath" ref="webContextStoragePath" />
 	</bean>
 	<bean id="uploadImageManagement" class="com.lasso.rest.service.impl.ImplUploadImageManagement"
@@ -80,30 +92,28 @@
 		<property name="typeDAO" ref="typeDAO" />
 	</bean>
 	<bean id="designerManagement" class="com.lasso.rest.service.impl.ImplDesignerManagement"
-		lazy-init="false" scope="singleton" >
+		lazy-init="false" scope="singleton">
 		<property name="portfolioDAO" ref="portfolioDAO" />
 		<property name="genericManagement" ref="genericManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
-		<property name="portfolioStoragePath" ref="portfolioStoragePath"/>
-		<property name="temporaryStoragePath" ref="temporaryStoragePath"/>
-	</bean>	
-	<bean id="userManagement" class="com.lasso.rest.service.impl.ImplUserManagement"
-		lazy-init="false" scope="singleton" >
-		<!-- <property name="portfolioDAO" ref="portfolioDAO" />
-		<property name="genericManagement" ref="genericManagement" />
-		<property name="uploadImageManagement" ref="uploadImageManagement" />
-		<property name="portfolioStoragePath" ref="portfolioStoragePath"/>
-		<property name="temporaryStoragePath" ref="temporaryStoragePath"/> -->
+		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
+		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
 	</bean>
-	
+	<bean id="userManagement" class="com.lasso.rest.service.impl.ImplUserManagement"
+		lazy-init="false" scope="singleton">
+		<property name="jobDAO" ref="jobDAO" />
+		<property name="jobAccountDAO" ref="jobAccountDAO" />
+		<property name="jobTypeDAO" ref="jobTypeDAO" />
+	</bean>
+
 	<!-- Controller Layer -->
 	<bean id="accountController" class="com.lasso.rest.controller.AccountController"
 		lazy-init="false">
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="genericManagement" ref="genericManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
-		<property name="httpHost" ref="httpHost"/>
-		
+		<property name="httpHost" ref="httpHost" />
+
 	</bean>
 	<bean id="uploadController" class="com.lasso.rest.controller.UploadController"
 		lazy-init="false">
@@ -112,7 +122,7 @@
 		<property name="genericManagement" ref="genericManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
-		<property name="httpHost" ref="httpHost"/>
+		<property name="httpHost" ref="httpHost" />
 	</bean>
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController"
 		lazy-init="false">
@@ -122,7 +132,7 @@
 		lazy-init="false">
 		<property name="designerManagement" ref="designerManagement" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
-		<property name="httpHost" ref="httpHost"/>
+		<property name="httpHost" ref="httpHost" />
 	</bean>
 	<bean id="browseController" class="com.lasso.rest.controller.BrowseController"
 		lazy-init="false">
@@ -132,12 +142,13 @@
 		<property name="projectStoragePath" ref="projectStoragePath" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
 		<property name="styleStoragePath" ref="styleStoragePath" />
-		<property name="httpHost" ref="httpHost"/>
+		<property name="httpHost" ref="httpHost" />
 	</bean>
-	<bean id="manageOrderController" class="com.lasso.rest.controller.ManageOrderController" lazy-init="false">
-		<property name="userManagement" ref="userManagement"/>
+	<bean id="manageOrderController" class="com.lasso.rest.controller.ManageOrderController"
+		lazy-init="false">
+		<property name="userManagement" ref="userManagement" />
 	</bean>
-	
+
 	<!-- Filter Layer -->
 	<bean id="accountAuthenticateFilter"
 		class="com.lasso.rest.controller.filter.AccountAuthenticateFilter"
@@ -148,8 +159,8 @@
 	<!-- Utility -->
 	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized"
 		lazy-init="false" scope="prototype">
-		<property name="propertyFile" value="classpath:config/email.properties"/>
-		<property name="genericManagement" ref="genericManagement"/>
+		<property name="propertyFile" value="classpath:config/email.properties" />
+		<property name="genericManagement" ref="genericManagement" />
 	</bean>
 
 </beans>

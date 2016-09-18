@@ -1,12 +1,13 @@
 package com.lasso.rest.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.lasso.rest.dao.JobDAO;
-import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 
 /**
@@ -33,10 +34,24 @@ public class ImplJobDAO implements JobDAO {
 	 * @see com.lasso.rest.dao.JobDAO#getOfUserById(com.lasso.rest.model.datasource.Account, int)
 	 */
 	@Override
-	public Job getOfUserById(Account __account, int __id) {
+	public Job getJobOfUserById(int __idUser, int __idJob) {
 		return (Job) this.sessionFactory.getCurrentSession().createCriteria(Job.class)
-				.add(Restrictions.idEq(__id)).add(Restrictions.eq("account", __account))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		        .add(Restrictions.idEq(__idJob)).add(Restrictions.eq("accountId", __idUser))
+		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.JobDAO#getListJobsOfUser(java.lang.Integer)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Job> getListJobsOfUser(Integer __idUser) {
+		return this.sessionFactory.getCurrentSession().createCriteria(Job.class)
+		        .add(Restrictions.eq("accountId", __idUser))
+		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .list();
 	}
 
 	/**

@@ -3,6 +3,7 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,18 +16,28 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 /**
- * The persistent class for the styles database table.
+ * The persistent class for the jobs_accounts database table.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(name = "styles")
+@Table(name = "jobs_accounts")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public class Style implements Serializable {
+public class JobsAccount implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
+
+	/** The account id. */
+	@Column(name = "account_id")
+	private Integer				accountId;
+
+	/** The confirm. */
+	private Byte				confirm;
+
+	/** The counter. */
+	private Double				counter;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -40,26 +51,45 @@ public class Style implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				id;
 
-	/** The image. */
-	private String				image;
+	/** The job id. */
+	@Column(name = "job_id")
+	private Integer				jobId;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
-	/** The sort. */
-	private Integer				sort;
-
-	/** The status. */
-	private Byte				status;
-
-	/** The title. */
-	private String				title;
+	/**
+	 * Instantiates a new jobs account.
+	 */
+	public JobsAccount() {
+	}
 
 	/**
-	 * Instantiates a new style.
+	 * Gets the account id.
+	 *
+	 * @return the account id
 	 */
-	public Style() {
+	public Integer getAccountId() {
+		return this.accountId;
+	}
+
+	/**
+	 * Gets the confirm.
+	 *
+	 * @return the confirm
+	 */
+	public Byte getConfirm() {
+		return this.confirm;
+	}
+
+	/**
+	 * Gets the counter.
+	 *
+	 * @return the counter
+	 */
+	public Double getCounter() {
+		return this.counter;
 	}
 
 	/**
@@ -90,12 +120,12 @@ public class Style implements Serializable {
 	}
 
 	/**
-	 * Gets the image.
+	 * Gets the job id.
 	 *
-	 * @return the image
+	 * @return the job id
 	 */
-	public String getImage() {
-		return this.image;
+	public Integer getJobId() {
+		return this.jobId;
 	}
 
 	/**
@@ -108,30 +138,30 @@ public class Style implements Serializable {
 	}
 
 	/**
-	 * Gets the sort.
+	 * Sets the account id.
 	 *
-	 * @return the sort
+	 * @param accountId the new account id
 	 */
-	public Integer getSort() {
-		return this.sort;
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 
 	/**
-	 * Gets the status.
+	 * Sets the confirm.
 	 *
-	 * @return the status
+	 * @param confirm the new confirm
 	 */
-	public Byte getStatus() {
-		return this.status;
+	public void setConfirm(Byte confirm) {
+		this.confirm = confirm;
 	}
 
 	/**
-	 * Gets the title.
+	 * Sets the counter.
 	 *
-	 * @return the title
+	 * @param counter the new counter
 	 */
-	public String getTitle() {
-		return this.title;
+	public void setCounter(Double counter) {
+		this.counter = counter;
 	}
 
 	/**
@@ -162,12 +192,12 @@ public class Style implements Serializable {
 	}
 
 	/**
-	 * Sets the image.
+	 * Sets the job id.
 	 *
-	 * @param image the new image
+	 * @param jobId the new job id
 	 */
-	public void setImage(String image) {
-		this.image = image;
+	public void setJobId(Integer jobId) {
+		this.jobId = jobId;
 	}
 
 	/**
@@ -177,33 +207,6 @@ public class Style implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
-	}
-
-	/**
-	 * Sets the sort.
-	 *
-	 * @param __sort the new sort
-	 */
-	public void setSort(Integer __sort) {
-		this.sort = __sort;
-	}
-
-	/**
-	 * Sets the status.
-	 *
-	 * @param status the new status
-	 */
-	public void setStatus(Byte status) {
-		this.status = status;
-	}
-
-	/**
-	 * Sets the title.
-	 *
-	 * @param title the new title
-	 */
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 }

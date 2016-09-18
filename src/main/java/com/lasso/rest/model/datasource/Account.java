@@ -6,17 +6,14 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -77,7 +74,7 @@ public final class Account implements Principal, Serializable {
 	private Date				created;
 
 	/** The deleted. */
-	private byte				deleted;
+	private Byte				deleted;
 
 	/** The device id. */
 	@Column(name = "device_id")
@@ -98,11 +95,6 @@ public final class Account implements Principal, Serializable {
 	/** The image. */
 	private String				image;
 
-	/** The jobs. */
-	// bi-directional many-to-one association to job
-	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-	private List<Job>			jobs;
-
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
@@ -118,23 +110,23 @@ public final class Account implements Principal, Serializable {
 
 	/** The payment method. */
 	@Column(name = "payment_method")
-	private byte				paymentMethod;
+	private Byte				paymentMethod;
 
 	/** The rewards. */
 	private int					rewards;
 
 	/** The role. */
-	private byte				role;
+	private Byte				role;
 
 	/** The settings. */
 	@Lob
 	private String				settings;
 
 	/** The status. */
-	private byte				status;
+	private Byte				status;
 
 	/** The subscribe. */
-	private byte				subscribe;
+	private Byte				subscribe;
 
 	/** The web session. */
 	@Column(name = "web_session")
@@ -178,19 +170,6 @@ public final class Account implements Principal, Serializable {
 					.getValue();
 		}
 
-	}
-
-	/**
-	 * Adds the job.
-	 *
-	 * @param __job the job
-	 * @return the job
-	 */
-	public Job addJob(Job __job) {
-		this.getJobs().add(__job);
-		__job.setAccount(this);
-
-		return __job;
 	}
 
 	/**
@@ -270,7 +249,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @return the deleted
 	 */
-	public byte getDeleted() {
+	public Byte getDeleted() {
 		return this.deleted;
 	}
 
@@ -320,15 +299,6 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * Gets the jobs.
-	 *
-	 * @return the jobs
-	 */
-	public List<Job> getJobs() {
-		return this.jobs;
-	}
-
-	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
@@ -369,7 +339,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @return the paymentMethod
 	 */
-	public byte getPaymentMethod() {
+	public Byte getPaymentMethod() {
 		return this.paymentMethod;
 	}
 
@@ -387,7 +357,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @return the role
 	 */
-	public byte getRole() {
+	public Byte getRole() {
 		return this.role;
 	}
 
@@ -405,7 +375,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @return the status
 	 */
-	public byte getStatus() {
+	public Byte getStatus() {
 		return this.status;
 	}
 
@@ -414,7 +384,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @return the subscribe
 	 */
-	public byte getSubscribe() {
+	public Byte getSubscribe() {
 		return this.subscribe;
 	}
 
@@ -425,19 +395,6 @@ public final class Account implements Principal, Serializable {
 	 */
 	public String getWebSession() {
 		return this.webSession;
-	}
-
-	/**
-	 * Removes the job.
-	 *
-	 * @param __job the job
-	 * @return the job
-	 */
-	public Job removeJob(Job __job) {
-		this.getJobs().remove(__job);
-		__job.setAccount(null);
-
-		return __job;
 	}
 
 	/**
@@ -517,7 +474,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @param __deleted the deleted to set
 	 */
-	public void setDeleted(byte __deleted) {
+	public void setDeleted(Byte __deleted) {
 		this.deleted = __deleted;
 	}
 
@@ -564,15 +521,6 @@ public final class Account implements Principal, Serializable {
 	 */
 	public void setImage(String __image) {
 		this.image = __image;
-	}
-
-	/**
-	 * Sets the jobs.
-	 *
-	 * @param __jobs the new jobs
-	 */
-	public void setJobs(List<Job> __jobs) {
-		this.jobs = __jobs;
 	}
 
 	/**
@@ -623,7 +571,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @param __paymentMethod the paymentMethod to set
 	 */
-	public void setPaymentMethod(byte __paymentMethod) {
+	public void setPaymentMethod(Byte __paymentMethod) {
 		this.paymentMethod = __paymentMethod;
 	}
 
@@ -641,7 +589,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @param __role the role to set
 	 */
-	public void setRole(byte __role) {
+	public void setRole(Byte __role) {
 		this.role = __role;
 	}
 
@@ -659,7 +607,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @param __status the status to set
 	 */
-	public void setStatus(byte __status) {
+	public void setStatus(Byte __status) {
 		this.status = __status;
 	}
 
@@ -668,7 +616,7 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @param __subscribe the subscribe to set
 	 */
-	public void setSubscribe(byte __subscribe) {
+	public void setSubscribe(Byte __subscribe) {
 		this.subscribe = __subscribe;
 	}
 

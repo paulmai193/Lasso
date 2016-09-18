@@ -12,7 +12,7 @@ import com.lasso.rest.model.datasource.Account;
  *
  * @author Paul Mai
  */
-public interface AccountDAO {
+public interface AccountDAO extends HibernateSession {
 
 	/**
 	 * Creates the account.

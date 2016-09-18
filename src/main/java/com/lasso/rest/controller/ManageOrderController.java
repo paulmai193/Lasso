@@ -61,7 +61,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/detail")
 	@AccountAllow(roles = "" + Constant.ROLE_USER)
 	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-	        throws javassist.NotFoundException {
+			throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}

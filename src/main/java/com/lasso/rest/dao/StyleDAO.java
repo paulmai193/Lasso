@@ -10,15 +10,15 @@ import com.lasso.rest.model.datasource.TypesStyle;
  *
  * @author Paul Mai
  */
-public interface StyleDAO {
+public interface StyleDAO extends HibernateSession {
 
 	/**
-	 * Gets the style by id.
+	 * Gets the by id.
 	 *
 	 * @param __styleId the style id
 	 * @return the style by id
 	 */
-	Style getStyleById(int __styleId);
+	Style getById(int __styleId);
 
 	/**
 	 * Gets the styles by types and keyword.

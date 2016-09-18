@@ -2,13 +2,11 @@ package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,7 +15,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 /**
- * The Class Category.
+ * The persistent class for the categories database table.
  *
  * @author Paul Mai
  */
@@ -35,12 +33,12 @@ public class Category implements Serializable {
 	private Date				created;
 
 	/** The deleted. */
-	private byte				deleted;
+	private Byte				deleted;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int					id;
+	private Integer				id;
 
 	/** The image. */
 	private String				image;
@@ -53,33 +51,15 @@ public class Category implements Serializable {
 	private Integer				sort;
 
 	/** The status. */
-	private byte				status;
+	private Byte				status;
 
 	/** The title. */
 	private String				title;
-
-	/** The types. */
-	// bi-directional many-to-one association to Type
-	@OneToMany(mappedBy = "category")
-	private List<Type>			types;
 
 	/**
 	 * Instantiates a new category.
 	 */
 	public Category() {
-	}
-
-	/**
-	 * Adds the type.
-	 *
-	 * @param type the type
-	 * @return the type
-	 */
-	public Type addType(Type type) {
-		this.getTypes().add(type);
-		type.setCategory(this);
-
-		return type;
 	}
 
 	/**
@@ -96,7 +76,7 @@ public class Category implements Serializable {
 	 *
 	 * @return the deleted
 	 */
-	public byte getDeleted() {
+	public Byte getDeleted() {
 		return this.deleted;
 	}
 
@@ -105,7 +85,7 @@ public class Category implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -132,7 +112,7 @@ public class Category implements Serializable {
 	 *
 	 * @return the sort
 	 */
-	public int getSort() {
+	public Integer getSort() {
 		return this.sort;
 	}
 
@@ -141,7 +121,7 @@ public class Category implements Serializable {
 	 *
 	 * @return the status
 	 */
-	public byte getStatus() {
+	public Byte getStatus() {
 		return this.status;
 	}
 
@@ -152,28 +132,6 @@ public class Category implements Serializable {
 	 */
 	public String getTitle() {
 		return this.title;
-	}
-
-	/**
-	 * Gets the types.
-	 *
-	 * @return the types
-	 */
-	public List<Type> getTypes() {
-		return this.types;
-	}
-
-	/**
-	 * Removes the type.
-	 *
-	 * @param type the type
-	 * @return the type
-	 */
-	public Type removeType(Type type) {
-		this.getTypes().remove(type);
-		type.setCategory(null);
-
-		return type;
 	}
 
 	/**
@@ -190,7 +148,7 @@ public class Category implements Serializable {
 	 *
 	 * @param deleted the new deleted
 	 */
-	public void setDeleted(byte deleted) {
+	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
 	}
 
@@ -199,7 +157,7 @@ public class Category implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -224,10 +182,10 @@ public class Category implements Serializable {
 	/**
 	 * Sets the sort.
 	 *
-	 * @param __sort the new sort
+	 * @param sort the new sort
 	 */
-	public void setSort(Integer __sort) {
-		this.sort = __sort;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	/**
@@ -235,7 +193,7 @@ public class Category implements Serializable {
 	 *
 	 * @param status the new status
 	 */
-	public void setStatus(byte status) {
+	public void setStatus(Byte status) {
 		this.status = status;
 	}
 
@@ -246,15 +204,6 @@ public class Category implements Serializable {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	/**
-	 * Sets the types.
-	 *
-	 * @param types the new types
-	 */
-	public void setTypes(List<Type> types) {
-		this.types = types;
 	}
 
 }

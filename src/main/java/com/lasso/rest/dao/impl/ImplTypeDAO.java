@@ -28,6 +28,18 @@ public class ImplTypeDAO implements TypeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.TypeDAO#getById(int)
+	 */
+	@Override
+	public Type getById(int __typeId) {
+		return (Type) this.sessionFactory.getCurrentSession().createCriteria(Type.class)
+				.add(Restrictions.idEq(__typeId)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.TypeDAO#getListByByListIds(java.util.List)
 	 */
 	@SuppressWarnings("unchecked")

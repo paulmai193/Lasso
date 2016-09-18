@@ -26,12 +26,12 @@ public class Configuration implements Serializable {
 	private String				description;
 
 	/** The editable. */
-	private byte				editable;
+	private Byte				editable;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int					id;
+	private Integer				id;
 
 	/** The input type. */
 	@Column(name = "input_type")
@@ -52,7 +52,7 @@ public class Configuration implements Serializable {
 	private String				value;
 
 	/** The weight. */
-	private int					weight;
+	private Integer				weight;
 
 	/**
 	 * Instantiates a new configuration.
@@ -74,7 +74,7 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the editable
 	 */
-	public byte getEditable() {
+	public Byte getEditable() {
 		return this.editable;
 	}
 
@@ -83,7 +83,7 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -137,7 +137,7 @@ public class Configuration implements Serializable {
 	 *
 	 * @return the weight
 	 */
-	public int getWeight() {
+	public Integer getWeight() {
 		return this.weight;
 	}
 
@@ -155,7 +155,7 @@ public class Configuration implements Serializable {
 	 *
 	 * @param editable the new editable
 	 */
-	public void setEditable(byte editable) {
+	public void setEditable(Byte editable) {
 		this.editable = editable;
 	}
 
@@ -164,7 +164,7 @@ public class Configuration implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -218,7 +218,7 @@ public class Configuration implements Serializable {
 	 *
 	 * @param weight the new weight
 	 */
-	public void setWeight(int weight) {
+	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
 

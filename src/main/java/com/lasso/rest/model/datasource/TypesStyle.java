@@ -36,7 +36,7 @@ public class TypesStyle implements Serializable {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int					id;
+	private Integer				id;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -44,11 +44,11 @@ public class TypesStyle implements Serializable {
 
 	/** The style id. */
 	@Column(name = "style_id")
-	private int					styleId;
+	private Integer				styleId;
 
 	/** The type id. */
 	@Column(name = "type_id")
-	private int					typeId;
+	private Integer				typeId;
 
 	/**
 	 * Instantiates a new types style.
@@ -70,7 +70,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -88,7 +88,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @return the style id
 	 */
-	public int getStyleId() {
+	public Integer getStyleId() {
 		return this.styleId;
 	}
 
@@ -97,7 +97,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @return the type id
 	 */
-	public int getTypeId() {
+	public Integer getTypeId() {
 		return this.typeId;
 	}
 
@@ -115,7 +115,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -133,7 +133,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @param styleId the new style id
 	 */
-	public void setStyleId(int styleId) {
+	public void setStyleId(Integer styleId) {
 		this.styleId = styleId;
 	}
 
@@ -142,7 +142,7 @@ public class TypesStyle implements Serializable {
 	 *
 	 * @param typeId the new type id
 	 */
-	public void setTypeId(int typeId) {
+	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
 	}
 

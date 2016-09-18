@@ -9,7 +9,7 @@ import com.lasso.rest.model.datasource.Configuration;
  *
  * @author Paul Mai
  */
-public interface ConfigurationDAO {
+public interface ConfigurationDAO extends HibernateSession {
 
 	/**
 	 * Load config.

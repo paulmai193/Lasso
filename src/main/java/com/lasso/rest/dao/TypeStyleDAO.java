@@ -10,7 +10,7 @@ import com.lasso.rest.model.datasource.TypesStyle;
  *
  * @author Paul Mai
  */
-public interface TypeStyleDAO {
+public interface TypeStyleDAO extends HibernateSession {
 
 	/**
 	 * Gets the types styles by types.

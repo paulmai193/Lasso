@@ -9,7 +9,7 @@ import com.lasso.rest.model.datasource.Category;
  *
  * @author Paul Mai
  */
-public interface CategoryDAO {
+public interface CategoryDAO extends HibernateSession {
 
 	/**
 	 * Gets the categories.

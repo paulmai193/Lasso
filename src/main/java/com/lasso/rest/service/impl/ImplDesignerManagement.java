@@ -37,9 +37,6 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/** The portfolio storage path. */
 	private String					portfolioStoragePath;
 
-	// /** The web context storage path. */
-	// private String webContextStoragePath;
-
 	/** The temporary storage path. */
 	private String					temporaryStoragePath;
 
@@ -206,14 +203,5 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
 		this.uploadImageManagement = __uploadImageManagement;
 	}
-
-	// /**
-	// * Sets the web context storage path.
-	// *
-	// * @param __webContextStoragePath the new web context storage path
-	// */
-	// public void setWebContextStoragePath(String __webContextStoragePath) {
-	// this.webContextStoragePath = __webContextStoragePath;
-	// }
 
 }
