@@ -99,8 +99,8 @@ public class Portfolio implements Serializable {
 	 * @param __title the title
 	 */
 	public Portfolio(double __amount, Date __created, int __accountId, int __categoryId,
-	        int __styleId, String __image, String __info, Date __modified, byte __status,
-	        String __title) {
+			int __styleId, String __image, String __info, Date __modified, byte __status,
+			String __title) {
 		super();
 		this.amount = __amount;
 		this.created = __created;

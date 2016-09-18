@@ -38,6 +38,14 @@ public interface PortfolioDAO {
 	Portfolio getPortfolioById(Integer __id);
 
 	/**
+	 * Gets the portfolio by project.
+	 *
+	 * @param __project the project
+	 * @return the portfolio by project
+	 */
+	Portfolio getPortfolioByProject(Project __project);
+
+	/**
 	 * Gets the portfolio of account.
 	 *
 	 * @param __account the account
@@ -52,13 +60,5 @@ public interface PortfolioDAO {
 	 * @param __portfolio the portfolio
 	 */
 	void updatePortfolio(Portfolio __portfolio);
-
-	/**
-	 * Gets the portfolio by project.
-	 *
-	 * @param __project the project
-	 * @return the portfolio by project
-	 */
-	Portfolio getPortfolioByProject(Project __project);
 
 }

@@ -41,8 +41,8 @@ public class ImplStyleDAO implements StyleDAO {
 	@Override
 	public Style getStyleById(int __styleId) {
 		return (Style) this.sessionFactory.getCurrentSession().createCriteria(Style.class)
-		        .add(Restrictions.idEq(__styleId)).add(Restrictions.eq("deleted", (byte) 0))
-		        .uniqueResult();
+				.add(Restrictions.idEq(__styleId)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -54,7 +54,7 @@ public class ImplStyleDAO implements StyleDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
-	        int __limit, String __keyword) {
+			int __limit, String __keyword) {
 		if (__typesStyles.size() == 0) {
 			return new ArrayList<>();
 		}
@@ -63,12 +63,12 @@ public class ImplStyleDAO implements StyleDAO {
 			_ids.add(_typesStyle.getStyleId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Style.class)
-		        .add(Restrictions.in("id", _ids));
+				.add(Restrictions.in("id", _ids));
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("sort")).setFirstResult(__offset).setMaxResults(__limit);
+		.addOrder(Order.asc("sort")).setFirstResult(__offset).setMaxResults(__limit);
 		return _criteria.list();
 	}
 

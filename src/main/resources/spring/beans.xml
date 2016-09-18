@@ -86,6 +86,14 @@
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath"/>
 		<property name="temporaryStoragePath" ref="temporaryStoragePath"/>
+	</bean>	
+	<bean id="userManagement" class="com.lasso.rest.service.impl.ImplUserManagement"
+		lazy-init="false" scope="singleton" >
+		<!-- <property name="portfolioDAO" ref="portfolioDAO" />
+		<property name="genericManagement" ref="genericManagement" />
+		<property name="uploadImageManagement" ref="uploadImageManagement" />
+		<property name="portfolioStoragePath" ref="portfolioStoragePath"/>
+		<property name="temporaryStoragePath" ref="temporaryStoragePath"/> -->
 	</bean>
 	
 	<!-- Controller Layer -->
@@ -125,6 +133,9 @@
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
 		<property name="styleStoragePath" ref="styleStoragePath" />
 		<property name="httpHost" ref="httpHost"/>
+	</bean>
+	<bean id="manageOrderController" class="com.lasso.rest.controller.ManageOrderController" lazy-init="false">
+		<property name="userManagement" ref="userManagement"/>
 	</bean>
 	
 	<!-- Filter Layer -->

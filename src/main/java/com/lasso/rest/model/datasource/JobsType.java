@@ -15,35 +15,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * The persistent class for the jobs_accounts database table.
+ * The persistent class for the jobs_types database table.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(name = "jobs_accounts")
-public class JobsAccount implements Serializable {
+@Table(name = "jobs_types")
+public class JobsType implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The account. */
-	// bi-directional many-to-one association to Account
-	@ManyToOne
-	@JoinColumn(name = "account_id", nullable = false)
-	private Account				account;
-
-	/** The confirm. */
-	private Byte				confirm;
-
-	/** The counter. */
-	private Double				counter;
-
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
-
-	/** The deleted. */
-	private Byte				deleted;
 
 	/** The id. */
 	@Id
@@ -61,37 +46,16 @@ public class JobsAccount implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
-	/**
-	 * Instantiates a new jobs account.
-	 */
-	public JobsAccount() {
-	}
+	/** The type. */
+	// bi-directional many-to-one association to Type
+	@ManyToOne
+	@JoinColumn(name = "type_id", nullable = false)
+	private Type				type;
 
 	/**
-	 * Gets the account.
-	 *
-	 * @return the account
+	 * Instantiates a new jobs type.
 	 */
-	public Account getAccount() {
-		return this.account;
-	}
-
-	/**
-	 * Gets the confirm.
-	 *
-	 * @return the confirm
-	 */
-	public Byte getConfirm() {
-		return this.confirm;
-	}
-
-	/**
-	 * Gets the counter.
-	 *
-	 * @return the counter
-	 */
-	public Double getCounter() {
-		return this.counter;
+	public JobsType() {
 	}
 
 	/**
@@ -101,15 +65,6 @@ public class JobsAccount implements Serializable {
 	 */
 	public Date getCreated() {
 		return this.created;
-	}
-
-	/**
-	 * Gets the deleted.
-	 *
-	 * @return the deleted
-	 */
-	public Byte getDeleted() {
-		return this.deleted;
 	}
 
 	/**
@@ -140,30 +95,12 @@ public class JobsAccount implements Serializable {
 	}
 
 	/**
-	 * Sets the account.
+	 * Gets the type.
 	 *
-	 * @param account the new account
+	 * @return the type
 	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	/**
-	 * Sets the confirm.
-	 *
-	 * @param confirm the new confirm
-	 */
-	public void setConfirm(Byte confirm) {
-		this.confirm = confirm;
-	}
-
-	/**
-	 * Sets the counter.
-	 *
-	 * @param counter the new counter
-	 */
-	public void setCounter(Double counter) {
-		this.counter = counter;
+	public Type getType() {
+		return this.type;
 	}
 
 	/**
@@ -173,15 +110,6 @@ public class JobsAccount implements Serializable {
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
-	}
-
-	/**
-	 * Sets the deleted.
-	 *
-	 * @param deleted the new deleted
-	 */
-	public void setDeleted(Byte deleted) {
-		this.deleted = deleted;
 	}
 
 	/**
@@ -209,6 +137,15 @@ public class JobsAccount implements Serializable {
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
+	}
+
+	/**
+	 * Sets the type.
+	 *
+	 * @param type the new type
+	 */
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 }

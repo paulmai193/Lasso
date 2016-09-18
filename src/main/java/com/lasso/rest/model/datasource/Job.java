@@ -2,19 +2,23 @@ package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * The persistent class for the jobs database table.
@@ -23,43 +27,51 @@ import org.hibernate.annotations.DynamicUpdate;
  */
 @Entity
 @Table(name = "jobs")
-@DynamicInsert(true)
-@DynamicUpdate(true)
 public class Job implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The account id. */
-	@Column(name = "account_id")
-	private int					accountId;
+	/** The account. */
+	// bi-directional many-to-one association to Account
+	@ManyToOne
+	@JoinColumn(name = "account_id", nullable = false)
+	private Account				account;
 
 	/** The assets url. */
-	@Column(name = "assets_url")
+	@Column(name = "assets_url", length = 250)
 	private String				assetsUrl;
 
 	/** The budget. */
-	private double				budget;
+	@Column(nullable = false)
+	private Double				budget;
 
-	/** The category id. */
-	@Column(name = "category_id")
-	private int					categoryId;
+	/** The category. */
+	// bi-directional many-to-one association to Category
+	@ManyToOne
+	@JoinColumn(name = "category_id", nullable = false)
+	private Category			category;
 
 	/** The completed. */
-	private byte				completed;
+	private Byte				completed;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
 	/** The deleted. */
-	private byte				deleted;
+	private Byte				deleted;
 
 	/** The description. */
+	@Column(nullable = false, length = 200)
 	private String				description;
 
 	/** The discount. */
-	private double				discount;
+	private Double				discount;
+
+	/** The fee. */
+	@Column(nullable = false)
+	private Double				fee;
 
 	/** The further information. */
 	@Lob
@@ -69,11 +81,24 @@ public class Job implements Serializable {
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int					id;
+	@Column(unique = true, nullable = false)
+	private Integer				id;
+
+	/** The jobs accounts. */
+	// bi-directional many-to-one association to JobsAccount
+	@OneToMany(mappedBy = "job")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Set<JobsAccount>	jobsAccounts;
+
+	/** The jobs types. */
+	// bi-directional many-to-one association to JobsType
+	@OneToMany(mappedBy = "job")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Set<JobsType>		jobsTypes;
 
 	/** The latest submission. */
 	@Temporal(TemporalType.DATE)
-	@Column(name = "latest_submission")
+	@Column(name = "latest_submission", nullable = false)
 	private Date				latestSubmission;
 
 	/** The modified. */
@@ -81,17 +106,18 @@ public class Job implements Serializable {
 	private Date				modified;
 
 	/** The objective. */
+	@Column(length = 200)
 	private String				objective;
 
 	/** The paid. */
-	private byte				paid;
+	private Byte				paid;
 
 	/** The reference. */
 	@Lob
 	private String				reference;
 
 	/** The stage. */
-	private byte				stage;
+	private Byte				stage;
 
 	/** The stage date. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -99,17 +125,20 @@ public class Job implements Serializable {
 	private Date				stageDate;
 
 	/** The status. */
-	private byte				status;
+	private Byte				status;
 
 	/** The step. */
-	private byte				step;
+	private Byte				step;
 
-	/** The style id. */
-	@Column(name = "style_id")
-	private int					styleId;
+	/** The style. */
+	// bi-directional many-to-one association to Style
+	@ManyToOne
+	@JoinColumn(name = "style_id", nullable = false)
+	private Style				style;
 
 	/** The submission. */
 	@Temporal(TemporalType.DATE)
+	@Column(nullable = false)
 	private Date				submission;
 
 	/**
@@ -119,12 +148,38 @@ public class Job implements Serializable {
 	}
 
 	/**
-	 * Gets the account id.
+	 * Adds the jobs account.
 	 *
-	 * @return the account id
+	 * @param jobsAccount the jobs account
+	 * @return the jobs account
 	 */
-	public int getAccountId() {
-		return this.accountId;
+	public JobsAccount addJobsAccount(JobsAccount jobsAccount) {
+		this.getJobsAccounts().add(jobsAccount);
+		jobsAccount.setJob(this);
+
+		return jobsAccount;
+	}
+
+	/**
+	 * Adds the jobs type.
+	 *
+	 * @param jobsType the jobs type
+	 * @return the jobs type
+	 */
+	public JobsType addJobsType(JobsType jobsType) {
+		this.getJobsTypes().add(jobsType);
+		jobsType.setJob(this);
+
+		return jobsType;
+	}
+
+	/**
+	 * Gets the account.
+	 *
+	 * @return the account
+	 */
+	public Account getAccount() {
+		return this.account;
 	}
 
 	/**
@@ -141,17 +196,17 @@ public class Job implements Serializable {
 	 *
 	 * @return the budget
 	 */
-	public double getBudget() {
+	public Double getBudget() {
 		return this.budget;
 	}
 
 	/**
-	 * Gets the category id.
+	 * Gets the category.
 	 *
-	 * @return the category id
+	 * @return the category
 	 */
-	public int getCategoryId() {
-		return this.categoryId;
+	public Category getCategory() {
+		return this.category;
 	}
 
 	/**
@@ -159,7 +214,7 @@ public class Job implements Serializable {
 	 *
 	 * @return the completed
 	 */
-	public byte getCompleted() {
+	public Byte getCompleted() {
 		return this.completed;
 	}
 
@@ -177,7 +232,7 @@ public class Job implements Serializable {
 	 *
 	 * @return the deleted
 	 */
-	public byte getDeleted() {
+	public Byte getDeleted() {
 		return this.deleted;
 	}
 
@@ -195,8 +250,17 @@ public class Job implements Serializable {
 	 *
 	 * @return the discount
 	 */
-	public double getDiscount() {
+	public Double getDiscount() {
 		return this.discount;
+	}
+
+	/**
+	 * Gets the fee.
+	 *
+	 * @return the fee
+	 */
+	public Double getFee() {
+		return this.fee;
 	}
 
 	/**
@@ -213,8 +277,26 @@ public class Job implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return this.id;
+	}
+
+	/**
+	 * Gets the jobs accounts.
+	 *
+	 * @return the jobs accounts
+	 */
+	public Set<JobsAccount> getJobsAccounts() {
+		return this.jobsAccounts;
+	}
+
+	/**
+	 * Gets the jobs types.
+	 *
+	 * @return the jobs types
+	 */
+	public Set<JobsType> getJobsTypes() {
+		return this.jobsTypes;
 	}
 
 	/**
@@ -249,7 +331,7 @@ public class Job implements Serializable {
 	 *
 	 * @return the paid
 	 */
-	public byte getPaid() {
+	public Byte getPaid() {
 		return this.paid;
 	}
 
@@ -267,7 +349,7 @@ public class Job implements Serializable {
 	 *
 	 * @return the stage
 	 */
-	public byte getStage() {
+	public Byte getStage() {
 		return this.stage;
 	}
 
@@ -285,7 +367,7 @@ public class Job implements Serializable {
 	 *
 	 * @return the status
 	 */
-	public byte getStatus() {
+	public Byte getStatus() {
 		return this.status;
 	}
 
@@ -294,17 +376,17 @@ public class Job implements Serializable {
 	 *
 	 * @return the step
 	 */
-	public byte getStep() {
+	public Byte getStep() {
 		return this.step;
 	}
 
 	/**
-	 * Gets the style id.
+	 * Gets the style.
 	 *
-	 * @return the style id
+	 * @return the style
 	 */
-	public int getStyleId() {
-		return this.styleId;
+	public Style getStyle() {
+		return this.style;
 	}
 
 	/**
@@ -317,12 +399,38 @@ public class Job implements Serializable {
 	}
 
 	/**
-	 * Sets the account id.
+	 * Removes the jobs account.
 	 *
-	 * @param accountId the new account id
+	 * @param jobsAccount the jobs account
+	 * @return the jobs account
 	 */
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public JobsAccount removeJobsAccount(JobsAccount jobsAccount) {
+		this.getJobsAccounts().remove(jobsAccount);
+		jobsAccount.setJob(null);
+
+		return jobsAccount;
+	}
+
+	/**
+	 * Removes the jobs type.
+	 *
+	 * @param jobsType the jobs type
+	 * @return the jobs type
+	 */
+	public JobsType removeJobsType(JobsType jobsType) {
+		this.getJobsTypes().remove(jobsType);
+		jobsType.setJob(null);
+
+		return jobsType;
+	}
+
+	/**
+	 * Sets the account.
+	 *
+	 * @param account the new account
+	 */
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	/**
@@ -339,17 +447,17 @@ public class Job implements Serializable {
 	 *
 	 * @param budget the new budget
 	 */
-	public void setBudget(double budget) {
+	public void setBudget(Double budget) {
 		this.budget = budget;
 	}
 
 	/**
-	 * Sets the category id.
+	 * Sets the category.
 	 *
-	 * @param categoryId the new category id
+	 * @param category the new category
 	 */
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	/**
@@ -357,7 +465,7 @@ public class Job implements Serializable {
 	 *
 	 * @param completed the new completed
 	 */
-	public void setCompleted(byte completed) {
+	public void setCompleted(Byte completed) {
 		this.completed = completed;
 	}
 
@@ -375,7 +483,7 @@ public class Job implements Serializable {
 	 *
 	 * @param deleted the new deleted
 	 */
-	public void setDeleted(byte deleted) {
+	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
 	}
 
@@ -393,8 +501,17 @@ public class Job implements Serializable {
 	 *
 	 * @param discount the new discount
 	 */
-	public void setDiscount(double discount) {
+	public void setDiscount(Double discount) {
 		this.discount = discount;
+	}
+
+	/**
+	 * Sets the fee.
+	 *
+	 * @param fee the new fee
+	 */
+	public void setFee(Double fee) {
+		this.fee = fee;
 	}
 
 	/**
@@ -411,8 +528,26 @@ public class Job implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	/**
+	 * Sets the jobs accounts.
+	 *
+	 * @param jobsAccounts the new jobs accounts
+	 */
+	public void setJobsAccounts(Set<JobsAccount> jobsAccounts) {
+		this.jobsAccounts = jobsAccounts;
+	}
+
+	/**
+	 * Sets the jobs types.
+	 *
+	 * @param jobsTypes the new jobs types
+	 */
+	public void setJobsTypes(Set<JobsType> jobsTypes) {
+		this.jobsTypes = jobsTypes;
 	}
 
 	/**
@@ -447,7 +582,7 @@ public class Job implements Serializable {
 	 *
 	 * @param paid the new paid
 	 */
-	public void setPaid(byte paid) {
+	public void setPaid(Byte paid) {
 		this.paid = paid;
 	}
 
@@ -465,7 +600,7 @@ public class Job implements Serializable {
 	 *
 	 * @param stage the new stage
 	 */
-	public void setStage(byte stage) {
+	public void setStage(Byte stage) {
 		this.stage = stage;
 	}
 
@@ -483,7 +618,7 @@ public class Job implements Serializable {
 	 *
 	 * @param status the new status
 	 */
-	public void setStatus(byte status) {
+	public void setStatus(Byte status) {
 		this.status = status;
 	}
 
@@ -492,17 +627,17 @@ public class Job implements Serializable {
 	 *
 	 * @param step the new step
 	 */
-	public void setStep(byte step) {
+	public void setStep(Byte step) {
 		this.step = step;
 	}
 
 	/**
-	 * Sets the style id.
+	 * Sets the style.
 	 *
-	 * @param styleId the new style id
+	 * @param style the new style
 	 */
-	public void setStyleId(int styleId) {
-		this.styleId = styleId;
+	public void setStyle(Style style) {
+		this.style = style;
 	}
 
 	/**

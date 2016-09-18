@@ -30,33 +30,15 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @Transactional
 public class ImplGenericManagement implements GenericManagement {
 
-	/** The country DAO. */
-	@Autowired
-	private CountryDAO			countryDAO;
 	/** The configuration DAO. */
 	@Autowired
 	private ConfigurationDAO	configurationDAO;
+	/** The country DAO. */
+	@Autowired
+	private CountryDAO			countryDAO;
 
 	/** The web context storage path. */
 	private String				webContextStoragePath;
-
-	/**
-	 * Sets the web context storage path.
-	 *
-	 * @param __webContextStoragePath the new web context storage path
-	 */
-	public void setWebContextStoragePath(String __webContextStoragePath) {
-		this.webContextStoragePath = __webContextStoragePath;
-	}
-
-	/**
-	 * Sets the configuration DAO.
-	 *
-	 * @param __configurationDAO the new configuration DAO
-	 */
-	public void setConfigurationDAO(ConfigurationDAO __configurationDAO) {
-		this.configurationDAO = __configurationDAO;
-	}
 
 	/**
 	 * Instantiates a new impl generic management.
@@ -90,15 +72,6 @@ public class ImplGenericManagement implements GenericManagement {
 		}
 	}
 
-	/**
-	 * Sets the country DAO.
-	 *
-	 * @param __countryDAO the new country DAO
-	 */
-	public void setCountryDAO(CountryDAO __countryDAO) {
-		this.countryDAO = __countryDAO;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -127,13 +100,40 @@ public class ImplGenericManagement implements GenericManagement {
 	public String loadWebContextStoragePath(String __app_session) throws UnirestException {
 		if (this.webContextStoragePath == null || this.webContextStoragePath.isEmpty()) {
 			HttpResponse<String> _response = Unirest.post("http://lasso.voolatech.com/image_path")
-			        .header("cache-control", "no-cache")
-			        .header("content-type", "application/x-www-form-urlencoded")
-			        .body("app_session=" + __app_session).asString();
+					.header("cache-control", "no-cache")
+					.header("content-type", "application/x-www-form-urlencoded")
+					.body("app_session=" + __app_session).asString();
 			this.webContextStoragePath = _response.getBody();
 		}
 
 		return this.webContextStoragePath;
+	}
+
+	/**
+	 * Sets the configuration DAO.
+	 *
+	 * @param __configurationDAO the new configuration DAO
+	 */
+	public void setConfigurationDAO(ConfigurationDAO __configurationDAO) {
+		this.configurationDAO = __configurationDAO;
+	}
+
+	/**
+	 * Sets the country DAO.
+	 *
+	 * @param __countryDAO the new country DAO
+	 */
+	public void setCountryDAO(CountryDAO __countryDAO) {
+		this.countryDAO = __countryDAO;
+	}
+
+	/**
+	 * Sets the web context storage path.
+	 *
+	 * @param __webContextStoragePath the new web context storage path
+	 */
+	public void setWebContextStoragePath(String __webContextStoragePath) {
+		this.webContextStoragePath = __webContextStoragePath;
 	}
 
 }

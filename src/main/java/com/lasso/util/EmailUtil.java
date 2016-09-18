@@ -41,6 +41,9 @@ import com.lasso.rest.service.GenericManagement;
  */
 public final class EmailUtil {
 
+	/** The generic management. */
+	private GenericManagement	genericManagement;
+
 	/** The password. */
 	private String				password;
 
@@ -52,18 +55,6 @@ public final class EmailUtil {
 
 	/** The username. */
 	private String				username;
-
-	/** The generic management. */
-	private GenericManagement	genericManagement;
-
-	/**
-	 * Sets the generic management.
-	 *
-	 * @param __genericManagement the new generic management
-	 */
-	public void setGenericManagement(GenericManagement __genericManagement) {
-		this.genericManagement = __genericManagement;
-	}
 
 	/**
 	 * Instantiates a new email util.
@@ -82,7 +73,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __subject, String __content, File __attachment,
-	        Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
+			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
 		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
 		this.sendEmail(__subject, __content, _attachments, __recipients);
@@ -99,7 +90,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __subject, String __content, List<File> __attachments,
-	        Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
+			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
 
 		// Create a default MimeMessage object.
 		MimeMessage _message = new MimeMessage(this.session);
@@ -135,7 +126,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __subject, String __content,
-	        Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
+			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
 
 		MimeMessage _message = new MimeMessage(this.session);
 
@@ -161,8 +152,8 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-	        File __attachment, RecipientType __receipientType)
-	        throws AddressException, MessagingException {
+			File __attachment, RecipientType __receipientType)
+					throws AddressException, MessagingException {
 		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
 		this.sendEmail(__recipients, __subject, __content, _attachments, __receipientType);
@@ -180,8 +171,8 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-	        List<File> __attachments, RecipientType __receipientType)
-	        throws AddressException, MessagingException {
+			List<File> __attachments, RecipientType __receipientType)
+					throws AddressException, MessagingException {
 		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__receipientType, __recipients);
 		this.sendEmail(__subject, __content, __attachments, _mapRecipients);
@@ -198,10 +189,19 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-	        RecipientType __recipientType) throws AddressException, MessagingException {
+			RecipientType __recipientType) throws AddressException, MessagingException {
 		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__recipientType, __recipients);
 		this.sendEmail(__subject, __content, _mapRecipients);
+	}
+
+	/**
+	 * Sets the generic management.
+	 *
+	 * @param __genericManagement the new generic management
+	 */
+	public void setGenericManagement(GenericManagement __genericManagement) {
+		this.genericManagement = __genericManagement;
 	}
 
 	/**
@@ -221,7 +221,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	private synchronized void attachFile(Multipart __multipart, File __file)
-	        throws MessagingException {
+			throws MessagingException {
 		BodyPart _attachPart = new MimeBodyPart();
 		DataSource _source = new FileDataSource(__file);
 		_attachPart.setDataHandler(new DataHandler(_source));
@@ -257,7 +257,7 @@ public final class EmailUtil {
 			_emailHost = _emailHost.replace("ssl://", "");
 			_props.setProperty("mail.smtp.ssl.enable", "true");
 			_props.setProperty("mail.smtp.socketFactory.port",
-			        _mapConfig.get("EmailConfig.email_port"));
+					_mapConfig.get("EmailConfig.email_port"));
 			_props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		}
 		else {

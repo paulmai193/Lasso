@@ -88,7 +88,7 @@ class CountriesSerializer extends JsonSerializer<List<Country>> {
 
 	@Override
 	public void serialize(List<Country> __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartArray();
 		for (Country _country : __value) {
 			__gen.writeStartObject();

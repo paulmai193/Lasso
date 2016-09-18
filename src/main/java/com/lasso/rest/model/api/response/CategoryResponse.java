@@ -94,7 +94,7 @@ class CategorySerializer extends JsonSerializer<CategoryResponse> {
 
 	@Override
 	public void serialize(CategoryResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -114,13 +114,13 @@ class CategorySerializer extends JsonSerializer<CategoryResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-			        __value.getPrefixUrl() + "/Original/" + __value.getCategory().getImage());
+					__value.getPrefixUrl() + "/Original/" + __value.getCategory().getImage());
 			__gen.writeStringField("small",
-			        __value.getPrefixUrl() + "/Small/" + __value.getCategory().getImage());
+					__value.getPrefixUrl() + "/Small/" + __value.getCategory().getImage());
 			__gen.writeStringField("icon",
-			        __value.getPrefixUrl() + "/Icon/" + __value.getCategory().getImage());
+					__value.getPrefixUrl() + "/Icon/" + __value.getCategory().getImage());
 			__gen.writeStringField("retina",
-			        __value.getPrefixUrl() + "/Retina/" + __value.getCategory().getImage());
+					__value.getPrefixUrl() + "/Retina/" + __value.getCategory().getImage());
 		}
 		__gen.writeEndObject();
 

@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.lasso.rest.model.datasource.Configuration;
 
+/**
+ * The Interface ConfigurationDAO.
+ *
+ * @author Paul Mai
+ */
 public interface ConfigurationDAO {
 
 	/**

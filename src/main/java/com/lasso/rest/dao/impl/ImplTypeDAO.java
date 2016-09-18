@@ -34,8 +34,8 @@ public class ImplTypeDAO implements TypeDAO {
 	@Override
 	public List<Type> getListByByListIds(List<Integer> __listIdsType) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-		        .add(Restrictions.in("id", __listIdsType)).add(Restrictions.eq("status", (byte) 1))
-		        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("sort"));
+				.add(Restrictions.in("id", __listIdsType)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("sort"));
 		return _criteria.list();
 	}
 
@@ -48,9 +48,9 @@ public class ImplTypeDAO implements TypeDAO {
 	@Override
 	public List<Type> getTypesByCategory(Category __category) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-		        .add(Restrictions.eq("category", __category))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("sort"));
+				.add(Restrictions.eq("category", __category))
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+				.addOrder(Order.asc("sort"));
 		return _criteria.list();
 	}
 

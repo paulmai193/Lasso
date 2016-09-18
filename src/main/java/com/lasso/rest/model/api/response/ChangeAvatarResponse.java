@@ -70,19 +70,19 @@ class AvatarLink {
 	@JsonProperty("original")
 	private String	originalAvatar;
 
+	@JsonProperty("retina")
+	private String	retinaAvatar;
+
 	/** The smal avatar. */
 	@JsonProperty("small")
 	private String	smalAvatar;
-
-	@JsonProperty("retina")
-	private String	retinaAvatar;
 
 	public AvatarLink(String __avatarName) {
 
 	}
 
 	public AvatarLink(String __originalAvatar, String __iconAvatar, String __smalAvatar,
-	        String __retinaAvatar) {
+			String __retinaAvatar) {
 		super();
 		this.originalAvatar = __originalAvatar;
 		this.iconAvatar = __iconAvatar;
@@ -135,19 +135,19 @@ class AvatarLink {
 	}
 
 	/**
-	 * @param __smalAvatar the smalAvatar to set
-	 */
-	public void setSmalAvatar(String __smalAvatar) {
-		this.smalAvatar = __smalAvatar;
-	}
-
-	/**
 	 * Sets the retina avatar.
 	 *
 	 * @param __retinaAvatar the new retina avatar
 	 */
 	public void setRetinaAvatar(String __retinaAvatar) {
 		this.retinaAvatar = __retinaAvatar;
+	}
+
+	/**
+	 * @param __smalAvatar the smalAvatar to set
+	 */
+	public void setSmalAvatar(String __smalAvatar) {
+		this.smalAvatar = __smalAvatar;
 	}
 
 }

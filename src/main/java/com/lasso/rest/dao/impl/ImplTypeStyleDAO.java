@@ -48,7 +48,7 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 			_pks.add(_type.getId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession()
-		        .createCriteria(TypesStyle.class).add(Restrictions.in("typeId", _pks));
+				.createCriteria(TypesStyle.class).add(Restrictions.in("typeId", _pks));
 		return _criteria.list();
 	}
 

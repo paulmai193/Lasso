@@ -6,14 +6,17 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -95,6 +98,11 @@ public final class Account implements Principal, Serializable {
 	/** The image. */
 	private String				image;
 
+	/** The jobs. */
+	// bi-directional many-to-one association to job
+	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+	private List<Job>			jobs;
+
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
@@ -159,7 +167,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-			        .getAlternativeContact();
+					.getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -167,9 +175,22 @@ public final class Account implements Principal, Serializable {
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
-			        .getValue();
+					.getValue();
 		}
 
+	}
+
+	/**
+	 * Adds the job.
+	 *
+	 * @param __job the job
+	 * @return the job
+	 */
+	public Job addJob(Job __job) {
+		this.getJobs().add(__job);
+		__job.setAccount(this);
+
+		return __job;
 	}
 
 	/**
@@ -299,6 +320,15 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
+	 * Gets the jobs.
+	 *
+	 * @return the jobs
+	 */
+	public List<Job> getJobs() {
+		return this.jobs;
+	}
+
+	/**
 	 * Gets the modified.
 	 *
 	 * @return the modified
@@ -395,6 +425,19 @@ public final class Account implements Principal, Serializable {
 	 */
 	public String getWebSession() {
 		return this.webSession;
+	}
+
+	/**
+	 * Removes the job.
+	 *
+	 * @param __job the job
+	 * @return the job
+	 */
+	public Job removeJob(Job __job) {
+		this.getJobs().remove(__job);
+		__job.setAccount(null);
+
+		return __job;
 	}
 
 	/**
@@ -521,6 +564,15 @@ public final class Account implements Principal, Serializable {
 	 */
 	public void setImage(String __image) {
 		this.image = __image;
+	}
+
+	/**
+	 * Sets the jobs.
+	 *
+	 * @param __jobs the new jobs
+	 */
+	public void setJobs(List<Job> __jobs) {
+		this.jobs = __jobs;
 	}
 
 	/**

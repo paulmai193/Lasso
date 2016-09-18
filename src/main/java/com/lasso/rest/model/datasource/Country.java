@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public final class Country implements Serializable {
 
 	/** The accounts. */
 	// bi-directional many-to-one association to Account
-	@OneToMany(mappedBy = "country")
+	@OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
 	private List<Account>		accounts;
 
 	/** The code. */

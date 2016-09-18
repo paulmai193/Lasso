@@ -72,7 +72,7 @@ public class ListProjectsResponse extends BaseResponse {
 	 * @param __datas the datas
 	 */
 	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl,
-	        String __prefixAvatarUrl, List<Object[]> __datas) {
+			String __prefixAvatarUrl, List<Object[]> __datas) {
 		super();
 		this.nextIndex = __nextIndex;
 		this.prefixProjectUrl = __prefixProjectUrl;
@@ -122,7 +122,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
 	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -144,13 +144,13 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("original", __value.getPrefixProjectUrl() + "/Original/"
-				        + ((Project) _data[0]).getImage());
+						+ ((Project) _data[0]).getImage());
 				__gen.writeStringField("small", __value.getPrefixProjectUrl() + "/Small/"
-				        + ((Project) _data[0]).getImage());
+						+ ((Project) _data[0]).getImage());
 				__gen.writeStringField("icon",
-				        __value.getPrefixProjectUrl() + "/Icon/" + ((Project) _data[0]).getImage());
+						__value.getPrefixProjectUrl() + "/Icon/" + ((Project) _data[0]).getImage());
 				__gen.writeStringField("retina", __value.getPrefixProjectUrl() + "/Retina/"
-				        + ((Project) _data[0]).getImage());
+						+ ((Project) _data[0]).getImage());
 			}
 			__gen.writeEndObject();
 
@@ -159,7 +159,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("designer_avatar",
-				        __value.getPrefixAvatarUrl() + "/icon/" + _data[1]);
+						__value.getPrefixAvatarUrl() + "/icon/" + _data[1]);
 			}
 			__gen.writeEndObject();
 		}
