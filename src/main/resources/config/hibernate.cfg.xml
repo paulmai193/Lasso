@@ -12,7 +12,7 @@
 		
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/voolatech_lasso?characterEncoding=UTF-8</property>
 		<property name="hibernate.connection.username">voolatech_lasso</property>
-		<property name="hibernate.connection.password">fq3foMBXKS7ZEzxOErcI</property>		
+		<property name="hibernate.connection.password">fq3foMBXKS7ZEzxOErcI</property>
 		
 		<property name="hibernate.connection.useUnicode">true</property>
 		<property name="hibernate.connection.characterEncoding">UTF-8</property>
@@ -25,13 +25,14 @@
 		<property name="hibernate.c3p0.idle_test_period">200</property>
 		<property name="hibernate.c3p0.timeout">300</property>
 		<property name="hibernate.c3p0.max_size">1000</property>
-		<property name="hibernate.c3p0.min_size">10</property>
-		<property name="hibernate.c3p0.initialPoolSize">10</property>
+		<property name="hibernate.c3p0.min_size">1</property>
+		<property name="hibernate.c3p0.initialPoolSize">1</property>
 		<property name="hibernate.c3p0.max_statements">0</property>
 		<property name="hibernate.c3p0.preferredTestQuery">select 1;</property>
 		
 		<!-- Mapping -->
 		<mapping class="com.lasso.rest.model.datasource.Account"/>
+		<mapping class="com.lasso.rest.model.datasource.Banner"/>
 		<mapping class="com.lasso.rest.model.datasource.Category"/>
 		<mapping class="com.lasso.rest.model.datasource.Configuration"/>
 		<mapping class="com.lasso.rest.model.datasource.Country"/>

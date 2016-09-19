@@ -28,4 +28,12 @@ public interface JobDAO extends HibernateSession {
 	 */
 	List<Job> getListJobsOfUser(Integer __idUser);
 
+	/**
+	 * Save job.
+	 *
+	 * @param __job the job
+	 * @return the job Id
+	 */
+	Integer saveJob(Job __job);
+
 }

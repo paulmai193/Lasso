@@ -92,6 +92,7 @@ class CountriesSerializer extends JsonSerializer<List<Country>> {
 		__gen.writeStartArray();
 		for (Country _country : __value) {
 			__gen.writeStartObject();
+			__gen.writeNumberField("country_id", _country.getId());
 			__gen.writeStringField("country_code", _country.getCode());
 			__gen.writeStringField("country_name", _country.getName());
 			__gen.writeNumberField("phone_code", _country.getPhoneCode());

@@ -100,9 +100,9 @@ public class ImplGenericManagement implements GenericManagement {
 	public String loadWebContextStoragePath(String __app_session) throws UnirestException {
 		if (this.webContextStoragePath == null || this.webContextStoragePath.isEmpty()) {
 			HttpResponse<String> _response = Unirest.post("http://lasso.voolatech.com/image_path")
-			        .header("cache-control", "no-cache")
-			        .header("content-type", "application/x-www-form-urlencoded")
-			        .body("app_session=" + __app_session).asString();
+					.header("cache-control", "no-cache")
+					.header("content-type", "application/x-www-form-urlencoded")
+					.body("app_session=" + __app_session).asString();
 			this.webContextStoragePath = _response.getBody();
 		}
 

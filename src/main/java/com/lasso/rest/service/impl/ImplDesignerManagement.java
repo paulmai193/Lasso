@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +16,6 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.service.DesignerManagement;
-import com.lasso.rest.service.GenericManagement;
-import com.lasso.rest.service.UploadImageManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
@@ -30,19 +27,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @Transactional
 public class ImplDesignerManagement extends ImplProjectManagement implements DesignerManagement {
 
-	/** The generic management. */
-	@Autowired
-	private GenericManagement		genericManagement;
-
 	/** The portfolio storage path. */
-	private String					portfolioStoragePath;
-
-	/** The temporary storage path. */
-	private String					temporaryStoragePath;
-
-	/** The upload image management. */
-	@Autowired
-	private UploadImageManagement	uploadImageManagement;
+	private String portfolioStoragePath;
 
 	/*
 	 * (non-Javadoc)
@@ -54,7 +40,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	@Override
 	public void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
 			throws IOException, UnirestException {
-		String _webContextStoragePath = this.genericManagement
+		String _webContextStoragePath = this.getGenericManagement()
 				.loadWebContextStoragePath(__desiger.getAppSession());
 		String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray());
 		_image = _image.substring(1, _image.length() - 1);
@@ -71,7 +57,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		// Copy portfolio images from temporary directory to resource directory
 		for (String _tempFileName : __createPortfolioRequest.getImages()) {
 			File _tempFile = new File(
-					_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+					_webContextStoragePath + this.getTemporaryStoragePath() + "/" + _tempFileName);
 			if (_tempFile.exists()) {
 				// Move original file
 				FileUtils.copyFileToDirectory(_tempFile,
@@ -81,13 +67,13 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				// Resize into 3 other size
 				File _icon = new File(_webContextStoragePath + this.portfolioStoragePath + "/Icon/"
 						+ _tempFileName);
-				this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
+				this.getUploadImageManagement().resizeImage(_tempFile, _icon, 120D, 184D);
 				File _small = new File(_webContextStoragePath + this.portfolioStoragePath
 						+ "/Small/" + _tempFileName);
-				this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
+				this.getUploadImageManagement().resizeImage(_tempFile, _small, 182D, 280D);
 				File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
 						+ "/Retina/" + _tempFileName);
-				this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
+				this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
 			}
 		}
 	}
@@ -118,7 +104,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	@Override
 	public void editPortfolio(Account __desiger, Portfolio __portfolio,
 			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
-		String _webContextStoragePath = this.genericManagement
+		String _webContextStoragePath = this.getGenericManagement()
 				.loadWebContextStoragePath(__desiger.getAppSession());
 
 		__portfolio.update(__editPortfolioRequest);
@@ -137,7 +123,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		// Copy portfolio images from temporary directory to resource directory
 		for (String _tempFileName : __editPortfolioRequest.getImages()) {
 			File _tempFile = new File(
-					_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+					_webContextStoragePath + this.getTemporaryStoragePath() + "/" + _tempFileName);
 			if (_tempFile.exists()) {
 				FileUtils.moveFileToDirectory(_tempFile,
 						new File(_webContextStoragePath + this.portfolioStoragePath), false);
@@ -169,39 +155,12 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	}
 
 	/**
-	 * Sets the generic management.
-	 *
-	 * @param __genericManagement the new generic management
-	 */
-	public void setGenericManagement(GenericManagement __genericManagement) {
-		this.genericManagement = __genericManagement;
-	}
-
-	/**
 	 * Sets the portfolio storage path.
 	 *
 	 * @param __portfolioStoragePath the new portfolio storage path
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;
-	}
-
-	/**
-	 * Sets the temporary storage path.
-	 *
-	 * @param __temporaryStoragePath the new temporary storage path
-	 */
-	public void setTemporaryStoragePath(String __temporaryStoragePath) {
-		this.temporaryStoragePath = __temporaryStoragePath;
-	}
-
-	/**
-	 * Sets the upload image management.
-	 *
-	 * @param __uploadImageManagement the new upload image management
-	 */
-	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
-		this.uploadImageManagement = __uploadImageManagement;
 	}
 
 }

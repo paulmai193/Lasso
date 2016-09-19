@@ -44,7 +44,11 @@ public class ImplCategoryDAO implements CategoryDAO {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		.addOrder(Order.asc("sort")).setFirstResult(__offset).setMaxResults(__limit);
+		.addOrder(Order.asc("sort"));
+		if (__offset != -1) {
+			_criteria.setFirstResult(__offset).setMaxResults(__limit);
+		}
+
 		return _criteria.list();
 	}
 

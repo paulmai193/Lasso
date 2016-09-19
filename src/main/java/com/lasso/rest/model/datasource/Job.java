@@ -1,6 +1,7 @@
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+import com.lasso.rest.model.api.request.CreateNewJobRequest;
 
 /**
  * The persistent class for the jobs database table.
@@ -119,6 +122,26 @@ public class Job implements Serializable {
 	 * Instantiates a new job.
 	 */
 	public Job() {
+	}
+
+	/**
+	 * Instantiates a new job.
+	 *
+	 * @param __newJobRequest the new job request
+	 */
+	public Job(CreateNewJobRequest __newJobRequest) {
+		this.assetsUrl = __newJobRequest.getAssetUrl();
+		this.budget = __newJobRequest.getBudget();
+		this.description = __newJobRequest.getDescription();
+		this.furtherInformation = __newJobRequest.getFurther();
+		this.categoryId = __newJobRequest.getIdCategory();
+		this.created = this.modified = new Date();
+		this.styleId = __newJobRequest.getIdStyle();
+		this.latestSubmission = __newJobRequest.getLastSubmission();
+		this.objective = __newJobRequest.getObjective();
+		String _reference = Arrays.toString(__newJobRequest.getReference().toArray());
+		this.reference = _reference.substring(1, _reference.length() - 1);
+		this.submission = __newJobRequest.getSubmission();
 	}
 
 	/**

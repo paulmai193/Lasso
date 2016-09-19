@@ -1,5 +1,7 @@
 package com.lasso.rest.dao;
 
+import java.util.List;
+
 import com.lasso.rest.model.datasource.JobsType;
 
 /**
@@ -10,11 +12,18 @@ import com.lasso.rest.model.datasource.JobsType;
 public interface JobTypeDAO extends HibernateSession {
 
 	/**
-	 * Gets the by job id.
+	 * Gets the list jobs types by job id.
 	 *
 	 * @param __idJob the id job
-	 * @return the by job id
+	 * @return the jobs types by job id
 	 */
-	JobsType getByJobId(int __idJob);
+	List<JobsType> getListJobsTypesByJobId(int __idJob);
+
+	/**
+	 * Save list jobs types.
+	 *
+	 * @param __jobsTypes the jobs types
+	 */
+	void saveListJobsTypes(List<JobsType> __jobsTypes);
 
 }

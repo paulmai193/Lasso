@@ -28,18 +28,6 @@ public class ImplTypeDAO implements TypeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.TypeDAO#getById(int)
-	 */
-	@Override
-	public Type getById(int __typeId) {
-		return (Type) this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-				.add(Restrictions.idEq(__typeId)).add(Restrictions.eq("deleted", (byte) 0))
-				.uniqueResult();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see com.lasso.rest.dao.TypeDAO#getListByByListIds(java.util.List)
 	 */
 	@SuppressWarnings("unchecked")
@@ -54,13 +42,25 @@ public class ImplTypeDAO implements TypeDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.TypeDAO#getTypeById(int)
+	 */
+	@Override
+	public Type getTypeById(int __typeId) {
+		return (Type) this.sessionFactory.getCurrentSession().createCriteria(Type.class)
+				.add(Restrictions.idEq(__typeId)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.TypeDAO#getTypesByCategory(com.lasso.rest.model.datasource.Category)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Type> getTypesByCategory(Category __category) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-				.add(Restrictions.eq("category", __category))
+				.add(Restrictions.eq("categoryId", __category.getId()))
 				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
 				.addOrder(Order.asc("sort"));
 		return _criteria.list();

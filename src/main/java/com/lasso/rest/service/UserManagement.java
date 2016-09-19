@@ -1,8 +1,11 @@
 package com.lasso.rest.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.lasso.rest.model.api.request.CreateNewJobRequest;
 import com.lasso.rest.model.datasource.Account;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 import javassist.NotFoundException;
 
@@ -12,6 +15,17 @@ import javassist.NotFoundException;
  * @author Paul Mai
  */
 public interface UserManagement extends ProjectManagement {
+
+	/**
+	 * Creates the new job.
+	 *
+	 * @param __user the user
+	 * @param __createNewJobRequest the create new job request
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	void createNewJob(Account __user, CreateNewJobRequest __createNewJobRequest)
+			throws UnirestException, IOException;
 
 	/**
 	 * Gets the job data of user by id.

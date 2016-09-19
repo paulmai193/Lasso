@@ -3,7 +3,6 @@ package com.lasso.rest.model.datasource;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,19 +11,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
 /**
- * The persistent class for the jobs_types database table.
+ * The persistent class for the banners database table.
  *
  * @author Paul Mai
  */
 @Entity
-@Table(name = "jobs_types")
-@DynamicInsert(true)
-@DynamicUpdate(true)
-public class JobsType implements Serializable {
+@Table(name = "banners")
+public class Banner implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
@@ -33,40 +27,34 @@ public class JobsType implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
+	private Byte				deleted;
+
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer				id;
 
-	/** The job id. */
-	@Column(name = "job_id")
-	private Integer				jobId;
+	/** The image. */
+	private String				image;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
-	/** The type id. */
-	@Column(name = "type_id")
-	private Integer				typeId;
+	/** The status. */
+	private Byte				status;
+
+	/** The title. */
+	private String				title;
+
+	/** The url. */
+	private String				url;
 
 	/**
-	 * Instantiates a new jobs type.
+	 * Instantiates a new banner.
 	 */
-	public JobsType() {
-	}
-
-	/**
-	 * Instantiates a new jobs type.
-	 *
-	 * @param __jobId the job id
-	 * @param __typeId the type id
-	 */
-	public JobsType(Integer __jobId, Integer __typeId) {
-		super();
-		this.jobId = __jobId;
-		this.typeId = __typeId;
-		this.created = this.modified = new Date();
+	public Banner() {
 	}
 
 	/**
@@ -79,6 +67,15 @@ public class JobsType implements Serializable {
 	}
 
 	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
+	public Byte getDeleted() {
+		return this.deleted;
+	}
+
+	/**
 	 * Gets the id.
 	 *
 	 * @return the id
@@ -88,12 +85,12 @@ public class JobsType implements Serializable {
 	}
 
 	/**
-	 * Gets the job id.
+	 * Gets the image.
 	 *
-	 * @return the job id
+	 * @return the image
 	 */
-	public Integer getJobId() {
-		return this.jobId;
+	public String getImage() {
+		return this.image;
 	}
 
 	/**
@@ -106,12 +103,30 @@ public class JobsType implements Serializable {
 	}
 
 	/**
-	 * Gets the type id.
+	 * Gets the status.
 	 *
-	 * @return the type id
+	 * @return the status
 	 */
-	public Integer getTypeId() {
-		return this.typeId;
+	public Byte getStatus() {
+		return this.status;
+	}
+
+	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
+	public String getTitle() {
+		return this.title;
+	}
+
+	/**
+	 * Gets the url.
+	 *
+	 * @return the url
+	 */
+	public String getUrl() {
+		return this.url;
 	}
 
 	/**
@@ -124,6 +139,15 @@ public class JobsType implements Serializable {
 	}
 
 	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(Byte deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
 	 * Sets the id.
 	 *
 	 * @param id the new id
@@ -133,12 +157,12 @@ public class JobsType implements Serializable {
 	}
 
 	/**
-	 * Sets the job id.
+	 * Sets the image.
 	 *
-	 * @param jobId the new job id
+	 * @param image the new image
 	 */
-	public void setJobId(Integer jobId) {
-		this.jobId = jobId;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	/**
@@ -151,12 +175,30 @@ public class JobsType implements Serializable {
 	}
 
 	/**
-	 * Sets the type id.
+	 * Sets the status.
 	 *
-	 * @param typeId the new type id
+	 * @param status the new status
 	 */
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
+	public void setStatus(Byte status) {
+		this.status = status;
+	}
+
+	/**
+	 * Sets the title.
+	 *
+	 * @param title the new title
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * Sets the url.
+	 *
+	 * @param url the new url
+	 */
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 }

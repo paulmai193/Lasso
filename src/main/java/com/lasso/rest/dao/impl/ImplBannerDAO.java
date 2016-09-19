@@ -1,42 +1,44 @@
 package com.lasso.rest.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.lasso.rest.dao.JobAccountDAO;
-import com.lasso.rest.model.datasource.JobsAccount;
+import com.lasso.rest.dao.BannerDAO;
+import com.lasso.rest.model.datasource.Banner;
 
 /**
- * The Class ImplJobAccountDAO.
+ * The Class ImplBannerDAO.
  *
  * @author Paul Mai
  */
 @Repository
-public class ImplJobAccountDAO implements JobAccountDAO {
+public class ImplBannerDAO implements BannerDAO {
 
 	/** The session factory. */
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	/**
-	 * Instantiates a new impl job account DAO.
+	 * Instantiates a new impl banner DAO.
 	 */
-	public ImplJobAccountDAO() {
+	public ImplBannerDAO() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobAccountDAO#getByJobId(int)
+	 * @see com.lasso.rest.dao.BannerDAO#getListBanner()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public JobsAccount getByJobId(int __idJob) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-				.add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
-				.uniqueResult();
+	public List<Banner> getListBanner() {
+		return this.sessionFactory.getCurrentSession().createCriteria(Banner.class)
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+				.list();
 	}
 
 	/*

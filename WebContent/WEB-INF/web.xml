@@ -44,13 +44,19 @@
 	</servlet-mapping>
 
 	<security-constraint>
+		<display-name>exclude</display-name>
 		<web-resource-collection>
-			<web-resource-name>logs</web-resource-name>
+			<web-resource-name>No Access</web-resource-name>
 			<url-pattern>/logs/*</url-pattern>
+			<url-pattern>/template/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>manager</role-name>
+			<role-name>manager-gui</role-name>
+			<role-name>admin-gui</role-name>
 		</auth-constraint>
 	</security-constraint>
+	<security-role>
+		<role-name>tomcat</role-name>
+	</security-role>
 
 </web-app>

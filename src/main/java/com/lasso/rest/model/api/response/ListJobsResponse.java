@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Job;
+import com.lasso.rest.model.datasource.Type;
 
 /**
  * The Class ListJobsResponse.
@@ -99,10 +100,19 @@ class ListJobsSerializer extends JsonSerializer<List<Object[]>> {
 			__gen.writeStartObject();
 			Job _job = (Job) _objects[0];
 			String _designer = (String) _objects[1];
-			String _type = (String) _objects[2];
+
+			@SuppressWarnings("unchecked")
+			List<Type> _types = (List<Type>) _objects[2];
 			String _style = (String) _objects[3];
 			__gen.writeNumberField("job_id", _job.getId());
-			__gen.writeStringField("type", _type);
+			__gen.writeArrayFieldStart("types");
+			for (Type _type : _types) {
+				__gen.writeStartObject();
+				__gen.writeNumberField("type_id", _type.getId());
+				__gen.writeStringField("type_title", _type.getTitle());
+				__gen.writeEndObject();
+			}
+			__gen.writeEndArray();
 			__gen.writeStringField("designer", _designer);
 			__gen.writeStringField("style", _style);
 			__gen.writeStringField("date_due", _dateFormat.format(_job.getLatestSubmission()));

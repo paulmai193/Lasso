@@ -154,8 +154,12 @@ public class AccountController extends BaseController {
 		__forgetPasswordRequest.validate();
 		String _refQuery = this.accountManagement
 				.forgotPassword(__forgetPasswordRequest.getEmail().getValue());
-		String _refLink = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.request.getContextPath() + "/public"
+		String _refLink = "http://"
+				+ this.request.getServerName() /*
+				 * + ":"
+				 * + this.request.getServerPort() +
+				 * this.request.getContextPath() + "/public"
+				 */
 				+ _refQuery;
 		this.accountManagement.sendResetPasswordEmail(__forgetPasswordRequest.getEmail().getValue(),
 				_refLink);
@@ -258,9 +262,11 @@ public class AccountController extends BaseController {
 	public Response resendActivateEmail() throws AddressException, MessagingException {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		String _refQuery = this.accountManagement.resendActivate(_account);
-		String _refLink = "http://" + this.request.getServerName() + ":"
-				+ this.request.getServerPort() + this.request.getContextPath() + "/public"
-				+ _refQuery;
+		String _refLink = "http://"
+				+ this.request.getServerName() /*
+				 * +":" +this.request.getServerPort()
+				 * + this.request.getContextPath() + "/public"
+				 */ + _refQuery;
 
 		String _requestType;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
@@ -382,8 +388,12 @@ public class AccountController extends BaseController {
 		__registerAccount.setCountry(_country);
 		__registerAccount.checkCountryValid();
 		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount);
-		String _refLink = "http://" + __request.getServerName() + ":" + __request.getServerPort()
-		+ __request.getContextPath() + "/public" + _refQuery;
+		String _refLink = "http://"
+				+ __request.getServerName() /*
+				 * +":"
+				 * + __request.getServerPort()
+				 * +__request.getContextPath() + "/public"
+				 */ + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
 				_refLink, __registerType);
 		String _prefixUrl = this.httpHost + this.avatarStoragePath;

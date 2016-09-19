@@ -155,6 +155,7 @@ public final class Account implements Principal, Serializable {
 		this.password = __accountRegister.getPassword();
 		this.handphoneNumber = __accountRegister.getPhone().getValue();
 		this.role = __accountRegister.getRole();
+		this.rewards = 1;
 		this.subscribe = (byte) (__accountRegister.getSubscribe() ? 1 : 0);
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer

@@ -1,11 +1,14 @@
 package com.lasso.rest.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 import javax.ws.rs.NotFoundException;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lasso.rest.dao.JobAccountDAO;
 import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.dao.JobTypeDAO;
+import com.lasso.rest.model.api.request.CreateNewJobRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
@@ -20,6 +24,7 @@ import com.lasso.rest.model.datasource.JobsType;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.UserManagement;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Class ImplUserManagement.
@@ -38,6 +43,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	@Autowired
 	private JobDAO			jobDAO;
 
+	/** The job storage path. */
+	private String			jobStoragePath;
+
 	/** The job type DAO. */
 	@Autowired
 	private JobTypeDAO		jobTypeDAO;
@@ -46,6 +54,51 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 * Instantiates a new impl user management.
 	 */
 	public ImplUserManagement() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.UserManagement#createNewJob(com.lasso.rest.model.datasource.Account,
+	 * com.lasso.rest.model.api.request.CreateNewJobRequest)
+	 */
+	@Override
+	public void createNewJob(Account __user, CreateNewJobRequest __createNewJobRequest)
+			throws UnirestException, IOException {
+		Job _job = new Job(__createNewJobRequest);
+		_job.setAccountId(__user.getId());
+		Integer _idJob = this.jobDAO.saveJob(_job);
+
+		List<JobsType> _jobsTypes = new ArrayList<>();
+		__createNewJobRequest.getIdTypes()
+		.forEach(_idType -> _jobsTypes.add(new JobsType(_idJob, _idType)));
+		this.jobTypeDAO.saveListJobsTypes(_jobsTypes);
+
+		// Copy portfolio images from temporary directory to resource directory
+		String _webContextStoragePath = this.getGenericManagement()
+				.loadWebContextStoragePath(__user.getAppSession());
+		for (String _tempFileName : __createNewJobRequest.getReference()) {
+			File _tempFile = new File(
+					_webContextStoragePath + this.getTemporaryStoragePath() + "/" + _tempFileName);
+			if (_tempFile.exists()) {
+				// Move original file
+				FileUtils.copyFileToDirectory(_tempFile,
+						new File(_webContextStoragePath + this.jobStoragePath + "/Original"),
+						false);
+
+				// Resize into 3 other size
+				File _icon = new File(
+						_webContextStoragePath + this.jobStoragePath + "/Icon/" + _tempFileName);
+				this.getUploadImageManagement().resizeImage(_tempFile, _icon, 120D, 184D);
+				File _small = new File(
+						_webContextStoragePath + this.jobStoragePath + "/Small/" + _tempFileName);
+				this.getUploadImageManagement().resizeImage(_tempFile, _small, 182D, 280D);
+				File _retina = new File(
+						_webContextStoragePath + this.jobStoragePath + "/Retina/" + _tempFileName);
+				this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
+			}
+		}
 	}
 
 	/*
@@ -62,21 +115,20 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			throw new NotFoundException("Job not found");
 		}
 		else {
-			String _designerName, _typeTitle;
-			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobId(__idJob);
+			String _designerName = "";
+			JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
+					.getByJobId(_job.getId());
 			_designerName = _jobsAccount == null ? ""
-			        : this.getAccountDAO().getAccountById(_jobsAccount.getAccountId()).getName();
-			JobsType _jobsType = this.jobTypeDAO.getByJobId(__idJob);
-			if (_jobsType != null) {
-				Type _type = this.getTypeDAO().getById(_jobsType.getTypeId());
-				_typeTitle = _type.getTitle();
-			}
-			else {
-				_typeTitle = "";
-			}
-			Style _style = this.getStyleDAO().getById(_job.getStyleId());
+					: ImplUserManagement.this.getAccountDAO()
+					.getAccountById(_jobsAccount.getAccountId()).getName();
+			List<Integer> _typeIds = new ArrayList<>();
+			ImplUserManagement.this.jobTypeDAO.getListJobsTypesByJobId(_job.getId())
+			.forEach(_jt -> _typeIds.add(_jt.getTypeId()));
+			List<Type> _types = ImplUserManagement.this.getTypeDAO().getListByByListIds(_typeIds);
 
-			Object[] _data = { _job, _designerName, _typeTitle, _style.getTitle() };
+			Style _style = ImplUserManagement.this.getStyleDAO().getById(_job.getStyleId());
+
+			Object[] _data = { _job, _designerName, _types, _style.getTitle() };
 			return _data;
 		}
 
@@ -101,26 +153,22 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 
 				@Override
 				public void accept(Job __job) {
-					String _designerName, _typeTitle;
+					String _designerName = "";
 					JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
-					        .getByJobId(__job.getId());
+							.getByJobId(__job.getId());
 					_designerName = _jobsAccount == null ? ""
-					        : ImplUserManagement.this.getAccountDAO()
-					                .getAccountById(_jobsAccount.getAccountId()).getName();
-					JobsType _jobsType = ImplUserManagement.this.jobTypeDAO
-					        .getByJobId(__job.getId());
-					if (_jobsType != null) {
-						Type _type = ImplUserManagement.this.getTypeDAO()
-						        .getById(_jobsType.getTypeId());
-						_typeTitle = _type.getTitle();
-					}
-					else {
-						_typeTitle = "";
-					}
-					Style _style = ImplUserManagement.this.getStyleDAO()
-					        .getById(__job.getStyleId());
+							: ImplUserManagement.this.getAccountDAO()
+							.getAccountById(_jobsAccount.getAccountId()).getName();
+					List<Integer> _typeIds = new ArrayList<>();
+					ImplUserManagement.this.jobTypeDAO.getListJobsTypesByJobId(__job.getId())
+					.forEach(_jt -> _typeIds.add(_jt.getTypeId()));
+					List<Type> _types = ImplUserManagement.this.getTypeDAO()
+							.getListByByListIds(_typeIds);
 
-					Object[] _data = { __job, _designerName, _typeTitle, _style.getTitle() };
+					Style _style = ImplUserManagement.this.getStyleDAO()
+							.getById(__job.getStyleId());
+
+					Object[] _data = { __job, _designerName, _types, _style.getTitle() };
 					_datas.add(_data);
 				}
 			});
@@ -148,6 +196,15 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	}
 
 	/**
+	 * Sets the job storage path.
+	 *
+	 * @param __jobStoragePath the jobStoragePath to set
+	 */
+	public void setJobStoragePath(String __jobStoragePath) {
+		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
 	 * Sets the job type DAO.
 	 *
 	 * @param __jobTypeDAO the new job type DAO
@@ -155,4 +212,5 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	public void setJobTypeDAO(JobTypeDAO __jobTypeDAO) {
 		this.jobTypeDAO = __jobTypeDAO;
 	}
+
 }

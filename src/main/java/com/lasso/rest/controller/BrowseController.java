@@ -20,11 +20,13 @@ import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.response.CategoryResponse;
+import com.lasso.rest.model.api.response.ListBannerReponse;
 import com.lasso.rest.model.api.response.ListCategoriesResponse;
 import com.lasso.rest.model.api.response.ListProjectsResponse;
 import com.lasso.rest.model.api.response.ListSubCatoriesResponse;
 import com.lasso.rest.model.api.response.ListTypesResponse;
 import com.lasso.rest.model.api.response.ProjectDetailResponse;
+import com.lasso.rest.model.datasource.Banner;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
@@ -45,6 +47,9 @@ public class BrowseController extends BaseController {
 
 	/** The avatar storage path. */
 	private String				avatarStoragePath;
+
+	/** The category storage path. */
+	private String				bannerStoragePath;
 
 	/** The category storage path. */
 	private String				categoryStoragePath;
@@ -72,6 +77,24 @@ public class BrowseController extends BaseController {
 	/** The validateContext. */
 	@Context
 	private SecurityContext		validateContext;
+
+	/**
+	 * Gets the banners.
+	 *
+	 * @return the banners
+	 */
+	@GET
+	@Path("/banner")
+	public ListBannerReponse getBanners() {
+		List<Banner> _banners = this.projectManagement.getListBanner();
+		if (_banners.isEmpty()) {
+			throw new NotFoundException("Data not found");
+		}
+		else {
+			String _prefixUrl = this.httpHost + this.bannerStoragePath;
+			return new ListBannerReponse(_banners, _prefixUrl);
+		}
+	}
 
 	/**
 	 * Gets the categories.
@@ -203,6 +226,15 @@ public class BrowseController extends BaseController {
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
+	}
+
+	/**
+	 * Sets the banner storage path.
+	 *
+	 * @param __bannerStoragePath the new banner storage path
+	 */
+	public void setBannerStoragePath(String __bannerStoragePath) {
+		this.bannerStoragePath = __bannerStoragePath;
 	}
 
 	/**

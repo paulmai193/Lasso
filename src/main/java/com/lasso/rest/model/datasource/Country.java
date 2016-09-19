@@ -5,11 +5,10 @@ package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,15 +29,15 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "countries")
 @DynamicInsert(true)
 @DynamicUpdate(true)
-public final class Country implements Serializable {
+public class Country implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
 	/** The accounts. */
 	// bi-directional many-to-one association to Account
-	@OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
-	private List<Account>		accounts;
+	@OneToMany(mappedBy = "country")
+	private Set<Account>		accounts;
 
 	/** The code. */
 	private String				code;
@@ -48,12 +47,12 @@ public final class Country implements Serializable {
 	private Date				created;
 
 	/** The deleted. */
-	private Byte				deleted;
+	private byte				deleted;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
+	private int					id;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
@@ -64,13 +63,13 @@ public final class Country implements Serializable {
 
 	/** The phone code. */
 	@Column(name = "phone_code")
-	private Integer				phoneCode;
+	private int					phoneCode;
 
 	/** The sort. */
-	private Integer				sort;
+	private int					sort;
 
 	/** The status. */
-	private Byte				status;
+	private byte				status;
 
 	/**
 	 * Instantiates a new country.
@@ -96,7 +95,7 @@ public final class Country implements Serializable {
 	 *
 	 * @return the accounts
 	 */
-	public List<Account> getAccounts() {
+	public Set<Account> getAccounts() {
 		return this.accounts;
 	}
 
@@ -123,7 +122,7 @@ public final class Country implements Serializable {
 	 *
 	 * @return the deleted
 	 */
-	public Byte getDeleted() {
+	public byte getDeleted() {
 		return this.deleted;
 	}
 
@@ -132,7 +131,7 @@ public final class Country implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public Integer getId() {
+	public int getId() {
 		return this.id;
 	}
 
@@ -159,7 +158,7 @@ public final class Country implements Serializable {
 	 *
 	 * @return the phone code
 	 */
-	public Integer getPhoneCode() {
+	public int getPhoneCode() {
 		return this.phoneCode;
 	}
 
@@ -168,7 +167,7 @@ public final class Country implements Serializable {
 	 *
 	 * @return the sort
 	 */
-	public Integer getSort() {
+	public int getSort() {
 		return this.sort;
 	}
 
@@ -177,7 +176,7 @@ public final class Country implements Serializable {
 	 *
 	 * @return the status
 	 */
-	public Byte getStatus() {
+	public byte getStatus() {
 		return this.status;
 	}
 
@@ -199,7 +198,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param accounts the new accounts
 	 */
-	public void setAccounts(List<Account> accounts) {
+	public void setAccounts(Set<Account> accounts) {
 		this.accounts = accounts;
 	}
 
@@ -226,7 +225,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param deleted the new deleted
 	 */
-	public void setDeleted(Byte deleted) {
+	public void setDeleted(byte deleted) {
 		this.deleted = deleted;
 	}
 
@@ -235,7 +234,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -262,7 +261,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param phoneCode the new phone code
 	 */
-	public void setPhoneCode(Integer phoneCode) {
+	public void setPhoneCode(int phoneCode) {
 		this.phoneCode = phoneCode;
 	}
 
@@ -271,7 +270,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param sort the new sort
 	 */
-	public void setSort(Integer sort) {
+	public void setSort(int sort) {
 		this.sort = sort;
 	}
 
@@ -280,7 +279,7 @@ public final class Country implements Serializable {
 	 *
 	 * @param status the new status
 	 */
-	public void setStatus(Byte status) {
+	public void setStatus(byte status) {
 		this.status = status;
 	}
 

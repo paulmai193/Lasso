@@ -3,6 +3,7 @@ package com.lasso.rest.model.api.response;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Job;
+import com.lasso.rest.model.datasource.Type;
 
 /**
  * The Class JobDetailResponse.
@@ -93,9 +95,18 @@ class JobDetailSerializer extends JsonSerializer<Object[]> {
 		__gen.writeStartObject();
 		Job _job = (Job) __value[0];
 		String _designer = (String) __value[1];
-		String _type = (String) __value[2];
+
+		@SuppressWarnings("unchecked")
+		List<Type> _types = (List<Type>) __value[2];
 		String _style = (String) __value[3];
-		__gen.writeStringField("type", _type);
+		__gen.writeArrayFieldStart("types");
+		for (Type _type : _types) {
+			__gen.writeStartObject();
+			__gen.writeNumberField("type_id", _type.getId());
+			__gen.writeStringField("type_title", _type.getTitle());
+			__gen.writeEndObject();
+		}
+		__gen.writeEndArray();
 		__gen.writeStringField("designer", _designer);
 		__gen.writeStringField("style", _style);
 		DateFormat _fullDateFormat = new SimpleDateFormat("dd/MM/yyyy");

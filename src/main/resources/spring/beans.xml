@@ -17,6 +17,10 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="bannerDAO" class="com.lasso.rest.dao.impl.ImplBannerDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="categoryDAO" class="com.lasso.rest.dao.impl.ImplCategoryDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -84,26 +88,27 @@
 	<bean id="projectManagement" class="com.lasso.rest.service.impl.ImplProjectManagement"
 		lazy-init="false" scope="singleton">
 		<property name="accountDAO" ref="accountDAO" />
+		<property name="bannerDAO" ref="bannerDAO" />
 		<property name="categoryDAO" ref="categoryDAO" />
 		<property name="portfolioDAO" ref="portfolioDAO" />
 		<property name="portfolioTypeDAO" ref="portfolioTypeDAO" />
 		<property name="projectDAO" ref="projectDAO" />
 		<property name="styleDAO" ref="styleDAO" />
 		<property name="typeDAO" ref="typeDAO" />
+		<property name="genericManagement" ref="genericManagement" />
+		<property name="uploadImageManagement" ref="uploadImageManagement" />
+		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
 	</bean>
 	<bean id="designerManagement" class="com.lasso.rest.service.impl.ImplDesignerManagement"
 		lazy-init="false" scope="singleton">
-		<property name="portfolioDAO" ref="portfolioDAO" />
-		<property name="genericManagement" ref="genericManagement" />
-		<property name="uploadImageManagement" ref="uploadImageManagement" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
-		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
 	</bean>
 	<bean id="userManagement" class="com.lasso.rest.service.impl.ImplUserManagement"
 		lazy-init="false" scope="singleton">
 		<property name="jobDAO" ref="jobDAO" />
 		<property name="jobAccountDAO" ref="jobAccountDAO" />
 		<property name="jobTypeDAO" ref="jobTypeDAO" />
+		<property name="jobStoragePath" ref="jobStoragePath" />
 	</bean>
 
 	<!-- Controller Layer -->
@@ -138,6 +143,7 @@
 		lazy-init="false">
 		<property name="projectManagement" ref="projectManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
+		<property name="bannerStoragePath" ref="bannerStoragePath" />
 		<property name="categoryStoragePath" ref="categoryStoragePath" />
 		<property name="projectStoragePath" ref="projectStoragePath" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />

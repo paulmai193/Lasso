@@ -1,14 +1,19 @@
 package com.lasso.rest.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +23,13 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.request.CreateNewJobRequest;
+import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.JobDetailResponse;
 import com.lasso.rest.model.api.response.ListJobsResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.UserManagement;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Class ManageOrderController.
@@ -33,7 +41,7 @@ import com.lasso.rest.service.UserManagement;
 @Path("/manage_order")
 @Produces(value = { MediaType.APPLICATION_JSON })
 @AccountAuthenticate
-@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
+@AccountAllow(roles = "" + Constant.ROLE_USER, status = "" + Constant.ACC_ACTIVATE)
 public class ManageOrderController extends BaseController {
 
 	/** The user management. */
@@ -51,6 +59,24 @@ public class ManageOrderController extends BaseController {
 	}
 
 	/**
+	 * Brief new job.
+	 *
+	 * @param __createNewJobRequest the create new job request
+	 * @return the response
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@POST
+	@Path("/create")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response briefNewJob(CreateNewJobRequest __createNewJobRequest)
+			throws UnirestException, IOException {
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		this.userManagement.createNewJob(_user, __createNewJobRequest);
+		return this.fail(new BaseResponse(true), Status.NOT_IMPLEMENTED);
+	}
+
+	/**
 	 * Gets the job detail.
 	 *
 	 * @param __idJob the id job
@@ -59,7 +85,6 @@ public class ManageOrderController extends BaseController {
 	 */
 	@GET
 	@Path("/detail")
-	@AccountAllow(roles = "" + Constant.ROLE_USER)
 	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
 			throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
@@ -81,7 +106,6 @@ public class ManageOrderController extends BaseController {
 	 */
 	@GET
 	@Path("/list")
-	@AccountAllow(roles = "" + Constant.ROLE_USER)
 	public ListJobsResponse getListJobs() {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
