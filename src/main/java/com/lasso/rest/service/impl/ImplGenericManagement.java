@@ -6,7 +6,6 @@ package com.lasso.rest.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.rest.dao.ConfigurationDAO;
 import com.lasso.rest.dao.CountryDAO;
-import com.lasso.rest.model.datasource.Configuration;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.GenericManagement;
 import com.mashape.unirest.http.HttpResponse;
@@ -75,19 +73,23 @@ public class ImplGenericManagement implements GenericManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.service.GenericManagement#getServiceFee()
+	 */
+	@Override
+	public float getServiceFee() {
+		return Float.parseFloat(this.loadConfig().get("Site.fee"));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.service.GenericManagement#loadConfig()
 	 */
 	@Override
 	public Map<String, String> loadConfig() {
 		Map<String, String> _mapConfig = new HashMap<>();
-		this.configurationDAO.loadConfig().forEach(new Consumer<Configuration>() {
-
-			@Override
-			public void accept(Configuration __t) {
-				_mapConfig.put(__t.getName(), __t.getValue());
-			}
-		});
-		;
+		this.configurationDAO.loadConfig()
+		        .forEach(_c -> _mapConfig.put(_c.getName(), _c.getValue()));
 		return _mapConfig;
 	}
 

@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.response.GetServiceFeeResponse;
 import com.lasso.rest.model.api.response.ListCountriesResponse;
 import com.lasso.rest.service.GenericManagement;
 
@@ -44,6 +46,20 @@ public class PublicController extends BaseController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ListCountriesResponse getCountries() {
 		return new ListCountriesResponse(this.genericManagement.getAllCountries());
+	}
+
+	/**
+	 * Gets the service fee.
+	 *
+	 * @return the service fee
+	 */
+	@GET
+	@Path("/service_fee")
+	@Produces(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	public GetServiceFeeResponse getServiceFee() {
+		float _fee = this.genericManagement.getServiceFee();
+		return new GetServiceFeeResponse(_fee);
 	}
 
 	/**
@@ -78,9 +94,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/active")
 	public Response testActive(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=active&otp=" + __otp;
+		        + __request.getServerPort() + "/verify?type=active&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 
@@ -95,9 +111,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/reset")
 	public Response testReset(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
+		        + __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 

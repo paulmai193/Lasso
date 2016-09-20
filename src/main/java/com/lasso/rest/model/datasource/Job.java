@@ -561,6 +561,11 @@ public class Job implements Serializable {
 		this.submission = submission;
 	}
 
+	/**
+	 * Update.
+	 *
+	 * @param __editJobRequest the edit job request
+	 */
 	public void update(EditJobRequest __editJobRequest) {
 		this.assetsUrl = __editJobRequest.getAssetUrl();
 		this.budget = __editJobRequest.getBudget();

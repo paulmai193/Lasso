@@ -32,6 +32,13 @@ public interface GenericManagement {
 	Country getCountryIdByCode(String __countryCode);
 
 	/**
+	 * Gets the service fee.
+	 *
+	 * @return the service fee
+	 */
+	float getServiceFee();
+
+	/**
 	 * Load config.
 	 *
 	 * @return the map

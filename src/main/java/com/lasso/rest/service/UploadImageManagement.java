@@ -22,7 +22,7 @@ public interface UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-	        ImageOutputStream __destinationImageFile) throws IOException;
+			ImageOutputStream __destinationImageFile) throws IOException;
 
 	/**
 	 * Generate image name.
@@ -41,7 +41,7 @@ public interface UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
-	        throws IOException;
+			throws IOException;
 
 	/**
 	 * Resize image.
@@ -53,7 +53,7 @@ public interface UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
-	        Double __width) throws IOException;
+			Double __width) throws IOException;
 
 	/**
 	 * Save file.
@@ -65,6 +65,6 @@ public interface UploadImageManagement {
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
 	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
-	        throws IOException, IllegalArgumentException;
+			throws IOException, IllegalArgumentException;
 
 }

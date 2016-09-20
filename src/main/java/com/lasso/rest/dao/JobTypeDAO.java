@@ -20,17 +20,17 @@ public interface JobTypeDAO extends HibernateSession {
 	List<JobsType> getListJobsTypesByJobId(int __idJob);
 
 	/**
-	 * Save list jobs types.
-	 *
-	 * @param __jobsTypes the jobs types
-	 */
-	void saveListJobsTypes(List<JobsType> __jobsTypes);
-
-	/**
 	 * Removes the jobs types by job id.
 	 *
 	 * @param __idJob the job ID
 	 */
 	void removeJobsTypesByJobId(Integer __idJob);
+
+	/**
+	 * Save list jobs types.
+	 *
+	 * @param __jobsTypes the jobs types
+	 */
+	void saveListJobsTypes(List<JobsType> __jobsTypes);
 
 }

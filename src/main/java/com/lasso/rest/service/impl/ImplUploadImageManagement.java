@@ -36,7 +36,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-	        ImageOutputStream __destinationImageFile) throws IOException {
+			ImageOutputStream __destinationImageFile) throws IOException {
 		BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 		BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
 
@@ -65,7 +65,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	@Override
 	public String generateImageName(String __extension) {
 		return EncryptionUtil.uniqid("", false)
-		        + new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
+				+ new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
 	}
 
 	/*
@@ -76,9 +76,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
-	        throws IOException {
+			throws IOException {
 		Logger.getLogger(this.getClass())
-		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -106,9 +106,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
-	        Double __width) throws IOException {
+			Double __width) throws IOException {
 		Logger.getLogger(this.getClass())
-		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -136,9 +136,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
-	        throws IOException, IllegalArgumentException {
+			throws IOException, IllegalArgumentException {
 		Logger.getLogger(this.getClass())
-		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		BufferedImage _buffered = ImageIO.read(__fileStream);
 		if (_buffered == null) {
 			throw new IllegalArgumentException("File not image");

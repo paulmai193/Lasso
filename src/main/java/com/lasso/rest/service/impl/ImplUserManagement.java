@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import javax.ws.rs.NotAllowedException;
@@ -79,6 +81,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		        .loadWebContextStoragePath(__user.getAppSession());
 		try {
 			Job _job = new Job(__createNewJobRequest);
+			_job.setFee(_job.getBudget() * this.getGenericManagement().getServiceFee() / 100);
 			_job.setAccountId(__user.getId());
 			Integer _idJob = this.jobDAO.saveJob(_job);
 
@@ -109,7 +112,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 					this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
 				}
 				else {
-					Logger.getLogger(getClass())
+					Logger.getLogger(this.getClass())
 					        .warn("Job temporary file not exist. Check this path: "
 					                + _tempFile.getAbsolutePath());
 				}
@@ -120,6 +123,80 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			this.removeOldTemporaryFiles(_webContextStoragePath);
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UserManagement#editJob(com.lasso.rest.model.datasource.Account,
+	 * com.lasso.rest.model.api.request.EditJobRequest)
+	 */
+	@Override
+	public void editJob(Account __user, EditJobRequest __editJobRequest)
+	        throws UnirestException, IOException {
+		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __editJobRequest.getIdJob());
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else if (!_job.getStep().equals(JobStepConstant.JOB_STEP_BRIEF)) {
+			throw new NotAllowedException(
+			        "This job cannot edit at "
+			                + JobStepConstant.getByCode(_job.getStep()).getStepName(),
+			        Response.status(Status.FORBIDDEN).build());
+		}
+		else {
+			String _webContextStoragePath = this.getGenericManagement()
+			        .loadWebContextStoragePath(__user.getAppSession());
+			try {
+				// Update brief of job
+				_job.setFee(_job.getBudget() * this.getGenericManagement().getServiceFee() / 100);
+				_job.update(__editJobRequest);
+				this.jobDAO.updateJob(_job);
+
+				// Remove old job types
+				this.jobTypeDAO.removeJobsTypesByJobId(_job.getId());
+
+				// Update new job types
+				List<JobsType> _jobsTypes = new ArrayList<>();
+				__editJobRequest.getIdTypes()
+				        .forEach(_idType -> _jobsTypes.add(new JobsType(_job.getId(), _idType)));
+				this.jobTypeDAO.saveListJobsTypes(_jobsTypes);
+
+				// Copy portfolio images from temporary directory to resource directory
+				for (String _tempFileName : __editJobRequest.getReference()) {
+					File _tempFile = new File(_webContextStoragePath
+					        + this.getTemporaryStoragePath() + "/" + _tempFileName);
+					if (_tempFile.exists()) {
+						// Move original file
+						FileUtils.copyFileToDirectory(_tempFile,
+						        new File(
+						                _webContextStoragePath + this.jobStoragePath + "/Original"),
+						        false);
+
+						// Resize into 3 other size
+						File _icon = new File(_webContextStoragePath + this.jobStoragePath
+						        + "/Icon/" + _tempFileName);
+						this.getUploadImageManagement().resizeImage(_tempFile, _icon, 120D, 184D);
+						File _small = new File(_webContextStoragePath + this.jobStoragePath
+						        + "/Small/" + _tempFileName);
+						this.getUploadImageManagement().resizeImage(_tempFile, _small, 182D, 280D);
+						File _retina = new File(_webContextStoragePath + this.jobStoragePath
+						        + "/Retina/" + _tempFileName);
+						this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
+					}
+					else {
+						Logger.getLogger(this.getClass())
+						        .warn("Job temporary file not exist. Check this path: "
+						                + _tempFile.getAbsolutePath());
+					}
+				}
+			}
+			finally {
+				// Remove temporary directory which were older than 2 days
+				this.removeOldTemporaryFiles(_webContextStoragePath);
+			}
+
+		}
 	}
 
 	/*
@@ -198,6 +275,58 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UserManagement#getListPortfoliosByCondition(int, int, int, int,
+	 * java.util.List)
+	 */
+	@Override
+	public List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
+	        int __idStyle, List<Integer> __idsType) {
+		List<Object[]> _datas = new ArrayList<>();
+
+		// Get portfolio by conditions
+		List<PortfolioType> _portfolioTypes = this.getPortfolioTypeDAO()
+		        .getListByIdTypes(__idsType);
+		List<Portfolio> _portfolios = this.getPortfolioDAO().searchPortfolios(__index, __size,
+		        __idCategory, __idStyle, _portfolioTypes);
+
+		// Get desiger of this portolios
+		Set<Account> _tmpSetAccounts = new HashSet<>();
+		_portfolios.forEach(new Consumer<Portfolio>() {
+
+			@Override
+			public void accept(Portfolio __portfolio) {
+				Account _designer = ImplUserManagement.this.getAccountDAO()
+				        .getAccountById(__portfolio.getAccountId());
+				if (!_tmpSetAccounts.contains(_designer)) {
+					Object[] _data = { __portfolio, _designer };
+
+					_datas.add(_data);
+					_tmpSetAccounts.add(_designer);
+				}
+			}
+		});
+
+		// Sort data by designer rank
+		_datas.sort(new Comparator<Object[]>() {
+
+			@Override
+			public int compare(Object[] __o1, Object[] __o2) {
+				try {
+					return ((Account) __o2[1]).getRewards() - ((Account) __o1[1]).getRewards();
+				}
+				catch (Exception _ex) {
+					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+					return 0;
+				}
+			}
+		});
+
+		return _datas;
+	}
+
 	/**
 	 * Sets the job account DAO.
 	 *
@@ -232,109 +361,6 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 */
 	public void setJobTypeDAO(JobTypeDAO __jobTypeDAO) {
 		this.jobTypeDAO = __jobTypeDAO;
-	}
-
-	@Override
-	public void editJob(Account __user, EditJobRequest __editJobRequest)
-	        throws UnirestException, IOException {
-		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __editJobRequest.getIdJob());
-		if (_job == null) {
-			throw new NotFoundException("Job not found");
-		}
-		else if (!_job.getStep().equals(JobStepConstant.JOB_STEP_BRIEF)) {
-			throw new NotAllowedException(
-			        "This job cannot edit at "
-			                + JobStepConstant.getByCode(_job.getStep()).getStepName(),
-			        Response.status(Status.FORBIDDEN).build());
-		}
-		else {
-			String _webContextStoragePath = this.getGenericManagement()
-			        .loadWebContextStoragePath(__user.getAppSession());
-			try {
-				// Update brief of job
-				_job.update(__editJobRequest);
-				this.jobDAO.updateJob(_job);
-
-				// Remove old job types
-				this.jobTypeDAO.removeJobsTypesByJobId(_job.getId());
-
-				// Update new job types
-				List<JobsType> _jobsTypes = new ArrayList<>();
-				__editJobRequest.getIdTypes()
-				        .forEach(_idType -> _jobsTypes.add(new JobsType(_job.getId(), _idType)));
-				this.jobTypeDAO.saveListJobsTypes(_jobsTypes);
-
-				// Copy portfolio images from temporary directory to resource directory
-				for (String _tempFileName : __editJobRequest.getReference()) {
-					File _tempFile = new File(_webContextStoragePath
-					        + this.getTemporaryStoragePath() + "/" + _tempFileName);
-					if (_tempFile.exists()) {
-						// Move original file
-						FileUtils.copyFileToDirectory(_tempFile,
-						        new File(
-						                _webContextStoragePath + this.jobStoragePath + "/Original"),
-						        false);
-
-						// Resize into 3 other size
-						File _icon = new File(_webContextStoragePath + this.jobStoragePath
-						        + "/Icon/" + _tempFileName);
-						this.getUploadImageManagement().resizeImage(_tempFile, _icon, 120D, 184D);
-						File _small = new File(_webContextStoragePath + this.jobStoragePath
-						        + "/Small/" + _tempFileName);
-						this.getUploadImageManagement().resizeImage(_tempFile, _small, 182D, 280D);
-						File _retina = new File(_webContextStoragePath + this.jobStoragePath
-						        + "/Retina/" + _tempFileName);
-						this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
-					}
-					else {
-						Logger.getLogger(getClass())
-						        .warn("Job temporary file not exist. Check this path: "
-						                + _tempFile.getAbsolutePath());
-					}
-				}
-			}
-			finally {
-				// Remove temporary directory which were older than 2 days
-				this.removeOldTemporaryFiles(_webContextStoragePath);
-			}
-
-		}
-	}
-
-	@Override
-	public List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-	        int __idStyle, List<Integer> __idsType) {
-		List<Object[]> _datas = new ArrayList<>();
-
-		// Get portfolio by conditions
-		List<PortfolioType> _portfolioTypes = this.getPortfolioTypeDAO()
-		        .getListByIdTypes(__idsType);
-		List<Portfolio> _portfolios = this.getPortfolioDAO().searchPortfolios(__index, __size,
-		        __idCategory, __idStyle, _portfolioTypes);
-
-		// Get desiger of this portolios
-		_portfolios.forEach(new Consumer<Portfolio>() {
-
-			@Override
-			public void accept(Portfolio __portfolio) {
-				Account _designer = ImplUserManagement.this.getAccountDAO()
-				        .getAccountById(__portfolio.getAccountId());
-				Object[] _data = { __portfolio, _designer };
-
-				_datas.add(_data);
-			}
-		});
-
-		// Sort data by designer rank
-		_datas.sort(new Comparator<Object[]>() {
-
-			@Override
-			public int compare(Object[] __o1, Object[] __o2) {
-				return ((Account) __o2[2]).getRewards() - ((Account) __o1[2]).getRewards();
-			}
-		});
-
-		return _datas;
 	}
 
 }

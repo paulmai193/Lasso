@@ -37,7 +37,18 @@ public class ImplJobTypeDAO implements JobTypeDAO {
 	@Override
 	public List<JobsType> getListJobsTypesByJobId(int __idJob) {
 		return this.sessionFactory.getCurrentSession().createCriteria(JobsType.class)
-		        .add(Restrictions.eq("jobId", __idJob)).list();
+				.add(Restrictions.eq("jobId", __idJob)).list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.JobTypeDAO#removeJobsTypesByJobId(java.lang.Integer)
+	 */
+	@Override
+	public void removeJobsTypesByJobId(Integer __idJob) {
+		this.sessionFactory.getCurrentSession().createQuery("delete JobsType where jobId = :id")
+		.setInteger("id", __idJob).executeUpdate();
 	}
 
 	/*
@@ -58,12 +69,6 @@ public class ImplJobTypeDAO implements JobTypeDAO {
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
-	}
-
-	@Override
-	public void removeJobsTypesByJobId(Integer __idJob) {
-		this.sessionFactory.getCurrentSession().createQuery("delete JobsType where jobId = :id")
-		        .setInteger("id", __idJob).executeUpdate();
 	}
 
 }

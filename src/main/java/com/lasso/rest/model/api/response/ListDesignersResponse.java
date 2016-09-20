@@ -22,34 +22,17 @@ import com.lasso.rest.model.datasource.Portfolio;
 @JsonSerialize(using = ListDesignerSerializer.class)
 public class ListDesignersResponse extends BaseResponse {
 
-	/** The prefix avatar url. */
-	private String			prefixAvatarUrl;
-
-	/** The prefix portfolio url. */
-	private String			prefixPortfolioUrl;
-
 	/** The datas. */
 	private List<Object[]>	datas;
 
 	/** The next index. */
 	private int				nextIndex;
 
-	/**
-	 * Instantiates a new list designers response.
-	 *
-	 * @param __prefixAvatarUrl the prefix avatar url
-	 * @param __prefixPortfolioUrl the prefix portfolio url
-	 * @param __datas the datas
-	 * @param __nextIndex the next index
-	 */
-	public ListDesignersResponse(String __prefixAvatarUrl, String __prefixPortfolioUrl,
-	        List<Object[]> __datas, int __nextIndex) {
-		super();
-		this.prefixAvatarUrl = __prefixAvatarUrl;
-		this.prefixPortfolioUrl = __prefixPortfolioUrl;
-		this.datas = __datas;
-		this.nextIndex = __nextIndex;
-	}
+	/** The prefix avatar url. */
+	private String			prefixAvatarUrl;
+
+	/** The prefix portfolio url. */
+	private String			prefixPortfolioUrl;
 
 	/**
 	 * Instantiates a new list designers response.
@@ -82,21 +65,20 @@ public class ListDesignersResponse extends BaseResponse {
 	}
 
 	/**
-	 * Gets the prefix avatar url.
+	 * Instantiates a new list designers response.
 	 *
-	 * @return the prefixAvatarUrl
+	 * @param __prefixAvatarUrl the prefix avatar url
+	 * @param __prefixPortfolioUrl the prefix portfolio url
+	 * @param __datas the datas
+	 * @param __nextIndex the next index
 	 */
-	public String getPrefixAvatarUrl() {
-		return this.prefixAvatarUrl;
-	}
-
-	/**
-	 * Gets the prefix portfolio url.
-	 *
-	 * @return the prefixPortfolioUrl
-	 */
-	public String getPrefixPortfolioUrl() {
-		return this.prefixPortfolioUrl;
+	public ListDesignersResponse(String __prefixAvatarUrl, String __prefixPortfolioUrl,
+	        List<Object[]> __datas, int __nextIndex) {
+		super();
+		this.prefixAvatarUrl = __prefixAvatarUrl;
+		this.prefixPortfolioUrl = __prefixPortfolioUrl;
+		this.datas = __datas;
+		this.nextIndex = __nextIndex;
 	}
 
 	/**
@@ -115,6 +97,24 @@ public class ListDesignersResponse extends BaseResponse {
 	 */
 	public int getNextIndex() {
 		return this.nextIndex;
+	}
+
+	/**
+	 * Gets the prefix avatar url.
+	 *
+	 * @return the prefixAvatarUrl
+	 */
+	public String getPrefixAvatarUrl() {
+		return this.prefixAvatarUrl;
+	}
+
+	/**
+	 * Gets the prefix portfolio url.
+	 *
+	 * @return the prefixPortfolioUrl
+	 */
+	public String getPrefixPortfolioUrl() {
+		return this.prefixPortfolioUrl;
 	}
 }
 
@@ -176,6 +176,7 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 			}
 			__gen.writeEndObject();
 			__gen.writeEndObject();
+
 		}
 		__gen.writeEndArray();
 		__gen.writeEndObject();

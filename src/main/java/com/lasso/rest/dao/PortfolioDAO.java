@@ -56,13 +56,6 @@ public interface PortfolioDAO extends HibernateSession {
 	Portfolio getPortfolioOfAccount(Account __account, Integer __id);
 
 	/**
-	 * Update portfolio.
-	 *
-	 * @param __portfolio the portfolio
-	 */
-	void updatePortfolio(Portfolio __portfolio);
-
-	/**
 	 * Search portfolios.
 	 *
 	 * @param __offset the offset
@@ -73,6 +66,13 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @return the list portfolios by condition
 	 */
 	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory, int __idStyle,
-	        List<PortfolioType> __portfolioTypes);
+			List<PortfolioType> __portfolioTypes);
+
+	/**
+	 * Update portfolio.
+	 *
+	 * @param __portfolio the portfolio
+	 */
+	void updatePortfolio(Portfolio __portfolio);
 
 }

@@ -26,7 +26,18 @@ public interface UserManagement extends ProjectManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void createNewJob(Account __user, CreateNewJobRequest __createNewJobRequest)
-	        throws UnirestException, IOException;
+			throws UnirestException, IOException;
+
+	/**
+	 * Edits the job.
+	 *
+	 * @param __user the user
+	 * @param __editJobRequest the edit job request
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	void editJob(Account __user, EditJobRequest __editJobRequest)
+			throws UnirestException, IOException;
 
 	/**
 	 * Gets the job data of user by id.
@@ -47,17 +58,6 @@ public interface UserManagement extends ProjectManagement {
 	List<Object[]> getListJobsDataOfUser(Account __user);
 
 	/**
-	 * Edits the job.
-	 *
-	 * @param __user the user
-	 * @param __editJobRequest the edit job request
-	 * @throws UnirestException the unirest exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	void editJob(Account __user, EditJobRequest __editJobRequest)
-	        throws UnirestException, IOException;
-
-	/**
 	 * Gets the list portfolios by condition.
 	 *
 	 * @param __index the index
@@ -68,6 +68,6 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the list portfolios data by condition {portoflio, designer}
 	 */
 	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-	        int __idStyle, List<Integer> __idsType);
+			int __idStyle, List<Integer> __idsType);
 
 }
