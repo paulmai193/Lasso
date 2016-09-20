@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ws.rs.NotFoundException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -259,11 +260,16 @@ public class ImplProjectManagement implements ProjectManagement {
 			_projects = this.projectDAO.getRamdom(__idStyle, __size);
 		}
 		for (Project _project : _projects) {
-			Object[] _data = { _project, "" };
-			Account _account = this.accountDAO.getAccountById(_project.getAccountId());
-			_data[1] = _account.getImage();
+			try {
+				Object[] _data = { _project, "" };
+				Account _account = this.accountDAO.getAccountById(_project.getAccountId());
+				_data[1] = _account.getImage();
 
-			_datas.add(_data);
+				_datas.add(_data);
+			}
+			catch (Exception _ex) {
+				Logger.getLogger(getClass()).warn("Problem with project " + _project.getId(), _ex);
+			}
 		}
 		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
 		        __prefixProjectUrl, __prefixAvatarUrl, _datas);

@@ -57,4 +57,17 @@ public interface UserManagement extends ProjectManagement {
 	void editJob(Account __user, EditJobRequest __editJobRequest)
 	        throws UnirestException, IOException;
 
+	/**
+	 * Gets the list portfolios by condition.
+	 *
+	 * @param __index the index
+	 * @param __size the size
+	 * @param __idCategory the id category
+	 * @param __idStyle the id style
+	 * @param __idsType the list IDs type
+	 * @return the list portfolios data by condition {portoflio, designer}
+	 */
+	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
+	        int __idStyle, List<Integer> __idsType);
+
 }

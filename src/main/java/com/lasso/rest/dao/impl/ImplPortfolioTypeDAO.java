@@ -42,7 +42,7 @@ public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 	@Override
 	public List<PortfolioType> getListByIdPortfolio(int __idPortfolio) {
 		return this.sessionFactory.getCurrentSession().createCriteria(PortfolioType.class)
-				.add(Restrictions.eq("portfolioId", __idPortfolio)).list();
+		        .add(Restrictions.eq("portfolioId", __idPortfolio)).list();
 	}
 
 	/*
@@ -53,8 +53,15 @@ public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 	@Override
 	public void removeByPortfolioId(int __idPortfolio) {
 		this.sessionFactory.getCurrentSession()
-		.createQuery("delete PortfolioType where portfolioId = :id")
-		.setInteger("id", __idPortfolio).executeUpdate();
+		        .createQuery("delete PortfolioType where portfolioId = :id")
+		        .setInteger("id", __idPortfolio).executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PortfolioType> getListByIdTypes(List<Integer> __idsType) {
+		return this.sessionFactory.getCurrentSession().createCriteria(PortfolioType.class)
+		        .add(Restrictions.in("typeId", __idsType)).list();
 	}
 
 	/**

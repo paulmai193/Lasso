@@ -32,4 +32,12 @@ public interface PortfolioTypeDAO extends HibernateSession {
 	 * @param __idPortfolio the id portfolio
 	 */
 	void removeByPortfolioId(int __idPortfolio);
+
+	/**
+	 * Gets the list by id types.
+	 *
+	 * @param __idsType the ids type
+	 * @return the list by id types
+	 */
+	List<PortfolioType> getListByIdTypes(List<Integer> __idsType);
 }

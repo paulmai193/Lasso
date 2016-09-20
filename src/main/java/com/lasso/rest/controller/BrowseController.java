@@ -10,8 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
-import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.CategoryResponse;
 import com.lasso.rest.model.api.response.ListBannerReponse;
 import com.lasso.rest.model.api.response.ListCategoriesResponse;
@@ -139,25 +136,6 @@ public class BrowseController extends BaseController {
 		else {
 			return new CategoryResponse(_prefixUrl, _category);
 		}
-	}
-
-	@GET
-	@Path("/designers")
-	public Response getDesigners(@QueryParam("index") int __index,
-	        @QueryParam("category_id") int __idCategory, @QueryParam("style_ids") int __idStyle,
-	        @QueryParam("type_id") List<Integer> ids_type) {
-		// int _size = 8;
-		// List<Category> _categories =
-		// this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-		// _size, __keyword);
-		// if (_categories.isEmpty()) {
-		// throw new NotFoundException("Data not found");
-		// }
-		// else {
-		// String _prefixUrl = this.httpHost + this.categoryStoragePath;
-		// return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
-		// }
-		return fail(new BaseResponse(true), Status.NOT_IMPLEMENTED);
 	}
 
 	/**

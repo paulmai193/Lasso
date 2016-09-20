@@ -1,5 +1,6 @@
 package com.lasso.rest.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.PortfolioDAO;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Portfolio;
+import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Project;
 
 /**
@@ -110,6 +112,24 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public void updatePortfolio(Portfolio __portfolio) {
 		this.sessionFactory.getCurrentSession().update(__portfolio);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
+	        int __idStyle, List<PortfolioType> __portfolioTypes) {
+		List<Integer> _portfolioIds = new ArrayList<>();
+		__portfolioTypes.forEach(_pt -> _portfolioIds.add(_pt.getPortfolioId()));
+
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
+		        .add(Restrictions.eq("categoryId", __idCategory))
+		        .add(Restrictions.eq("styleId", __idStyle))
+		        .add(Restrictions.in("id", _portfolioIds)).add(Restrictions.eq("status", (byte) 1))
+		        .add(Restrictions.eq("deleted", (byte) 0));
+		if (__offset > -1) {
+			_criteria.setFirstResult(__offset).setMaxResults(__limit);
+		}
+		return _criteria.list();
 	}
 
 }

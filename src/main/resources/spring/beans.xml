@@ -153,6 +153,9 @@
 	<bean id="manageOrderController" class="com.lasso.rest.controller.ManageOrderController"
 		lazy-init="false">
 		<property name="userManagement" ref="userManagement" />
+		<property name="avatarStoragePath" ref="avatarStoragePath" />
+		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
+		<property name="httpHost" ref="httpHost" />
 	</bean>
 
 	<!-- Filter Layer -->

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Portfolio;
+import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Project;
 
 /**
@@ -60,5 +61,18 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @param __portfolio the portfolio
 	 */
 	void updatePortfolio(Portfolio __portfolio);
+
+	/**
+	 * Search portfolios.
+	 *
+	 * @param __offset the offset
+	 * @param __limit the limit
+	 * @param __idCategory the id category
+	 * @param __idStyle the id style
+	 * @param __portfolioTypes the list portfolio types
+	 * @return the list portfolios by condition
+	 */
+	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory, int __idStyle,
+	        List<PortfolioType> __portfolioTypes);
 
 }

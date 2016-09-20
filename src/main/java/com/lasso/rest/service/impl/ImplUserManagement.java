@@ -3,6 +3,7 @@ package com.lasso.rest.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -27,6 +28,8 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.JobsType;
+import com.lasso.rest.model.datasource.Portfolio;
+import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.UserManagement;
@@ -296,6 +299,42 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			}
 
 		}
+	}
+
+	@Override
+	public List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
+	        int __idStyle, List<Integer> __idsType) {
+		List<Object[]> _datas = new ArrayList<>();
+
+		// Get portfolio by conditions
+		List<PortfolioType> _portfolioTypes = this.getPortfolioTypeDAO()
+		        .getListByIdTypes(__idsType);
+		List<Portfolio> _portfolios = this.getPortfolioDAO().searchPortfolios(__index, __size,
+		        __idCategory, __idStyle, _portfolioTypes);
+
+		// Get desiger of this portolios
+		_portfolios.forEach(new Consumer<Portfolio>() {
+
+			@Override
+			public void accept(Portfolio __portfolio) {
+				Account _designer = ImplUserManagement.this.getAccountDAO()
+				        .getAccountById(__portfolio.getAccountId());
+				Object[] _data = { __portfolio, _designer };
+
+				_datas.add(_data);
+			}
+		});
+
+		// Sort data by designer rank
+		_datas.sort(new Comparator<Object[]>() {
+
+			@Override
+			public int compare(Object[] __o1, Object[] __o2) {
+				return ((Account) __o2[2]).getRewards() - ((Account) __o1[2]).getRewards();
+			}
+		});
+
+		return _datas;
 	}
 
 }

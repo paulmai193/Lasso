@@ -1,6 +1,7 @@
 package com.lasso.rest.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.CreateNewJobRequest;
 import com.lasso.rest.model.api.request.EditJobRequest;
 import com.lasso.rest.model.api.response.JobDetailResponse;
+import com.lasso.rest.model.api.response.ListDesignersResponse;
 import com.lasso.rest.model.api.response.ListJobsResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.UserManagement;
@@ -50,6 +53,12 @@ public class ManageOrderController extends BaseController {
 	/** The validateContext. */
 	@Context
 	private SecurityContext	validateContext;
+
+	private String			httpHost;
+
+	private String			portfolioStoragePath;
+
+	private String			avatarStoragePath;
 
 	/**
 	 * Instantiates a new manage order controller.
@@ -127,6 +136,24 @@ public class ManageOrderController extends BaseController {
 		}
 	}
 
+	@GET
+	@Path("/list/designers")
+	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
+	        @QueryParam("category_id") int __idCategory, @QueryParam("style_ids") int __idStyle,
+	        @QueryParam("type_id") List<Integer> __idsType) {
+		int _size = 8;
+		Logger.getLogger(getClass()).debug(Arrays.toString(__idsType.toArray()));
+
+		// Get portfolios by category and style
+		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, _size,
+		        __idCategory, __idStyle, __idsType);
+		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
+		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
+
+		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
+		        __index + _size);
+	}
+
 	/**
 	 * Sets the user management.
 	 *
@@ -134,6 +161,27 @@ public class ManageOrderController extends BaseController {
 	 */
 	public void setUserManagement(UserManagement __userManagement) {
 		this.userManagement = __userManagement;
+	}
+
+	/**
+	 * @param __httpHost the httpHost to set
+	 */
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
+	}
+
+	/**
+	 * @param __portfolioStoragePath the portfolioStoragePath to set
+	 */
+	public void setPortfolioStoragePath(String __portfolioStoragePath) {
+		this.portfolioStoragePath = __portfolioStoragePath;
+	}
+
+	/**
+	 * @param __avatarStoragePath the avatarStoragePath to set
+	 */
+	public void setAvatarStoragePath(String __avatarStoragePath) {
+		this.avatarStoragePath = __avatarStoragePath;
 	}
 
 }
