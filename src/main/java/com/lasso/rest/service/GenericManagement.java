@@ -46,4 +46,5 @@ public interface GenericManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	String loadWebContextStoragePath(String __app_session) throws UnirestException;
+
 }

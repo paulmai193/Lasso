@@ -48,9 +48,9 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public List<Portfolio> getAllPortfoliosOfAccount(Account __account) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("accountId", __account.getId()))
-				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-				.addOrder(Order.asc("title"));
+		        .add(Restrictions.eq("accountId", __account.getId()))
+		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .addOrder(Order.asc("title"));
 		return _criteria.list();
 	}
 
@@ -62,8 +62,7 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioById(Integer __id) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.idEq(__id)).add(Restrictions.eq("deleted", (byte) 0))
-				.uniqueResult();
+		        .add(Restrictions.idEq(__id)).uniqueResult();
 	}
 
 	/*
@@ -75,8 +74,8 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioByProject(Project __project) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("id", __project.getPortfolioId()))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		        .add(Restrictions.eq("id", __project.getPortfolioId()))
+		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -88,9 +87,9 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioOfAccount(Account __account, Integer __id) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("id", __id))
-				.add(Restrictions.eq("accountId", __account.getId()))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		        .add(Restrictions.eq("id", __id))
+		        .add(Restrictions.eq("accountId", __account.getId()))
+		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/**

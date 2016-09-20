@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.lasso.rest.model.api.request.CreateNewJobRequest;
+import com.lasso.rest.model.api.request.EditJobRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -25,7 +26,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void createNewJob(Account __user, CreateNewJobRequest __createNewJobRequest)
-			throws UnirestException, IOException;
+	        throws UnirestException, IOException;
 
 	/**
 	 * Gets the job data of user by id.
@@ -44,5 +45,16 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the list jobs data of user
 	 */
 	List<Object[]> getListJobsDataOfUser(Account __user);
+
+	/**
+	 * Edits the job.
+	 *
+	 * @param __user the user
+	 * @param __editJobRequest the edit job request
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	void editJob(Account __user, EditJobRequest __editJobRequest)
+	        throws UnirestException, IOException;
 
 }

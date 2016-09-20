@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,42 +40,55 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException, UnirestException {
+	        throws IOException, UnirestException {
 		String _webContextStoragePath = this.getGenericManagement()
-				.loadWebContextStoragePath(__desiger.getAppSession());
-		String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray());
-		_image = _image.substring(1, _image.length() - 1);
-		Portfolio _portfolio = new Portfolio(__createPortfolioRequest.getAmount(), new Date(),
-				__desiger.getId(), __createPortfolioRequest.getIdCategory(),
-				__createPortfolioRequest.getIdStyle(), _image, __createPortfolioRequest.getInfo(),
-				new Date(), (byte) 1, __createPortfolioRequest.getTitle());
-		int _id = this.getPortfolioDAO().createPortfolio(_portfolio);
-		for (int _idType : __createPortfolioRequest.getIdTypes()) {
-			PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id, _idType);
-			this.getPortfolioTypeDAO().createPortfolioType(_portfolioType);
-		}
-
-		// Copy portfolio images from temporary directory to resource directory
-		for (String _tempFileName : __createPortfolioRequest.getImages()) {
-			File _tempFile = new File(
-					_webContextStoragePath + this.getTemporaryStoragePath() + "/" + _tempFileName);
-			if (_tempFile.exists()) {
-				// Move original file
-				FileUtils.copyFileToDirectory(_tempFile,
-						new File(_webContextStoragePath + this.portfolioStoragePath + "/Original"),
-						false);
-
-				// Resize into 3 other size
-				File _icon = new File(_webContextStoragePath + this.portfolioStoragePath + "/Icon/"
-						+ _tempFileName);
-				this.getUploadImageManagement().resizeImage(_tempFile, _icon, 120D, 184D);
-				File _small = new File(_webContextStoragePath + this.portfolioStoragePath
-						+ "/Small/" + _tempFileName);
-				this.getUploadImageManagement().resizeImage(_tempFile, _small, 182D, 280D);
-				File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
-						+ "/Retina/" + _tempFileName);
-				this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
+		        .loadWebContextStoragePath(__desiger.getAppSession());
+		try {
+			String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray());
+			_image = _image.substring(1, _image.length() - 1);
+			Portfolio _portfolio = new Portfolio(__createPortfolioRequest.getAmount(), new Date(),
+			        __desiger.getId(), __createPortfolioRequest.getIdCategory(),
+			        __createPortfolioRequest.getIdStyle(), _image,
+			        __createPortfolioRequest.getInfo(), new Date(), (byte) 1,
+			        __createPortfolioRequest.getTitle());
+			int _id = this.getPortfolioDAO().createPortfolio(_portfolio);
+			for (int _idType : __createPortfolioRequest.getIdTypes()) {
+				PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id,
+				        _idType);
+				this.getPortfolioTypeDAO().createPortfolioType(_portfolioType);
 			}
+
+			// Copy portfolio images from temporary directory to resource directory
+			for (String _tempFileName : __createPortfolioRequest.getImages()) {
+				File _tempFile = new File(_webContextStoragePath + this.getTemporaryStoragePath()
+				        + "/" + _tempFileName);
+				if (_tempFile.exists()) {
+					// Move original file
+					FileUtils.copyFileToDirectory(_tempFile, new File(
+					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"),
+					        false);
+
+					// Resize into 3 other size
+					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
+					        + "/Icon/" + _tempFileName);
+					this.getUploadImageManagement().resizeImage(_tempFile, _icon, 120D, 184D);
+					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
+					        + "/Small/" + _tempFileName);
+					this.getUploadImageManagement().resizeImage(_tempFile, _small, 182D, 280D);
+					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
+					        + "/Retina/" + _tempFileName);
+					this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
+				}
+				else {
+					Logger.getLogger(getClass())
+					        .warn("Portfolio temporary file not exist. Check this path: "
+					                + _tempFile.getAbsolutePath());
+				}
+			}
+		}
+		finally {
+			// Remove temporary directory which were older than 2 days
+			this.removeOldTemporaryFiles(_webContextStoragePath);
 		}
 	}
 
@@ -103,31 +117,54 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
+	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
 		String _webContextStoragePath = this.getGenericManagement()
-				.loadWebContextStoragePath(__desiger.getAppSession());
+		        .loadWebContextStoragePath(__desiger.getAppSession());
+		try {
+			__portfolio.update(__editPortfolioRequest);
+			this.getPortfolioDAO().updatePortfolio(__portfolio);
 
-		__portfolio.update(__editPortfolioRequest);
-		this.getPortfolioDAO().updatePortfolio(__portfolio);
+			// Remove all old portfolio type
+			this.getPortfolioTypeDAO().removeByPortfolioId(__portfolio.getId());
 
-		// Remove all old portfolio type
-		this.getPortfolioTypeDAO().removeByPortfolioId(__portfolio.getId());
-
-		// Insert new portfolio type
-		for (int _idType : __editPortfolioRequest.getIdTypes()) {
-			PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(),
-					__portfolio.getId(), _idType);
-			this.getPortfolioTypeDAO().createPortfolioType(_portfolioType);
-		}
-
-		// Copy portfolio images from temporary directory to resource directory
-		for (String _tempFileName : __editPortfolioRequest.getImages()) {
-			File _tempFile = new File(
-					_webContextStoragePath + this.getTemporaryStoragePath() + "/" + _tempFileName);
-			if (_tempFile.exists()) {
-				FileUtils.moveFileToDirectory(_tempFile,
-						new File(_webContextStoragePath + this.portfolioStoragePath), false);
+			// Insert new portfolio type
+			for (int _idType : __editPortfolioRequest.getIdTypes()) {
+				PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(),
+				        __portfolio.getId(), _idType);
+				this.getPortfolioTypeDAO().createPortfolioType(_portfolioType);
 			}
+
+			// Copy portfolio images from temporary directory to resource directory
+			for (String _tempFileName : __editPortfolioRequest.getImages()) {
+				File _tempFile = new File(_webContextStoragePath + this.getTemporaryStoragePath()
+				        + "/" + _tempFileName);
+				if (_tempFile.exists()) {
+					// Move original file
+					FileUtils.copyFileToDirectory(_tempFile, new File(
+					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"),
+					        false);
+
+					// Resize into 3 other size
+					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
+					        + "/Icon/" + _tempFileName);
+					this.getUploadImageManagement().resizeImage(_tempFile, _icon, 120D, 184D);
+					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
+					        + "/Small/" + _tempFileName);
+					this.getUploadImageManagement().resizeImage(_tempFile, _small, 182D, 280D);
+					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
+					        + "/Retina/" + _tempFileName);
+					this.getUploadImageManagement().resizeImage(_tempFile, _retina, 364D, 560D);
+				}
+				else {
+					Logger.getLogger(getClass())
+					        .warn("Portfolio temporary file not exist. Check this path: "
+					                + _tempFile.getAbsolutePath());
+				}
+			}
+		}
+		finally {
+			// Remove temporary directory which were older than 2 days
+			this.removeOldTemporaryFiles(_webContextStoragePath);
 		}
 	}
 

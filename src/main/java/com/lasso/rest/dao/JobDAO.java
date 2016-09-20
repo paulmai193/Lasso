@@ -36,4 +36,11 @@ public interface JobDAO extends HibernateSession {
 	 */
 	Integer saveJob(Job __job);
 
+	/**
+	 * Update job.
+	 *
+	 * @param __job the job
+	 */
+	void updateJob(Job __job);
+
 }

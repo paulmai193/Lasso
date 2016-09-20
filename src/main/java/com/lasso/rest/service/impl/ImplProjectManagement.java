@@ -1,5 +1,6 @@
 package com.lasso.rest.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Category> getCategoriesByIndexAndKeyword(int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		return this.categoryDAO.getCategories(__index, __size, __keyword);
 	}
 
@@ -178,7 +179,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	public List<Type> getListTypesByIdPortfolio(int __idPortfolio) {
 		// Get list portfolio type from id portfolio
 		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO
-				.getListByIdPortfolio(__idPortfolio);
+		        .getListByIdPortfolio(__idPortfolio);
 		List<Integer> _listIdsType = new ArrayList<>();
 		if (_portfolioTypes.isEmpty()) {
 			return new ArrayList<>();
@@ -227,14 +228,14 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
-			String __prefixAvatarUrl) {
+	        String __prefixAvatarUrl) {
 		try {
 			Project _project = this.projectDAO.getProjectById(__idProject);
 			Category _category = this.categoryDAO.getCategoryById(_project.getCategoryId());
 			Portfolio _portfolio = this.portfolioDAO.getPortfolioByProject(_project);
 			Account _account = this.accountDAO.getAccountById(_portfolio.getAccountId());
 			return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
-					_portfolio, _account, _category);
+			        _portfolio, _account, _category);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("No detail information");
@@ -250,10 +251,10 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index,
-			int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
+	        int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
 		List<Object[]> _datas = new ArrayList<>();
 		List<Project> _projects = this.projectDAO.searchProjects(__idStyle, __keyword, __index,
-				__size);
+		        __size);
 		if (_projects.isEmpty()) {
 			_projects = this.projectDAO.getRamdom(__idStyle, __size);
 		}
@@ -265,7 +266,7 @@ public class ImplProjectManagement implements ProjectManagement {
 			_datas.add(_data);
 		}
 		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
-				__prefixProjectUrl, __prefixAvatarUrl, _datas);
+		        __prefixProjectUrl, __prefixAvatarUrl, _datas);
 		return _listProjectsResponse;
 	}
 
@@ -296,7 +297,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		// Get Category from id
 		Category _category = this.categoryDAO.getCategoryById(__idCategory);
 		if (_category == null) {
@@ -461,6 +462,18 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
 		this.uploadImageManagement = __uploadImageManagement;
+	}
+
+	@Override
+	public void removeOldTemporaryFiles(String __webContextStoragePath) {
+		File _tempDir = new File(__webContextStoragePath + this.getTemporaryStoragePath());
+		if (_tempDir != null && _tempDir.isDirectory()) {
+			for (File _tempFIle : _tempDir.listFiles()) {
+				if (System.currentTimeMillis() - _tempFIle.lastModified() > 7200000) {
+					_tempFIle.delete();
+				}
+			}
+		}
 	}
 
 }

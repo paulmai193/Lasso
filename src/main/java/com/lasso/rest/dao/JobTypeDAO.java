@@ -26,4 +26,11 @@ public interface JobTypeDAO extends HibernateSession {
 	 */
 	void saveListJobsTypes(List<JobsType> __jobsTypes);
 
+	/**
+	 * Removes the jobs types by job id.
+	 *
+	 * @param __idJob the job ID
+	 */
+	void removeJobsTypesByJobId(Integer __idJob);
+
 }

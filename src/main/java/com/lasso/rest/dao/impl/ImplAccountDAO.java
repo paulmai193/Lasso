@@ -5,7 +5,6 @@ package com.lasso.rest.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +54,9 @@ public class ImplAccountDAO implements AccountDAO {
 	 */
 	@Override
 	public Account getAccountByEmail(String __email) {
-		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Account.class);
-		_criteria.add(Restrictions.eq("email", __email));
-		return (Account) _criteria.uniqueResult();
+		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
+		        .add(Restrictions.eq("email", __email)).add(Restrictions.eq("deleted", (byte) 0))
+		        .uniqueResult();
 	}
 
 	/*
@@ -76,9 +75,9 @@ public class ImplAccountDAO implements AccountDAO {
 	 */
 	@Override
 	public Account getAccountByOtp(String __otp) {
-		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Account.class);
-		_criteria.add(Restrictions.eq("otp", __otp));
-		return (Account) _criteria.uniqueResult();
+		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
+		        .add(Restrictions.eq("otp", __otp)).add(Restrictions.eq("deleted", (byte) 0))
+		        .uniqueResult();
 	}
 
 	/*
@@ -88,9 +87,9 @@ public class ImplAccountDAO implements AccountDAO {
 	 */
 	@Override
 	public Account getAccountByToken(String __token) {
-		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Account.class);
-		_criteria.add(Restrictions.eq("appSession", __token));
-		return (Account) _criteria.uniqueResult();
+		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
+		        .add(Restrictions.eq("appSession", __token))
+		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -100,7 +99,8 @@ public class ImplAccountDAO implements AccountDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Account> getAll() {
-		return this.sessionFactory.getCurrentSession().createCriteria(Account.class).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(Account.class)
+		        .add(Restrictions.eq("deleted", (byte) 0)).list();
 	}
 
 	/**

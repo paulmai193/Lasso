@@ -13,7 +13,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.CreateNewJobRequest;
-import com.lasso.rest.model.api.response.BaseResponse;
+import com.lasso.rest.model.api.request.EditJobRequest;
 import com.lasso.rest.model.api.response.JobDetailResponse;
 import com.lasso.rest.model.api.response.ListJobsResponse;
 import com.lasso.rest.model.datasource.Account;
@@ -70,10 +69,19 @@ public class ManageOrderController extends BaseController {
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response briefNewJob(CreateNewJobRequest __createNewJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.createNewJob(_user, __createNewJobRequest);
-		return this.fail(new BaseResponse(true), Status.NOT_IMPLEMENTED);
+		return this.success();
+	}
+
+	@POST
+	@Path("/edit")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response editJob(EditJobRequest __editJobRequest) throws UnirestException, IOException {
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		this.userManagement.editJob(_user, __editJobRequest);
+		return this.success();
 	}
 
 	/**
@@ -86,7 +94,7 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/detail")
 	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-			throws javassist.NotFoundException {
+	        throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}

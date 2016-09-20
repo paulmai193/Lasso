@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.CategoryResponse;
 import com.lasso.rest.model.api.response.ListBannerReponse;
 import com.lasso.rest.model.api.response.ListCategoriesResponse;
@@ -106,10 +109,10 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/category")
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index,
-			@QueryParam("keyword") String __keyword) {
+	        @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-				_size, __keyword);
+		        _size, __keyword);
 		if (_categories.isEmpty()) {
 			throw new NotFoundException("Data not found");
 		}
@@ -138,6 +141,25 @@ public class BrowseController extends BaseController {
 		}
 	}
 
+	@GET
+	@Path("/designers")
+	public Response getDesigners(@QueryParam("index") int __index,
+	        @QueryParam("category_id") int __idCategory, @QueryParam("style_ids") int __idStyle,
+	        @QueryParam("type_id") List<Integer> ids_type) {
+		// int _size = 8;
+		// List<Category> _categories =
+		// this.projectManagement.getCategoriesByIndexAndKeyword(__index,
+		// _size, __keyword);
+		// if (_categories.isEmpty()) {
+		// throw new NotFoundException("Data not found");
+		// }
+		// else {
+		// String _prefixUrl = this.httpHost + this.categoryStoragePath;
+		// return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
+		// }
+		return fail(new BaseResponse(true), Status.NOT_IMPLEMENTED);
+	}
+
 	/**
 	 * Gets the list projects by sub category.
 	 *
@@ -149,12 +171,12 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/project")
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		String _prefixProjectUrl = this.httpHost + this.projectStoragePath;
 		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index, _size,
-				__keyword, _prefixProjectUrl, _prefixAvatarUrl);
+		        __keyword, _prefixProjectUrl, _prefixAvatarUrl);
 	}
 
 	/**
@@ -192,7 +214,7 @@ public class BrowseController extends BaseController {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		return this.projectManagement.getProjectDetailById(__idProject, _prefixPortforlioUrl,
-				_prefixAvatarUrl);
+		        _prefixAvatarUrl);
 	}
 
 	/**
@@ -206,10 +228,10 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/sub_category")
 	public ListSubCatoriesResponse getSubCategories(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-				__index, _size, __keyword);
+		        __index, _size, __keyword);
 		if (_styles.isEmpty()) {
 			throw new NotFoundException("Data not found");
 		}

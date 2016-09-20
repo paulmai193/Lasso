@@ -8,7 +8,7 @@ package com.lasso.define;
  *
  * @author Paul Mai
  */
-public final class Constant {
+public class Constant {
 
 	/** The Constant ACC_ACTIVATE. */
 	public static final byte	ACC_ACTIVATE		= 1;

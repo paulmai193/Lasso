@@ -18,6 +18,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lasso.rest.model.api.request.CreateNewJobRequest;
+import com.lasso.rest.model.api.request.EditJobRequest;
 
 /**
  * The persistent class for the jobs database table.
@@ -136,6 +137,8 @@ public class Job implements Serializable {
 		this.furtherInformation = __newJobRequest.getFurther();
 		this.categoryId = __newJobRequest.getIdCategory();
 		this.created = this.modified = new Date();
+		this.stage = 0;
+		this.step = 1;
 		this.styleId = __newJobRequest.getIdStyle();
 		this.latestSubmission = __newJobRequest.getLastSubmission();
 		this.objective = __newJobRequest.getObjective();
@@ -556,6 +559,21 @@ public class Job implements Serializable {
 	 */
 	public void setSubmission(Date submission) {
 		this.submission = submission;
+	}
+
+	public void update(EditJobRequest __editJobRequest) {
+		this.assetsUrl = __editJobRequest.getAssetUrl();
+		this.budget = __editJobRequest.getBudget();
+		this.description = __editJobRequest.getDescription();
+		this.furtherInformation = __editJobRequest.getFurther();
+		this.categoryId = __editJobRequest.getIdCategory();
+		this.created = this.modified = new Date();
+		this.styleId = __editJobRequest.getIdStyle();
+		this.latestSubmission = __editJobRequest.getLastSubmission();
+		this.objective = __editJobRequest.getObjective();
+		String _reference = Arrays.toString(__editJobRequest.getReference().toArray());
+		this.reference = _reference.substring(1, _reference.length() - 1);
+		this.submission = __editJobRequest.getSubmission();
 	}
 
 }
