@@ -134,49 +134,53 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 		for (Object[] _data : __value.getDatas()) {
 			Portfolio _portfolio = (Portfolio) _data[0];
 			Account _designer = (Account) _data[1];
-			__gen.writeStartObject();
-			__gen.writeNumberField("designer_id", _designer.getId());
-			__gen.writeStringField("designer_name", _designer.getName());
-			__gen.writeObjectFieldStart("designer_avatar");
-			if (_designer.getImage().trim().isEmpty()) {
-				__gen.writeStringField("original", "");
-				__gen.writeStringField("retina", "");
-				__gen.writeStringField("small", "");
-				__gen.writeStringField("icon", "");
+			if (_portfolio == null || _designer == null) {
+				break;
 			}
 			else {
-				__gen.writeStringField("original",
-				        __value.getPrefixAvatarUrl() + "/Original/" + _designer.getImage().trim());
-				__gen.writeStringField("retina",
-				        __value.getPrefixAvatarUrl() + "/Retina/" + _designer.getImage().trim());
-				__gen.writeStringField("small",
-				        __value.getPrefixAvatarUrl() + "/Small/" + _designer.getImage().trim());
-				__gen.writeStringField("icon",
-				        __value.getPrefixAvatarUrl() + "/Icon/" + _designer.getImage().trim());
+				__gen.writeStartObject();
+				__gen.writeNumberField("designer_id", _designer.getId());
+				__gen.writeStringField("designer_name", _designer.getName());
+				__gen.writeObjectFieldStart("designer_avatar");
+				if (_designer.getImage().trim().isEmpty()) {
+					__gen.writeStringField("original", "");
+					__gen.writeStringField("retina", "");
+					__gen.writeStringField("small", "");
+					__gen.writeStringField("icon", "");
+				}
+				else {
+					__gen.writeStringField("original", __value.getPrefixAvatarUrl() + "/Original/"
+					        + _designer.getImage().trim());
+					__gen.writeStringField("retina", __value.getPrefixAvatarUrl() + "/Retina/"
+					        + _designer.getImage().trim());
+					__gen.writeStringField("small",
+					        __value.getPrefixAvatarUrl() + "/Small/" + _designer.getImage().trim());
+					__gen.writeStringField("icon",
+					        __value.getPrefixAvatarUrl() + "/Icon/" + _designer.getImage().trim());
+				}
+				__gen.writeEndObject();
+				__gen.writeObjectFieldStart("portfolio_image");
+				if (_portfolio.getImage().trim().isEmpty()) {
+					__gen.writeStringField("original", "");
+					__gen.writeStringField("retina", "");
+					__gen.writeStringField("small", "");
+					__gen.writeStringField("icon", "");
+				}
+				else {
+					String _firstImg = _portfolio.getImage();
+					_firstImg = _firstImg.substring(0, _firstImg.indexOf(",")).trim();
+					__gen.writeStringField("original",
+					        __value.getPrefixPortfolioUrl() + "/Original/" + _firstImg);
+					__gen.writeStringField("retina",
+					        __value.getPrefixPortfolioUrl() + "/Retina/" + _firstImg);
+					__gen.writeStringField("small",
+					        __value.getPrefixPortfolioUrl() + "/Small/" + _firstImg);
+					__gen.writeStringField("icon",
+					        __value.getPrefixPortfolioUrl() + "/Icon/" + _firstImg);
+				}
+				__gen.writeEndObject();
+				__gen.writeEndObject();
 			}
-			__gen.writeEndObject();
-			__gen.writeObjectFieldStart("portfolio_image");
-			if (_portfolio.getImage().trim().isEmpty()) {
-				__gen.writeStringField("original", "");
-				__gen.writeStringField("retina", "");
-				__gen.writeStringField("small", "");
-				__gen.writeStringField("icon", "");
-			}
-			else {
-				String _firstImg = _portfolio.getImage();
-				_firstImg = _firstImg.substring(0, _firstImg.indexOf(",")).trim();
-				__gen.writeStringField("original",
-				        __value.getPrefixPortfolioUrl() + "/Original/" + _firstImg);
-				__gen.writeStringField("retina",
-				        __value.getPrefixPortfolioUrl() + "/Retina/" + _firstImg);
-				__gen.writeStringField("small",
-				        __value.getPrefixPortfolioUrl() + "/Small/" + _firstImg);
-				__gen.writeStringField("icon",
-				        __value.getPrefixPortfolioUrl() + "/Icon/" + _firstImg);
-			}
-			__gen.writeEndObject();
-			__gen.writeEndObject();
-
 		}
 		__gen.writeEndArray();
 		__gen.writeEndObject();

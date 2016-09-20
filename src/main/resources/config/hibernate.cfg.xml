@@ -39,6 +39,7 @@
 		<mapping class="com.lasso.rest.model.datasource.Job"/>
 		<mapping class="com.lasso.rest.model.datasource.JobsAccount"/>
 		<mapping class="com.lasso.rest.model.datasource.JobsType"/>
+		<mapping class="com.lasso.rest.model.datasource.Message"/>
 		<mapping class="com.lasso.rest.model.datasource.PortfolioType"/>
 		<mapping class="com.lasso.rest.model.datasource.Portfolio"/>
 		<mapping class="com.lasso.rest.model.datasource.Project"/>

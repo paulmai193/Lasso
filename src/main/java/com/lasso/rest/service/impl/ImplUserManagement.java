@@ -20,10 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lasso.define.Constant;
 import com.lasso.define.JobStepConstant;
 import com.lasso.rest.dao.JobAccountDAO;
 import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.dao.JobTypeDAO;
+import com.lasso.rest.model.api.request.ChooseDesignerForJobRequest;
 import com.lasso.rest.model.api.request.CreateNewJobRequest;
 import com.lasso.rest.model.api.request.EditJobRequest;
 import com.lasso.rest.model.datasource.Account;
@@ -195,6 +197,36 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				// Remove temporary directory which were older than 2 days
 				this.removeOldTemporaryFiles(_webContextStoragePath);
 			}
+		}
+	}
+
+	@Override
+	public void chooseDesignerForJob(Account __user,
+	        ChooseDesignerForJobRequest __chooseDesignerForJobRequest) {
+		Job _job = this.jobDAO.getJobOfUserById(__user.getId(),
+		        __chooseDesignerForJobRequest.getIdJob());
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else if (!_job.getStep().equals(JobStepConstant.JOB_STEP_BRIEF)) {
+			throw new NotAllowedException(
+			        "This job cannot edit at "
+			                + JobStepConstant.getByCode(_job.getStep()).getStepName(),
+			        Response.status(Status.FORBIDDEN).build());
+		}
+		else {
+			// update designer chosen by user
+			List<JobsAccount> _jobsAccounts = new ArrayList<>();
+			__chooseDesignerForJobRequest.getDesignerIds().stream()
+			        .filter(_idDesigner -> getAccountDAO().getAccountById(_idDesigner).getRole()
+			                .equals(Constant.ROLE_DESIGNER))
+			        .forEach(_idDesigner -> _jobsAccounts
+			                .add(new JobsAccount(_idDesigner, _job.getId())));
+			// Update step of job
+			_job.setStep(JobStepConstant.JOB_STEP_CHOOSE_DESIGNER.getStepCode());
+			this.jobDAO.updateJob(_job);
+
+			// All setting success, send message to designer
 
 		}
 	}

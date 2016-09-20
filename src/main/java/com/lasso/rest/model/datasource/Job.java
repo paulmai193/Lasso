@@ -572,7 +572,7 @@ public class Job implements Serializable {
 		this.description = __editJobRequest.getDescription();
 		this.furtherInformation = __editJobRequest.getFurther();
 		this.categoryId = __editJobRequest.getIdCategory();
-		this.created = this.modified = new Date();
+		this.modified = new Date();
 		this.styleId = __editJobRequest.getIdStyle();
 		this.latestSubmission = __editJobRequest.getLastSubmission();
 		this.objective = __editJobRequest.getObjective();

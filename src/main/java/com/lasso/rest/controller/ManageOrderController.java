@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.request.ChooseDesignerForJobRequest;
 import com.lasso.rest.model.api.request.CreateNewJobRequest;
 import com.lasso.rest.model.api.request.EditJobRequest;
 import com.lasso.rest.model.api.response.JobDetailResponse;
@@ -77,7 +78,7 @@ public class ManageOrderController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/create")
+	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response briefNewJob(CreateNewJobRequest __createNewJobRequest)
 	        throws UnirestException, IOException {
@@ -95,11 +96,22 @@ public class ManageOrderController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/edit")
+	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editJob(EditJobRequest __editJobRequest) throws UnirestException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editJob(_user, __editJobRequest);
+		return this.success();
+	}
+
+	@POST
+	@Path("/create/choose_designer")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response chooseDesigner(ChooseDesignerForJobRequest __chooseDesignerForJobRequest)
+	        throws UnirestException, IOException {
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		this.userManagement.chooseDesignerForJob(_user, __chooseDesignerForJobRequest);
+
 		return this.success();
 	}
 

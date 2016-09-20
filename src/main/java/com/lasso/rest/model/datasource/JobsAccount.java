@@ -66,6 +66,19 @@ public class JobsAccount implements Serializable {
 	}
 
 	/**
+	 * Instantiates a new jobs account.
+	 *
+	 * @param __accountId the account id
+	 * @param __jobId the job id
+	 */
+	public JobsAccount(Integer __accountId, Integer __jobId) {
+		super();
+		this.accountId = __accountId;
+		this.jobId = __jobId;
+		this.created = this.modified = new Date();
+	}
+
+	/**
 	 * Gets the account id.
 	 *
 	 * @return the account id
