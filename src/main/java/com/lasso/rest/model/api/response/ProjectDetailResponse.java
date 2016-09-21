@@ -166,7 +166,8 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 		__gen.writeStringField("portfolio_info", __value.getPortfolio().getInfo());
 		__gen.writeStringField("category_title", __value.getCategory().getTitle());
 		__gen.writeNumberField("reward", __value.getDesigner().getRewards());
-		__gen.writeStringField("publish", "Published " + new SimpleDateFormat("dd MMM") + ".");
+		__gen.writeStringField("publish", "Published "
+		        + new SimpleDateFormat("dd MMM").format(__value.getProject().getCreated()) + ".");
 
 		if (__value.getDesigner().getImage().isEmpty()) {
 			__gen.writeStringField("designer_avatar", "");

@@ -1,5 +1,6 @@
 package com.lasso.rest.model.api.request;
 
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
@@ -198,6 +199,14 @@ public class CreateNewJobRequest extends BaseRequest {
 		}
 		if (this.assetUrl == null) {
 			throw new ObjectParamException("Invalid assets");
+		}
+		else if (!this.assetUrl.trim().isEmpty()) {
+			try {
+				new URL(assetUrl);
+			}
+			catch (Exception _ex) {
+				throw new ObjectParamException("Invalid assets", _ex);
+			}
 		}
 		if (this.further == null) {
 			throw new ObjectParamException("Invalid further information");

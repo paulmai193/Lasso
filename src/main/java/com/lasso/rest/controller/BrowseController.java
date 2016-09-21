@@ -87,13 +87,8 @@ public class BrowseController extends BaseController {
 	@Path("/banner")
 	public ListBannerReponse getBanners() {
 		List<Banner> _banners = this.projectManagement.getListBanner();
-		if (_banners.isEmpty()) {
-			throw new NotFoundException("Data not found");
-		}
-		else {
-			String _prefixUrl = this.httpHost + this.bannerStoragePath;
-			return new ListBannerReponse(_banners, _prefixUrl);
-		}
+		String _prefixUrl = this.httpHost + this.bannerStoragePath;
+		return new ListBannerReponse(_banners, _prefixUrl);
 	}
 
 	/**
@@ -106,17 +101,12 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/category")
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index,
-			@QueryParam("keyword") String __keyword) {
+	        @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-				_size, __keyword);
-		if (_categories.isEmpty()) {
-			throw new NotFoundException("Data not found");
-		}
-		else {
-			String _prefixUrl = this.httpHost + this.categoryStoragePath;
-			return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
-		}
+		        _size, __keyword);
+		String _prefixUrl = this.httpHost + this.categoryStoragePath;
+		return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
 	}
 
 	/**
@@ -149,12 +139,12 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/project")
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		String _prefixProjectUrl = this.httpHost + this.projectStoragePath;
 		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index, _size,
-				__keyword, _prefixProjectUrl, _prefixAvatarUrl);
+		        __keyword, _prefixProjectUrl, _prefixAvatarUrl);
 	}
 
 	/**
@@ -166,18 +156,8 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/type")
 	public ListTypesResponse getListTypesByCatogory(@QueryParam("category_id") int __idCategory) {
-		try {
-			List<Type> _types = this.projectManagement.getListTypesByIdCategory(__idCategory);
-			if (_types.isEmpty()) {
-				throw new NotFoundException("Data not found");
-			}
-			else {
-				return new ListTypesResponse(_types);
-			}
-		}
-		catch (NullPointerException _ex) {
-			throw new NotFoundException("Data not found");
-		}
+		List<Type> _types = this.projectManagement.getListTypesByIdCategory(__idCategory);
+		return new ListTypesResponse(_types);
 	}
 
 	/**
@@ -192,7 +172,7 @@ public class BrowseController extends BaseController {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		return this.projectManagement.getProjectDetailById(__idProject, _prefixPortforlioUrl,
-				_prefixAvatarUrl);
+		        _prefixAvatarUrl);
 	}
 
 	/**
@@ -206,17 +186,12 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/sub_category")
 	public ListSubCatoriesResponse getSubCategories(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-				__index, _size, __keyword);
-		if (_styles.isEmpty()) {
-			throw new NotFoundException("Data not found");
-		}
-		else {
-			String _prefixUrl = this.httpHost + this.styleStoragePath;
-			return new ListSubCatoriesResponse(_prefixUrl, _styles, __index + _size);
-		}
+		        __index, _size, __keyword);
+		String _prefixUrl = this.httpHost + this.styleStoragePath;
+		return new ListSubCatoriesResponse(_prefixUrl, _styles, __index + _size);
 	}
 
 	/**

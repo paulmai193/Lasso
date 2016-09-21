@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Type;
 
@@ -91,7 +92,7 @@ class JobDetailSerializer extends JsonSerializer<Object[]> {
 
 	@Override
 	public void serialize(Object[] __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	        throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		Job _job = (Job) __value[0];
 		String _designer = (String) __value[1];
@@ -107,30 +108,31 @@ class JobDetailSerializer extends JsonSerializer<Object[]> {
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();
-		__gen.writeStringField("designer", _designer);
+		__gen.writeStringField("designer_name", _designer);
 		__gen.writeStringField("style", _style);
 		DateFormat _fullDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		DateFormat _shortDateFormat = new SimpleDateFormat("dd.MM");
 		__gen.writeStringField("date_due", _fullDateFormat.format(_job.getLatestSubmission()));
 		__gen.writeStringField("date_brief", _shortDateFormat.format(_job.getSubmission()));
 		__gen.writeStringField("date_stage", _shortDateFormat.format(_job.getStageDate()));
-		switch (_job.getStage()) {
-			case 1:
-				__gen.writeStringField("stage", "1st Draft");
-				break;
-
-			case 2:
-				__gen.writeStringField("stage", "Revised");
-				break;
-			case 3:
-				__gen.writeStringField("stage", "Final Artwork");
-				break;
-			case 4:
-				__gen.writeStringField("stage", "Completed");
-				break;
-		}
+		__gen.writeStringField("stage", JobStageConstant.getByCode(_job.getStage()).getStageName());
+		// switch (_job.getStage()) {
+		// case 1:
+		// __gen.writeStringField("stage", "1st Draft");
+		// break;
+		//
+		// case 2:
+		// __gen.writeStringField("stage", "Revised");
+		// break;
+		// case 3:
+		// __gen.writeStringField("stage", "Final Artwork");
+		// break;
+		// case 4:
+		// __gen.writeStringField("stage", "Completed");
+		// break;
+		// }
 		__gen.writeStringField("date_complete",
-				_shortDateFormat.format(_job.getLatestSubmission()));
+		        _shortDateFormat.format(_job.getLatestSubmission()));
 		__gen.writeStringField("status", _job.getCompleted() == 0 ? "In Progress" : "Completed");
 		__gen.writeEndObject();
 	}

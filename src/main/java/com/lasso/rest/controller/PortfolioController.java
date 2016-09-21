@@ -149,23 +149,18 @@ public class PortfolioController extends BaseController {
 	public ListPortfoliosResponse getAllPortfoliosOfAccount() {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Portfolio> _portfolios = this.designerManagement.getAllPortfolios(_account);
-		if (_portfolios.isEmpty()) {
-			throw new NotFoundException("Data not found");
+		List<Object[]> _datas = new ArrayList<>(); // {portfolio, category, style, list type}
+		for (Portfolio _portfolio : _portfolios) {
+			Category _category = this.designerManagement
+			        .getCategoryById(_portfolio.getCategoryId());
+			Style _style = this.designerManagement.getStyleById(_portfolio.getStyleId());
+			List<Type> _types = this.designerManagement
+			        .getListTypesByIdPortfolio(_portfolio.getId());
+			Object[] _data = { _portfolio, _category, _style, _types };
+			_datas.add(_data);
 		}
-		else {
-			List<Object[]> _datas = new ArrayList<>(); // {portfolio, category, style, list type}
-			for (Portfolio _portfolio : _portfolios) {
-				Category _category = this.designerManagement
-				        .getCategoryById(_portfolio.getCategoryId());
-				Style _style = this.designerManagement.getStyleById(_portfolio.getStyleId());
-				List<Type> _types = this.designerManagement
-				        .getListTypesByIdPortfolio(_portfolio.getId());
-				Object[] _data = { _portfolio, _category, _style, _types };
-				_datas.add(_data);
-			}
-			String _prefixUrl = this.httpHost + this.portfolioStoragePath;
-			return new ListPortfoliosResponse(_datas, _prefixUrl);
-		}
+		String _prefixUrl = this.httpHost + this.portfolioStoragePath;
+		return new ListPortfoliosResponse(_datas, _prefixUrl);
 	}
 
 	/**

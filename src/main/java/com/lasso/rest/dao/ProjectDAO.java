@@ -20,13 +20,12 @@ public interface ProjectDAO extends HibernateSession {
 	Project getProjectById(int __idProject);
 
 	/**
-	 * Gets the ramdom.
+	 * Gets the ramdom project.
 	 *
-	 * @param __idStyle the id style
 	 * @param __limit the limit
 	 * @return the ramdom
 	 */
-	List<Project> getRamdom(Integer __idStyle, int __limit);
+	List<Project> getRamdom(int __limit);
 
 	/**
 	 * Search projects.

@@ -39,18 +39,16 @@ public class ImplProjectDAO implements ProjectDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.ProjectDAO#getRamdom(java.lang.Integer, int)
+	 * @see com.lasso.rest.dao.ProjectDAO#getRamdom(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Project> getRamdom(Integer __idStyle, int __limit) {
+	public List<Project> getRamdom(int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
-		if (__idStyle != null) {
-			_criteria.add(Restrictions.eq("styleId", __idStyle));
-		}
-		_criteria.add(Restrictions.sqlRestriction("1=1 order by rand()"))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("title")).setMaxResults(__limit);
+		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .add(Restrictions.sqlRestriction("1=1 order by rand()")).setFirstResult(0)
+		        .setMaxResults(__limit);
+
 		return _criteria.list();
 	}
 
