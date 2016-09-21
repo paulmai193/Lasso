@@ -1,5 +1,7 @@
 package com.lasso.rest.dao;
 
+import java.util.List;
+
 import com.lasso.rest.model.datasource.JobsAccount;
 
 /**
@@ -16,5 +18,12 @@ public interface JobAccountDAO extends HibernateSession {
 	 * @return the by job id
 	 */
 	JobsAccount getByJobId(int __idJob);
+
+	/**
+	 * Save job accounts.
+	 *
+	 * @param __jobsAccounts the jobs accounts
+	 */
+	void saveJobAccounts(List<JobsAccount> __jobsAccounts);
 
 }

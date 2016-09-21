@@ -86,6 +86,19 @@ public class Message implements Serializable {
 	public Message() {
 	}
 
+	public Message(int __fromAccountId, int __jobId, String __message, String __title,
+	        int __toAccountId) {
+		super();
+		this.created = this.modified = new Date();
+		this.fromAccountId = __fromAccountId;
+		this.jobId = __jobId;
+		this.message = __message;
+		this.parentId = 0;
+		this.status = 1;
+		this.title = __title;
+		this.toAccountId = __toAccountId;
+	}
+
 	/**
 	 * Gets the created.
 	 *

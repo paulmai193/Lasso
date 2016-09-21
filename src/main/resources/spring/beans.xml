@@ -45,6 +45,10 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="messageDAO" class="com.lasso.rest.dao.impl.ImplMessageDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="portfolioDAO" class="com.lasso.rest.dao.impl.ImplPortfolioDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -106,6 +110,7 @@
 	<bean id="userManagement" class="com.lasso.rest.service.impl.ImplUserManagement"
 		lazy-init="false" scope="singleton" parent="projectManagement">
 		<property name="jobDAO" ref="jobDAO" />
+		<property name="messageDAO" ref="messageDAO" />
 		<property name="jobAccountDAO" ref="jobAccountDAO" />
 		<property name="jobTypeDAO" ref="jobTypeDAO" />
 		<property name="jobStoragePath" ref="jobStoragePath" />

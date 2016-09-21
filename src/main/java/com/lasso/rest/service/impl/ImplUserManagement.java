@@ -25,6 +25,7 @@ import com.lasso.define.JobStepConstant;
 import com.lasso.rest.dao.JobAccountDAO;
 import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.dao.JobTypeDAO;
+import com.lasso.rest.dao.MessageDAO;
 import com.lasso.rest.model.api.request.ChooseDesignerForJobRequest;
 import com.lasso.rest.model.api.request.CreateNewJobRequest;
 import com.lasso.rest.model.api.request.EditJobRequest;
@@ -32,6 +33,7 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.JobsType;
+import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Style;
@@ -62,6 +64,18 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	/** The job type DAO. */
 	@Autowired
 	private JobTypeDAO		jobTypeDAO;
+
+	@Autowired
+	private MessageDAO		messageDAO;
+
+	/**
+	 * Sets the message DAO.
+	 *
+	 * @param __messageDAO the new message DAO
+	 */
+	public void setMessageDAO(MessageDAO __messageDAO) {
+		this.messageDAO = __messageDAO;
+	}
 
 	/**
 	 * Instantiates a new impl user management.
@@ -217,17 +231,31 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		else {
 			// update designer chosen by user
 			List<JobsAccount> _jobsAccounts = new ArrayList<>();
-			__chooseDesignerForJobRequest.getDesignerIds().stream()
-			        .filter(_idDesigner -> getAccountDAO().getAccountById(_idDesigner).getRole()
-			                .equals(Constant.ROLE_DESIGNER))
-			        .forEach(_idDesigner -> _jobsAccounts
-			                .add(new JobsAccount(_idDesigner, _job.getId())));
-			// Update step of job
+			List<Message> _messages = new ArrayList<>();
+			__chooseDesignerForJobRequest.getDesignerIds()
+			        .stream().filter(_idDesigner -> getAccountDAO().getAccountById(_idDesigner)
+			                .getRole().equals(Constant.ROLE_DESIGNER))
+			        .forEach(new Consumer<Integer>() {
+
+				        @Override
+				        public void accept(Integer __idDesigner) {
+					        _jobsAccounts.add(new JobsAccount(__idDesigner, _job.getId()));
+
+					        String _title = "New offer from " + __user.getName();
+					        String _message = "Hi, please check this offer.";
+					        _messages.add(new Message(__user.getId(), _job.getId(), _message,
+					                _title, __idDesigner));
+				        }
+			        });
+			// Save designer seleted and message will send to them
+			this.jobAccountDAO.saveJobAccounts(_jobsAccounts);
+			this.messageDAO.saveMessages(_messages);
+
+			// TODO All setting success, send message to designer
+
+			// Everything success, update step of job
 			_job.setStep(JobStepConstant.JOB_STEP_CHOOSE_DESIGNER.getStepCode());
 			this.jobDAO.updateJob(_job);
-
-			// All setting success, send message to designer
-
 		}
 	}
 

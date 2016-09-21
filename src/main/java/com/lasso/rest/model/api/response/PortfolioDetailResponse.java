@@ -209,6 +209,7 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 		// __gen.writeEndObject();
 
 		__gen.writeNumberField("amount", __value.getPortfolio().getAmount());
+		__gen.writeNumberField("portfolio_id", __value.getPortfolio().getId());
 		__gen.writeStringField("portfolio_info", __value.getPortfolio().getInfo());
 
 		__gen.writeArrayFieldStart("images");

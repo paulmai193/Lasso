@@ -1,5 +1,7 @@
 package com.lasso.rest.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +36,9 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public JobsAccount getByJobId(int __idJob) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-				.add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
-				.uniqueResult();
+		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+		        .add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
+		        .uniqueResult();
 	}
 
 	/*
@@ -47,6 +49,12 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
+	}
+
+	@Override
+	public void saveJobAccounts(List<JobsAccount> __jobsAccounts) {
+		__jobsAccounts
+		        .forEach(_jobAccount -> this.sessionFactory.getCurrentSession().save(_jobAccount));
 	}
 
 }
