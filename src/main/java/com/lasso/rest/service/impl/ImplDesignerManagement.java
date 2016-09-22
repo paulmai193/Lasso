@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.NotFoundException;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lasso.rest.model.api.request.CreatePortfolioRequest;
 import com.lasso.rest.model.api.request.EditPortfolioRequest;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
+import com.lasso.rest.model.datasource.Style;
+import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.DesignerManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -44,6 +49,16 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		String _webContextStoragePath = this.genericManagement
 				.loadWebContextStoragePath(__desiger.getAppSession());
 		try {
+			Category _category = this.categoryDAO
+					.getCategoryById(__createPortfolioRequest.getIdCategory());
+			Style _style = this.styleDAO.getById(__createPortfolioRequest.getIdStyle());
+			if (_category == null || _category.getDeleted().equals((byte) 1)) {
+				throw new NotFoundException("Category not found");
+			}
+			else if (_style == null || _style.getDeleted().equals((byte) 1)) {
+				throw new NotFoundException("Style not found");
+			}
+
 			String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray());
 			_image = _image.substring(1, _image.length() - 1);
 			Portfolio _portfolio = new Portfolio(__createPortfolioRequest.getAmount(), new Date(),
@@ -53,9 +68,12 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 					__createPortfolioRequest.getTitle());
 			int _id = this.portfolioDAO.createPortfolio(_portfolio);
 			for (int _idType : __createPortfolioRequest.getIdTypes()) {
-				PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id,
-						_idType);
-				this.portfolioTypeDAO.createPortfolioType(_portfolioType);
+				Type _type = this.typeDAO.getTypeById(_idType);
+				if (_type != null && _type.getDeleted().equals((byte) 0)) {
+					PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id,
+							_idType);
+					this.portfolioTypeDAO.createPortfolioType(_portfolioType);
+				}
 			}
 
 			// Copy portfolio images from temporary directory to resource directory

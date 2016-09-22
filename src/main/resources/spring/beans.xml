@@ -153,6 +153,7 @@
 		<property name="projectStoragePath" ref="projectStoragePath" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
 		<property name="styleStoragePath" ref="styleStoragePath" />
+		<property name="typeStoragePath" ref="typeStoragePath" />
 		<property name="httpHost" ref="httpHost" />
 	</bean>
 	<bean id="manageOrderController" class="com.lasso.rest.controller.ManageOrderController"

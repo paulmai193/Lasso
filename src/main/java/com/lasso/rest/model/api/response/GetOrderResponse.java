@@ -199,7 +199,8 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeNumberField("type_id", __type.getId());
 					__gen.writeStringField("type_title", __type.getTitle());
 					__gen.writeObjectFieldStart("images");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixType(), __type.getImage());
+					GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixType(),
+							__type.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -294,7 +295,8 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeNumberField("account_reward",
 							__account.getRewards() == 0 ? 1 : __account.getRewards());
 					__gen.writeObjectFieldStart("avatar");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
+					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl,
+							__account.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -320,7 +322,8 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeNumberField("account_reward",
 							_account.getRewards() == 0 ? 1 : _account.getRewards());
 					__gen.writeObjectFieldStart("avatar");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl, _account.getImage());
+					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl,
+							_account.getImage());
 					__gen.writeEndObject();
 					__gen.writeNumberField("counter", _counter);
 					__gen.writeEndObject();

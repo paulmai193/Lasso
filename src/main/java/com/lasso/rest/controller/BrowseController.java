@@ -74,6 +74,9 @@ public class BrowseController extends BaseController {
 	/** The style storage path. */
 	private String				styleStoragePath;
 
+	/** The type storage path. */
+	private String				typeStoragePath;
+
 	/** The validateContext. */
 	@Context
 	private SecurityContext		validateContext;
@@ -157,7 +160,8 @@ public class BrowseController extends BaseController {
 	@Path("/type")
 	public ListTypesResponse getListTypesByCatogory(@QueryParam("category_id") int __idCategory) {
 		List<Type> _types = this.projectManagement.getListTypesByIdCategory(__idCategory);
-		return new ListTypesResponse(_types);
+		String _prefixTypetUrl = this.httpHost + this.typeStoragePath;
+		return new ListTypesResponse(_types, _prefixTypetUrl);
 	}
 
 	/**
@@ -264,5 +268,14 @@ public class BrowseController extends BaseController {
 	 */
 	public void setStyleStoragePath(String __styleStoragePath) {
 		this.styleStoragePath = __styleStoragePath;
+	}
+
+	/**
+	 * Sets the type storage path.
+	 *
+	 * @param __typeStoragePath the new type storage path
+	 */
+	public void setTypeStoragePath(String __typeStoragePath) {
+		this.typeStoragePath = __typeStoragePath;
 	}
 }

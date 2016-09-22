@@ -11,6 +11,14 @@ import com.lasso.rest.model.datasource.PromoHistory;
 public interface PromoDAO extends HibernateSession {
 
 	/**
+	 * Gets the promo code by code.
+	 *
+	 * @param __promoCode the promo code
+	 * @return the promo code by code
+	 */
+	PromoCode getPromoCodeByCode(String __promoCode);
+
+	/**
 	 * Gets the promo code by id.
 	 *
 	 * @param __promoCodeId the promo code id
@@ -25,5 +33,12 @@ public interface PromoDAO extends HibernateSession {
 	 * @return the promo histroy by job id
 	 */
 	PromoHistory getPromoHistroyByJobId(int __idJob);
+
+	/**
+	 * Save promo history.
+	 *
+	 * @param __promoHistory the promo history
+	 */
+	void savePromoHistory(PromoHistory __promoHistory);
 
 }

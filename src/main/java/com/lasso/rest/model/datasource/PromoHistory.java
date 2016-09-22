@@ -61,6 +61,21 @@ public class PromoHistory implements Serializable {
 	}
 
 	/**
+	 * Instantiates a new promo history.
+	 *
+	 * @param __accountId the account id
+	 * @param __jobId the job id
+	 * @param __promoCodeId the promo code id
+	 */
+	public PromoHistory(int __accountId, int __jobId, int __promoCodeId) {
+		super();
+		this.created = this.modified = new Date();
+		this.accountId = __accountId;
+		this.jobId = __jobId;
+		this.promoCodeId = __promoCodeId;
+	}
+
+	/**
 	 * Gets the account id.
 	 *
 	 * @return the account id

@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.PromoCode;
-import com.lasso.rest.model.datasource.PromoHistory;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
@@ -29,19 +28,16 @@ import com.lasso.rest.model.datasource.Type;
 public class OrderPaymentDetailResponse extends BaseResponse {
 
 	/** The job. */
-	private Job				job;
+	private Job			job;
 
 	/** The promo code. */
-	private PromoCode		promoCode;
-
-	/** The promo history. */
-	private PromoHistory	promoHistory;
+	private PromoCode	promoCode;
 
 	/** The style. */
-	private Style			style;
+	private Style		style;
 
 	/** The types. */
-	private List<Type>		types;
+	private List<Type>	types;
 
 	/**
 	 * Instantiates a new order payment detail response.
@@ -78,16 +74,14 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	 *
 	 * @param __job the job
 	 * @param __promoCode the promo code
-	 * @param __promoHistory the promo history
 	 * @param __types the types
 	 * @param __style the style
 	 */
-	public OrderPaymentDetailResponse(Job __job, PromoCode __promoCode, PromoHistory __promoHistory,
-	        List<Type> __types, Style __style) {
+	public OrderPaymentDetailResponse(Job __job, PromoCode __promoCode, List<Type> __types,
+			Style __style) {
 		super();
 		this.job = __job;
 		this.promoCode = __promoCode;
-		this.promoHistory = __promoHistory;
 		this.types = __types;
 		this.style = __style;
 	}
@@ -108,15 +102,6 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	 */
 	public PromoCode getPromoCode() {
 		return this.promoCode;
-	}
-
-	/**
-	 * Gets the promo history.
-	 *
-	 * @return the promoHistory
-	 */
-	public PromoHistory getPromoHistory() {
-		return this.promoHistory;
 	}
 
 	/**
@@ -142,7 +127,7 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 
 	@Override
 	public void serialize(OrderPaymentDetailResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -151,8 +136,7 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 		}
 		__gen.writeObjectFieldStart("data");
 		this.serializeOrder(__gen, __value.getJob(), __value.getTypes(), __value.getStyle());
-		this.serializePayment(__gen, __value.getJob(), __value.getPromoCode(),
-		        __value.getPromoHistory());
+		this.serializePayment(__gen, __value.getJob(), __value.getPromoCode());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 	}
@@ -164,7 +148,7 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 			DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			__gen.writeStringField("submission", _dateFormat.format(__job.getSubmission()));
 			__gen.writeStringField("last_submission",
-			        _dateFormat.format(__job.getLatestSubmission()));
+					_dateFormat.format(__job.getLatestSubmission()));
 			__gen.writeStringField("style_title", __style.getTitle());
 			__gen.writeArrayFieldStart("types");
 			__types.forEach(_type -> {
@@ -182,13 +166,18 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 		}
 	}
 
-	private void serializePayment(JsonGenerator __gen, Job __job, PromoCode __promoCode,
-	        PromoHistory __promoHistory) {
+	private void serializePayment(JsonGenerator __gen, Job __job, PromoCode __promoCode) {
 		try {
 			__gen.writeNumberField("job_budget", __job.getBudget());
 			__gen.writeNumberField("job_fee", __job.getFee());
-			__gen.writeStringField("promo_code", __promoCode.getCode());
-			__gen.writeNumberField("promo_value", __promoCode.getDiscount());
+			if (__promoCode != null) {
+				__gen.writeStringField("promo_code", __promoCode.getCode());
+				__gen.writeNumberField("promo_value", __promoCode.getDiscount());
+			}
+			else {
+				__gen.writeStringField("promo_code", "");
+				__gen.writeNumberField("promo_value", 0);
+			}
 		}
 		catch (IOException _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);

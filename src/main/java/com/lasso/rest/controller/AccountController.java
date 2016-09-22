@@ -42,6 +42,7 @@ import com.lasso.rest.model.api.response.DetailAccountResponse;
 import com.lasso.rest.model.api.response.DetailDesignerResponse;
 import com.lasso.rest.model.api.response.DetailUserResponse;
 import com.lasso.rest.model.api.response.LoginResponse;
+import com.lasso.rest.model.api.response.UserStatusResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.AccountManagement;
@@ -186,6 +187,19 @@ public class AccountController extends BaseController {
 		else {
 			throw new BadRequestException("This account's role not have any detail");
 		}
+	}
+
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
+	@GET
+	@Path("/detail/me/status")
+	@AccountAuthenticate
+	public UserStatusResponse getStatus() {
+		Account _account = (Account) this.validateContext.getUserPrincipal();
+		return new UserStatusResponse(_account.getStatus());
 	}
 
 	/**

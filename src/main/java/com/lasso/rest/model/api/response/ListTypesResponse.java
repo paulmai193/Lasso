@@ -2,10 +2,12 @@ package com.lasso.rest.model.api.response;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
+
+import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -19,12 +21,14 @@ import com.lasso.rest.model.datasource.Type;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
+@JsonSerialize(using = ListTypeSerializer.class)
 public class ListTypesResponse extends BaseResponse {
 
 	/** The datas. */
-	@JsonProperty("data")
-	@JsonSerialize(using = ListTypeSerializer.class)
-	private List<Type> datas;
+	private List<Type>	datas;
+
+	/** The prefix url. */
+	private String		prefixUrl;
 
 	/**
 	 * Instantiates a new list types response.
@@ -60,10 +64,12 @@ public class ListTypesResponse extends BaseResponse {
 	 * Instantiates a new list types response.
 	 *
 	 * @param __datas the datas
+	 * @param __prefixUrl the prefix url
 	 */
-	public ListTypesResponse(List<Type> __datas) {
+	public ListTypesResponse(List<Type> __datas, String __prefixUrl) {
 		super();
 		this.datas = __datas;
+		this.prefixUrl = __prefixUrl;
 	}
 
 	/**
@@ -76,29 +82,48 @@ public class ListTypesResponse extends BaseResponse {
 	}
 
 	/**
-	 * Sets the datas.
+	 * Gets the prefix url.
 	 *
-	 * @param __datas the new datas
+	 * @return the prefix url
 	 */
-	public void setDatas(List<Type> __datas) {
-		this.datas = __datas;
+	public String getPrefixUrl() {
+		return this.prefixUrl;
 	}
 
 }
 
-class ListTypeSerializer extends JsonSerializer<List<Type>> {
+class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 
 	@Override
-	public void serialize(List<Type> __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
-		__gen.writeStartArray();
-		for (Type _type : __value) {
-			__gen.writeStartObject();
-			__gen.writeNumberField("id", _type.getId());
-			__gen.writeStringField("title", _type.getTitle());
-			__gen.writeEndObject();
+	public void serialize(ListTypesResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+		__gen.writeStartObject();
+		__gen.writeObjectField("error", __value.isError());
+		if (__value.isError()) {
+			__gen.writeObjectField("detail", __value.getDetail());
+			__gen.writeObjectField("message", __value.getMessage());
 		}
+		__gen.writeArrayFieldStart("types");
+		__value.getDatas().forEach(new Consumer<Type>() {
+
+			@Override
+			public void accept(Type __type) {
+				try {
+					__gen.writeStartObject();
+					__gen.writeNumberField("type_id", __type.getId());
+					__gen.writeStringField("type_title", __type.getTitle());
+					__gen.writeStringField("image",
+							__value.getPrefixUrl() + "/Small/" + __type.getImage());
+					__gen.writeEndObject();
+				}
+				catch (IOException _ex) {
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+				}
+
+			}
+		});
 		__gen.writeEndArray();
+		__gen.writeEndObject();
 	}
 
 }

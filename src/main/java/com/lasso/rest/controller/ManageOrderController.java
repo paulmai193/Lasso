@@ -28,6 +28,7 @@ import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
 import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
+import com.lasso.rest.model.api.request.UsePromoCodeForOrder;
 import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.JobDetailResponse;
 import com.lasso.rest.model.api.response.ListDesignersResponse;
@@ -36,7 +37,6 @@ import com.lasso.rest.model.api.response.OrderPaymentDetailResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.PromoCode;
-import com.lasso.rest.model.datasource.PromoHistory;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.UserManagement;
@@ -102,7 +102,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response briefNewJob(CreateNewOrderRequest __createNewJobRequest)
-	        throws UnirestException, IOException {
+			throws UnirestException, IOException {
 		__createNewJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.createNewOrder(_user, __createNewJobRequest);
@@ -114,14 +114,11 @@ public class ManageOrderController extends BaseController {
 	 *
 	 * @param __chooseDesignerForJobRequest the choose designer for job request
 	 * @return the response
-	 * @throws UnirestException the unirest exception
-	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/create/choose_designer")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response chooseDesigner(ChooseDesignerForOrderRequest __chooseDesignerForJobRequest)
-	        throws UnirestException, IOException {
+	public Response chooseDesigner(ChooseDesignerForOrderRequest __chooseDesignerForJobRequest) {
 		__chooseDesignerForJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.chooseDesignerForOrder(_user, __chooseDesignerForJobRequest);
@@ -133,14 +130,11 @@ public class ManageOrderController extends BaseController {
 	 *
 	 * @param __confirmOrderRequest the confirm order request
 	 * @return the response
-	 * @throws UnirestException the unirest exception
-	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/create/confirm")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response confirmOrder(ConfirmOrderRequest __confirmOrderRequest)
-	        throws UnirestException, IOException {
+	public Response confirmOrder(ConfirmOrderRequest __confirmOrderRequest) {
 		__confirmOrderRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		try {
@@ -164,7 +158,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editJob(EditOrderRequest __editJobRequest)
-	        throws UnirestException, IOException {
+			throws UnirestException, IOException {
 		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
@@ -183,8 +177,8 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/list/designers")
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
-	        @QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
-	        @QueryParam("type_ids") String __idsType) {
+			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
+			@QueryParam("type_ids") String __idsType) {
 		int _size = 8;
 		List<Integer> _listIdsType = new ArrayList<>();
 		String[] _s = __idsType.split(",");
@@ -200,12 +194,12 @@ public class ManageOrderController extends BaseController {
 
 		// Get portfolios by category and style
 		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, _size,
-		        __idCategory, __idStyle, _listIdsType);
+				__idCategory, __idStyle, _listIdsType);
 		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 
 		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
-		        __index + _size);
+				__index + _size);
 	}
 
 	/**
@@ -218,7 +212,7 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/manage/detail")
 	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-	        throws javassist.NotFoundException {
+			throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
@@ -268,7 +262,7 @@ public class ManageOrderController extends BaseController {
 			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
-			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
+					_prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
 		}
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -289,8 +283,8 @@ public class ManageOrderController extends BaseController {
 		try {
 			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
 			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
-			        (PromoCode) _paymentDetail[2], (PromoHistory) _paymentDetail[1],
-			        (List<Type>) _paymentDetail[3], (Style) _paymentDetail[4]);
+					(PromoCode) _paymentDetail[1], (List<Type>) _paymentDetail[2],
+					(Style) _paymentDetail[3]);
 		}
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -376,6 +370,22 @@ public class ManageOrderController extends BaseController {
 	 */
 	public void setValidateContext(SecurityContext __validateContext) {
 		this.validateContext = __validateContext;
+	}
+
+	/**
+	 * Use promocode for job.
+	 *
+	 * @param __usePromoCodeForOrder the use promo code for order
+	 * @return the response
+	 */
+	@POST
+	@Path("/create/use_promo")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response usePromocodeForJob(UsePromoCodeForOrder __usePromoCodeForOrder) {
+		__usePromoCodeForOrder.validate();
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		this.userManagement.applyPromoCodeForOrder(_user, __usePromoCodeForOrder);
+		return this.success();
 	}
 
 }

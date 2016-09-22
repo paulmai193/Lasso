@@ -7,6 +7,7 @@ import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
 import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
+import com.lasso.rest.model.api.request.UsePromoCodeForOrder;
 import com.lasso.rest.model.datasource.Account;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -18,6 +19,14 @@ import javassist.NotFoundException;
  * @author Paul Mai
  */
 public interface UserManagement extends ProjectManagement {
+
+	/**
+	 * Apply promo code for order.
+	 *
+	 * @param __user the user
+	 * @param __usePromoCodeForOrder the use promo code for order
+	 */
+	void applyPromoCodeForOrder(Account __user, UsePromoCodeForOrder __usePromoCodeForOrder);
 
 	/**
 	 * Choose designer for offer.
