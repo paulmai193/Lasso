@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.BannerDAO;
 import com.lasso.rest.dao.CategoryDAO;
+import com.lasso.rest.dao.JobAccountDAO;
+import com.lasso.rest.dao.JobDAO;
+import com.lasso.rest.dao.JobTypeDAO;
+import com.lasso.rest.dao.MessageDAO;
 import com.lasso.rest.dao.PortfolioDAO;
 import com.lasso.rest.dao.PortfolioTypeDAO;
 import com.lasso.rest.dao.ProjectDAO;
@@ -25,6 +29,7 @@ import com.lasso.rest.model.api.response.ProjectDetailResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Banner;
 import com.lasso.rest.model.datasource.Category;
+import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Project;
@@ -46,68 +51,68 @@ public class ImplProjectManagement implements ProjectManagement {
 
 	/** The account DAO. */
 	@Autowired
-	private AccountDAO				accountDAO;
+	protected AccountDAO			accountDAO;
 
 	/** The banner DAO. */
 	@Autowired
-	private BannerDAO				bannerDAO;
+	protected BannerDAO				bannerDAO;
 
 	/** The category DAO. */
 	@Autowired
-	private CategoryDAO				categoryDAO;
+	protected CategoryDAO			categoryDAO;
 
 	/** The generic management. */
 	@Autowired
-	private GenericManagement		genericManagement;
+	protected GenericManagement		genericManagement;
 
 	/** The portfolio DAO. */
 	@Autowired
-	private PortfolioDAO			portfolioDAO;
+	protected PortfolioDAO			portfolioDAO;
 
 	/** The portfolio type DAO. */
 	@Autowired
-	private PortfolioTypeDAO		portfolioTypeDAO;
+	protected PortfolioTypeDAO		portfolioTypeDAO;
 
 	/** The project DAO. */
 	@Autowired
-	private ProjectDAO				projectDAO;
+	protected ProjectDAO			projectDAO;
 
 	/** The style DAO. */
 	@Autowired
-	private StyleDAO				styleDAO;
+	protected StyleDAO				styleDAO;
 
 	/** The temporary storage path. */
-	private String					temporaryStoragePath;
+	protected String				temporaryStoragePath;
 
 	/** The type DAO. */
 	@Autowired
-	private TypeDAO					typeDAO;
+	protected TypeDAO				typeDAO;
 
 	/** The type style DAO. */
 	@Autowired
-	private TypeStyleDAO			typeStyleDAO;
+	protected TypeStyleDAO			typeStyleDAO;
 
 	/** The upload image management. */
 	@Autowired
-	private UploadImageManagement	uploadImageManagement;
+	protected UploadImageManagement	uploadImageManagement;
 
-	/**
-	 * Gets the account DAO.
-	 *
-	 * @return the accountDAO
-	 */
-	public AccountDAO getAccountDAO() {
-		return this.accountDAO;
-	}
+	/** The job account DAO. */
+	@Autowired
+	protected JobAccountDAO			jobAccountDAO;
 
-	/**
-	 * Gets the banner DAO.
-	 *
-	 * @return the banner DAO
-	 */
-	public BannerDAO getBannerDAO() {
-		return this.bannerDAO;
-	}
+	/** The job DAO. */
+	@Autowired
+	protected JobDAO				jobDAO;
+
+	/** The job storage path. */
+	protected String				jobStoragePath;
+
+	/** The job type DAO. */
+	@Autowired
+	protected JobTypeDAO			jobTypeDAO;
+
+	@Autowired
+	protected MessageDAO			messageDAO;
 
 	/*
 	 * (non-Javadoc)
@@ -129,24 +134,6 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Override
 	public Category getCategoryById(int __idCategory) {
 		return this.categoryDAO.getCategoryById(__idCategory);
-	}
-
-	/**
-	 * Gets the category DAO.
-	 *
-	 * @return the categoryDAO
-	 */
-	public CategoryDAO getCategoryDAO() {
-		return this.categoryDAO;
-	}
-
-	/**
-	 * Gets the generic management.
-	 *
-	 * @return the genericManagement
-	 */
-	public GenericManagement getGenericManagement() {
-		return this.genericManagement;
 	}
 
 	/*
@@ -195,33 +182,6 @@ public class ImplProjectManagement implements ProjectManagement {
 		}
 
 		return this.typeDAO.getListByByListIds(_listIdsType);
-	}
-
-	/**
-	 * Gets the portfolio DAO.
-	 *
-	 * @return the portfolioDAO
-	 */
-	public PortfolioDAO getPortfolioDAO() {
-		return this.portfolioDAO;
-	}
-
-	/**
-	 * Gets the portfolio type DAO.
-	 *
-	 * @return the portfolioTypeDAO
-	 */
-	public PortfolioTypeDAO getPortfolioTypeDAO() {
-		return this.portfolioTypeDAO;
-	}
-
-	/**
-	 * Gets the project DAO.
-	 *
-	 * @return the projectDAO
-	 */
-	public ProjectDAO getProjectDAO() {
-		return this.projectDAO;
 	}
 
 	/*
@@ -290,15 +250,6 @@ public class ImplProjectManagement implements ProjectManagement {
 		return this.styleDAO.getById(__styleId);
 	}
 
-	/**
-	 * Gets the style DAO.
-	 *
-	 * @return the styleDAO
-	 */
-	public StyleDAO getStyleDAO() {
-		return this.styleDAO;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -331,39 +282,10 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * Gets the temporary storage path.
-	 *
-	 * @return the temporaryStoragePath
+	 * @param __messageDAO the messageDAO to set
 	 */
-	public String getTemporaryStoragePath() {
-		return this.temporaryStoragePath;
-	}
-
-	/**
-	 * Gets the type DAO.
-	 *
-	 * @return the typeDAO
-	 */
-	public TypeDAO getTypeDAO() {
-		return this.typeDAO;
-	}
-
-	/**
-	 * Gets the type style DAO.
-	 *
-	 * @return the typeStyleDAO
-	 */
-	public TypeStyleDAO getTypeStyleDAO() {
-		return this.typeStyleDAO;
-	}
-
-	/**
-	 * Gets the upload image management.
-	 *
-	 * @return the uploadImageManagement
-	 */
-	public UploadImageManagement getUploadImageManagement() {
-		return this.uploadImageManagement;
+	public void setMessageDAO(MessageDAO __messageDAO) {
+		this.messageDAO = __messageDAO;
 	}
 
 	/*
@@ -373,7 +295,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public void removeOldTemporaryFiles(String __webContextStoragePath) {
-		File _tempDir = new File(__webContextStoragePath + this.getTemporaryStoragePath());
+		File _tempDir = new File(__webContextStoragePath + this.temporaryStoragePath);
 		if (_tempDir != null && _tempDir.isDirectory()) {
 			for (File _tempFIle : _tempDir.listFiles()) {
 				if (System.currentTimeMillis() - _tempFIle.lastModified() > 7200000) {
@@ -381,6 +303,11 @@ public class ImplProjectManagement implements ProjectManagement {
 				}
 			}
 		}
+	}
+
+	@Override
+	public Job getJobById(int __idJob) {
+		return this.jobDAO.getJobById(__idJob);
 	}
 
 	/**
@@ -491,4 +418,39 @@ public class ImplProjectManagement implements ProjectManagement {
 		this.uploadImageManagement = __uploadImageManagement;
 	}
 
+	/**
+	 * Sets the job account DAO.
+	 *
+	 * @param __jobAccountDAO the new job account DAO
+	 */
+	public void setJobAccountDAO(JobAccountDAO __jobAccountDAO) {
+		this.jobAccountDAO = __jobAccountDAO;
+	}
+
+	/**
+	 * Sets the job DAO.
+	 *
+	 * @param __jobDAO the new job DAO
+	 */
+	public void setJobDAO(JobDAO __jobDAO) {
+		this.jobDAO = __jobDAO;
+	}
+
+	/**
+	 * Sets the job storage path.
+	 *
+	 * @param __jobStoragePath the jobStoragePath to set
+	 */
+	public void setJobStoragePath(String __jobStoragePath) {
+		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
+	 * Sets the job type DAO.
+	 *
+	 * @param __jobTypeDAO the new job type DAO
+	 */
+	public void setJobTypeDAO(JobTypeDAO __jobTypeDAO) {
+		this.jobTypeDAO = __jobTypeDAO;
+	}
 }

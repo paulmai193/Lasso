@@ -1,17 +1,19 @@
 package com.lasso.rest.model.api.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
 /**
- * The Class EditJobRequest.
+ * The Class EditOrderRequest.
  *
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
-public class EditJobRequest extends CreateNewJobRequest {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EditOrderRequest extends CreateNewOrderRequest {
 
 	/** The id job. */
 	@JsonProperty("job_id")
@@ -20,7 +22,7 @@ public class EditJobRequest extends CreateNewJobRequest {
 	/**
 	 * Instantiates a new edits the job request.
 	 */
-	public EditJobRequest() {
+	public EditOrderRequest() {
 	}
 
 	/**
@@ -35,7 +37,7 @@ public class EditJobRequest extends CreateNewJobRequest {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.model.api.request.CreateNewJobRequest#validate()
+	 * @see com.lasso.rest.model.api.request.CreateNewOrderRequest#validate()
 	 */
 	@Override
 	public void validate() throws ObjectParamException {

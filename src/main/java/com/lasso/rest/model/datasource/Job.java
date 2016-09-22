@@ -17,8 +17,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.lasso.rest.model.api.request.CreateNewJobRequest;
-import com.lasso.rest.model.api.request.EditJobRequest;
+import com.lasso.rest.model.api.request.CreateNewOrderRequest;
+import com.lasso.rest.model.api.request.EditOrderRequest;
 
 /**
  * The persistent class for the jobs database table.
@@ -130,7 +130,7 @@ public class Job implements Serializable {
 	 *
 	 * @param __newJobRequest the new job request
 	 */
-	public Job(CreateNewJobRequest __newJobRequest) {
+	public Job(CreateNewOrderRequest __newJobRequest) {
 		this.assetsUrl = __newJobRequest.getAssetUrl();
 		this.budget = __newJobRequest.getBudget();
 		this.description = __newJobRequest.getDescription();
@@ -566,7 +566,7 @@ public class Job implements Serializable {
 	 *
 	 * @param __editJobRequest the edit job request
 	 */
-	public void update(EditJobRequest __editJobRequest) {
+	public void update(EditOrderRequest __editJobRequest) {
 		this.assetsUrl = __editJobRequest.getAssetUrl();
 		this.budget = __editJobRequest.getBudget();
 		this.description = __editJobRequest.getDescription();

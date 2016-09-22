@@ -4,18 +4,20 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
 /**
- * The Class CreateNewJobRequest.
+ * The Class CreateNewOrderRequest.
  *
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
-public class CreateNewJobRequest extends BaseRequest {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CreateNewOrderRequest extends BaseRequest {
 
 	/** The asset url. */
 	@JsonProperty("asset_url")
@@ -62,9 +64,9 @@ public class CreateNewJobRequest extends BaseRequest {
 	private Date			submission;
 
 	/**
-	 * Instantiates a new creates the new job request.
+	 * Instantiates a new creates the new offer request.
 	 */
-	public CreateNewJobRequest() {
+	public CreateNewOrderRequest() {
 	}
 
 	/**

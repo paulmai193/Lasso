@@ -3,9 +3,9 @@ package com.lasso.rest.service;
 import java.io.IOException;
 import java.util.List;
 
-import com.lasso.rest.model.api.request.ChooseDesignerForJobRequest;
-import com.lasso.rest.model.api.request.CreateNewJobRequest;
-import com.lasso.rest.model.api.request.EditJobRequest;
+import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
+import com.lasso.rest.model.api.request.CreateNewOrderRequest;
+import com.lasso.rest.model.api.request.EditOrderRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -19,25 +19,25 @@ import javassist.NotFoundException;
 public interface UserManagement extends ProjectManagement {
 
 	/**
-	 * Creates the new job.
+	 * Creates the new offer.
 	 *
 	 * @param __user the user
-	 * @param __createNewJobRequest the create new job request
+	 * @param __createNewJobRequest the create new offer request
 	 * @throws UnirestException the unirest exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void createNewJob(Account __user, CreateNewJobRequest __createNewJobRequest)
+	void createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
 	        throws UnirestException, IOException;
 
 	/**
-	 * Edits the job.
+	 * Edits the offer.
 	 *
 	 * @param __user the user
-	 * @param __editJobRequest the edit job request
+	 * @param __editJobRequest the edit offer request
 	 * @throws UnirestException the unirest exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void editJob(Account __user, EditJobRequest __editJobRequest)
+	void editOrder(Account __user, EditOrderRequest __editOrderRequest)
 	        throws UnirestException, IOException;
 
 	/**
@@ -72,12 +72,14 @@ public interface UserManagement extends ProjectManagement {
 	        int __idStyle, List<Integer> __idsType);
 
 	/**
-	 * Choose designer for job.
+	 * Choose designer for offer.
 	 *
 	 * @param __user the user
-	 * @param __chooseDesignerForJobRequest the choose designer for job request
+	 * @param __chooseDesignerForOfferRequest the choose designer for job request
 	 */
-	void chooseDesignerForJob(Account __user,
-	        ChooseDesignerForJobRequest __chooseDesignerForJobRequest);
+	void chooseDesignerForOrder(Account __user,
+	        ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
+
+	Object[] getOrderDataById(int __idJob);
 
 }

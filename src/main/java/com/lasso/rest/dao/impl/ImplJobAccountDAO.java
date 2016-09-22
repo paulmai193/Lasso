@@ -41,6 +41,14 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 		        .uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<JobsAccount> getByOfferId(int __idJob) {
+		return this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
+		        .add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
+		        .list();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

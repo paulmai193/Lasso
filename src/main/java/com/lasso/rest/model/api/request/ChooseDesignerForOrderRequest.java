@@ -2,13 +2,15 @@ package com.lasso.rest.model.api.request;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
 @JsonInclude(value = Include.NON_NULL)
-public class ChooseDesignerForJobRequest extends BaseRequest {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ChooseDesignerForOrderRequest extends BaseRequest {
 
 	@JsonProperty("job_id")
 	private Integer			idJob;
@@ -16,7 +18,7 @@ public class ChooseDesignerForJobRequest extends BaseRequest {
 	@JsonProperty("designer_ids")
 	private List<Integer>	designerIds;
 
-	public ChooseDesignerForJobRequest() {
+	public ChooseDesignerForOrderRequest() {
 	}
 
 	@Override

@@ -23,9 +23,10 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
-import com.lasso.rest.model.api.request.ChooseDesignerForJobRequest;
-import com.lasso.rest.model.api.request.CreateNewJobRequest;
-import com.lasso.rest.model.api.request.EditJobRequest;
+import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
+import com.lasso.rest.model.api.request.CreateNewOrderRequest;
+import com.lasso.rest.model.api.request.EditOrderRequest;
+import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.JobDetailResponse;
 import com.lasso.rest.model.api.response.ListDesignersResponse;
 import com.lasso.rest.model.api.response.ListJobsResponse;
@@ -47,7 +48,46 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class ManageOrderController extends BaseController {
 
 	/** The avatar storage path. */
-	private String			avatarStoragePath;
+	private String	avatarStoragePath;
+	private String	categoryStoragePath;
+	private String	styleStoragePath;
+	private String	typeStoragePath;
+	private String	jobStoragePath;
+
+	/**
+	 * @param __categoryStoragePath the categoryStoragePath to set
+	 */
+	public void setCategoryStoragePath(String __categoryStoragePath) {
+		this.categoryStoragePath = __categoryStoragePath;
+	}
+
+	/**
+	 * @param __styleStoragePath the styleStoragePath to set
+	 */
+	public void setStyleStoragePath(String __styleStoragePath) {
+		this.styleStoragePath = __styleStoragePath;
+	}
+
+	/**
+	 * @param __typeStoragePath the typeStoragePath to set
+	 */
+	public void setTypeStoragePath(String __typeStoragePath) {
+		this.typeStoragePath = __typeStoragePath;
+	}
+
+	/**
+	 * @param __jobStoragePath the jobStoragePath to set
+	 */
+	public void setJobStoragePath(String __jobStoragePath) {
+		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
+	 * @param __validateContext the validateContext to set
+	 */
+	public void setValidateContext(SecurityContext __validateContext) {
+		this.validateContext = __validateContext;
+	}
 
 	/** The http host. */
 	private String			httpHost;
@@ -78,12 +118,12 @@ public class ManageOrderController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/create/new")
+	@Path("/order/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response briefNewJob(CreateNewJobRequest __createNewJobRequest)
+	public Response briefNewJob(CreateNewOrderRequest __createNewJobRequest)
 	        throws UnirestException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
-		this.userManagement.createNewJob(_user, __createNewJobRequest);
+		this.userManagement.createNewOrder(_user, __createNewJobRequest);
 		return this.success();
 	}
 
@@ -96,23 +136,49 @@ public class ManageOrderController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/create/edit")
+	@Path("/order/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editJob(EditJobRequest __editJobRequest) throws UnirestException, IOException {
+	public Response editJob(EditOrderRequest __editJobRequest)
+	        throws UnirestException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
-		this.userManagement.editJob(_user, __editJobRequest);
+		this.userManagement.editOrder(_user, __editJobRequest);
 		return this.success();
 	}
 
+	/**
+	 * Choose designer.
+	 *
+	 * @param __chooseDesignerForJobRequest the choose designer for job request
+	 * @return the response
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@POST
-	@Path("/create/choose_designer")
+	@Path("/order/create/choose_designer")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response chooseDesigner(ChooseDesignerForJobRequest __chooseDesignerForJobRequest)
+	public Response chooseDesigner(ChooseDesignerForOrderRequest __chooseDesignerForJobRequest)
 	        throws UnirestException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
-		this.userManagement.chooseDesignerForJob(_user, __chooseDesignerForJobRequest);
-
+		this.userManagement.chooseDesignerForOrder(_user, __chooseDesignerForJobRequest);
 		return this.success();
+	}
+
+	@GET
+	@Path("/order/detail")
+	public GetOrderResponse getOrderDetail(@QueryParam("id") int __idJob) {
+		try {
+			Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
+			String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
+			String _prefixStyleUrl = this.httpHost + this.styleStoragePath;
+			String _prefixTypeUrl = this.httpHost + this.typeStoragePath;
+			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
+			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
+			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
+			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
+		}
+		catch (NullPointerException | NotFoundException _ex) {
+			throw new NotFoundException("Data not found", _ex);
+		}
 	}
 
 	/**
@@ -160,7 +226,7 @@ public class ManageOrderController extends BaseController {
 	 * @throws NotFoundException the not found exception
 	 */
 	@GET
-	@Path("/detail")
+	@Path("/job/detail")
 	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
 	        throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
@@ -181,7 +247,7 @@ public class ManageOrderController extends BaseController {
 	 * @return the list jobs
 	 */
 	@GET
-	@Path("/list")
+	@Path("/job")
 	public ListJobsResponse getListJobs() {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 

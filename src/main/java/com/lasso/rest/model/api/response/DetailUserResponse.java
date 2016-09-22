@@ -90,7 +90,7 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 
 	@Override
 	public void serialize(DetailUserResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -104,11 +104,11 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
 		__gen.writeNumberField("reward", __value.getAccount().getRewards());
 		__gen.writeStringField("status",
-				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
-						: "activate");
+		        __value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+		                : "activate");
 
 		__gen.writeObjectFieldStart("avatar");
-		if (__value.getAccount().getImage().isEmpty()) {
+		if (__value.getAccount().getImage() == null || __value.getAccount().getImage().isEmpty()) {
 			__gen.writeStringField("original", "");
 			__gen.writeStringField("small", "");
 			__gen.writeStringField("icon", "");
@@ -116,13 +116,13 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
 			__gen.writeStringField("small",
-					__value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
 			__gen.writeStringField("icon",
-					__value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
 			__gen.writeStringField("retina",
-					__value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 

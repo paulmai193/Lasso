@@ -8,13 +8,13 @@ package com.lasso.define;
 public enum JobConfirmationConstant {
 
 	/** The job un confirm. */
-	JOB_UN_CONFIRM((byte) 1, "Un-confirm"),
+	JOB_UN_CONFIRM((byte) 0, "Un-confirm"),
 
 	/** The job confirm. */
-	JOB_CONFIRM((byte) 2, "Confirm"),
+	JOB_CONFIRM((byte) 1, "Confirm"),
 
 	/** The job accept. */
-	JOB_ACCEPT((byte) 3, "Accept");
+	JOB_ACCEPT((byte) 2, "Accept");
 
 	/**
 	 * Gets the by code.

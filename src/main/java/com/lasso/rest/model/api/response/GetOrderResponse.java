@@ -25,10 +25,9 @@ import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
 @JsonInclude(value = Include.NON_NULL)
-@JsonSerialize(using = JobDetailSerializer.class)
+@JsonSerialize(using = GetConfirmJobSerializer.class)
 public class GetOrderResponse extends BaseResponse {
 
-	/** The data. */
 	private Object[]	data;
 
 	private String		prefixAvatar;
@@ -36,6 +35,17 @@ public class GetOrderResponse extends BaseResponse {
 	private String		prefixType;
 	private String		prefixCategory;
 	private String		prefixJob;
+
+	public GetOrderResponse(Object[] __data, String __prefixAvatar, String __prefixStyle,
+	        String __prefixType, String __prefixCategory, String __prefixJob) {
+		super();
+		this.data = __data;
+		this.prefixAvatar = __prefixAvatar;
+		this.prefixStyle = __prefixStyle;
+		this.prefixType = __prefixType;
+		this.prefixCategory = __prefixCategory;
+		this.prefixJob = __prefixJob;
+	}
 
 	public GetOrderResponse(boolean __error) {
 		super(__error);
@@ -49,9 +59,6 @@ public class GetOrderResponse extends BaseResponse {
 		super(__error, __message, __detail);
 	}
 
-	/**
-	 * @return the data
-	 */
 	public Object[] getData() {
 		return this.data;
 	}
@@ -84,6 +91,9 @@ public class GetOrderResponse extends BaseResponse {
 		return this.prefixCategory;
 	}
 
+	/**
+	 * @return the prefixJob
+	 */
 	public String getPrefixJob() {
 		return this.prefixJob;
 	}
@@ -111,27 +121,13 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		Category _category = (Category) __value.getData()[4];
 
 		__gen.writeStringField("job_description", _job.getDescription());
+		__gen.writeNumberField("job_step", _job.getStep());
 
 		__gen.writeObjectFieldStart("category");
 		__gen.writeNumberField("category_id", _category.getId());
 		__gen.writeStringField("category_title", _category.getTitle());
 		__gen.writeObjectFieldStart("images");
-		if (_category.getImage() == null || _category.getImage().trim().isEmpty()) {
-			__gen.writeStringField("original", "");
-			__gen.writeStringField("small", "");
-			__gen.writeStringField("icon", "");
-			__gen.writeStringField("retina", "");
-		}
-		else {
-			__gen.writeStringField("original",
-			        __value.getPrefixCategory() + "/Original/" + _category.getImage().trim());
-			__gen.writeStringField("small",
-			        __value.getPrefixCategory() + "/Small/" + _category.getImage().trim());
-			__gen.writeStringField("icon",
-			        __value.getPrefixCategory() + "/Icon/" + _category.getImage().trim());
-			__gen.writeStringField("retina",
-			        __value.getPrefixCategory() + "/Retina/" + _category.getImage().trim());
-		}
+		serializeImage(__gen, __value.getPrefixCategory(), _category.getImage());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
@@ -145,22 +141,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeNumberField("type_id", __type.getId());
 					__gen.writeStringField("type_title", __type.getTitle());
 					__gen.writeObjectFieldStart("images");
-					if (__type.getImage() == null || __type.getImage().trim().isEmpty()) {
-						__gen.writeStringField("original", "");
-						__gen.writeStringField("small", "");
-						__gen.writeStringField("icon", "");
-						__gen.writeStringField("retina", "");
-					}
-					else {
-						__gen.writeStringField("original",
-						        __value.getPrefixType() + "/Original/" + __type.getImage().trim());
-						__gen.writeStringField("small",
-						        __value.getPrefixType() + "/Small/" + __type.getImage().trim());
-						__gen.writeStringField("icon",
-						        __value.getPrefixType() + "/Icon/" + __type.getImage().trim());
-						__gen.writeStringField("retina",
-						        __value.getPrefixType() + "/Retina/" + __type.getImage().trim());
-					}
+					serializeImage(__gen, __value.getPrefixType(), __type.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -176,48 +157,16 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeNumberField("style_id", _style.getId());
 		__gen.writeStringField("style_title", _style.getTitle());
 		__gen.writeObjectFieldStart("images");
-		if (_style.getImage() == null || _style.getImage().trim().isEmpty()) {
-			__gen.writeStringField("original", "");
-			__gen.writeStringField("small", "");
-			__gen.writeStringField("icon", "");
-			__gen.writeStringField("retina", "");
-		}
-		else {
-			__gen.writeStringField("original",
-			        __value.getPrefixStyle() + "/Original/" + _style.getImage().trim());
-			__gen.writeStringField("small",
-			        __value.getPrefixStyle() + "/Small/" + _style.getImage().trim());
-			__gen.writeStringField("icon",
-			        __value.getPrefixStyle() + "/Icon/" + _style.getImage().trim());
-			__gen.writeStringField("retina",
-			        __value.getPrefixStyle() + "/Retina/" + _style.getImage().trim());
-		}
+		serializeImage(__gen, __value.getPrefixStyle(), _style.getImage());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
 		__gen.writeArrayFieldStart("images");
 		if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
 			for (String _referenceImage : _job.getReference().trim().split(",")) {
-				if (!_referenceImage.trim().isEmpty()) {
-					__gen.writeStartObject();
-					__gen.writeStringField("original",
-					        __value.getPrefixJob() + "/Original/" + _referenceImage.trim());
-					__gen.writeStringField("small",
-					        __value.getPrefixJob() + "/Small/" + _referenceImage.trim());
-					__gen.writeStringField("icon",
-					        __value.getPrefixJob() + "/Icon/" + _referenceImage.trim());
-					__gen.writeStringField("retina",
-					        __value.getPrefixJob() + "/Retina/" + _referenceImage.trim());
-					__gen.writeEndObject();
-				}
-				else {
-					__gen.writeStartObject();
-					__gen.writeStringField("original", "");
-					__gen.writeStringField("small", "");
-					__gen.writeStringField("icon", "");
-					__gen.writeStringField("retina", "");
-					__gen.writeEndObject();
-				}
+				__gen.writeStartObject();
+				serializeImage(__gen, __value.getPrefixJob(), _referenceImage);
+				__gen.writeEndObject();
 			}
 		}
 		__gen.writeEndArray();
@@ -229,8 +178,8 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeStringField("objective", _job.getObjective());
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
 
-		List<Account> _unConfirm, _confirm, _counterOffer;
-		_unConfirm = _confirm = _counterOffer = new ArrayList<>();
+		List<Account> _unConfirm = new ArrayList<>(), _confirm = new ArrayList<>();
+		List<Object[]> _counterOffer = new ArrayList<>();
 		_designersJobs.forEach(new Consumer<Object[]>() {
 
 			@Override
@@ -247,7 +196,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 						_confirm.add(_designer);
 					}
 					if (_jobsAccount.getCounter().compareTo(0D) > 0) {
-						_counterOffer.add(_designer);
+						_counterOffer.add(__obs);
 					}
 
 				}
@@ -258,83 +207,25 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		});
 		__gen.writeObjectFieldStart("designers");
 		__gen.writeArrayFieldStart("un_confirm");
-		_unConfirm.forEach(new Consumer<Account>() {
-
-			@Override
-			public void accept(Account __account) {
-				try {
-					__gen.writeStartObject();
-					__gen.writeNumberField("account_id", __account.getId());
-					__gen.writeStringField("account_name", __account.getName());
-					__gen.writeNumberField("account_reward",
-					        __account.getRewards() == 0 ? 1 : __account.getRewards());
-					__gen.writeObjectFieldStart("avatar");
-					if (__account.getImage() == null || __account.getImage().trim().isEmpty()) {
-						__gen.writeStringField("original", "");
-						__gen.writeStringField("small", "");
-						__gen.writeStringField("icon", "");
-						__gen.writeStringField("retina", "");
-					}
-					else {
-						__gen.writeStringField("original", __value.getPrefixAvatar() + "/Original/"
-						        + __account.getImage().trim());
-						__gen.writeStringField("small", __value.getPrefixAvatar() + "/Small/"
-						        + __account.getImage().trim());
-						__gen.writeStringField("icon",
-						        __value.getPrefixAvatar() + "/Icon/" + __account.getImage().trim());
-						__gen.writeStringField("retina", __value.getPrefixAvatar() + "/Retina/"
-						        + __account.getImage().trim());
-					}
-					__gen.writeEndObject();
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
-				}
-			}
-		});
+		this.serializeAccounts(__gen, _unConfirm, __value.getPrefixAvatar());
 		__gen.writeEndArray();
 
 		__gen.writeArrayFieldStart("confirm");
-		_confirm.forEach(new Consumer<Account>() {
-
-			@Override
-			public void accept(Account __account) {
-				try {
-					__gen.writeStartObject();
-					__gen.writeNumberField("account_id", __account.getId());
-					__gen.writeStringField("account_name", __account.getName());
-					__gen.writeNumberField("account_reward",
-					        __account.getRewards() == 0 ? 1 : __account.getRewards());
-					__gen.writeObjectFieldStart("avatar");
-					if (__account.getImage() == null || __account.getImage().trim().isEmpty()) {
-						__gen.writeStringField("original", "");
-						__gen.writeStringField("small", "");
-						__gen.writeStringField("icon", "");
-						__gen.writeStringField("retina", "");
-					}
-					else {
-						__gen.writeStringField("original", __value.getPrefixAvatar() + "/Original/"
-						        + __account.getImage().trim());
-						__gen.writeStringField("small", __value.getPrefixAvatar() + "/Small/"
-						        + __account.getImage().trim());
-						__gen.writeStringField("icon",
-						        __value.getPrefixAvatar() + "/Icon/" + __account.getImage().trim());
-						__gen.writeStringField("retina", __value.getPrefixAvatar() + "/Retina/"
-						        + __account.getImage().trim());
-					}
-					__gen.writeEndObject();
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
-				}
-			}
-		});
+		this.serializeAccounts(__gen, _confirm, __value.getPrefixAvatar());
 		__gen.writeEndArray();
 
 		__gen.writeArrayFieldStart("counter_offer");
-		_counterOffer.forEach(new Consumer<Account>() {
+		this.serializeCounterAccounts(__gen, _counterOffer, __value.getPrefixAvatar());
+		__gen.writeEndArray();
+		__gen.writeEndObject();
+
+		__gen.writeEndObject();
+
+	}
+
+	private void serializeAccounts(JsonGenerator __gen, List<Account> __accounts,
+	        String __prefixUrl) {
+		__accounts.forEach(new Consumer<Account>() {
 
 			@Override
 			public void accept(Account __account) {
@@ -345,22 +236,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeNumberField("account_reward",
 					        __account.getRewards() == 0 ? 1 : __account.getRewards());
 					__gen.writeObjectFieldStart("avatar");
-					if (__account.getImage() == null || __account.getImage().trim().isEmpty()) {
-						__gen.writeStringField("original", "");
-						__gen.writeStringField("small", "");
-						__gen.writeStringField("icon", "");
-						__gen.writeStringField("retina", "");
-					}
-					else {
-						__gen.writeStringField("original", __value.getPrefixAvatar() + "/Original/"
-						        + __account.getImage().trim());
-						__gen.writeStringField("small", __value.getPrefixAvatar() + "/Small/"
-						        + __account.getImage().trim());
-						__gen.writeStringField("icon",
-						        __value.getPrefixAvatar() + "/Icon/" + __account.getImage().trim());
-						__gen.writeStringField("retina", __value.getPrefixAvatar() + "/Retina/"
-						        + __account.getImage().trim());
-					}
+					serializeImage(__gen, __prefixUrl, __account.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -369,10 +245,53 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 				}
 			}
 		});
-		__gen.writeEndArray();
-		__gen.writeEndObject();
+	}
 
-		__gen.writeEndObject();
+	private void serializeCounterAccounts(JsonGenerator __gen, List<Object[]> __counterAccounts,
+	        String __prefixUrl) {
+		__counterAccounts.forEach(new Consumer<Object[]>() {
+
+			@Override
+			public void accept(Object[] __counterAccount) {
+				try {
+					Account _account = (Account) __counterAccount[1];
+					Double _counter = (Double) __counterAccount[0];
+					__gen.writeStartObject();
+					__gen.writeNumberField("account_id", _account.getId());
+					__gen.writeStringField("account_name", _account.getName());
+					__gen.writeNumberField("account_reward",
+					        _account.getRewards() == 0 ? 1 : _account.getRewards());
+					__gen.writeObjectFieldStart("avatar");
+					serializeImage(__gen, __prefixUrl, _account.getImage());
+					__gen.writeEndObject();
+					__gen.writeNumberField("counter", _counter);
+					__gen.writeEndObject();
+				}
+				catch (IOException _ex) {
+					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+				}
+			}
+		});
+	}
+
+	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
+		try {
+			if (imageName == null || imageName.trim().isEmpty()) {
+				__gen.writeStringField("original", "");
+				__gen.writeStringField("small", "");
+				__gen.writeStringField("icon", "");
+				__gen.writeStringField("retina", "");
+			}
+			else {
+				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
+				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
+				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
+				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
+			}
+		}
+		catch (Exception _ex) {
+			Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+		}
 
 	}
 

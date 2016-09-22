@@ -6,6 +6,7 @@ import com.lasso.rest.model.api.response.ListProjectsResponse;
 import com.lasso.rest.model.api.response.ProjectDetailResponse;
 import com.lasso.rest.model.datasource.Banner;
 import com.lasso.rest.model.datasource.Category;
+import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
@@ -73,7 +74,7 @@ public interface ProjectManagement {
 	 * @return the project by id
 	 */
 	ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
-			String __prefixAvatarUrl);
+	        String __prefixAvatarUrl);
 
 	/**
 	 * Gets the projects by sub category and keyword.
@@ -87,7 +88,7 @@ public interface ProjectManagement {
 	 * @return the projects by sub category and keyword
 	 */
 	ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index, int __size,
-			String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl);
+	        String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl);
 
 	/**
 	 * Gets the style by id.
@@ -107,5 +108,7 @@ public interface ProjectManagement {
 	 * @return the sub categories start from index
 	 */
 	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-			String __keyword);
+	        String __keyword);
+
+	Job getJobById(int __idJob);
 }
