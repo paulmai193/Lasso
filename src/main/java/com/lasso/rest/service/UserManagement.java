@@ -20,26 +20,43 @@ import javassist.NotFoundException;
 public interface UserManagement extends ProjectManagement {
 
 	/**
+	 * Choose designer for offer.
+	 *
+	 * @param __user the user
+	 * @param __chooseDesignerForOrderRequest the choose designer for order request
+	 */
+	void chooseDesignerForOrder(Account __user,
+			ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
+
+	/**
+	 * Confirm order.
+	 *
+	 * @param __user the user
+	 * @param __confirmOrderRequest the confirm order request
+	 */
+	void confirmOrder(Account __user, ConfirmOrderRequest __confirmOrderRequest);
+
+	/**
 	 * Creates the new offer.
 	 *
 	 * @param __user the user
-	 * @param __createNewJobRequest the create new offer request
+	 * @param __createNewOrderRequest the create new order request
 	 * @throws UnirestException the unirest exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
-	        throws UnirestException, IOException;
+			throws UnirestException, IOException;
 
 	/**
 	 * Edits the offer.
 	 *
 	 * @param __user the user
-	 * @param __editJobRequest the edit offer request
+	 * @param __editOrderRequest the edit order request
 	 * @throws UnirestException the unirest exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void editOrder(Account __user, EditOrderRequest __editOrderRequest)
-	        throws UnirestException, IOException;
+			throws UnirestException, IOException;
 
 	/**
 	 * Gets the job data of user by id.
@@ -70,21 +87,23 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the list portfolios data by condition {portoflio, designer}
 	 */
 	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-	        int __idStyle, List<Integer> __idsType);
+			int __idStyle, List<Integer> __idsType);
 
 	/**
-	 * Choose designer for offer.
+	 * Gets the order data by id.
 	 *
-	 * @param __user the user
-	 * @param __chooseDesignerForOfferRequest the choose designer for job request
+	 * @param __idJob the id job
+	 * @return the order data by id
 	 */
-	void chooseDesignerForOrder(Account __user,
-	        ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
-
 	Object[] getOrderDataById(int __idJob);
 
-	void confirmOrder(Account __user, ConfirmOrderRequest __confirmOrderRequest);
-
+	/**
+	 * Gets the payment detail of order.
+	 *
+	 * @param __user the user
+	 * @param __idJob the id job
+	 * @return the payment detail of order
+	 */
 	Object[] getPaymentDetailOfOrder(Account __user, int __idJob);
 
 }

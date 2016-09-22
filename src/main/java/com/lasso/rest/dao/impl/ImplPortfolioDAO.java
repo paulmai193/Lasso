@@ -50,9 +50,9 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public List<Portfolio> getAllPortfoliosOfAccount(Account __account) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-		        .add(Restrictions.eq("accountId", __account.getId()))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("title"));
+				.add(Restrictions.eq("accountId", __account.getId()))
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+				.addOrder(Order.asc("title"));
 		return _criteria.list();
 	}
 
@@ -64,7 +64,7 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioById(Integer __id) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-		        .add(Restrictions.idEq(__id)).uniqueResult();
+				.add(Restrictions.idEq(__id)).uniqueResult();
 	}
 
 	/*
@@ -76,8 +76,8 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioByProject(Project __project) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-		        .add(Restrictions.eq("id", __project.getPortfolioId()))
-		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("id", __project.getPortfolioId()))
+				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -89,9 +89,9 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public Portfolio getPortfolioOfAccount(Account __account, Integer __id) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-		        .add(Restrictions.eq("id", __id))
-		        .add(Restrictions.eq("accountId", __account.getId()))
-		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("id", __id))
+				.add(Restrictions.eq("accountId", __account.getId()))
+				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -102,15 +102,15 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-	        int __idStyle, List<PortfolioType> __portfolioTypes) {
+			int __idStyle, List<PortfolioType> __portfolioTypes) {
 		List<Integer> _portfolioIds = new ArrayList<>();
 		__portfolioTypes.forEach(_pt -> _portfolioIds.add(_pt.getPortfolioId()));
 
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-		        .add(Restrictions.eq("categoryId", __idCategory))
-		        .add(Restrictions.eq("styleId", __idStyle))
-		        .add(Restrictions.in("id", _portfolioIds)).add(Restrictions.eq("status", (byte) 1))
-		        .add(Restrictions.eq("deleted", (byte) 0));
+				.add(Restrictions.eq("categoryId", __idCategory))
+				.add(Restrictions.eq("styleId", __idStyle))
+				.add(Restrictions.in("id", _portfolioIds)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0));
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}

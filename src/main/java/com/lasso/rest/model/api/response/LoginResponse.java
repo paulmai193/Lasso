@@ -104,7 +104,7 @@ class LoginSerializer extends JsonSerializer<LoginResponse> {
 
 	@Override
 	public void serialize(LoginResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -113,14 +113,14 @@ class LoginSerializer extends JsonSerializer<LoginResponse> {
 			__gen.writeObjectField("message", __value.getMessage());
 		}
 		__gen.writeStringField("role",
-		        __value.getAccount().getRole() == Constant.ROLE_DESIGNER ? "designer" : "user");
+				__value.getAccount().getRole() == Constant.ROLE_DESIGNER ? "designer" : "user");
 		__gen.writeStringField("status",
-		        __value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
-		                : "activate");
+				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+						: "activate");
 		__gen.writeNumberField("id", __value.getAccount().getId());
 		__gen.writeStringField("name", __value.getAccount().getName());
 		__gen.writeNumberField("reward",
-		        __value.getAccount().getRewards() == 0 ? 1 : __value.getAccount().getRewards());
+				__value.getAccount().getRewards() == 0 ? 1 : __value.getAccount().getRewards());
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage() == null || __value.getAccount().getImage().isEmpty()) {
 			__gen.writeStringField("original", "");
@@ -130,13 +130,13 @@ class LoginSerializer extends JsonSerializer<LoginResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
 			__gen.writeStringField("small",
-			        __value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
 			__gen.writeStringField("icon",
-			        __value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
 			__gen.writeStringField("retina",
-			        __value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 		__gen.writeStringField("token", __value.getToken());

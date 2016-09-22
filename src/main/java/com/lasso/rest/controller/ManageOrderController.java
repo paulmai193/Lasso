@@ -37,6 +37,7 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.PromoHistory;
+import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.UserManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -55,52 +56,25 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class ManageOrderController extends BaseController {
 
 	/** The avatar storage path. */
-	private String	avatarStoragePath;
-	private String	categoryStoragePath;
-	private String	styleStoragePath;
-	private String	typeStoragePath;
-	private String	jobStoragePath;
+	private String			avatarStoragePath;
 
-	/**
-	 * @param __categoryStoragePath the categoryStoragePath to set
-	 */
-	public void setCategoryStoragePath(String __categoryStoragePath) {
-		this.categoryStoragePath = __categoryStoragePath;
-	}
-
-	/**
-	 * @param __styleStoragePath the styleStoragePath to set
-	 */
-	public void setStyleStoragePath(String __styleStoragePath) {
-		this.styleStoragePath = __styleStoragePath;
-	}
-
-	/**
-	 * @param __typeStoragePath the typeStoragePath to set
-	 */
-	public void setTypeStoragePath(String __typeStoragePath) {
-		this.typeStoragePath = __typeStoragePath;
-	}
-
-	/**
-	 * @param __jobStoragePath the jobStoragePath to set
-	 */
-	public void setJobStoragePath(String __jobStoragePath) {
-		this.jobStoragePath = __jobStoragePath;
-	}
-
-	/**
-	 * @param __validateContext the validateContext to set
-	 */
-	public void setValidateContext(SecurityContext __validateContext) {
-		this.validateContext = __validateContext;
-	}
+	/** The category storage path. */
+	private String			categoryStoragePath;
 
 	/** The http host. */
 	private String			httpHost;
 
+	/** The job storage path. */
+	private String			jobStoragePath;
+
 	/** The portfolio storage path. */
 	private String			portfolioStoragePath;
+
+	/** The style storage path. */
+	private String			styleStoragePath;
+
+	/** The type storage path. */
+	private String			typeStoragePath;
 
 	/** The user management. */
 	@Autowired
@@ -136,25 +110,6 @@ public class ManageOrderController extends BaseController {
 	}
 
 	/**
-	 * Edits the job.
-	 *
-	 * @param __editJobRequest the edit job request
-	 * @return the response
-	 * @throws UnirestException the unirest exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	@POST
-	@Path("/create/edit")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editJob(EditOrderRequest __editJobRequest)
-	        throws UnirestException, IOException {
-		__editJobRequest.validate();
-		Account _user = (Account) this.validateContext.getUserPrincipal();
-		this.userManagement.editOrder(_user, __editJobRequest);
-		return this.success();
-	}
-
-	/**
 	 * Choose designer.
 	 *
 	 * @param __chooseDesignerForJobRequest the choose designer for job request
@@ -173,24 +128,14 @@ public class ManageOrderController extends BaseController {
 		return this.success();
 	}
 
-	@GET
-	@Path("/detail/order")
-	public GetOrderResponse getOrderDetail(@QueryParam("id") int __idJob) {
-		try {
-			Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
-			String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
-			String _prefixStyleUrl = this.httpHost + this.styleStoragePath;
-			String _prefixTypeUrl = this.httpHost + this.typeStoragePath;
-			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
-			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
-			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
-			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
-		}
-		catch (NullPointerException | NotFoundException _ex) {
-			throw new NotFoundException("Data not found", _ex);
-		}
-	}
-
+	/**
+	 * Confirm order.
+	 *
+	 * @param __confirmOrderRequest the confirm order request
+	 * @return the response
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@POST
 	@Path("/create/confirm")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -207,20 +152,23 @@ public class ManageOrderController extends BaseController {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@GET
-	@Path("/payment/detail")
-	public OrderPaymentDetailResponse getPaymentDetail(@QueryParam("id") int __idJob) {
+	/**
+	 * Edits the job.
+	 *
+	 * @param __editJobRequest the edit job request
+	 * @return the response
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@POST
+	@Path("/create/edit")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response editJob(EditOrderRequest __editJobRequest)
+	        throws UnirestException, IOException {
+		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
-		try {
-			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
-			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
-			        (PromoCode) _paymentDetail[2], (PromoHistory) _paymentDetail[1],
-			        (List<Type>) _paymentDetail[3]);
-		}
-		catch (NullPointerException | NotFoundException _ex) {
-			throw new NotFoundException("Data not found", _ex);
-		}
+		this.userManagement.editOrder(_user, __editJobRequest);
+		return this.success();
 	}
 
 	/**
@@ -304,12 +252,67 @@ public class ManageOrderController extends BaseController {
 	}
 
 	/**
+	 * Gets the order detail.
+	 *
+	 * @param __idJob the id job
+	 * @return the order detail
+	 */
+	@GET
+	@Path("/detail/order")
+	public GetOrderResponse getOrderDetail(@QueryParam("id") int __idJob) {
+		try {
+			Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
+			String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
+			String _prefixStyleUrl = this.httpHost + this.styleStoragePath;
+			String _prefixTypeUrl = this.httpHost + this.typeStoragePath;
+			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
+			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
+			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
+			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
+		}
+		catch (NullPointerException | NotFoundException _ex) {
+			throw new NotFoundException("Data not found", _ex);
+		}
+	}
+
+	/**
+	 * Gets the payment detail.
+	 *
+	 * @param __idJob the id job
+	 * @return the payment detail
+	 */
+	@SuppressWarnings("unchecked")
+	@GET
+	@Path("/payment/detail")
+	public OrderPaymentDetailResponse getPaymentDetail(@QueryParam("id") int __idJob) {
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		try {
+			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
+			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
+			        (PromoCode) _paymentDetail[2], (PromoHistory) _paymentDetail[1],
+			        (List<Type>) _paymentDetail[3], (Style) _paymentDetail[4]);
+		}
+		catch (NullPointerException | NotFoundException _ex) {
+			throw new NotFoundException("Data not found", _ex);
+		}
+	}
+
+	/**
 	 * Sets the avatar storage path.
 	 *
 	 * @param __avatarStoragePath the avatarStoragePath to set
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
+	}
+
+	/**
+	 * Sets the category storage path.
+	 *
+	 * @param __categoryStoragePath the categoryStoragePath to set
+	 */
+	public void setCategoryStoragePath(String __categoryStoragePath) {
+		this.categoryStoragePath = __categoryStoragePath;
 	}
 
 	/**
@@ -322,6 +325,15 @@ public class ManageOrderController extends BaseController {
 	}
 
 	/**
+	 * Sets the job storage path.
+	 *
+	 * @param __jobStoragePath the jobStoragePath to set
+	 */
+	public void setJobStoragePath(String __jobStoragePath) {
+		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
 	 * Sets the portfolio storage path.
 	 *
 	 * @param __portfolioStoragePath the portfolioStoragePath to set
@@ -331,12 +343,39 @@ public class ManageOrderController extends BaseController {
 	}
 
 	/**
+	 * Sets the style storage path.
+	 *
+	 * @param __styleStoragePath the styleStoragePath to set
+	 */
+	public void setStyleStoragePath(String __styleStoragePath) {
+		this.styleStoragePath = __styleStoragePath;
+	}
+
+	/**
+	 * Sets the type storage path.
+	 *
+	 * @param __typeStoragePath the typeStoragePath to set
+	 */
+	public void setTypeStoragePath(String __typeStoragePath) {
+		this.typeStoragePath = __typeStoragePath;
+	}
+
+	/**
 	 * Sets the user management.
 	 *
 	 * @param __userManagement the new user management
 	 */
 	public void setUserManagement(UserManagement __userManagement) {
 		this.userManagement = __userManagement;
+	}
+
+	/**
+	 * Sets the validate context.
+	 *
+	 * @param __validateContext the validateContext to set
+	 */
+	public void setValidateContext(SecurityContext __validateContext) {
+		this.validateContext = __validateContext;
 	}
 
 }

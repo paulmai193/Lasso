@@ -52,11 +52,100 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @Transactional
 public class ImplUserManagement extends ImplProjectManagement implements UserManagement {
 
+	/** The promo DAO. */
 	@Autowired
 	private PromoDAO promoDAO;
 
-	public void setPromoDAO(PromoDAO __promoDAO) {
-		this.promoDAO = __promoDAO;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.UserManagement#chooseDesignerForOrder(com.lasso.rest.model.datasource.
+	 * Account, com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest)
+	 */
+	@Override
+	public void chooseDesignerForOrder(Account __user,
+	        ChooseDesignerForOrderRequest __chooseDesignerForJobRequest) {
+		Job _job = this.jobDAO.getJobOfUserById(__user.getId(),
+		        __chooseDesignerForJobRequest.getIdJob());
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else if (!_job.getStep().equals(JobStepConstant.JOB_STEP_BRIEF)) {
+			throw new NotAllowedException(
+			        "This job cannot edit at "
+			                + JobStepConstant.getByCode(_job.getStep()).getStepName(),
+			        Response.status(Status.FORBIDDEN).build());
+		}
+		else {
+			// update designer chosen by user
+			List<JobsAccount> _jobsAccounts = new ArrayList<>();
+			List<Message> _messages = new ArrayList<>();
+			__chooseDesignerForJobRequest.getDesignerIds()
+			        .stream().filter(_idDesigner -> this.accountDAO.getAccountById(_idDesigner)
+			                .getRole().equals(Constant.ROLE_DESIGNER))
+			        .forEach(new Consumer<Integer>() {
+
+				        @Override
+				        public void accept(Integer __idDesigner) {
+					        _jobsAccounts.add(new JobsAccount(__idDesigner, _job.getId()));
+
+					        String _title = "New offer from " + __user.getName();
+					        String _message = "Hi, please check this offer.";
+					        _messages.add(new Message(__user.getId(), _job.getId(), _message,
+					                _title, __idDesigner));
+				        }
+			        });
+			// Save designer seleted and message will send to them
+			this.jobAccountDAO.saveJobAccounts(_jobsAccounts);
+			this.messageDAO.saveMessages(_messages);
+
+			// TODO All setting success, send message to designer
+
+			// Everything success, update step of job
+			_job.setStep(JobStepConstant.JOB_STEP_CHOOSE_DESIGNER.getStepCode());
+			this.jobDAO.updateJob(_job);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.UserManagement#confirmOrder(com.lasso.rest.model.datasource.Account,
+	 * com.lasso.rest.model.api.request.ConfirmOrderRequest)
+	 */
+	@Override
+	public void confirmOrder(Account __user, ConfirmOrderRequest __confirmOrderRequest) {
+		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __confirmOrderRequest.getIdJob());
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else if (this.jobAccountDAO.getByJobId(__confirmOrderRequest.getIdJob()) != null) {
+			throw new IllegalArgumentException(
+			        "This job was confirm before. Denied re-other confirm");
+		}
+		else {
+			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(
+			        __confirmOrderRequest.getIdJob(), __confirmOrderRequest.getIdDesigner());
+			if (_jobsAccount == null) {
+				throw new NullPointerException(
+				        "Order to this designer not valid, or designer do not accept this order");
+			}
+			else {
+				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_CONFIRM.getCode());
+				this.jobAccountDAO.saveJobAccount(_jobsAccount);
+
+				// Check if have counter offer, re-calculate order amount
+				double _counterOffer = _jobsAccount.getCounter();
+				if (_counterOffer > 0) {
+					_job.setBudget(_counterOffer);
+					_job.setFee(_counterOffer * this.genericManagement.getServiceFee() / 100);
+
+					this.jobDAO.updateJob(_job);
+				}
+			}
+		}
 	}
 
 	/*
@@ -190,51 +279,6 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 	}
 
-	@Override
-	public void chooseDesignerForOrder(Account __user,
-	        ChooseDesignerForOrderRequest __chooseDesignerForJobRequest) {
-		Job _job = this.jobDAO.getJobOfUserById(__user.getId(),
-		        __chooseDesignerForJobRequest.getIdJob());
-		if (_job == null) {
-			throw new NotFoundException("Job not found");
-		}
-		else if (!_job.getStep().equals(JobStepConstant.JOB_STEP_BRIEF)) {
-			throw new NotAllowedException(
-			        "This job cannot edit at "
-			                + JobStepConstant.getByCode(_job.getStep()).getStepName(),
-			        Response.status(Status.FORBIDDEN).build());
-		}
-		else {
-			// update designer chosen by user
-			List<JobsAccount> _jobsAccounts = new ArrayList<>();
-			List<Message> _messages = new ArrayList<>();
-			__chooseDesignerForJobRequest
-			        .getDesignerIds().stream().filter(_idDesigner -> accountDAO
-			                .getAccountById(_idDesigner).getRole().equals(Constant.ROLE_DESIGNER))
-			        .forEach(new Consumer<Integer>() {
-
-				        @Override
-				        public void accept(Integer __idDesigner) {
-					        _jobsAccounts.add(new JobsAccount(__idDesigner, _job.getId()));
-
-					        String _title = "New offer from " + __user.getName();
-					        String _message = "Hi, please check this offer.";
-					        _messages.add(new Message(__user.getId(), _job.getId(), _message,
-					                _title, __idDesigner));
-				        }
-			        });
-			// Save designer seleted and message will send to them
-			this.jobAccountDAO.saveJobAccounts(_jobsAccounts);
-			this.messageDAO.saveMessages(_messages);
-
-			// TODO All setting success, send message to designer
-
-			// Everything success, update step of job
-			_job.setStep(JobStepConstant.JOB_STEP_CHOOSE_DESIGNER.getStepCode());
-			this.jobDAO.updateJob(_job);
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -266,25 +310,6 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			return _data;
 		}
 
-	}
-
-	@Override
-	public Object[] getPaymentDetailOfOrder(Account __user, int __idJob) {
-		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __idJob);
-		if (_job == null) {
-			throw new NotFoundException("Job not found");
-		}
-		else {
-			Object[] _data = { _job, null, null };
-			PromoHistory _promoHistory = this.promoDAO.getPromoHistroyByJobId(__idJob);
-			if (_promoHistory != null) {
-				_data[1] = _promoHistory;
-				PromoCode _promoCode = this.promoDAO
-				        .getPromoCodeById(_promoHistory.getPromoCodeId());
-				_data[2] = _promoCode;
-			}
-			return _data;
-		}
 	}
 
 	/*
@@ -371,7 +396,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 					return ((Account) __o2[1]).getRewards() - ((Account) __o1[1]).getRewards();
 				}
 				catch (Exception _ex) {
-					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 					return 0;
 				}
 			}
@@ -380,6 +405,11 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		return _datas;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UserManagement#getOrderDataById(int)
+	 */
 	@Override
 	public Object[] getOrderDataById(int __idJob) {
 		Job _job = this.jobDAO.getJobById(__idJob);
@@ -391,7 +421,8 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 
 			@Override
 			public void accept(JobsAccount __jobsAccount) {
-				Account _designer = accountDAO.getAccountById(__jobsAccount.getAccountId());
+				Account _designer = ImplUserManagement.this.accountDAO
+				        .getAccountById(__jobsAccount.getAccountId());
 				if (_designer != null) {
 					Object[] designerJob = { __jobsAccount, _designer };
 					_designersJobs.add(designerJob);
@@ -409,7 +440,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		if (_style == null) {
 			throw new NullPointerException("Style not found");
 		}
-		Category _category = categoryDAO.getCategoryById(_job.getCategoryId());
+		Category _category = this.categoryDAO.getCategoryById(_job.getCategoryId());
 		if (_category == null) {
 			throw new NullPointerException("Category not found");
 		}
@@ -418,37 +449,45 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		return _orderData;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.UserManagement#getPaymentDetailOfOrder(com.lasso.rest.model.datasource
+	 * .Account, int)
+	 */
 	@Override
-	public void confirmOrder(Account __user, ConfirmOrderRequest __confirmOrderRequest) {
-		Job _job = jobDAO.getJobOfUserById(__user.getId(), __confirmOrderRequest.getIdJob());
+	public Object[] getPaymentDetailOfOrder(Account __user, int __idJob) {
+		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __idJob);
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
 		}
-		else if (jobAccountDAO.getByJobId(__confirmOrderRequest.getIdJob()) != null) {
-			throw new IllegalArgumentException(
-			        "This job was confirm before. Denied re-other confirm");
-		}
 		else {
-			JobsAccount _jobsAccount = jobAccountDAO.getByJobAndDesignerId(
-			        __confirmOrderRequest.getIdJob(), __confirmOrderRequest.getIdDesigner());
-			if (_jobsAccount == null) {
-				throw new NullPointerException(
-				        "Order to this designer not valid, or designer do not accept this order");
+			Object[] _data = { _job, null, null, null };
+			PromoHistory _promoHistory = this.promoDAO.getPromoHistroyByJobId(__idJob);
+			if (_promoHistory != null) {
+				_data[1] = _promoHistory;
+				PromoCode _promoCode = this.promoDAO
+				        .getPromoCodeById(_promoHistory.getPromoCodeId());
+				_data[2] = _promoCode;
 			}
-			else {
-				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_CONFIRM.getCode());
-				this.jobAccountDAO.saveJobAccount(_jobsAccount);
-
-				// Check if have counter offer, re-calculate order amount
-				double _counterOffer = _jobsAccount.getCounter();
-				if (_counterOffer > 0) {
-					_job.setBudget(_counterOffer);
-					_job.setFee(_counterOffer * this.genericManagement.getServiceFee() / 100);
-
-					this.jobDAO.updateJob(_job);
-				}
-			}
+			List<Type> _types = new ArrayList<>();
+			this.jobTypeDAO.getListJobsTypesByJobId(__idJob).forEach(
+			        _jobsType -> _types.add(this.typeDAO.getTypeById(_jobsType.getTypeId())));
+			_data[3] = _types;
+			Style _style = this.styleDAO.getById(_job.getStyleId());
+			_data[4] = _style;
+			return _data;
 		}
+	}
+
+	/**
+	 * Sets the promo DAO.
+	 *
+	 * @param __promoDAO the new promo DAO
+	 */
+	public void setPromoDAO(PromoDAO __promoDAO) {
+		this.promoDAO = __promoDAO;
 	}
 
 }

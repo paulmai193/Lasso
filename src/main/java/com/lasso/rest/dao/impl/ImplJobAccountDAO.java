@@ -32,22 +32,63 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.JobAccountDAO#getByJobAndDesignerId(java.lang.Integer,
+	 * java.lang.Integer)
+	 */
+	@Override
+	public JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
+		return (JobsAccount) this.sessionFactory.getCurrentSession()
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
+				.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.JobAccountDAO#getByJobId(int)
 	 */
 	@Override
 	public JobsAccount getByJobId(int __idJob) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
-		        .uniqueResult();
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
+				.uniqueResult();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.JobAccountDAO#getByOfferId(int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobsAccount> getByOfferId(int __idJob) {
 		return this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
-		        .add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
-		        .list();
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
+				.list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#saveJobAccount(com.lasso.rest.model.datasource.JobsAccount)
+	 */
+	@Override
+	public void saveJobAccount(JobsAccount __jobsAccount) {
+		this.sessionFactory.getCurrentSession().save(__jobsAccount);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.JobAccountDAO#saveJobAccounts(java.util.List)
+	 */
+	@Override
+	public void saveJobAccounts(List<JobsAccount> __jobsAccounts) {
+		__jobsAccounts.forEach(_jobAccount -> this.saveJobAccount(_jobAccount));
 	}
 
 	/*
@@ -58,25 +99,6 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
-	}
-
-	@Override
-	public JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("accountId", __idDesigner))
-		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
-		        .uniqueResult();
-	}
-
-	@Override
-	public void saveJobAccounts(List<JobsAccount> __jobsAccounts) {
-		__jobsAccounts.forEach(_jobAccount -> this.saveJobAccount(_jobAccount));
-	}
-
-	@Override
-	public void saveJobAccount(JobsAccount __jobsAccount) {
-		this.sessionFactory.getCurrentSession().save(__jobsAccount);
 	}
 
 }

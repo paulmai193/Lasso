@@ -24,7 +24,7 @@ public class CreateNewOrderRequest extends BaseRequest {
 	private String			assetUrl;
 
 	/** The budget. */
-	@JsonProperty("budget")
+	@JsonProperty("job_budget")
 	private Double			budget;
 
 	/** The description. */
@@ -204,7 +204,7 @@ public class CreateNewOrderRequest extends BaseRequest {
 		}
 		else if (!this.assetUrl.trim().isEmpty()) {
 			try {
-				new URL(assetUrl);
+				new URL(this.assetUrl);
 			}
 			catch (Exception _ex) {
 				throw new ObjectParamException("Invalid assets", _ex);

@@ -73,7 +73,7 @@ public class ListDesignersResponse extends BaseResponse {
 	 * @param __nextIndex the next index
 	 */
 	public ListDesignersResponse(String __prefixAvatarUrl, String __prefixPortfolioUrl,
-	        List<Object[]> __datas, int __nextIndex) {
+			List<Object[]> __datas, int __nextIndex) {
 		super();
 		this.prefixAvatarUrl = __prefixAvatarUrl;
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
@@ -122,7 +122,7 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 
 	@Override
 	public void serialize(ListDesignersResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -150,13 +150,13 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 				}
 				else {
 					__gen.writeStringField("original", __value.getPrefixAvatarUrl() + "/Original/"
-					        + _designer.getImage().trim());
+							+ _designer.getImage().trim());
 					__gen.writeStringField("retina", __value.getPrefixAvatarUrl() + "/Retina/"
-					        + _designer.getImage().trim());
+							+ _designer.getImage().trim());
 					__gen.writeStringField("small",
-					        __value.getPrefixAvatarUrl() + "/Small/" + _designer.getImage().trim());
+							__value.getPrefixAvatarUrl() + "/Small/" + _designer.getImage().trim());
 					__gen.writeStringField("icon",
-					        __value.getPrefixAvatarUrl() + "/Icon/" + _designer.getImage().trim());
+							__value.getPrefixAvatarUrl() + "/Icon/" + _designer.getImage().trim());
 				}
 				__gen.writeEndObject();
 				__gen.writeObjectFieldStart("portfolio_image");
@@ -170,13 +170,13 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 					String _firstImg = _portfolio.getImage();
 					_firstImg = _firstImg.substring(0, _firstImg.indexOf(",")).trim();
 					__gen.writeStringField("original",
-					        __value.getPrefixPortfolioUrl() + "/Original/" + _firstImg);
+							__value.getPrefixPortfolioUrl() + "/Original/" + _firstImg);
 					__gen.writeStringField("retina",
-					        __value.getPrefixPortfolioUrl() + "/Retina/" + _firstImg);
+							__value.getPrefixPortfolioUrl() + "/Retina/" + _firstImg);
 					__gen.writeStringField("small",
-					        __value.getPrefixPortfolioUrl() + "/Small/" + _firstImg);
+							__value.getPrefixPortfolioUrl() + "/Small/" + _firstImg);
 					__gen.writeStringField("icon",
-					        __value.getPrefixPortfolioUrl() + "/Icon/" + _firstImg);
+							__value.getPrefixPortfolioUrl() + "/Icon/" + _firstImg);
 				}
 				__gen.writeEndObject();
 				__gen.writeEndObject();

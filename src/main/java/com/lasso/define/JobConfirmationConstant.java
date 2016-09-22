@@ -7,14 +7,14 @@ package com.lasso.define;
  */
 public enum JobConfirmationConstant {
 
-	/** The job un confirm. */
-	JOB_UN_CONFIRM((byte) 0, "Un-confirm"),
+	/** The job accept. */
+	JOB_ACCEPT((byte) 2, "Accept"),
 
 	/** The job confirm. */
 	JOB_CONFIRM((byte) 1, "Confirm"),
 
-	/** The job accept. */
-	JOB_ACCEPT((byte) 2, "Accept");
+	/** The job un confirm. */
+	JOB_UN_CONFIRM((byte) 0, "Un-confirm");
 
 	/**
 	 * Gets the by code.
@@ -37,12 +37,20 @@ public enum JobConfirmationConstant {
 	/** The stage name. */
 	private String	name;
 
+	/**
+	 * Instantiates a new job confirmation constant.
+	 *
+	 * @param __code the code
+	 * @param __name the name
+	 */
 	private JobConfirmationConstant(byte __code, String __name) {
 		this.code = __code;
 		this.name = __name;
 	}
 
 	/**
+	 * Gets the code.
+	 *
 	 * @return the code
 	 */
 	public byte getCode() {
@@ -50,6 +58,8 @@ public enum JobConfirmationConstant {
 	}
 
 	/**
+	 * Gets the name.
+	 *
 	 * @return the name
 	 */
 	public String getName() {

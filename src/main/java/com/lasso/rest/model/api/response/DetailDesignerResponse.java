@@ -93,7 +93,7 @@ class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 
 	@Override
 	public void serialize(DetailDesignerResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -107,8 +107,8 @@ class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
 		__gen.writeNumberField("reward", __value.getAccount().getRewards());
 		__gen.writeStringField("status",
-		        __value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
-		                : "activate");
+				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+						: "activate");
 
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage() == null || __value.getAccount().getImage().isEmpty()) {
@@ -119,13 +119,13 @@ class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
 			__gen.writeStringField("small",
-			        __value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
 			__gen.writeStringField("icon",
-			        __value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
 			__gen.writeStringField("retina",
-			        __value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
+					__value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 
@@ -133,7 +133,7 @@ class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 		__gen.writeStringField("country_code", __value.getAccount().getCountry().getCode());
 
 		__gen.writeStringField("info", __value.getAccount().getAccountInfo() == null ? ""
-		        : __value.getAccount().getAccountInfo());
+				: __value.getAccount().getAccountInfo());
 		__gen.writeStringField("alt_contact", __value.getAccount().getAlternativeContact());
 		__gen.writeNumberField("payment", __value.getAccount().getPaymentMethod());
 		__gen.writeEndObject();

@@ -12,6 +12,14 @@ import com.lasso.rest.model.datasource.Job;
 public interface JobDAO extends HibernateSession {
 
 	/**
+	 * Gets the job by id.
+	 *
+	 * @param __idJob the id job
+	 * @return the job by id
+	 */
+	Job getJobById(int __idJob);
+
+	/**
 	 * Gets the job of user by id.
 	 *
 	 * @param __idUser the id user
@@ -42,7 +50,5 @@ public interface JobDAO extends HibernateSession {
 	 * @param __job the job
 	 */
 	void updateJob(Job __job);
-
-	Job getJobById(int __idJob);
 
 }
