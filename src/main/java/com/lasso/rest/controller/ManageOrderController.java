@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -24,13 +25,19 @@ import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
+import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
 import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.JobDetailResponse;
 import com.lasso.rest.model.api.response.ListDesignersResponse;
 import com.lasso.rest.model.api.response.ListJobsResponse;
+import com.lasso.rest.model.api.response.OrderPaymentDetailResponse;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Job;
+import com.lasso.rest.model.datasource.PromoCode;
+import com.lasso.rest.model.datasource.PromoHistory;
+import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.UserManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -41,7 +48,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 @Controller
 @Lazy(false)
-@Path("/manage_order")
+@Path("/order")
 @Produces(value = { MediaType.APPLICATION_JSON })
 @AccountAuthenticate
 @AccountAllow(roles = "" + Constant.ROLE_USER, status = "" + Constant.ACC_ACTIVATE)
@@ -118,10 +125,11 @@ public class ManageOrderController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/order/create/new")
+	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response briefNewJob(CreateNewOrderRequest __createNewJobRequest)
 	        throws UnirestException, IOException {
+		__createNewJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.createNewOrder(_user, __createNewJobRequest);
 		return this.success();
@@ -136,10 +144,11 @@ public class ManageOrderController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/order/create/edit")
+	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editJob(EditOrderRequest __editJobRequest)
 	        throws UnirestException, IOException {
+		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
 		return this.success();
@@ -154,17 +163,18 @@ public class ManageOrderController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/order/create/choose_designer")
+	@Path("/create/choose_designer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response chooseDesigner(ChooseDesignerForOrderRequest __chooseDesignerForJobRequest)
 	        throws UnirestException, IOException {
+		__chooseDesignerForJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.chooseDesignerForOrder(_user, __chooseDesignerForJobRequest);
 		return this.success();
 	}
 
 	@GET
-	@Path("/order/detail")
+	@Path("/detail/order")
 	public GetOrderResponse getOrderDetail(@QueryParam("id") int __idJob) {
 		try {
 			Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
@@ -175,6 +185,38 @@ public class ManageOrderController extends BaseController {
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
 			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
+		}
+		catch (NullPointerException | NotFoundException _ex) {
+			throw new NotFoundException("Data not found", _ex);
+		}
+	}
+
+	@POST
+	@Path("/create/confirm")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response confirmOrder(ConfirmOrderRequest __confirmOrderRequest)
+	        throws UnirestException, IOException {
+		__confirmOrderRequest.validate();
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		try {
+			this.userManagement.confirmOrder(_user, __confirmOrderRequest);
+			return this.success();
+		}
+		catch (NullPointerException | IllegalArgumentException _ex) {
+			throw new BadRequestException(_ex.getMessage(), _ex);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@GET
+	@Path("/payment/detail")
+	public OrderPaymentDetailResponse getPaymentDetail(@QueryParam("id") int __idJob) {
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		try {
+			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
+			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
+			        (PromoCode) _paymentDetail[2], (PromoHistory) _paymentDetail[1],
+			        (List<Type>) _paymentDetail[3]);
 		}
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -226,7 +268,7 @@ public class ManageOrderController extends BaseController {
 	 * @throws NotFoundException the not found exception
 	 */
 	@GET
-	@Path("/job/detail")
+	@Path("/manage/detail")
 	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
 	        throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
@@ -247,7 +289,7 @@ public class ManageOrderController extends BaseController {
 	 * @return the list jobs
 	 */
 	@GET
-	@Path("/job")
+	@Path("/manage")
 	public ListJobsResponse getListJobs() {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 

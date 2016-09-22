@@ -28,4 +28,8 @@ public interface JobAccountDAO extends HibernateSession {
 
 	List<JobsAccount> getByOfferId(int __idJob);
 
+	JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner);
+
+	void saveJobAccount(JobsAccount __jobsAccount);
+
 }

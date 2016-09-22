@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.lasso.define.JobConfirmationConstant;
 import com.lasso.rest.dao.JobAccountDAO;
 import com.lasso.rest.model.datasource.JobsAccount;
 
@@ -60,9 +61,22 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	}
 
 	@Override
+	public JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
+		return (JobsAccount) this.sessionFactory.getCurrentSession()
+		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+		        .add(Restrictions.eq("accountId", __idDesigner))
+		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
+		        .uniqueResult();
+	}
+
+	@Override
 	public void saveJobAccounts(List<JobsAccount> __jobsAccounts) {
-		__jobsAccounts
-		        .forEach(_jobAccount -> this.sessionFactory.getCurrentSession().save(_jobAccount));
+		__jobsAccounts.forEach(_jobAccount -> this.saveJobAccount(_jobAccount));
+	}
+
+	@Override
+	public void saveJobAccount(JobsAccount __jobsAccount) {
+		this.sessionFactory.getCurrentSession().save(__jobsAccount);
 	}
 
 }

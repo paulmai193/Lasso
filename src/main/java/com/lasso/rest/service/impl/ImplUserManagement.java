@@ -16,12 +16,16 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.define.Constant;
+import com.lasso.define.JobConfirmationConstant;
 import com.lasso.define.JobStepConstant;
+import com.lasso.rest.dao.PromoDAO;
 import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
+import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
 import com.lasso.rest.model.datasource.Account;
@@ -32,6 +36,8 @@ import com.lasso.rest.model.datasource.JobsType;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
+import com.lasso.rest.model.datasource.PromoCode;
+import com.lasso.rest.model.datasource.PromoHistory;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.UserManagement;
@@ -45,6 +51,13 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @Service
 @Transactional
 public class ImplUserManagement extends ImplProjectManagement implements UserManagement {
+
+	@Autowired
+	private PromoDAO promoDAO;
+
+	public void setPromoDAO(PromoDAO __promoDAO) {
+		this.promoDAO = __promoDAO;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -255,6 +268,25 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 
 	}
 
+	@Override
+	public Object[] getPaymentDetailOfOrder(Account __user, int __idJob) {
+		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __idJob);
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else {
+			Object[] _data = { _job, null, null };
+			PromoHistory _promoHistory = this.promoDAO.getPromoHistroyByJobId(__idJob);
+			if (_promoHistory != null) {
+				_data[1] = _promoHistory;
+				PromoCode _promoCode = this.promoDAO
+				        .getPromoCodeById(_promoHistory.getPromoCodeId());
+				_data[2] = _promoCode;
+			}
+			return _data;
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -384,6 +416,39 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 
 		Object[] _orderData = { _job, _designersJobs, _types, _style, _category };
 		return _orderData;
+	}
+
+	@Override
+	public void confirmOrder(Account __user, ConfirmOrderRequest __confirmOrderRequest) {
+		Job _job = jobDAO.getJobOfUserById(__user.getId(), __confirmOrderRequest.getIdJob());
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else if (jobAccountDAO.getByJobId(__confirmOrderRequest.getIdJob()) != null) {
+			throw new IllegalArgumentException(
+			        "This job was confirm before. Denied re-other confirm");
+		}
+		else {
+			JobsAccount _jobsAccount = jobAccountDAO.getByJobAndDesignerId(
+			        __confirmOrderRequest.getIdJob(), __confirmOrderRequest.getIdDesigner());
+			if (_jobsAccount == null) {
+				throw new NullPointerException(
+				        "Order to this designer not valid, or designer do not accept this order");
+			}
+			else {
+				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_CONFIRM.getCode());
+				this.jobAccountDAO.saveJobAccount(_jobsAccount);
+
+				// Check if have counter offer, re-calculate order amount
+				double _counterOffer = _jobsAccount.getCounter();
+				if (_counterOffer > 0) {
+					_job.setBudget(_counterOffer);
+					_job.setFee(_counterOffer * this.genericManagement.getServiceFee() / 100);
+
+					this.jobDAO.updateJob(_job);
+				}
+			}
+		}
 	}
 
 }

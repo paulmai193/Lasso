@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
+import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
 import com.lasso.rest.model.datasource.Account;
@@ -81,5 +82,9 @@ public interface UserManagement extends ProjectManagement {
 	        ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
 
 	Object[] getOrderDataById(int __idJob);
+
+	void confirmOrder(Account __user, ConfirmOrderRequest __confirmOrderRequest);
+
+	Object[] getPaymentDetailOfOrder(Account __user, int __idJob);
 
 }

@@ -113,7 +113,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 			__gen.writeObjectField("detail", __value.getDetail());
 			__gen.writeObjectField("message", __value.getMessage());
 		}
-
+		__gen.writeObjectFieldStart("data");
 		Job _job = (Job) __value.getData()[0];
 		List<Object[]> _designersJobs = (List<Object[]>) __value.getData()[1];
 		List<Type> _types = (List<Type>) __value.getData()[2];
@@ -218,9 +218,9 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		this.serializeCounterAccounts(__gen, _counterOffer, __value.getPrefixAvatar());
 		__gen.writeEndArray();
 		__gen.writeEndObject();
-
 		__gen.writeEndObject();
 
+		__gen.writeEndObject();
 	}
 
 	private void serializeAccounts(JsonGenerator __gen, List<Account> __accounts,
