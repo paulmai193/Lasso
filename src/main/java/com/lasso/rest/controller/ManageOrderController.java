@@ -49,7 +49,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
  */
 @Controller
 @Lazy(false)
-@Path("/order")
+@Path("/manage_order")
 @Produces(value = { MediaType.APPLICATION_JSON })
 @AccountAuthenticate
 @AccountAllow(roles = "" + Constant.ROLE_USER, status = "" + Constant.ACC_ACTIVATE)
@@ -102,7 +102,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response briefNewJob(CreateNewOrderRequest __createNewJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		__createNewJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.createNewOrder(_user, __createNewJobRequest);
@@ -158,7 +158,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editJob(EditOrderRequest __editJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
@@ -177,8 +177,8 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/list/designers")
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
-			@QueryParam("type_ids") String __idsType) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
+	        @QueryParam("type_ids") String __idsType) {
 		int _size = 8;
 		List<Integer> _listIdsType = new ArrayList<>();
 		String[] _s = __idsType.split(",");
@@ -194,12 +194,12 @@ public class ManageOrderController extends BaseController {
 
 		// Get portfolios by category and style
 		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, _size,
-				__idCategory, __idStyle, _listIdsType);
+		        __idCategory, __idStyle, _listIdsType);
 		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 
 		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
-				__index + _size);
+		        __index + _size);
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/manage/detail")
 	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-			throws javassist.NotFoundException {
+	        throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
@@ -262,7 +262,7 @@ public class ManageOrderController extends BaseController {
 			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
-					_prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
+			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl);
 		}
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -283,8 +283,8 @@ public class ManageOrderController extends BaseController {
 		try {
 			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
 			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
-					(PromoCode) _paymentDetail[1], (List<Type>) _paymentDetail[2],
-					(Style) _paymentDetail[3]);
+			        (PromoCode) _paymentDetail[1], (List<Type>) _paymentDetail[2],
+			        (Style) _paymentDetail[3]);
 		}
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);
