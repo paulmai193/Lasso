@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.ws.rs.NotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +52,26 @@ public class ImplMessageManagement implements MessageManagement {
 
 	@Override
 	public List<Object[]> getMessagesDetailOfAccount(Account __account, int __idMessage) {
-		// TODO Auto-generated method stub
-		return null;
+		Message _rootMessage = this.messageDAO.getRootMessage(__idMessage);
+		if (_rootMessage == null) {
+			throw new NotFoundException("Message not found");
+		}
+		List<Message> _messages = this.messageDAO.getListMessageByIdParent(__idMessage);
+		_messages.add(0, _rootMessage);
+
+		List<Object[]> _messageDatas = new ArrayList<>();
+		_messages.forEach(new Consumer<Message>() {
+
+			@Override
+			public void accept(Message __message) {
+				Account _sender = accountDAO.getAccountById(__message.getFromAccountId());
+				if (_sender != null) {
+					Object[] _data = { __message, _sender };
+					_messageDatas.add(_data);
+				}
+			}
+		});
+		return _messageDatas;
 	}
 
 }

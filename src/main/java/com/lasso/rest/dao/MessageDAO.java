@@ -20,4 +20,8 @@ public interface MessageDAO extends HibernateSession {
 
 	List<Message> getListMessageByIdReceiver(Integer __idReceiver);
 
+	List<Message> getListMessageByIdParent(int __idMessage);
+
+	Message getRootMessage(int __idMessage);
+
 }

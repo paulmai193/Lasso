@@ -58,4 +58,23 @@ public class ImplMessageDAO implements MessageDAO {
 		        .addOrder(Order.desc("created")).list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Message> getListMessageByIdParent(int __idMessage) {
+		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
+		        .add(Restrictions.eq("parentId", __idMessage))
+		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .addOrder(Order.asc("created")).list();
+	}
+
+	@Override
+	public Message getRootMessage(int __idMessage) {
+		Message _rootMessage = this.sessionFactory.getCurrentSession().get(Message.class,
+		        __idMessage);
+		if (_rootMessage.getParentId() > 0) {
+			_rootMessage = this.getRootMessage(_rootMessage.getParentId());
+		}
+		return _rootMessage;
+	}
+
 }
