@@ -18,4 +18,6 @@ public interface MessageDAO extends HibernateSession {
 	 */
 	void saveMessages(List<Message> __messages);
 
+	List<Message> getListMessageByIdReceiver(Integer __idReceiver);
+
 }
