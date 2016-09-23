@@ -28,6 +28,7 @@ import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
 import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
+import com.lasso.rest.model.api.request.PaymentForOrderRequest;
 import com.lasso.rest.model.api.request.UsePromoCodeForOrder;
 import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.JobDetailResponse;
@@ -162,6 +163,17 @@ public class ManageOrderController extends BaseController {
 		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
+		return this.success();
+	}
+
+	@POST
+	@Path("/create/payment")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response payJob(PaymentForOrderRequest __paymentForJobRequest) {
+		// TODO apply payment for order
+		__paymentForJobRequest.validate();
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		this.userManagement.applyPayment(_user, __paymentForJobRequest);
 		return this.success();
 	}
 

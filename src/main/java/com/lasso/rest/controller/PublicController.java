@@ -94,9 +94,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/active")
 	public Response testActive(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=active&otp=" + __otp;
+		        + __request.getServerPort() + "/verify?type=active&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 
@@ -111,10 +111,26 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/reset")
 	public Response testReset(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
+		        + __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
+	}
+
+	public void receivePaypalCallback() {
+		// For a full list of configuration parameters refer in wiki page.
+		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
+
+		// Map<String, String> configurationMap = Configuration.getConfig();
+		// IPNMessage ipnlistener = new IPNMessage(request, configurationMap);
+		// boolean isIpnVerified = ipnlistener.validate();
+		// String transactionType = ipnlistener.getTransactionType();
+		// Map<String, String> map = ipnlistener.getIpnMap();
+		//
+		// Logger.getLogger(getClass())
+		// .info("******* IPN (name:value) pair : " + map + " "
+		// + "######### TransactionType : " + transactionType
+		// + " ======== IPN verified : " + isIpnVerified);
 	}
 
 }
