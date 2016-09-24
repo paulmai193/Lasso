@@ -49,13 +49,19 @@ public class ImplMessageDAO implements MessageDAO {
 		this.sessionFactory = __sessionFactory;
 	}
 
+	@Override
+	public Message getLastMessageOfRoot(Message __rootMessage) {
+		List<Message> _messages = this.getListMessageByIdParent(__rootMessage.getId());
+		return _messages.size() == 0 ? null : _messages.get((_messages.size() - 1));
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Message> getListMessageByIdReceiver(Integer __idReceiver) {
+	public List<Message> getListRootMessageByIdReceiver(Integer __idReceiver) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
 		        .add(Restrictions.eq("toAccountId", __idReceiver))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.desc("created")).list();
+		        .add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
+		        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
 	}
 
 	@SuppressWarnings("unchecked")

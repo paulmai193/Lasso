@@ -13,7 +13,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
 
 @JsonInclude(value = Include.NON_NULL)
@@ -77,10 +79,20 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 				try {
 					Message _message = (Message) __messageData[0];
 					Account _sender = (Account) __messageData[1];
+					Job _job = (Job) __messageData[2];
 					__gen.writeStartObject();
 					__gen.writeNumberField("message_id", _message.getId());
-					__gen.writeStringField("message_title", _message.getTitle());
+					__gen.writeStringField("message_title", _job.getDescription());
 					__gen.writeStringField("message_content", _message.getMessage());
+					if (_job.getPaid().equals((byte) 0)) {
+						__gen.writeStringField("message_status", "job_confirm");
+					}
+					else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+						__gen.writeStringField("message_status", "job_completed");
+					}
+					else {
+						__gen.writeStringField("message_status", "job_explain");
+					}
 					__gen.writeStringField("sender_name", _sender.getName());
 					if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
 						__gen.writeStringField("sender_avatar", "");

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lasso.rest.dao.AccountDAO;
+import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.dao.MessageDAO;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.service.MessageManagement;
 
@@ -24,6 +26,13 @@ public class ImplMessageManagement implements MessageManagement {
 	@Autowired
 	private AccountDAO	accountDAO;
 
+	@Autowired
+	private JobDAO		jobDAO;
+
+	public void setJobDAO(JobDAO __jobDAO) {
+		this.jobDAO = __jobDAO;
+	}
+
 	public void setAccountDAO(AccountDAO __accountDAO) {
 		this.accountDAO = __accountDAO;
 	}
@@ -34,17 +43,24 @@ public class ImplMessageManagement implements MessageManagement {
 
 	@Override
 	public List<Object[]> getListMessagesOfAccount(Account __account) {
-		List<Message> _messages = this.messageDAO.getListMessageByIdReceiver(__account.getId());
+		List<Message> _messages = this.messageDAO.getListRootMessageByIdReceiver(__account.getId());
 		List<Object[]> _messageDatas = new ArrayList<>();
 		_messages.forEach(new Consumer<Message>() {
 
 			@Override
-			public void accept(Message __message) {
-				Account _sender = accountDAO.getAccountById(__message.getFromAccountId());
+			public void accept(Message __rootMessage) {
+				Object[] _data = { null, null, null };// {message, sender, job title}
+				Message _lastMessage = messageDAO.getLastMessageOfRoot(__rootMessage);
+				_data[0] = _lastMessage == null ? __rootMessage : _lastMessage;
+				Account _sender = accountDAO.getAccountById(__rootMessage.getFromAccountId());
 				if (_sender != null) {
-					Object[] _data = { __message, _sender };
-					_messageDatas.add(_data);
+					_data[1] = _sender;
 				}
+				Job _job = jobDAO.getJobById(__rootMessage.getJobId());
+				if (_job != null) {
+					_data[2] = _job;
+				}
+				_messageDatas.add(_data);
 			}
 		});
 		return _messageDatas;

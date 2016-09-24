@@ -7,17 +7,17 @@ package com.lasso.define;
  */
 public enum JobStageConstant {
 
-	/** The job step brief. */
-	JOB_STEP_BRIEF((byte) 1, "1st Draft"),
+	/** The job stage 1st draft. */
+	JOB_STAGE_1ST_DRAFT((byte) 1, "1st Draft"),
 
-	/** The job step choose designer. */
-	JOB_STEP_CHOOSE_DESIGNER((byte) 2, "Revised"),
+	/** The job stage revised. */
+	JOB_STAGE_REVISED((byte) 2, "Revised"),
 
-	/** The job step confirm. */
-	JOB_STEP_CONFIRM((byte) 3, "Final Artwork"),
+	/** The job stage final artwork. */
+	JOB_STAGE_FINAL_ARTWORK((byte) 3, "Final Artwork"),
 
-	/** The job step pay. */
-	JOB_STEP_PAY((byte) 4, "Completed");
+	/** The job stage completed. */
+	JOB_STAGE_COMPLETED((byte) 4, "Completed");
 
 	/**
 	 * Gets the by code.
