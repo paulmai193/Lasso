@@ -7,57 +7,57 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.lasso.rest.dao.JobTypeDAO;
-import com.lasso.rest.model.datasource.JobsType;
+import com.lasso.rest.dao.JobStyleDAO;
+import com.lasso.rest.model.datasource.JobsStyle;
 
 /**
- * The Class ImplJobTypeDAO.
+ * The Class ImplJobStyleDAO.
  *
  * @author Paul Mai
  */
 @Repository
-public class ImplJobTypeDAO implements JobTypeDAO {
+public class ImplJobStyleDAO implements JobStyleDAO {
 
 	/** The session factory. */
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	/**
-	 * Instantiates a new impl job type DAO.
+	 * Instantiates a new impl job style DAO.
 	 */
-	public ImplJobTypeDAO() {
+	public ImplJobStyleDAO() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobTypeDAO#getListJobsTypesByJobId(int)
+	 * @see com.lasso.rest.dao.JobStyleDAO#getListJobStylesByJobId(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<JobsType> getListJobsTypesByJobId(int __idJob) {
-		return this.sessionFactory.getCurrentSession().createCriteria(JobsType.class)
-				.add(Restrictions.eq("jobId", __idJob)).list();
+	public List<JobsStyle> getListJobStylesByJobId(int __idJob) {
+		return this.sessionFactory.getCurrentSession().createCriteria(JobsStyle.class)
+		        .add(Restrictions.eq("jobId", __idJob)).list();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobTypeDAO#removeJobsTypesByJobId(java.lang.Integer)
+	 * @see com.lasso.rest.dao.JobStyleDAO#removeJobStyleByJobId(java.lang.Integer)
 	 */
 	@Override
-	public void removeJobsTypesByJobId(Integer __idJob) {
-		this.sessionFactory.getCurrentSession().createQuery("delete JobsType where jobId = :id")
-		.setInteger("id", __idJob).executeUpdate();
+	public void removeJobStyleByJobId(Integer __idJob) {
+		this.sessionFactory.getCurrentSession().createQuery("delete JobsStyle where jobId = :id")
+		        .setInteger("id", __idJob).executeUpdate();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobTypeDAO#saveListJobsTypes(java.util.List)
+	 * @see com.lasso.rest.dao.JobStyleDAO#saveListJobStyles(java.util.List)
 	 */
 	@Override
-	public void saveListJobsTypes(List<JobsType> __jobsTypes) {
+	public void saveListJobStyles(List<JobsStyle> __jobsTypes) {
 		__jobsTypes.forEach(_jt -> this.sessionFactory.getCurrentSession().save(_jt));
 	}
 

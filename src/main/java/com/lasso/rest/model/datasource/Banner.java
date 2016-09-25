@@ -23,180 +23,99 @@ public class Banner implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	/** The created. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int					id;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
-	/** The deleted. */
-	private Byte				deleted;
+	private byte				deleted;
 
-	/** The id. */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
-
-	/** The image. */
 	private String				image;
 
-	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
-	/** The status. */
-	private Byte				status;
+	private byte				status;
 
-	/** The title. */
 	private String				title;
 
-	/** The url. */
+	private short				type;
+
 	private String				url;
 
-	/**
-	 * Instantiates a new banner.
-	 */
 	public Banner() {
 	}
 
-	/**
-	 * Gets the created.
-	 *
-	 * @return the created
-	 */
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Date getCreated() {
 		return this.created;
 	}
 
-	/**
-	 * Gets the deleted.
-	 *
-	 * @return the deleted
-	 */
-	public Byte getDeleted() {
-		return this.deleted;
-	}
-
-	/**
-	 * Gets the id.
-	 *
-	 * @return the id
-	 */
-	public Integer getId() {
-		return this.id;
-	}
-
-	/**
-	 * Gets the image.
-	 *
-	 * @return the image
-	 */
-	public String getImage() {
-		return this.image;
-	}
-
-	/**
-	 * Gets the modified.
-	 *
-	 * @return the modified
-	 */
-	public Date getModified() {
-		return this.modified;
-	}
-
-	/**
-	 * Gets the status.
-	 *
-	 * @return the status
-	 */
-	public Byte getStatus() {
-		return this.status;
-	}
-
-	/**
-	 * Gets the title.
-	 *
-	 * @return the title
-	 */
-	public String getTitle() {
-		return this.title;
-	}
-
-	/**
-	 * Gets the url.
-	 *
-	 * @return the url
-	 */
-	public String getUrl() {
-		return this.url;
-	}
-
-	/**
-	 * Sets the created.
-	 *
-	 * @param created the new created
-	 */
 	public void setCreated(Date created) {
 		this.created = created;
 	}
 
-	/**
-	 * Sets the deleted.
-	 *
-	 * @param deleted the new deleted
-	 */
-	public void setDeleted(Byte deleted) {
+	public byte getDeleted() {
+		return this.deleted;
+	}
+
+	public void setDeleted(byte deleted) {
 		this.deleted = deleted;
 	}
 
-	/**
-	 * Sets the id.
-	 *
-	 * @param id the new id
-	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public String getImage() {
+		return this.image;
 	}
 
-	/**
-	 * Sets the image.
-	 *
-	 * @param image the new image
-	 */
 	public void setImage(String image) {
 		this.image = image;
 	}
 
-	/**
-	 * Sets the modified.
-	 *
-	 * @param modified the new modified
-	 */
+	public Date getModified() {
+		return this.modified;
+	}
+
 	public void setModified(Date modified) {
 		this.modified = modified;
 	}
 
-	/**
-	 * Sets the status.
-	 *
-	 * @param status the new status
-	 */
-	public void setStatus(Byte status) {
+	public byte getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(byte status) {
 		this.status = status;
 	}
 
-	/**
-	 * Sets the title.
-	 *
-	 * @param title the new title
-	 */
+	public String getTitle() {
+		return this.title;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	/**
-	 * Sets the url.
-	 *
-	 * @param url the new url
-	 */
+	public short getType() {
+		return this.type;
+	}
+
+	public void setType(short type) {
+		this.type = type;
+	}
+
+	public String getUrl() {
+		return this.url;
+	}
+
 	public void setUrl(String url) {
 		this.url = url;
 	}

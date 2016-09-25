@@ -3,6 +3,8 @@ package com.lasso.rest.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.lasso.rest.model.api.request.ConfirmOfferRequest;
+import com.lasso.rest.model.api.request.CounterOfferRequest;
 import com.lasso.rest.model.api.request.CreatePortfolioRequest;
 import com.lasso.rest.model.api.request.EditPortfolioRequest;
 import com.lasso.rest.model.datasource.Account;
@@ -25,7 +27,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException, UnirestException;
+	        throws IOException, UnirestException;
 
 	/**
 	 * Delete portfolio.
@@ -44,7 +46,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
+	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
 
 	/**
 	 * Gets the all portfolios.
@@ -62,5 +64,11 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @return the portfolio
 	 */
 	Portfolio getPortfolio(Account __account, Integer __id);
+
+	Object[] getOfferDataById(int __idJob);
+
+	void counterOffer(Account __designer, CounterOfferRequest __counterOfferRequest);
+
+	void confirmOffer(Account __designer, ConfirmOfferRequest __counterOfferRequest);
 
 }

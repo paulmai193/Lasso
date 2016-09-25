@@ -16,7 +16,7 @@ import com.lasso.rest.dao.BannerDAO;
 import com.lasso.rest.dao.CategoryDAO;
 import com.lasso.rest.dao.JobAccountDAO;
 import com.lasso.rest.dao.JobDAO;
-import com.lasso.rest.dao.JobTypeDAO;
+import com.lasso.rest.dao.JobStyleDAO;
 import com.lasso.rest.dao.MessageDAO;
 import com.lasso.rest.dao.PortfolioDAO;
 import com.lasso.rest.dao.PortfolioTypeDAO;
@@ -78,7 +78,7 @@ public class ImplProjectManagement implements ProjectManagement {
 
 	/** The job type DAO. */
 	@Autowired
-	protected JobTypeDAO			jobTypeDAO;
+	protected JobStyleDAO			jobStyleDAO;
 
 	/** The message DAO. */
 	@Autowired
@@ -123,7 +123,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Category> getCategoriesByIndexAndKeyword(int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		return this.categoryDAO.getCategories(__index, __size, __keyword);
 	}
 
@@ -181,7 +181,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	public List<Type> getListTypesByIdPortfolio(int __idPortfolio) {
 		// Get list portfolio type from id portfolio
 		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO
-				.getListByIdPortfolio(__idPortfolio);
+		        .getListByIdPortfolio(__idPortfolio);
 		List<Integer> _listIdsType = new ArrayList<>();
 		if (_portfolioTypes.isEmpty()) {
 			return new ArrayList<>();
@@ -203,14 +203,14 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
-			String __prefixAvatarUrl) {
+	        String __prefixAvatarUrl) {
 		try {
 			Project _project = this.projectDAO.getProjectById(__idProject);
 			Category _category = this.categoryDAO.getCategoryById(_project.getCategoryId());
 			Portfolio _portfolio = this.portfolioDAO.getPortfolioByProject(_project);
 			Account _account = this.accountDAO.getAccountById(_portfolio.getAccountId());
 			return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
-					_portfolio, _account, _category);
+			        _portfolio, _account, _category);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("No detail information");
@@ -226,10 +226,10 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index,
-			int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
+	        int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
 		List<Object[]> _datas = new ArrayList<>();
 		List<Project> _projects = this.projectDAO.searchProjects(__idStyle, __keyword, __index,
-				__size);
+		        __size);
 		if (_projects.isEmpty() && __index == 0) {
 			_projects = this.projectDAO.getRamdom(__size);
 		}
@@ -243,11 +243,11 @@ public class ImplProjectManagement implements ProjectManagement {
 			}
 			catch (Exception _ex) {
 				Logger.getLogger(this.getClass()).warn("Problem with project " + _project.getId(),
-						_ex);
+				        _ex);
 			}
 		}
 		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
-				__prefixProjectUrl, __prefixAvatarUrl, _datas);
+		        __prefixProjectUrl, __prefixAvatarUrl, _datas);
 		return _listProjectsResponse;
 	}
 
@@ -269,7 +269,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		// Get Category from id
 		Category _category = this.categoryDAO.getCategoryById(__idCategory);
 		if (_category == null) {
@@ -310,35 +310,55 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * Sets the account DAO.
-	 *
-	 * @param __accountDAO the new account DAO
+	 * @return the accountDAO
+	 */
+	public AccountDAO getAccountDAO() {
+		return this.accountDAO;
+	}
+
+	/**
+	 * @param __accountDAO the accountDAO to set
 	 */
 	public void setAccountDAO(AccountDAO __accountDAO) {
 		this.accountDAO = __accountDAO;
 	}
 
 	/**
-	 * Sets the banner DAO.
-	 *
-	 * @param __bannerDAO the new banner DAO
+	 * @return the bannerDAO
+	 */
+	public BannerDAO getBannerDAO() {
+		return this.bannerDAO;
+	}
+
+	/**
+	 * @param __bannerDAO the bannerDAO to set
 	 */
 	public void setBannerDAO(BannerDAO __bannerDAO) {
 		this.bannerDAO = __bannerDAO;
 	}
 
 	/**
-	 * Sets the category DAO.
-	 *
-	 * @param __categoryDAO the new category DAO
+	 * @return the categoryDAO
+	 */
+	public CategoryDAO getCategoryDAO() {
+		return this.categoryDAO;
+	}
+
+	/**
+	 * @param __categoryDAO the categoryDAO to set
 	 */
 	public void setCategoryDAO(CategoryDAO __categoryDAO) {
 		this.categoryDAO = __categoryDAO;
 	}
 
 	/**
-	 * Sets the generic management.
-	 *
+	 * @return the genericManagement
+	 */
+	public GenericManagement getGenericManagement() {
+		return this.genericManagement;
+	}
+
+	/**
 	 * @param __genericManagement the genericManagement to set
 	 */
 	public void setGenericManagement(GenericManagement __genericManagement) {
@@ -346,26 +366,41 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * Sets the job account DAO.
-	 *
-	 * @param __jobAccountDAO the new job account DAO
+	 * @return the jobAccountDAO
+	 */
+	public JobAccountDAO getJobAccountDAO() {
+		return this.jobAccountDAO;
+	}
+
+	/**
+	 * @param __jobAccountDAO the jobAccountDAO to set
 	 */
 	public void setJobAccountDAO(JobAccountDAO __jobAccountDAO) {
 		this.jobAccountDAO = __jobAccountDAO;
 	}
 
 	/**
-	 * Sets the job DAO.
-	 *
-	 * @param __jobDAO the new job DAO
+	 * @return the jobDAO
+	 */
+	public JobDAO getJobDAO() {
+		return this.jobDAO;
+	}
+
+	/**
+	 * @param __jobDAO the jobDAO to set
 	 */
 	public void setJobDAO(JobDAO __jobDAO) {
 		this.jobDAO = __jobDAO;
 	}
 
 	/**
-	 * Sets the job storage path.
-	 *
+	 * @return the jobStoragePath
+	 */
+	public String getJobStoragePath() {
+		return this.jobStoragePath;
+	}
+
+	/**
 	 * @param __jobStoragePath the jobStoragePath to set
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
@@ -373,17 +408,27 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * Sets the job type DAO.
-	 *
-	 * @param __jobTypeDAO the new job type DAO
+	 * @return the jobStyleDAO
 	 */
-	public void setJobTypeDAO(JobTypeDAO __jobTypeDAO) {
-		this.jobTypeDAO = __jobTypeDAO;
+	public JobStyleDAO getJobStyleDAO() {
+		return this.jobStyleDAO;
 	}
 
 	/**
-	 * Sets the message DAO.
-	 *
+	 * @param __jobStyleDAO the jobStyleDAO to set
+	 */
+	public void setJobStyleDAO(JobStyleDAO __jobStyleDAO) {
+		this.jobStyleDAO = __jobStyleDAO;
+	}
+
+	/**
+	 * @return the messageDAO
+	 */
+	public MessageDAO getMessageDAO() {
+		return this.messageDAO;
+	}
+
+	/**
 	 * @param __messageDAO the messageDAO to set
 	 */
 	public void setMessageDAO(MessageDAO __messageDAO) {
@@ -391,44 +436,69 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * Sets the portfolio DAO.
-	 *
-	 * @param __portfolioDAO the new portfolio DAO
+	 * @return the portfolioDAO
+	 */
+	public PortfolioDAO getPortfolioDAO() {
+		return this.portfolioDAO;
+	}
+
+	/**
+	 * @param __portfolioDAO the portfolioDAO to set
 	 */
 	public void setPortfolioDAO(PortfolioDAO __portfolioDAO) {
 		this.portfolioDAO = __portfolioDAO;
 	}
 
 	/**
-	 * Sets the portfolio type DAO.
-	 *
-	 * @param __portfolioTypeDAO the new portfolio type DAO
+	 * @return the portfolioTypeDAO
+	 */
+	public PortfolioTypeDAO getPortfolioTypeDAO() {
+		return this.portfolioTypeDAO;
+	}
+
+	/**
+	 * @param __portfolioTypeDAO the portfolioTypeDAO to set
 	 */
 	public void setPortfolioTypeDAO(PortfolioTypeDAO __portfolioTypeDAO) {
 		this.portfolioTypeDAO = __portfolioTypeDAO;
 	}
 
 	/**
-	 * Sets the project DAO.
-	 *
-	 * @param __projectDAO the new project DAO
+	 * @return the projectDAO
+	 */
+	public ProjectDAO getProjectDAO() {
+		return this.projectDAO;
+	}
+
+	/**
+	 * @param __projectDAO the projectDAO to set
 	 */
 	public void setProjectDAO(ProjectDAO __projectDAO) {
 		this.projectDAO = __projectDAO;
 	}
 
 	/**
-	 * Sets the style DAO.
-	 *
-	 * @param __styleDAO the new style DAO
+	 * @return the styleDAO
+	 */
+	public StyleDAO getStyleDAO() {
+		return this.styleDAO;
+	}
+
+	/**
+	 * @param __styleDAO the styleDAO to set
 	 */
 	public void setStyleDAO(StyleDAO __styleDAO) {
 		this.styleDAO = __styleDAO;
 	}
 
 	/**
-	 * Sets the temporary storage path.
-	 *
+	 * @return the temporaryStoragePath
+	 */
+	public String getTemporaryStoragePath() {
+		return this.temporaryStoragePath;
+	}
+
+	/**
 	 * @param __temporaryStoragePath the temporaryStoragePath to set
 	 */
 	public void setTemporaryStoragePath(String __temporaryStoragePath) {
@@ -436,29 +506,45 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * Sets the type DAO.
-	 *
-	 * @param __typeDAO the new type DAO
+	 * @return the typeDAO
+	 */
+	public TypeDAO getTypeDAO() {
+		return this.typeDAO;
+	}
+
+	/**
+	 * @param __typeDAO the typeDAO to set
 	 */
 	public void setTypeDAO(TypeDAO __typeDAO) {
 		this.typeDAO = __typeDAO;
 	}
 
 	/**
-	 * Sets the type style DAO.
-	 *
-	 * @param __typeStyleDAO the new type style DAO
+	 * @return the typeStyleDAO
+	 */
+	public TypeStyleDAO getTypeStyleDAO() {
+		return this.typeStyleDAO;
+	}
+
+	/**
+	 * @param __typeStyleDAO the typeStyleDAO to set
 	 */
 	public void setTypeStyleDAO(TypeStyleDAO __typeStyleDAO) {
 		this.typeStyleDAO = __typeStyleDAO;
 	}
 
 	/**
-	 * Sets the upload image management.
-	 *
+	 * @return the uploadImageManagement
+	 */
+	public UploadImageManagement getUploadImageManagement() {
+		return this.uploadImageManagement;
+	}
+
+	/**
 	 * @param __uploadImageManagement the uploadImageManagement to set
 	 */
 	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {
 		this.uploadImageManagement = __uploadImageManagement;
 	}
+
 }

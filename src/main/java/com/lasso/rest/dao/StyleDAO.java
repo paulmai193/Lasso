@@ -30,5 +30,7 @@ public interface StyleDAO extends HibernateSession {
 	 * @return the styles by types
 	 */
 	List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
-			int __limit, String __keyword);
+	        int __limit, String __keyword);
+
+	List<Style> getListByByListIds(List<Integer> __styleIds);
 }

@@ -54,4 +54,6 @@ public interface GenericManagement {
 	 */
 	String loadWebContextStoragePath(String __app_session) throws UnirestException;
 
+	Country getCountryById(Integer __countryId);
+
 }

@@ -29,7 +29,7 @@ public interface AccountManagement {
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
 	public void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest);
+	        AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
@@ -60,7 +60,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String forgotPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	        throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Gets the all accounts.
@@ -69,13 +69,13 @@ public interface AccountManagement {
 	 */
 	public List<Account> getAllAccounts();
 
-	/**
-	 * Gets the country.
-	 *
-	 * @param __account the account
-	 * @return the country
-	 */
-	public Country getCountry(Account __account);
+	// /**
+	// * Gets the country.
+	// *
+	// * @param __account the account
+	// * @return the country
+	// */
+	// public Country getCountry(Account __account);
 
 	/**
 	 * User login by email and password.
@@ -98,9 +98,10 @@ public interface AccountManagement {
 	 * Register user account.
 	 *
 	 * @param __registerAccount the register account
+	 * @param __country the country
 	 * @return the query string to activate registed account
 	 */
-	public String registerUserAccount(AccountRegisterRequest __registerAccount);
+	public String registerUserAccount(AccountRegisterRequest __registerAccount, Country __country);
 
 	/**
 	 * Resend activate.
@@ -128,7 +129,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendActivationEmail(String __email, String __refLink, String __registerType)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Send reset password email.
@@ -139,7 +140,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Validate the token to verify secured account.

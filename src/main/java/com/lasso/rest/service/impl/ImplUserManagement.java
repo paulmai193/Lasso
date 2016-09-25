@@ -34,7 +34,7 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
-import com.lasso.rest.model.datasource.JobsType;
+import com.lasso.rest.model.datasource.JobsStyle;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
@@ -101,7 +101,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				jobDAO.updateJob(_job);
 			}
 			else {
-				// Paypal
+				// TODO Paypal
 			}
 		}
 	}
@@ -216,10 +216,10 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			_job.setAccountId(__user.getId());
 			Integer _idJob = this.jobDAO.saveJob(_job);
 
-			List<JobsType> _jobsTypes = new ArrayList<>();
-			__createNewOrderRequest.getIdTypes()
-			        .forEach(_idType -> _jobsTypes.add(new JobsType(_idJob, _idType)));
-			this.jobTypeDAO.saveListJobsTypes(_jobsTypes);
+			List<JobsStyle> _jobStyles = new ArrayList<>();
+			__createNewOrderRequest.getIdStyles()
+			        .forEach(_id -> _jobStyles.add(new JobsStyle(_idJob, _id)));
+			this.jobStyleDAO.saveListJobStyles(_jobStyles);
 
 			// Copy portfolio images from temporary directory to resource directory
 			for (String _tempFileName : __createNewOrderRequest.getReference()) {
@@ -285,13 +285,13 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				this.jobDAO.updateJob(_job);
 
 				// Remove old job types
-				this.jobTypeDAO.removeJobsTypesByJobId(_job.getId());
+				this.jobStyleDAO.removeJobStyleByJobId(_job.getId());
 
 				// Update new job types
-				List<JobsType> _jobsTypes = new ArrayList<>();
-				__editJobRequest.getIdTypes()
-				        .forEach(_idType -> _jobsTypes.add(new JobsType(_job.getId(), _idType)));
-				this.jobTypeDAO.saveListJobsTypes(_jobsTypes);
+				List<JobsStyle> _jobStyles = new ArrayList<>();
+				__editJobRequest.getIdStyles()
+				        .forEach(_id -> _jobStyles.add(new JobsStyle(_job.getId(), _id)));
+				this.jobStyleDAO.saveListJobStyles(_jobStyles);
 
 				// Copy portfolio images from temporary directory to resource directory
 				for (String _tempFileName : __editJobRequest.getReference()) {
@@ -349,12 +349,12 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			_designerName = _jobsAccount == null ? ""
 			        : ImplUserManagement.this.accountDAO.getAccountById(_jobsAccount.getAccountId())
 			                .getName();
-			List<Integer> _typeIds = new ArrayList<>();
-			ImplUserManagement.this.jobTypeDAO.getListJobsTypesByJobId(_job.getId())
-			        .forEach(_jt -> _typeIds.add(_jt.getTypeId()));
-			List<Type> _types = ImplUserManagement.this.typeDAO.getListByByListIds(_typeIds);
+			List<Integer> _styleIds = new ArrayList<>();
+			ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(_job.getId())
+			        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+			List<Type> _types = ImplUserManagement.this.typeDAO.getListByByListIds(_styleIds);
 
-			Style _style = ImplUserManagement.this.styleDAO.getById(_job.getStyleId());
+			Type _style = ImplUserManagement.this.typeDAO.getTypeById(_job.getTypeId());
 
 			Object[] _data = { _job, _designerName, _types, _style.getTitle() };
 			return _data;
@@ -387,15 +387,16 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 					_designerName = _jobsAccount == null ? ""
 					        : ImplUserManagement.this.accountDAO
 					                .getAccountById(_jobsAccount.getAccountId()).getName();
-					List<Integer> _typeIds = new ArrayList<>();
-					ImplUserManagement.this.jobTypeDAO.getListJobsTypesByJobId(__job.getId())
-					        .forEach(_jt -> _typeIds.add(_jt.getTypeId()));
+					List<Integer> _styleIds = new ArrayList<>();
+					ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(__job.getId())
+					        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 					List<Type> _types = ImplUserManagement.this.typeDAO
-					        .getListByByListIds(_typeIds);
+					        .getListByByListIds(_styleIds);
 
-					Style _style = ImplUserManagement.this.styleDAO.getById(__job.getStyleId());
+					Type _style = ImplUserManagement.this.typeDAO.getTypeById(__job.getTypeId());
 
 					Object[] _data = { __job, _designerName, _types, _style.getTitle() };
+
 					_datas.add(_data);
 				}
 			});
@@ -479,23 +480,23 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				}
 			}
 		});
-		List<Integer> _typeIds = new ArrayList<>();
-		ImplUserManagement.this.jobTypeDAO.getListJobsTypesByJobId(__idJob)
-		        .forEach(_jt -> _typeIds.add(_jt.getTypeId()));
-		List<Type> _types = ImplUserManagement.this.typeDAO.getListByByListIds(_typeIds);
-		if (_typeIds.isEmpty()) {
-			throw new NotFoundException("Types not found");
+		List<Integer> _styleIds = new ArrayList<>();
+		ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(__idJob)
+		        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+		List<Style> _styles = ImplUserManagement.this.styleDAO.getListByByListIds(_styleIds);
+		if (_styleIds.isEmpty()) {
+			throw new NotFoundException("Styles not found");
 		}
-		Style _style = ImplUserManagement.this.styleDAO.getById(_job.getStyleId());
-		if (_style == null) {
-			throw new NotFoundException("Style not found");
+		Type _type = ImplUserManagement.this.typeDAO.getTypeById(_job.getTypeId());
+		if (_type == null) {
+			throw new NotFoundException("Type not found");
 		}
 		Category _category = this.categoryDAO.getCategoryById(_job.getCategoryId());
 		if (_category == null) {
 			throw new NotFoundException("Category not found");
 		}
 
-		Object[] _orderData = { _job, _designersJobs, _types, _style, _category };
+		Object[] _orderData = { _job, _designersJobs, _styles, _type, _category };
 		return _orderData;
 	}
 
@@ -520,12 +521,12 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				        .getPromoCodeById(_promoHistory.getPromoCodeId());
 				_data[1] = _promoCode;
 			}
-			List<Type> _types = new ArrayList<>();
-			this.jobTypeDAO.getListJobsTypesByJobId(__idJob).forEach(
-			        _jobsType -> _types.add(this.typeDAO.getTypeById(_jobsType.getTypeId())));
-			_data[2] = _types;
-			Style _style = this.styleDAO.getById(_job.getStyleId());
-			_data[3] = _style;
+			List<Style> _styles = new ArrayList<>();
+			this.jobStyleDAO.getListJobStylesByJobId(__idJob).forEach(
+			        _jobStyle -> _styles.add(this.styleDAO.getById(_jobStyle.getStyleId())));
+			_data[2] = _styles;
+			Type _type = this.typeDAO.getTypeById(_job.getTypeId());
+			_data[3] = _type;
 			return _data;
 		}
 	}

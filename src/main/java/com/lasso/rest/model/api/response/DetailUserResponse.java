@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.define.Constant;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Country;
 
 /**
  * The Class DetailUserResponse.
@@ -21,18 +22,15 @@ public class DetailUserResponse extends BaseResponse implements DetailAccountRes
 	/** The account. */
 	private Account	account;
 
+	private Country	country;
+
 	/** The prefix url. */
 	private String	prefixUrl;
 
-	/**
-	 * Instantiates a new user detail response.
-	 *
-	 * @param __account the account
-	 * @param __prefixUrl the prefix url
-	 */
-	public DetailUserResponse(Account __account, String __prefixUrl) {
+	public DetailUserResponse(Account __account, Country __country, String __prefixUrl) {
 		super();
 		this.account = __account;
+		this.country = __country;
 		this.prefixUrl = __prefixUrl;
 	}
 
@@ -75,6 +73,10 @@ public class DetailUserResponse extends BaseResponse implements DetailAccountRes
 		return this.account;
 	}
 
+	public Country getCountry() {
+		return this.country;
+	}
+
 	/**
 	 * Gets the prefix url.
 	 *
@@ -90,7 +92,7 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 
 	@Override
 	public void serialize(DetailUserResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -104,8 +106,8 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
 		__gen.writeNumberField("reward", __value.getAccount().getRewards());
 		__gen.writeStringField("status",
-				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
-						: "activate");
+		        __value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+		                : "activate");
 
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage() == null || __value.getAccount().getImage().isEmpty()) {
@@ -116,18 +118,18 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		}
 		else {
 			__gen.writeStringField("original",
-					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
 			__gen.writeStringField("small",
-					__value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
 			__gen.writeStringField("icon",
-					__value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
 			__gen.writeStringField("retina",
-					__value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
+			        __value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 
-		__gen.writeStringField("country_name", __value.getAccount().getCountry().getName());
-		__gen.writeStringField("country_code", __value.getAccount().getCountry().getCode());
+		__gen.writeStringField("country_name", __value.getCountry().getName());
+		__gen.writeStringField("country_code", __value.getCountry().getCode());
 
 		__gen.writeStringField("com_address", __value.getAccount().getCompanyAddress());
 		__gen.writeStringField("com_name", __value.getAccount().getCompanyName());

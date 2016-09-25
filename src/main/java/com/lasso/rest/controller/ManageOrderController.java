@@ -170,7 +170,6 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/payment")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response payJob(PaymentForOrderRequest __paymentForJobRequest) {
-		// TODO apply payment for order
 		__paymentForJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.applyPayment(_user, __paymentForJobRequest);

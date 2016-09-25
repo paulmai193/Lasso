@@ -3,6 +3,7 @@ package com.lasso.rest.controller;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -13,14 +14,17 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.lasso.define.PaypalCallbackConfiguration;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.response.GetServiceFeeResponse;
 import com.lasso.rest.model.api.response.ListCountriesResponse;
 import com.lasso.rest.service.GenericManagement;
+import com.paypal.ipn.IPNMessage;
 
 /**
  * The Class PublicController.
@@ -34,7 +38,10 @@ public class PublicController extends BaseController {
 
 	/** The generic management. */
 	@Autowired
-	private GenericManagement genericManagement;
+	private GenericManagement	genericManagement;
+
+	@Context
+	private HttpServletRequest	request;
 
 	/**
 	 * Gets the countries.
@@ -121,16 +128,16 @@ public class PublicController extends BaseController {
 		// For a full list of configuration parameters refer in wiki page.
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
 
-		// Map<String, String> configurationMap = Configuration.getConfig();
-		// IPNMessage ipnlistener = new IPNMessage(request, configurationMap);
-		// boolean isIpnVerified = ipnlistener.validate();
-		// String transactionType = ipnlistener.getTransactionType();
-		// Map<String, String> map = ipnlistener.getIpnMap();
-		//
-		// Logger.getLogger(getClass())
-		// .info("******* IPN (name:value) pair : " + map + " "
-		// + "######### TransactionType : " + transactionType
-		// + " ======== IPN verified : " + isIpnVerified);
+		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
+		IPNMessage ipnlistener = new IPNMessage(request, configurationMap);
+		boolean isIpnVerified = ipnlistener.validate();
+		String transactionType = ipnlistener.getTransactionType();
+		Map<String, String> map = ipnlistener.getIpnMap();
+
+		Logger.getLogger(getClass())
+		        .info("******* IPN (name:value) pair : " + map + " "
+		                + "######### TransactionType : " + transactionType
+		                + " ======== IPN verified : " + isIpnVerified);
 	}
 
 }

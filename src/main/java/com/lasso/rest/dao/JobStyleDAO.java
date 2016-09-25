@@ -2,35 +2,35 @@ package com.lasso.rest.dao;
 
 import java.util.List;
 
-import com.lasso.rest.model.datasource.JobsType;
+import com.lasso.rest.model.datasource.JobsStyle;
 
 /**
- * The Interface JobTypeDAO.
+ * The Interface JobStyleDAO.
  *
  * @author Paul Mai
  */
-public interface JobTypeDAO extends HibernateSession {
+public interface JobStyleDAO extends HibernateSession {
 
 	/**
-	 * Gets the list jobs types by job id.
+	 * Gets the list job styles by job id.
 	 *
 	 * @param __idJob the id job
-	 * @return the jobs types by job id
+	 * @return the list job styles by job id
 	 */
-	List<JobsType> getListJobsTypesByJobId(int __idJob);
+	List<JobsStyle> getListJobStylesByJobId(int __idJob);
 
 	/**
-	 * Removes the jobs types by job id.
+	 * Removes the job style by job id.
 	 *
-	 * @param __idJob the job ID
+	 * @param __idJob the id job
 	 */
-	void removeJobsTypesByJobId(Integer __idJob);
+	void removeJobStyleByJobId(Integer __idJob);
 
 	/**
-	 * Save list jobs types.
+	 * Save list job styles.
 	 *
-	 * @param __jobsTypes the jobs types
+	 * @param __jobStyles the job styles
 	 */
-	void saveListJobsTypes(List<JobsType> __jobsTypes);
+	void saveListJobStyles(List<JobsStyle> __jobStyles);
 
 }

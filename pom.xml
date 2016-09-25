@@ -21,8 +21,8 @@
 		</repository>
 		<repository>
 			<id>nexus</id>
-			<url>http://10.10.1.82:8081/nexus/content/repositories/releases</url>
-			<!-- <url>http://voohooo.com.vn:8001/nexus/content/repositories/releases</url> -->
+			<!-- <url>http://10.10.1.82:8081/nexus/content/repositories/releases</url> -->
+			<url>http://voohooo.com.vn:8001/nexus/content/repositories/releases</url>
 			<releases>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>

@@ -40,12 +40,12 @@ public class CreateNewOrderRequest extends BaseRequest {
 	private Integer			idCategory;
 
 	/** The id style. */
-	@JsonProperty("style_id")
-	private Integer			idStyle;
+	@JsonProperty("type_id")
+	private Integer			idType;
 
 	/** The id types. */
-	@JsonProperty("type_id")
-	private List<Integer>	idTypes;
+	@JsonProperty("style_id")
+	private List<Integer>	idStyles;
 
 	/** The last submission. */
 	@JsonProperty("last_submission")
@@ -70,8 +70,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the asset url.
-	 *
 	 * @return the assetUrl
 	 */
 	public String getAssetUrl() {
@@ -79,8 +77,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the budget.
-	 *
 	 * @return the budget
 	 */
 	public Double getBudget() {
@@ -88,8 +84,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the description.
-	 *
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -97,8 +91,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the further.
-	 *
 	 * @return the further
 	 */
 	public String getFurther() {
@@ -106,8 +98,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the id category.
-	 *
 	 * @return the idCategory
 	 */
 	public Integer getIdCategory() {
@@ -115,26 +105,20 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the id style.
-	 *
-	 * @return the idStyle
+	 * @return the idType
 	 */
-	public Integer getIdStyle() {
-		return this.idStyle;
+	public Integer getIdType() {
+		return this.idType;
 	}
 
 	/**
-	 * Gets the id types.
-	 *
-	 * @return the idTypes
+	 * @return the idStyles
 	 */
-	public List<Integer> getIdTypes() {
-		return this.idTypes;
+	public List<Integer> getIdStyles() {
+		return this.idStyles;
 	}
 
 	/**
-	 * Gets the last submission.
-	 *
 	 * @return the lastSubmission
 	 */
 	public Date getLastSubmission() {
@@ -142,8 +126,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the objective.
-	 *
 	 * @return the objective
 	 */
 	public String getObjective() {
@@ -151,8 +133,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the reference.
-	 *
 	 * @return the reference
 	 */
 	public List<String> getReference() {
@@ -160,8 +140,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the submission.
-	 *
 	 * @return the submission
 	 */
 	public Date getSubmission() {
@@ -178,11 +156,14 @@ public class CreateNewOrderRequest extends BaseRequest {
 		if (this.description == null || this.description.isEmpty()) {
 			throw new ObjectParamException("Invalid description");
 		}
+		if (this.idType == null) {
+			throw new ObjectParamException("Invalid type");
+		}
 		if (this.idCategory == null) {
 			throw new ObjectParamException("Invalid category");
 		}
-		if (this.idTypes == null || this.idTypes.isEmpty()) {
-			throw new ObjectParamException("Invalid types");
+		if (this.idStyles == null || this.idStyles.isEmpty()) {
+			throw new ObjectParamException("Invalid styles");
 		}
 		if (this.reference == null) {
 			throw new ObjectParamException("Invalid reference");

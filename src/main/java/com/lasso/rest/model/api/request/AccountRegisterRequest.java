@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
-import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.model.variable.EmailParam;
 import com.lasso.rest.model.variable.PhoneParam;
 
@@ -19,9 +18,6 @@ import com.lasso.rest.model.variable.PhoneParam;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountRegisterRequest extends BaseRequest {
-
-	/** The country. */
-	private Country		country;
 
 	/** The country code. */
 	@JsonProperty(value = "country_code")
@@ -65,26 +61,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public AccountRegisterRequest(Byte __role) {
 		this.role = __role;
-	}
-
-	/**
-	 * Check country valid.
-	 *
-	 * @throws ObjectParamException the object param exception
-	 */
-	public void checkCountryValid() throws ObjectParamException {
-		if (this.country == null) {
-			throw new ObjectParamException("Illegal country code");
-		}
-	}
-
-	/**
-	 * Gets the country.
-	 *
-	 * @return the country
-	 */
-	public Country getCountry() {
-		return this.country;
 	}
 
 	/**
@@ -157,15 +133,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public Boolean getSubscribe() {
 		return this.subscribe;
-	}
-
-	/**
-	 * Sets the country.
-	 *
-	 * @param __country the new country
-	 */
-	public void setCountry(Country __country) {
-		this.country = __country;
 	}
 
 	/**

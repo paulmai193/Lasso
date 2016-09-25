@@ -22,4 +22,6 @@ public interface CountryDAO extends HibernateSession {
 	 * @return the country ids by code
 	 */
 	public List<Country> getCountryIdsByCode(String __code);
+
+	public Country getById(Integer __countryId);
 }
