@@ -97,20 +97,31 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.PortfolioDAO#searchPortfolios(int, int, int, int, java.util.List)
+	 * @see com.lasso.rest.dao.PortfolioDAO#searchPortfolios(int, int, int, java.util.List,
+	 * java.util.List, java.lang.Integer)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-			int __idStyle, List<PortfolioType> __portfolioTypes) {
+			List<Integer> ___idsStyle, List<PortfolioType> __portfolioTypes,
+			Integer __budgetCompare) {
 		List<Integer> _portfolioIds = new ArrayList<>();
 		__portfolioTypes.forEach(_pt -> _portfolioIds.add(_pt.getPortfolioId()));
 
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
 				.add(Restrictions.eq("categoryId", __idCategory))
-				.add(Restrictions.eq("styleId", __idStyle))
+				.add(Restrictions.in("styleId", ___idsStyle))
 				.add(Restrictions.in("id", _portfolioIds)).add(Restrictions.eq("status", (byte) 1))
 				.add(Restrictions.eq("deleted", (byte) 0));
+		if (__budgetCompare.intValue() > 0) {
+			_criteria.add(Restrictions.gt("amount", __budgetCompare))
+			.addOrder(Order.desc("amount"));
+		}
+		else if (__budgetCompare.intValue() <= 0) {
+			_criteria.add(Restrictions.le("amount", __budgetCompare.intValue() * -1))
+			.addOrder(Order.asc("amount"));
+		}
+
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}

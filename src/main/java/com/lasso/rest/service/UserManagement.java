@@ -100,12 +100,13 @@ public interface UserManagement extends ProjectManagement {
 	 * @param __index the index
 	 * @param __size the size
 	 * @param __idCategory the id category
-	 * @param __idStyle the id style
-	 * @param __idsType the list IDs type
+	 * @param _idsStyle the ids style
+	 * @param __idType the id type
+	 * @param __filter the filter: relevancy - budget - quality
 	 * @return the list portfolios data by condition {portoflio, designer}
 	 */
 	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-			int __idStyle, List<Integer> __idsType);
+			List<Integer> _idsStyle, int __idType, Integer[] __filter);
 
 	/**
 	 * Gets the order data by id.

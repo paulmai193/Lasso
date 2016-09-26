@@ -37,13 +37,13 @@ import com.lasso.rest.service.UserManagement;
 public class MessageController {
 
 	/** The avatar storage path. */
-	private String	avatarStoragePath;
+	private String				avatarStoragePath;
 
 	/** The http host. */
-	private String httpHost;
+	private String				httpHost;
 
 	/** The job storage path. */
-	private String	jobStoragePath;
+	private String				jobStoragePath;
 
 	/** The message management. */
 	@Autowired
@@ -51,7 +51,7 @@ public class MessageController {
 
 	/** The user management. */
 	@Autowired
-	private UserManagement userManagement;
+	private UserManagement		userManagement;
 
 	/** The validate context. */
 	@Context

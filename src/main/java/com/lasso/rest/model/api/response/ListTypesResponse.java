@@ -96,7 +96,7 @@ class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 
 	@Override
 	public void serialize(ListTypesResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -117,7 +117,7 @@ class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 					}
 					else {
 						__gen.writeStringField("image",
-						        __value.getPrefixUrl() + "/Small/" + __type.getImage());
+								__value.getPrefixUrl() + "/Small/" + __type.getImage());
 					}
 					__gen.writeEndObject();
 				}

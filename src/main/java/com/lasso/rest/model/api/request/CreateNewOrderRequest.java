@@ -169,6 +169,38 @@ public class CreateNewOrderRequest extends BaseRequest {
 		return this.submission;
 	}
 
+	/**
+	 * Sets the last submission.
+	 *
+	 * @param __lastSubmission the lastSubmission to set
+	 */
+	@JsonProperty("last_submission")
+	public void setLastSubmission(String __lastSubmission) {
+		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.lastSubmission = _dateFormat.parse(__lastSubmission);
+		}
+		catch (ParseException ex) {
+			this.lastSubmission = null;
+		}
+	}
+
+	/**
+	 * Sets the submission.
+	 *
+	 * @param __submission the submission to set
+	 */
+	@JsonProperty("submission")
+	public void setSubmission(String __submission) {
+		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.submission = _dateFormat.parse(__submission);
+		}
+		catch (ParseException ex) {
+			this.submission = null;
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -216,34 +248,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 		}
 		if (this.further == null) {
 			throw new ObjectParamException("Invalid further information");
-		}
-	}
-
-	/**
-	 * @param __lastSubmission the lastSubmission to set
-	 */
-	@JsonProperty("last_submission")
-	public void setLastSubmission(String __lastSubmission) {
-		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			this.lastSubmission = _dateFormat.parse(__lastSubmission);
-		}
-		catch (ParseException ex) {
-			this.lastSubmission = null;
-		}
-	}
-
-	/**
-	 * @param __submission the submission to set
-	 */
-	@JsonProperty("submission")
-	public void setSubmission(String __submission) {
-		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			this.submission = _dateFormat.parse(__submission);
-		}
-		catch (ParseException ex) {
-			this.submission = null;
 		}
 	}
 

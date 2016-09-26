@@ -52,9 +52,11 @@ public class ImplMessageManagement implements MessageManagement {
 			@Override
 			public void accept(Message __rootMessage) {
 				Object[] _data = { null, null, null };// {message, sender, job title}
-				Message _lastMessage = ImplMessageManagement.this.messageDAO.getLastMessageOfRoot(__rootMessage);
+				Message _lastMessage = ImplMessageManagement.this.messageDAO
+						.getLastMessageOfRoot(__rootMessage);
 				_data[0] = _lastMessage == null ? __rootMessage : _lastMessage;
-				Account _sender = ImplMessageManagement.this.accountDAO.getAccountById(__rootMessage.getFromAccountId());
+				Account _sender = ImplMessageManagement.this.accountDAO
+						.getAccountById(__rootMessage.getFromAccountId());
 				if (_sender != null) {
 					_data[1] = _sender;
 				}
@@ -89,7 +91,8 @@ public class ImplMessageManagement implements MessageManagement {
 
 			@Override
 			public void accept(Message __message) {
-				Account _sender = ImplMessageManagement.this.accountDAO.getAccountById(__message.getFromAccountId());
+				Account _sender = ImplMessageManagement.this.accountDAO
+						.getAccountById(__message.getFromAccountId());
 				if (_sender != null) {
 					Object[] _data = { __message, _sender };
 					_messageDatas.add(_data);

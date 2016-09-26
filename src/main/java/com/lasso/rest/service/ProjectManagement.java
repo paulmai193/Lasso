@@ -111,12 +111,12 @@ public interface ProjectManagement {
 	 * Gets the sub categories by index and keyword.
 	 *
 	 * @param __idCategory the id category
-	 * @param __idType the id type
+	 * @param __idTypes the list type ID
 	 * @param __size the size
 	 * @param __index the index
 	 * @param __keyword the keyword
 	 * @return the sub categories start from index
 	 */
-	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, Integer __idType, int __size,
-			int __index, String __keyword);
+	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, List<Integer> __idTypes,
+			int __size, int __index, String __keyword);
 }

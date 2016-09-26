@@ -412,21 +412,22 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.lasso.rest.service.UserManagement#getListPortfoliosByCondition(int, int, int, int,
-	 * java.util.List)
-	 */
 	@Override
 	public List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-	        int __idStyle, List<Integer> __idsType) {
+	        List<Integer> _idsStyle, int __idType, Integer[] __filter) {
 		List<Object[]> _datas = new ArrayList<>();
 
+		List<Integer> _idsType = new ArrayList<>();
+		_idsType.add(__idType);
+
+		if (__filter[0].intValue() > 0) {
+			_idsStyle.remove(__filter[0]);
+		}
+
 		// Get portfolio by conditions
-		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO.getListByIdTypes(__idsType);
+		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO.getListByIdTypes(_idsType);
 		List<Portfolio> _portfolios = this.portfolioDAO.searchPortfolios(__index, __size,
-		        __idCategory, __idStyle, _portfolioTypes);
+		        __idCategory, _idsStyle, _portfolioTypes, __filter[1]);
 
 		// Get desiger of this portolios
 		Set<Account> _tmpSetAccounts = new HashSet<>();
@@ -451,7 +452,25 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			@Override
 			public int compare(Object[] __o1, Object[] __o2) {
 				try {
-					return ((Account) __o2[1]).getRewards() - ((Account) __o1[1]).getRewards();
+					Account _designer1 = (Account) __o1[1];
+					Account _designer2 = (Account) __o2[1];
+					switch (__filter[2]) {
+						case 1:
+							return _designer2.getFeatured().compareTo(_designer1.getFeatured());
+						case 2:
+							return _designer2.getRecommended()
+							        .compareTo(_designer1.getRecommended());
+						case 3:
+							return _designer2.getRewards().compareTo(_designer1.getRewards());
+
+						default:
+							return (_designer2.getFeatured().intValue()
+							        + _designer2.getRecommended().intValue()
+							        + _designer2.getRewards().intValue())
+							        - (_designer1.getFeatured().intValue()
+							                + _designer1.getRecommended().intValue()
+							                + _designer1.getRewards().intValue());
+					}
 				}
 				catch (Exception _ex) {
 					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
