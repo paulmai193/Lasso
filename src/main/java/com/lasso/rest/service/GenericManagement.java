@@ -24,6 +24,14 @@ public interface GenericManagement {
 	List<Country> getAllCountries();
 
 	/**
+	 * Gets the country by id.
+	 *
+	 * @param __countryId the country id
+	 * @return the country by id
+	 */
+	Country getCountryById(Integer __countryId);
+
+	/**
 	 * Gets the country id by code.
 	 *
 	 * @param __countryCode the country code
@@ -53,7 +61,5 @@ public interface GenericManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	String loadWebContextStoragePath(String __app_session) throws UnirestException;
-
-	Country getCountryById(Integer __countryId);
 
 }

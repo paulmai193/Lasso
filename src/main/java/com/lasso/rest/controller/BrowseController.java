@@ -23,7 +23,7 @@ import com.lasso.rest.model.api.response.CategoryResponse;
 import com.lasso.rest.model.api.response.ListBannerReponse;
 import com.lasso.rest.model.api.response.ListCategoriesResponse;
 import com.lasso.rest.model.api.response.ListProjectsResponse;
-import com.lasso.rest.model.api.response.ListSubCatoriesResponse;
+import com.lasso.rest.model.api.response.ListSubCategoriesResponse;
 import com.lasso.rest.model.api.response.ListTypesResponse;
 import com.lasso.rest.model.api.response.ProjectDetailResponse;
 import com.lasso.rest.model.datasource.Banner;
@@ -104,10 +104,10 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/category")
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index,
-			@QueryParam("keyword") String __keyword) {
+	        @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-				_size, __keyword);
+		        _size, __keyword);
 		String _prefixUrl = this.httpHost + this.categoryStoragePath;
 		return new ListCategoriesResponse(_prefixUrl, _categories, __index + _size);
 	}
@@ -142,24 +142,48 @@ public class BrowseController extends BaseController {
 	@GET
 	@Path("/project")
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		String _prefixProjectUrl = this.httpHost + this.projectStoragePath;
 		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index, _size,
-				__keyword, _prefixProjectUrl, _prefixAvatarUrl);
+		        __keyword, _prefixProjectUrl, _prefixAvatarUrl);
+	}
+
+	/**
+	 * Gets the sub categories.
+	 *
+	 * @param __index the index
+	 * @param __idCategory the id category
+	 * @param __idType the id type
+	 * @param __keyword the keyword
+	 * @return the sub categories
+	 */
+	@GET
+	@Path("/sub_category")
+	public ListSubCategoriesResponse getListStyles(@QueryParam("index") int __index,
+	        @QueryParam("category_id") int __idCategory, @QueryParam("type_id") Integer __idType,
+	        @QueryParam("keyword") String __keyword) {
+		int _size = 8;
+		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
+		        __idType, __index, _size, __keyword);
+		String _prefixUrl = this.httpHost + this.styleStoragePath;
+		return new ListSubCategoriesResponse(_prefixUrl, _styles, __index + _size);
 	}
 
 	/**
 	 * Gets the list types by catogory.
 	 *
 	 * @param __idCategory the id category
+	 * @param __idStyle the id style
 	 * @return the list types by catogory
 	 */
 	@GET
 	@Path("/type")
-	public ListTypesResponse getListTypesByCatogory(@QueryParam("category_id") int __idCategory) {
-		List<Type> _types = this.projectManagement.getListTypesByIdCategory(__idCategory);
+	public ListTypesResponse getListTypes(@QueryParam("category_id") int __idCategory,
+	        @QueryParam("style_id") Integer __idStyle) {
+		List<Type> _types = this.projectManagement.getListTypesByIdCategoryAndStyle(__idCategory,
+		        __idStyle);
 		String _prefixTypetUrl = this.httpHost + this.typeStoragePath;
 		return new ListTypesResponse(_types, _prefixTypetUrl);
 	}
@@ -176,26 +200,7 @@ public class BrowseController extends BaseController {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		return this.projectManagement.getProjectDetailById(__idProject, _prefixPortforlioUrl,
-				_prefixAvatarUrl);
-	}
-
-	/**
-	 * Gets the sub categories.
-	 *
-	 * @param __index the index
-	 * @param __idCategory the id category
-	 * @param __keyword the keyword
-	 * @return the sub categories
-	 */
-	@GET
-	@Path("/sub_category")
-	public ListSubCatoriesResponse getSubCategories(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("keyword") String __keyword) {
-		int _size = 8;
-		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-				__index, _size, __keyword);
-		String _prefixUrl = this.httpHost + this.styleStoragePath;
-		return new ListSubCatoriesResponse(_prefixUrl, _styles, __index + _size);
+		        _prefixAvatarUrl);
 	}
 
 	/**

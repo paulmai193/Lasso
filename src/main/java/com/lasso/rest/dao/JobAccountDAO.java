@@ -50,6 +50,11 @@ public interface JobAccountDAO extends HibernateSession {
 	 */
 	void saveJobAccounts(List<JobsAccount> __jobsAccounts);
 
+	/**
+	 * Update.
+	 *
+	 * @param __jobsAccount the jobs account
+	 */
 	void update(JobsAccount __jobsAccount);
 
 }

@@ -2,6 +2,7 @@ package com.lasso.rest.dao;
 
 import java.util.List;
 
+import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.datasource.TypesStyle;
 
@@ -11,6 +12,14 @@ import com.lasso.rest.model.datasource.TypesStyle;
  * @author Paul Mai
  */
 public interface TypeStyleDAO extends HibernateSession {
+
+	/**
+	 * Gets the types styles by styles.
+	 *
+	 * @param __styles the styles
+	 * @return the types styles by styles
+	 */
+	List<TypesStyle> getTypesStylesByStyles(List<Style> __styles);
 
 	/**
 	 * Gets the types styles by types.

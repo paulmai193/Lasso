@@ -166,16 +166,6 @@ public class ManageOrderController extends BaseController {
 		return this.success();
 	}
 
-	@POST
-	@Path("/create/payment")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response payJob(PaymentForOrderRequest __paymentForJobRequest) {
-		__paymentForJobRequest.validate();
-		Account _user = (Account) this.validateContext.getUserPrincipal();
-		this.userManagement.applyPayment(_user, __paymentForJobRequest);
-		return this.success();
-	}
-
 	/**
 	 * Gets the designers.
 	 *
@@ -300,6 +290,22 @@ public class ManageOrderController extends BaseController {
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);
 		}
+	}
+
+	/**
+	 * Pay job.
+	 *
+	 * @param __paymentForJobRequest the payment for job request
+	 * @return the response
+	 */
+	@POST
+	@Path("/create/payment")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response payJob(PaymentForOrderRequest __paymentForJobRequest) {
+		__paymentForJobRequest.validate();
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		this.userManagement.applyPayment(_user, __paymentForJobRequest);
+		return this.success();
 	}
 
 	/**

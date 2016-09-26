@@ -17,30 +17,32 @@ import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.service.MessageManagement;
 
+/**
+ * The Class ImplMessageManagement.
+ *
+ * @author Paul Mai
+ */
 @Service
 public class ImplMessageManagement implements MessageManagement {
 
-	@Autowired
-	private MessageDAO	messageDAO;
-
+	/** The account DAO. */
 	@Autowired
 	private AccountDAO	accountDAO;
 
+	/** The job DAO. */
 	@Autowired
 	private JobDAO		jobDAO;
 
-	public void setJobDAO(JobDAO __jobDAO) {
-		this.jobDAO = __jobDAO;
-	}
+	/** The message DAO. */
+	@Autowired
+	private MessageDAO	messageDAO;
 
-	public void setAccountDAO(AccountDAO __accountDAO) {
-		this.accountDAO = __accountDAO;
-	}
-
-	public void setMessageDAO(MessageDAO __messageDAO) {
-		this.messageDAO = __messageDAO;
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.MessageManagement#getListMessagesOfAccount(com.lasso.rest.model.
+	 * datasource.Account)
+	 */
 	@Override
 	public List<Object[]> getListMessagesOfAccount(Account __account) {
 		List<Message> _messages = this.messageDAO.getListRootMessageByIdReceiver(__account.getId());
@@ -50,13 +52,13 @@ public class ImplMessageManagement implements MessageManagement {
 			@Override
 			public void accept(Message __rootMessage) {
 				Object[] _data = { null, null, null };// {message, sender, job title}
-				Message _lastMessage = messageDAO.getLastMessageOfRoot(__rootMessage);
+				Message _lastMessage = ImplMessageManagement.this.messageDAO.getLastMessageOfRoot(__rootMessage);
 				_data[0] = _lastMessage == null ? __rootMessage : _lastMessage;
-				Account _sender = accountDAO.getAccountById(__rootMessage.getFromAccountId());
+				Account _sender = ImplMessageManagement.this.accountDAO.getAccountById(__rootMessage.getFromAccountId());
 				if (_sender != null) {
 					_data[1] = _sender;
 				}
-				Job _job = jobDAO.getJobById(__rootMessage.getJobId());
+				Job _job = ImplMessageManagement.this.jobDAO.getJobById(__rootMessage.getJobId());
 				if (_job != null) {
 					_data[2] = _job;
 				}
@@ -66,6 +68,13 @@ public class ImplMessageManagement implements MessageManagement {
 		return _messageDatas;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.MessageManagement#getMessagesDetailOfAccount(com.lasso.rest.model.
+	 * datasource.Account, int)
+	 */
 	@Override
 	public List<Object[]> getMessagesDetailOfAccount(Account __account, int __idMessage) {
 		Message _rootMessage = this.messageDAO.getRootMessage(__idMessage);
@@ -80,7 +89,7 @@ public class ImplMessageManagement implements MessageManagement {
 
 			@Override
 			public void accept(Message __message) {
-				Account _sender = accountDAO.getAccountById(__message.getFromAccountId());
+				Account _sender = ImplMessageManagement.this.accountDAO.getAccountById(__message.getFromAccountId());
 				if (_sender != null) {
 					Object[] _data = { __message, _sender };
 					_messageDatas.add(_data);
@@ -88,6 +97,33 @@ public class ImplMessageManagement implements MessageManagement {
 			}
 		});
 		return _messageDatas;
+	}
+
+	/**
+	 * Sets the account DAO.
+	 *
+	 * @param __accountDAO the new account DAO
+	 */
+	public void setAccountDAO(AccountDAO __accountDAO) {
+		this.accountDAO = __accountDAO;
+	}
+
+	/**
+	 * Sets the job DAO.
+	 *
+	 * @param __jobDAO the new job DAO
+	 */
+	public void setJobDAO(JobDAO __jobDAO) {
+		this.jobDAO = __jobDAO;
+	}
+
+	/**
+	 * Sets the message DAO.
+	 *
+	 * @param __messageDAO the new message DAO
+	 */
+	public void setMessageDAO(MessageDAO __messageDAO) {
+		this.messageDAO = __messageDAO;
 	}
 
 }

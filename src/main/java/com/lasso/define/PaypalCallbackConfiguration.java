@@ -3,19 +3,29 @@ package com.lasso.define;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The Class PaypalCallbackConfiguration.
+ *
+ * @author Paul Mai
+ */
 public class PaypalCallbackConfiguration {
 
 	// Creates a configuration map containing credentials and other required configuration
+	/**
+	 * Gets the acct and config.
+	 *
+	 * @return the acct and config
+	 */
 	// parameters.
 	public static final Map<String, String> getAcctAndConfig() {
-		Map<String, String> configMap = new HashMap<String, String>();
-		configMap.putAll(getConfig());
+		Map<String, String> configMap = new HashMap<>();
+		configMap.putAll(PaypalCallbackConfiguration.getConfig());
 
 		// Account Credential
 		configMap.put("acct1.UserName", "jb-us-seller_api1.paypal.com");
 		configMap.put("acct1.Password", "WX4WTU3S8MY44S7F");
 		configMap.put("acct1.Signature",
-		        "AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy");
+				"AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy");
 		// Subject is optional, only required in case of third party permission
 		// configMap.put("acct1.Subject", "");
 
@@ -29,8 +39,13 @@ public class PaypalCallbackConfiguration {
 		return configMap;
 	}
 
+	/**
+	 * Gets the config.
+	 *
+	 * @return the config
+	 */
 	public static final Map<String, String> getConfig() {
-		Map<String, String> configMap = new HashMap<String, String>();
+		Map<String, String> configMap = new HashMap<>();
 
 		// Endpoints are varied depending on whether sandbox OR live is chosen for mode
 		configMap.put("mode", "sandbox");

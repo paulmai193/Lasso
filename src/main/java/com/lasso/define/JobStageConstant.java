@@ -10,14 +10,14 @@ public enum JobStageConstant {
 	/** The job stage 1st draft. */
 	JOB_STAGE_1ST_DRAFT((byte) 1, "1st Draft"),
 
-	/** The job stage revised. */
-	JOB_STAGE_REVISED((byte) 2, "Revised"),
+	/** The job stage completed. */
+	JOB_STAGE_COMPLETED((byte) 4, "Completed"),
 
 	/** The job stage final artwork. */
 	JOB_STAGE_FINAL_ARTWORK((byte) 3, "Final Artwork"),
 
-	/** The job stage completed. */
-	JOB_STAGE_COMPLETED((byte) 4, "Completed");
+	/** The job stage revised. */
+	JOB_STAGE_REVISED((byte) 2, "Revised");
 
 	/**
 	 * Gets the by code.

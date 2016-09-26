@@ -62,6 +62,31 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * com.lasso.rest.service.UserManagement#applyPayment(com.lasso.rest.model.datasource.Account,
+	 * com.lasso.rest.model.api.request.PaymentForOrderRequest)
+	 */
+	@Override
+	public void applyPayment(Account __user, PaymentForOrderRequest __paymentForJobRequest) {
+		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __paymentForJobRequest.getIdJob());
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else {
+			if (__paymentForJobRequest.getPayment() == 0) {
+				// Default
+				_job.setStep(JobStepConstant.JOB_STEP_PAY.getStepCode());
+				this.jobDAO.updateJob(_job);
+			}
+			else {
+				// TODO Paypal
+			}
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * com.lasso.rest.service.UserManagement#applyPromoCodeForOrder(com.lasso.rest.model.datasource.
 	 * Account, com.lasso.rest.model.api.request.UsePromoCodeForOrder)
 	 */
@@ -86,24 +111,6 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			this.jobDAO.updateJob(_job);
 		}
 
-	}
-
-	@Override
-	public void applyPayment(Account __user, PaymentForOrderRequest __paymentForJobRequest) {
-		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __paymentForJobRequest.getIdJob());
-		if (_job == null) {
-			throw new NotFoundException("Job not found");
-		}
-		else {
-			if (__paymentForJobRequest.getPayment() == 0) {
-				// Default
-				_job.setStep(JobStepConstant.JOB_STEP_PAY.getStepCode());
-				jobDAO.updateJob(_job);
-			}
-			else {
-				// TODO Paypal
-			}
-		}
 	}
 
 	/*

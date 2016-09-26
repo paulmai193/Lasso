@@ -34,65 +34,88 @@ public class Job implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
-
+	/** The account id. */
 	@Column(name = "account_id")
 	private Integer				accountId;
 
+	/** The assets url. */
 	@Column(name = "assets_url")
 	private String				assetsUrl;
 
+	/** The budget. */
 	private Double				budget;
 
+	/** The category id. */
 	@Column(name = "category_id")
 	private Integer				categoryId;
 
+	/** The completed. */
 	private Byte				completed;
 
+	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
 	private Byte				deleted;
 
+	/** The description. */
 	private String				description;
 
+	/** The discount. */
 	private Double				discount;
 
+	/** The fee. */
 	private Double				fee;
 
+	/** The further information. */
 	@Lob
 	@Column(name = "further_information")
 	private String				furtherInformation;
 
+	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer				id;
+
+	/** The latest submission. */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "latest_submission")
 	private Date				latestSubmission;
 
+	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
+	/** The objective. */
 	private String				objective;
 
+	/** The paid. */
 	private Byte				paid;
 
+	/** The reference. */
 	@Lob
 	private String				reference;
 
+	/** The stage. */
 	private Byte				stage;
 
+	/** The stage date. */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "stage_date")
 	private Date				stageDate;
 
+	/** The status. */
 	private Byte				status;
 
+	/** The step. */
 	private Byte				step;
 
+	/** The submission. */
 	@Temporal(TemporalType.DATE)
 	private Date				submission;
 
+	/** The type id. */
 	@Column(name = "type_id")
 	private Integer				typeId;
 
@@ -124,186 +147,416 @@ public class Job implements Serializable {
 		this.submission = __newJobRequest.getSubmission();
 	}
 
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
+	/**
+	 * Gets the account id.
+	 *
+	 * @return the account id
+	 */
 	public Integer getAccountId() {
 		return this.accountId;
 	}
 
-	public void setAccountId(Integer accountId) {
-		this.accountId = accountId;
-	}
-
+	/**
+	 * Gets the assets url.
+	 *
+	 * @return the assets url
+	 */
 	public String getAssetsUrl() {
 		return this.assetsUrl;
 	}
 
-	public void setAssetsUrl(String assetsUrl) {
-		this.assetsUrl = assetsUrl;
-	}
-
+	/**
+	 * Gets the budget.
+	 *
+	 * @return the budget
+	 */
 	public Double getBudget() {
 		return this.budget;
 	}
 
-	public void setBudget(Double budget) {
-		this.budget = budget;
-	}
-
+	/**
+	 * Gets the category id.
+	 *
+	 * @return the category id
+	 */
 	public Integer getCategoryId() {
 		return this.categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
-	}
-
+	/**
+	 * Gets the completed.
+	 *
+	 * @return the completed
+	 */
 	public Byte getCompleted() {
 		return this.completed;
 	}
 
-	public void setCompleted(Byte completed) {
-		this.completed = completed;
-	}
-
+	/**
+	 * Gets the created.
+	 *
+	 * @return the created
+	 */
 	public Date getCreated() {
 		return this.created;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
 	public Byte getDeleted() {
 		return this.deleted;
 	}
 
-	public void setDeleted(Byte deleted) {
-		this.deleted = deleted;
-	}
-
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return this.description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	/**
+	 * Gets the discount.
+	 *
+	 * @return the discount
+	 */
 	public Double getDiscount() {
 		return this.discount;
 	}
 
-	public void setDiscount(Double discount) {
-		this.discount = discount;
-	}
-
+	/**
+	 * Gets the fee.
+	 *
+	 * @return the fee
+	 */
 	public Double getFee() {
 		return this.fee;
 	}
 
-	public void setFee(Double fee) {
-		this.fee = fee;
-	}
-
+	/**
+	 * Gets the further information.
+	 *
+	 * @return the further information
+	 */
 	public String getFurtherInformation() {
 		return this.furtherInformation;
 	}
 
-	public void setFurtherInformation(String furtherInformation) {
-		this.furtherInformation = furtherInformation;
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public Integer getId() {
+		return this.id;
 	}
 
+	/**
+	 * Gets the latest submission.
+	 *
+	 * @return the latest submission
+	 */
 	public Date getLatestSubmission() {
 		return this.latestSubmission;
 	}
 
-	public void setLatestSubmission(Date latestSubmission) {
-		this.latestSubmission = latestSubmission;
-	}
-
+	/**
+	 * Gets the modified.
+	 *
+	 * @return the modified
+	 */
 	public Date getModified() {
 		return this.modified;
 	}
 
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
-
+	/**
+	 * Gets the objective.
+	 *
+	 * @return the objective
+	 */
 	public String getObjective() {
 		return this.objective;
 	}
 
-	public void setObjective(String objective) {
-		this.objective = objective;
-	}
-
+	/**
+	 * Gets the paid.
+	 *
+	 * @return the paid
+	 */
 	public Byte getPaid() {
 		return this.paid;
 	}
 
-	public void setPaid(Byte paid) {
-		this.paid = paid;
-	}
-
+	/**
+	 * Gets the reference.
+	 *
+	 * @return the reference
+	 */
 	public String getReference() {
 		return this.reference;
 	}
 
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
+	/**
+	 * Gets the stage.
+	 *
+	 * @return the stage
+	 */
 	public Byte getStage() {
 		return this.stage;
 	}
 
-	public void setStage(Byte stage) {
-		this.stage = stage;
-	}
-
+	/**
+	 * Gets the stage date.
+	 *
+	 * @return the stage date
+	 */
 	public Date getStageDate() {
 		return this.stageDate;
 	}
 
-	public void setStageDate(Date stageDate) {
-		this.stageDate = stageDate;
-	}
-
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
 	public Byte getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(Byte status) {
-		this.status = status;
-	}
-
+	/**
+	 * Gets the step.
+	 *
+	 * @return the step
+	 */
 	public Byte getStep() {
 		return this.step;
 	}
 
-	public void setStep(Byte step) {
-		this.step = step;
-	}
-
+	/**
+	 * Gets the submission.
+	 *
+	 * @return the submission
+	 */
 	public Date getSubmission() {
 		return this.submission;
 	}
 
-	public void setSubmission(Date submission) {
-		this.submission = submission;
-	}
-
+	/**
+	 * Gets the type id.
+	 *
+	 * @return the type id
+	 */
 	public Integer getTypeId() {
 		return this.typeId;
 	}
 
+	/**
+	 * Sets the account id.
+	 *
+	 * @param accountId the new account id
+	 */
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
+	}
+
+	/**
+	 * Sets the assets url.
+	 *
+	 * @param assetsUrl the new assets url
+	 */
+	public void setAssetsUrl(String assetsUrl) {
+		this.assetsUrl = assetsUrl;
+	}
+
+	/**
+	 * Sets the budget.
+	 *
+	 * @param budget the new budget
+	 */
+	public void setBudget(Double budget) {
+		this.budget = budget;
+	}
+
+	/**
+	 * Sets the category id.
+	 *
+	 * @param categoryId the new category id
+	 */
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	/**
+	 * Sets the completed.
+	 *
+	 * @param completed the new completed
+	 */
+	public void setCompleted(Byte completed) {
+		this.completed = completed;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(Byte deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Sets the discount.
+	 *
+	 * @param discount the new discount
+	 */
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
+	/**
+	 * Sets the fee.
+	 *
+	 * @param fee the new fee
+	 */
+	public void setFee(Double fee) {
+		this.fee = fee;
+	}
+
+	/**
+	 * Sets the further information.
+	 *
+	 * @param furtherInformation the new further information
+	 */
+	public void setFurtherInformation(String furtherInformation) {
+		this.furtherInformation = furtherInformation;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the latest submission.
+	 *
+	 * @param latestSubmission the new latest submission
+	 */
+	public void setLatestSubmission(Date latestSubmission) {
+		this.latestSubmission = latestSubmission;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param modified the new modified
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the objective.
+	 *
+	 * @param objective the new objective
+	 */
+	public void setObjective(String objective) {
+		this.objective = objective;
+	}
+
+	/**
+	 * Sets the paid.
+	 *
+	 * @param paid the new paid
+	 */
+	public void setPaid(Byte paid) {
+		this.paid = paid;
+	}
+
+	/**
+	 * Sets the reference.
+	 *
+	 * @param reference the new reference
+	 */
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	/**
+	 * Sets the stage.
+	 *
+	 * @param stage the new stage
+	 */
+	public void setStage(Byte stage) {
+		this.stage = stage;
+	}
+
+	/**
+	 * Sets the stage date.
+	 *
+	 * @param stageDate the new stage date
+	 */
+	public void setStageDate(Date stageDate) {
+		this.stageDate = stageDate;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
+	public void setStatus(Byte status) {
+		this.status = status;
+	}
+
+	/**
+	 * Sets the step.
+	 *
+	 * @param step the new step
+	 */
+	public void setStep(Byte step) {
+		this.step = step;
+	}
+
+	/**
+	 * Sets the submission.
+	 *
+	 * @param submission the new submission
+	 */
+	public void setSubmission(Date submission) {
+		this.submission = submission;
+	}
+
+	/**
+	 * Sets the type id.
+	 *
+	 * @param typeId the new type id
+	 */
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
 	}

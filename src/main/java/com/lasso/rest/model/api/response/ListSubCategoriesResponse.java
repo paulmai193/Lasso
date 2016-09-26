@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Style;
 
 /**
- * The Class ListSubCatoriesResponse.
+ * The Class ListSubCategoriesResponse.
  *
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
 @JsonSerialize(using = ListSubCategoriesSerializer.class)
-public class ListSubCatoriesResponse extends BaseResponse {
+public class ListSubCategoriesResponse extends BaseResponse {
 
 	/** The next page. */
 	private int			nextPage;
@@ -35,7 +35,7 @@ public class ListSubCatoriesResponse extends BaseResponse {
 	 *
 	 * @param __error the error
 	 */
-	public ListSubCatoriesResponse(boolean __error) {
+	public ListSubCategoriesResponse(boolean __error) {
 		super(__error);
 	}
 
@@ -45,7 +45,7 @@ public class ListSubCatoriesResponse extends BaseResponse {
 	 * @param __error the error
 	 * @param __message the message
 	 */
-	public ListSubCatoriesResponse(boolean __error, String __message) {
+	public ListSubCategoriesResponse(boolean __error, String __message) {
 		super(__error, __message);
 	}
 
@@ -56,7 +56,7 @@ public class ListSubCatoriesResponse extends BaseResponse {
 	 * @param __message the message
 	 * @param __detail the detail
 	 */
-	public ListSubCatoriesResponse(boolean __error, String __message, String __detail) {
+	public ListSubCategoriesResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
 	}
 
@@ -67,7 +67,7 @@ public class ListSubCatoriesResponse extends BaseResponse {
 	 * @param __styles the styles
 	 * @param __nextPage the next page
 	 */
-	public ListSubCatoriesResponse(String __prefixUrl, List<Style> __styles, int __nextPage) {
+	public ListSubCategoriesResponse(String __prefixUrl, List<Style> __styles, int __nextPage) {
 		super();
 		this.prefixUrl = __prefixUrl;
 		this.styles = __styles;
@@ -103,10 +103,10 @@ public class ListSubCatoriesResponse extends BaseResponse {
 
 }
 
-class ListSubCategoriesSerializer extends JsonSerializer<ListSubCatoriesResponse> {
+class ListSubCategoriesSerializer extends JsonSerializer<ListSubCategoriesResponse> {
 
 	@Override
-	public void serialize(ListSubCatoriesResponse __value, JsonGenerator __gen,
+	public void serialize(ListSubCategoriesResponse __value, JsonGenerator __gen,
 			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());

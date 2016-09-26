@@ -22,6 +22,14 @@ import javassist.NotFoundException;
 public interface UserManagement extends ProjectManagement {
 
 	/**
+	 * Apply payment.
+	 *
+	 * @param __user the user
+	 * @param __paymentForJobRequest the payment for job request
+	 */
+	void applyPayment(Account __user, PaymentForOrderRequest __paymentForJobRequest);
+
+	/**
 	 * Apply promo code for order.
 	 *
 	 * @param __user the user
@@ -36,7 +44,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @param __chooseDesignerForOrderRequest the choose designer for order request
 	 */
 	void chooseDesignerForOrder(Account __user,
-	        ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
+			ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
 
 	/**
 	 * Confirm order.
@@ -55,7 +63,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
-	        throws UnirestException, IOException;
+			throws UnirestException, IOException;
 
 	/**
 	 * Edits the offer.
@@ -66,7 +74,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void editOrder(Account __user, EditOrderRequest __editOrderRequest)
-	        throws UnirestException, IOException;
+			throws UnirestException, IOException;
 
 	/**
 	 * Gets the job data of user by id.
@@ -97,7 +105,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the list portfolios data by condition {portoflio, designer}
 	 */
 	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-	        int __idStyle, List<Integer> __idsType);
+			int __idStyle, List<Integer> __idsType);
 
 	/**
 	 * Gets the order data by id.
@@ -115,7 +123,5 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the payment detail of order
 	 */
 	Object[] getPaymentDetailOfOrder(Account __user, int __idJob);
-
-	void applyPayment(Account __user, PaymentForOrderRequest __paymentForJobRequest);
 
 }

@@ -36,6 +36,16 @@ public class ImplCountryDAO implements CountryDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.CountryDAO#getById(java.lang.Integer)
+	 */
+	@Override
+	public Country getById(Integer __countryId) {
+		return this.sessionFactory.getCurrentSession().get(Country.class, __countryId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.CountryDAO#getCountryIdsByCode(java.lang.String)
 	 */
 	@SuppressWarnings("unchecked")
@@ -46,13 +56,8 @@ public class ImplCountryDAO implements CountryDAO {
 			_criteria.add(Restrictions.eq("code", __code));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("sort")).addOrder(Order.asc("name"));
+		.addOrder(Order.asc("sort")).addOrder(Order.asc("name"));
 		return _criteria.list();
-	}
-
-	@Override
-	public Country getById(Integer __countryId) {
-		return this.sessionFactory.getCurrentSession().get(Country.class, __countryId);
 	}
 
 	/**

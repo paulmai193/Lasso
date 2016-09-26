@@ -24,6 +24,11 @@ import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
 
+/**
+ * The Class MessageController.
+ *
+ * @author Paul Mai
+ */
 @Controller
 @Path("/message")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,61 +39,101 @@ public class MessageController {
 	/** The avatar storage path. */
 	private String	avatarStoragePath;
 
-	private String	jobStoragePath;
-
-	public void setJobStoragePath(String __jobStoragePath) {
-		this.jobStoragePath = __jobStoragePath;
-	}
-
-	@Autowired
-	private UserManagement userManagement;
-
-	public void setUserManagement(UserManagement __userManagement) {
-		this.userManagement = __userManagement;
-	}
-
-	public void setAvatarStoragePath(String __avatarStoragePath) {
-		this.avatarStoragePath = __avatarStoragePath;
-	}
-
 	/** The http host. */
 	private String httpHost;
 
-	public void setHttpHost(String __httpHost) {
-		this.httpHost = __httpHost;
-	}
+	/** The job storage path. */
+	private String	jobStoragePath;
 
-	@Context
-	private SecurityContext		validateContext;
-
+	/** The message management. */
 	@Autowired
 	private MessageManagement	messageManagement;
 
-	public void setMessageManagement(MessageManagement __messageManagement) {
-		this.messageManagement = __messageManagement;
-	}
+	/** The user management. */
+	@Autowired
+	private UserManagement userManagement;
 
+	/** The validate context. */
+	@Context
+	private SecurityContext		validateContext;
+
+	/**
+	 * Gets the list message.
+	 *
+	 * @return the list message
+	 */
 	@GET
 	public ListMessageResponse getListMessage() {
-		Account _account = (Account) validateContext.getUserPrincipal();
+		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getListMessagesOfAccount(_account);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		return new ListMessageResponse(_messageDatas, _prefixAvatar);
 	}
 
+	/**
+	 * Gets the message detail.
+	 *
+	 * @param __idMessage the id message
+	 * @return the message detail
+	 */
 	@GET
 	@Path("/detail")
 	public MessageDetailResponse getMessageDetail(@QueryParam("id") int __idMessage) {
-		Account _account = (Account) validateContext.getUserPrincipal();
+		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-		        __idMessage);
+				__idMessage);
 		Message _rootMessage = (Message) _messageDatas.get(0)[0];
 		Object[] _orderData = this.userManagement.getOrderDataById(_rootMessage.getJobId());
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-		        null, _prefixJob);
+				null, _prefixJob);
 		return new MessageDetailResponse(_orderDetail, _messageDatas, _prefixAvatar);
+	}
+
+	/**
+	 * Sets the avatar storage path.
+	 *
+	 * @param __avatarStoragePath the new avatar storage path
+	 */
+	public void setAvatarStoragePath(String __avatarStoragePath) {
+		this.avatarStoragePath = __avatarStoragePath;
+	}
+
+	/**
+	 * Sets the http host.
+	 *
+	 * @param __httpHost the new http host
+	 */
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
+	}
+
+	/**
+	 * Sets the job storage path.
+	 *
+	 * @param __jobStoragePath the new job storage path
+	 */
+	public void setJobStoragePath(String __jobStoragePath) {
+		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
+	 * Sets the message management.
+	 *
+	 * @param __messageManagement the new message management
+	 */
+	public void setMessageManagement(MessageManagement __messageManagement) {
+		this.messageManagement = __messageManagement;
+	}
+
+	/**
+	 * Sets the user management.
+	 *
+	 * @param __userManagement the new user management
+	 */
+	public void setUserManagement(UserManagement __userManagement) {
+		this.userManagement = __userManagement;
 	}
 
 }

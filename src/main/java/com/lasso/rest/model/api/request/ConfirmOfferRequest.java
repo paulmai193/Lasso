@@ -19,22 +19,13 @@ public class ConfirmOfferRequest extends BaseRequest {
 	@JsonProperty("job_id")
 	private Integer	idJob;
 
+	/** The status. */
 	private Byte	status;
 
 	/**
 	 * Instantiates a new confirm order request.
 	 */
 	public ConfirmOfferRequest() {
-	}
-
-	public byte getStatus() {
-		return this.status;
-	}
-
-	@JsonProperty("confirm_status")
-	public void setStatus(String __status) {
-		this.status = __status.equals("accept") ? (byte) 1
-		        : __status.equals("reject") ? (byte) -1 : null;
 	}
 
 	/**
@@ -44,6 +35,26 @@ public class ConfirmOfferRequest extends BaseRequest {
 	 */
 	public Integer getIdJob() {
 		return this.idJob;
+	}
+
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
+	public byte getStatus() {
+		return this.status;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param __status the new status
+	 */
+	@JsonProperty("confirm_status")
+	public void setStatus(String __status) {
+		this.status = __status.equals("accept") ? (byte) 1
+				: __status.equals("reject") ? (byte) -1 : null;
 	}
 
 	/*

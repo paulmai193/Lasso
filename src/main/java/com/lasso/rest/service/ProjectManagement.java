@@ -58,12 +58,13 @@ public interface ProjectManagement {
 	List<Banner> getListBanner();
 
 	/**
-	 * Gets the list types by id category.
+	 * Gets the list types by id category and style.
 	 *
 	 * @param __idCategory the id category
-	 * @return the list types by id category
+	 * @param __idStyle the id style
+	 * @return the list types by id category and style
 	 */
-	List<Type> getListTypesByIdCategory(int __idCategory);
+	List<Type> getListTypesByIdCategoryAndStyle(int __idCategory, Integer __idStyle);
 
 	/**
 	 * Gets the list types by id portfolio.
@@ -82,7 +83,7 @@ public interface ProjectManagement {
 	 * @return the project by id
 	 */
 	ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
-	        String __prefixAvatarUrl);
+			String __prefixAvatarUrl);
 
 	/**
 	 * Gets the projects by sub category and keyword.
@@ -96,7 +97,7 @@ public interface ProjectManagement {
 	 * @return the projects by sub category and keyword
 	 */
 	ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index, int __size,
-	        String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl);
+			String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl);
 
 	/**
 	 * Gets the style by id.
@@ -110,11 +111,12 @@ public interface ProjectManagement {
 	 * Gets the sub categories by index and keyword.
 	 *
 	 * @param __idCategory the id category
-	 * @param __index the index
+	 * @param __idType the id type
 	 * @param __size the size
+	 * @param __index the index
 	 * @param __keyword the keyword
 	 * @return the sub categories start from index
 	 */
-	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-	        String __keyword);
+	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, Integer __idType, int __size,
+			int __index, String __keyword);
 }

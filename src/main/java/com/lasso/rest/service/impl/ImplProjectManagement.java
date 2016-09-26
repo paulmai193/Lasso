@@ -115,6 +115,24 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Autowired
 	protected UploadImageManagement	uploadImageManagement;
 
+	/**
+	 * Gets the account DAO.
+	 *
+	 * @return the accountDAO
+	 */
+	public AccountDAO getAccountDAO() {
+		return this.accountDAO;
+	}
+
+	/**
+	 * Gets the banner DAO.
+	 *
+	 * @return the bannerDAO
+	 */
+	public BannerDAO getBannerDAO() {
+		return this.bannerDAO;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -137,6 +155,33 @@ public class ImplProjectManagement implements ProjectManagement {
 		return this.categoryDAO.getCategoryById(__idCategory);
 	}
 
+	/**
+	 * Gets the category DAO.
+	 *
+	 * @return the categoryDAO
+	 */
+	public CategoryDAO getCategoryDAO() {
+		return this.categoryDAO;
+	}
+
+	/**
+	 * Gets the generic management.
+	 *
+	 * @return the genericManagement
+	 */
+	public GenericManagement getGenericManagement() {
+		return this.genericManagement;
+	}
+
+	/**
+	 * Gets the job account DAO.
+	 *
+	 * @return the jobAccountDAO
+	 */
+	public JobAccountDAO getJobAccountDAO() {
+		return this.jobAccountDAO;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -145,6 +190,33 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Override
 	public Job getJobById(int __idJob) {
 		return this.jobDAO.getJobById(__idJob);
+	}
+
+	/**
+	 * Gets the job DAO.
+	 *
+	 * @return the jobDAO
+	 */
+	public JobDAO getJobDAO() {
+		return this.jobDAO;
+	}
+
+	/**
+	 * Gets the job storage path.
+	 *
+	 * @return the jobStoragePath
+	 */
+	public String getJobStoragePath() {
+		return this.jobStoragePath;
+	}
+
+	/**
+	 * Gets the job style DAO.
+	 *
+	 * @return the jobStyleDAO
+	 */
+	public JobStyleDAO getJobStyleDAO() {
+		return this.jobStyleDAO;
 	}
 
 	/*
@@ -160,15 +232,35 @@ public class ImplProjectManagement implements ProjectManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getListTypesByIdCategory(int)
+	 * @see com.lasso.rest.service.ProjectManagement#getListTypesByIdCategoryAndStyle(int,
+	 * java.lang.Integer)
 	 */
 	@Override
-	public List<Type> getListTypesByIdCategory(int __idCategory) {
+	public List<Type> getListTypesByIdCategoryAndStyle(int __idCategory, Integer __idStyle) {
 		Category _category = this.categoryDAO.getCategoryById(__idCategory);
 		if (_category == null) {
 			return new ArrayList<>();
 		}
-		List<Type> _types = this.typeDAO.getTypesByCategory(_category);
+
+		// Get Type from Category or Type ID
+		List<Type> _types;
+		if (__idStyle != null) {
+			List<Style> _styles = new ArrayList<>();
+			Style _style = this.styleDAO.getById(__idStyle);
+			if (_style != null) {
+				_styles.add(_style);
+			}
+			List<Integer> _listIdTypes = new ArrayList<>();
+			// Get TypesStyle from Styles
+			this.typeStyleDAO.getTypesStylesByStyles(_styles)
+			        .forEach(_typeStyle -> _listIdTypes.add(_typeStyle.getTypeId()));
+
+			_types = this.typeDAO.getTypesByIdTypesAndCategory(_listIdTypes, _category);
+		}
+		else {
+			_types = this.typeDAO.getTypesByCategory(_category);
+		}
+
 		return _types;
 	}
 
@@ -193,6 +285,42 @@ public class ImplProjectManagement implements ProjectManagement {
 		}
 
 		return this.typeDAO.getListByByListIds(_listIdsType);
+	}
+
+	/**
+	 * Gets the message DAO.
+	 *
+	 * @return the messageDAO
+	 */
+	public MessageDAO getMessageDAO() {
+		return this.messageDAO;
+	}
+
+	/**
+	 * Gets the portfolio DAO.
+	 *
+	 * @return the portfolioDAO
+	 */
+	public PortfolioDAO getPortfolioDAO() {
+		return this.portfolioDAO;
+	}
+
+	/**
+	 * Gets the portfolio type DAO.
+	 *
+	 * @return the portfolioTypeDAO
+	 */
+	public PortfolioTypeDAO getPortfolioTypeDAO() {
+		return this.portfolioTypeDAO;
+	}
+
+	/**
+	 * Gets the project DAO.
+	 *
+	 * @return the projectDAO
+	 */
+	public ProjectDAO getProjectDAO() {
+		return this.projectDAO;
 	}
 
 	/*
@@ -261,25 +389,44 @@ public class ImplProjectManagement implements ProjectManagement {
 		return this.styleDAO.getById(__styleId);
 	}
 
+	/**
+	 * Gets the style DAO.
+	 *
+	 * @return the styleDAO
+	 */
+	public StyleDAO getStyleDAO() {
+		return this.styleDAO;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getSubCategoriesByIndexAndKeyword(int, int,
-	 * int, java.lang.String)
+	 * @see com.lasso.rest.service.ProjectManagement#getSubCategoriesByIndexAndKeyword(int,
+	 * java.lang.Integer, int, int, java.lang.String)
 	 */
 	@Override
-	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, int __index, int __size,
-	        String __keyword) {
+	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, Integer __idType,
+	        int __index, int __size, String __keyword) {
 		// Get Category from id
 		Category _category = this.categoryDAO.getCategoryById(__idCategory);
 		if (_category == null) {
 			return new ArrayList<>();
 		}
 
-		// Get Type from Category
-		List<Type> _types = this.typeDAO.getTypesByCategory(_category);
-		if (_types.size() == 0) {
-			return new ArrayList<>();
+		// Get Type from Category or Type ID
+		List<Type> _types;
+		if (__idType == null) {
+			_types = this.typeDAO.getTypesByCategory(_category);
+			if (_types.size() == 0) {
+				return new ArrayList<>();
+			}
+		}
+		else {
+			_types = new ArrayList<>();
+			Type _type = this.typeDAO.getTypeById(__idType);
+			if (_type != null) {
+				_types.add(_type);
+			}
 		}
 
 		// Get TypesStyle from Types
@@ -290,6 +437,42 @@ public class ImplProjectManagement implements ProjectManagement {
 
 		// Get Style from TypesStyles
 		return this.styleDAO.getStylesByTypesAndKeyword(_typesStyles, __index, __size, __keyword);
+	}
+
+	/**
+	 * Gets the temporary storage path.
+	 *
+	 * @return the temporaryStoragePath
+	 */
+	public String getTemporaryStoragePath() {
+		return this.temporaryStoragePath;
+	}
+
+	/**
+	 * Gets the type DAO.
+	 *
+	 * @return the typeDAO
+	 */
+	public TypeDAO getTypeDAO() {
+		return this.typeDAO;
+	}
+
+	/**
+	 * Gets the type style DAO.
+	 *
+	 * @return the typeStyleDAO
+	 */
+	public TypeStyleDAO getTypeStyleDAO() {
+		return this.typeStyleDAO;
+	}
+
+	/**
+	 * Gets the upload image management.
+	 *
+	 * @return the uploadImageManagement
+	 */
+	public UploadImageManagement getUploadImageManagement() {
+		return this.uploadImageManagement;
 	}
 
 	/*
@@ -310,13 +493,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the accountDAO
-	 */
-	public AccountDAO getAccountDAO() {
-		return this.accountDAO;
-	}
-
-	/**
+	 * Sets the account DAO.
+	 *
 	 * @param __accountDAO the accountDAO to set
 	 */
 	public void setAccountDAO(AccountDAO __accountDAO) {
@@ -324,13 +502,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the bannerDAO
-	 */
-	public BannerDAO getBannerDAO() {
-		return this.bannerDAO;
-	}
-
-	/**
+	 * Sets the banner DAO.
+	 *
 	 * @param __bannerDAO the bannerDAO to set
 	 */
 	public void setBannerDAO(BannerDAO __bannerDAO) {
@@ -338,13 +511,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the categoryDAO
-	 */
-	public CategoryDAO getCategoryDAO() {
-		return this.categoryDAO;
-	}
-
-	/**
+	 * Sets the category DAO.
+	 *
 	 * @param __categoryDAO the categoryDAO to set
 	 */
 	public void setCategoryDAO(CategoryDAO __categoryDAO) {
@@ -352,13 +520,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the genericManagement
-	 */
-	public GenericManagement getGenericManagement() {
-		return this.genericManagement;
-	}
-
-	/**
+	 * Sets the generic management.
+	 *
 	 * @param __genericManagement the genericManagement to set
 	 */
 	public void setGenericManagement(GenericManagement __genericManagement) {
@@ -366,13 +529,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the jobAccountDAO
-	 */
-	public JobAccountDAO getJobAccountDAO() {
-		return this.jobAccountDAO;
-	}
-
-	/**
+	 * Sets the job account DAO.
+	 *
 	 * @param __jobAccountDAO the jobAccountDAO to set
 	 */
 	public void setJobAccountDAO(JobAccountDAO __jobAccountDAO) {
@@ -380,13 +538,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the jobDAO
-	 */
-	public JobDAO getJobDAO() {
-		return this.jobDAO;
-	}
-
-	/**
+	 * Sets the job DAO.
+	 *
 	 * @param __jobDAO the jobDAO to set
 	 */
 	public void setJobDAO(JobDAO __jobDAO) {
@@ -394,13 +547,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the jobStoragePath
-	 */
-	public String getJobStoragePath() {
-		return this.jobStoragePath;
-	}
-
-	/**
+	 * Sets the job storage path.
+	 *
 	 * @param __jobStoragePath the jobStoragePath to set
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
@@ -408,13 +556,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the jobStyleDAO
-	 */
-	public JobStyleDAO getJobStyleDAO() {
-		return this.jobStyleDAO;
-	}
-
-	/**
+	 * Sets the job style DAO.
+	 *
 	 * @param __jobStyleDAO the jobStyleDAO to set
 	 */
 	public void setJobStyleDAO(JobStyleDAO __jobStyleDAO) {
@@ -422,13 +565,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the messageDAO
-	 */
-	public MessageDAO getMessageDAO() {
-		return this.messageDAO;
-	}
-
-	/**
+	 * Sets the message DAO.
+	 *
 	 * @param __messageDAO the messageDAO to set
 	 */
 	public void setMessageDAO(MessageDAO __messageDAO) {
@@ -436,13 +574,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the portfolioDAO
-	 */
-	public PortfolioDAO getPortfolioDAO() {
-		return this.portfolioDAO;
-	}
-
-	/**
+	 * Sets the portfolio DAO.
+	 *
 	 * @param __portfolioDAO the portfolioDAO to set
 	 */
 	public void setPortfolioDAO(PortfolioDAO __portfolioDAO) {
@@ -450,13 +583,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the portfolioTypeDAO
-	 */
-	public PortfolioTypeDAO getPortfolioTypeDAO() {
-		return this.portfolioTypeDAO;
-	}
-
-	/**
+	 * Sets the portfolio type DAO.
+	 *
 	 * @param __portfolioTypeDAO the portfolioTypeDAO to set
 	 */
 	public void setPortfolioTypeDAO(PortfolioTypeDAO __portfolioTypeDAO) {
@@ -464,13 +592,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the projectDAO
-	 */
-	public ProjectDAO getProjectDAO() {
-		return this.projectDAO;
-	}
-
-	/**
+	 * Sets the project DAO.
+	 *
 	 * @param __projectDAO the projectDAO to set
 	 */
 	public void setProjectDAO(ProjectDAO __projectDAO) {
@@ -478,13 +601,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the styleDAO
-	 */
-	public StyleDAO getStyleDAO() {
-		return this.styleDAO;
-	}
-
-	/**
+	 * Sets the style DAO.
+	 *
 	 * @param __styleDAO the styleDAO to set
 	 */
 	public void setStyleDAO(StyleDAO __styleDAO) {
@@ -492,13 +610,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the temporaryStoragePath
-	 */
-	public String getTemporaryStoragePath() {
-		return this.temporaryStoragePath;
-	}
-
-	/**
+	 * Sets the temporary storage path.
+	 *
 	 * @param __temporaryStoragePath the temporaryStoragePath to set
 	 */
 	public void setTemporaryStoragePath(String __temporaryStoragePath) {
@@ -506,13 +619,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the typeDAO
-	 */
-	public TypeDAO getTypeDAO() {
-		return this.typeDAO;
-	}
-
-	/**
+	 * Sets the type DAO.
+	 *
 	 * @param __typeDAO the typeDAO to set
 	 */
 	public void setTypeDAO(TypeDAO __typeDAO) {
@@ -520,13 +628,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the typeStyleDAO
-	 */
-	public TypeStyleDAO getTypeStyleDAO() {
-		return this.typeStyleDAO;
-	}
-
-	/**
+	 * Sets the type style DAO.
+	 *
 	 * @param __typeStyleDAO the typeStyleDAO to set
 	 */
 	public void setTypeStyleDAO(TypeStyleDAO __typeStyleDAO) {
@@ -534,13 +637,8 @@ public class ImplProjectManagement implements ProjectManagement {
 	}
 
 	/**
-	 * @return the uploadImageManagement
-	 */
-	public UploadImageManagement getUploadImageManagement() {
-		return this.uploadImageManagement;
-	}
-
-	/**
+	 * Sets the upload image management.
+	 *
 	 * @param __uploadImageManagement the uploadImageManagement to set
 	 */
 	public void setUploadImageManagement(UploadImageManagement __uploadImageManagement) {

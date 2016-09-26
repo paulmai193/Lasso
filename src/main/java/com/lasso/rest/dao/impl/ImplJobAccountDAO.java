@@ -38,10 +38,10 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("accountId", __idDesigner))
-		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
-		        .uniqueResult();
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
+				.uniqueResult();
 	}
 
 	/*
@@ -52,9 +52,9 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public JobsAccount getByJobId(int __idJob) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
-		        .uniqueResult();
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
+				.uniqueResult();
 	}
 
 	/*
@@ -66,13 +66,8 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public List<JobsAccount> getByOfferId(int __idJob) {
 		return this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
-		        .add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
-		        .list();
-	}
-
-	@Override
-	public void update(JobsAccount __jobsAccount) {
-		this.sessionFactory.getCurrentSession().update(__jobsAccount);
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
+				.list();
 	}
 
 	/*
@@ -104,6 +99,16 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.JobAccountDAO#update(com.lasso.rest.model.datasource.JobsAccount)
+	 */
+	@Override
+	public void update(JobsAccount __jobsAccount) {
+		this.sessionFactory.getCurrentSession().update(__jobsAccount);
 	}
 
 }

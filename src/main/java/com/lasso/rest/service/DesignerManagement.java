@@ -19,6 +19,22 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public interface DesignerManagement extends ProjectManagement {
 
 	/**
+	 * Confirm offer.
+	 *
+	 * @param __designer the designer
+	 * @param __counterOfferRequest the counter offer request
+	 */
+	void confirmOffer(Account __designer, ConfirmOfferRequest __counterOfferRequest);
+
+	/**
+	 * Counter offer.
+	 *
+	 * @param __designer the designer
+	 * @param __counterOfferRequest the counter offer request
+	 */
+	void counterOffer(Account __designer, CounterOfferRequest __counterOfferRequest);
+
+	/**
 	 * Creates the portfolio.
 	 *
 	 * @param __desiger the desiger
@@ -27,7 +43,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-	        throws IOException, UnirestException;
+			throws IOException, UnirestException;
 
 	/**
 	 * Delete portfolio.
@@ -46,7 +62,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	void editPortfolio(Account __desiger, Portfolio __portfolio,
-	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
+			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
 
 	/**
 	 * Gets the all portfolios.
@@ -57,6 +73,14 @@ public interface DesignerManagement extends ProjectManagement {
 	List<Portfolio> getAllPortfolios(Account __account);
 
 	/**
+	 * Gets the offer data by id.
+	 *
+	 * @param __idJob the id job
+	 * @return the offer data by id
+	 */
+	Object[] getOfferDataById(int __idJob);
+
+	/**
 	 * Gets the portfolio.
 	 *
 	 * @param __account the account
@@ -64,11 +88,5 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @return the portfolio
 	 */
 	Portfolio getPortfolio(Account __account, Integer __id);
-
-	Object[] getOfferDataById(int __idJob);
-
-	void counterOffer(Account __designer, CounterOfferRequest __counterOfferRequest);
-
-	void confirmOffer(Account __designer, ConfirmOfferRequest __counterOfferRequest);
 
 }

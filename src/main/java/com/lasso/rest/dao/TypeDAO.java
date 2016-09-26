@@ -35,4 +35,15 @@ public interface TypeDAO extends HibernateSession {
 	 * @return the types by category
 	 */
 	List<Type> getTypesByCategory(Category __category);
+
+	// List<Type> getTypesByStyles(List<TypesStyle> __typesStyles);
+
+	/**
+	 * Gets the types by id types and category.
+	 *
+	 * @param __listIdTypes the list id types
+	 * @param __category the category
+	 * @return the types by id types and category
+	 */
+	List<Type> getTypesByIdTypesAndCategory(List<Integer> __listIdTypes, Category __category);
 }

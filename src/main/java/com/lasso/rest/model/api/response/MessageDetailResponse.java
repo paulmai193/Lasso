@@ -21,42 +21,72 @@ import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
+/**
+ * The Class MessageDetailResponse.
+ *
+ * @author Paul Mai
+ */
 @JsonInclude(value = Include.NON_NULL)
 @JsonSerialize(using = MessageDetailSerializer.class)
 public class MessageDetailResponse extends BaseResponse {
 
-	private GetOrderResponse	orderDetail;
+	/** The message datas. */
 	private List<Object[]>		messageDatas;
+
+	/** The order detail. */
+	private GetOrderResponse	orderDetail;
+
+	/** The prefix url. */
 	private String				prefixUrl;
 
+	/**
+	 * Instantiates a new message detail response.
+	 *
+	 * @param __error the error
+	 */
+	public MessageDetailResponse(boolean __error) {
+		super(__error);
+	}
+
+	/**
+	 * Instantiates a new message detail response.
+	 *
+	 * @param __error the error
+	 * @param __message the message
+	 */
+	public MessageDetailResponse(boolean __error, String __message) {
+		super(__error, __message);
+	}
+
+	/**
+	 * Instantiates a new message detail response.
+	 *
+	 * @param __error the error
+	 * @param __message the message
+	 * @param __detail the detail
+	 */
+	public MessageDetailResponse(boolean __error, String __message, String __detail) {
+		super(__error, __message, __detail);
+	}
+
+	/**
+	 * Instantiates a new message detail response.
+	 *
+	 * @param __orderDetail the order detail
+	 * @param __messageDatas the message datas
+	 * @param __prefixUrl the prefix url
+	 */
 	public MessageDetailResponse(GetOrderResponse __orderDetail, List<Object[]> __messageDatas,
-	        String __prefixUrl) {
+			String __prefixUrl) {
 		super();
 		this.orderDetail = __orderDetail;
 		this.messageDatas = __messageDatas;
 		this.prefixUrl = __prefixUrl;
 	}
 
-	public MessageDetailResponse(boolean __error) {
-		super(__error);
-	}
-
-	public MessageDetailResponse(boolean __error, String __message) {
-		super(__error, __message);
-	}
-
-	public MessageDetailResponse(boolean __error, String __message, String __detail) {
-		super(__error, __message, __detail);
-	}
-
 	/**
-	 * @return the orderDetail
-	 */
-	public GetOrderResponse getOrderDetail() {
-		return this.orderDetail;
-	}
-
-	/**
+	 * Gets the message datas.
+	 *
 	 * @return the messageDatas
 	 */
 	public List<Object[]> getMessageDatas() {
@@ -64,6 +94,17 @@ public class MessageDetailResponse extends BaseResponse {
 	}
 
 	/**
+	 * Gets the order detail.
+	 *
+	 * @return the orderDetail
+	 */
+	public GetOrderResponse getOrderDetail() {
+		return this.orderDetail;
+	}
+
+	/**
+	 * Gets the prefix url.
+	 *
 	 * @return the prefixUrl
 	 */
 	public String getPrefixUrl() {
@@ -77,7 +118,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(MessageDetailResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -136,15 +177,15 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 					}
 					else {
 						__gen.writeStringField("sender_avatar",
-						        __value.getPrefixUrl() + "/Icon/" + _sender.getImage());
+								__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
 					}
 					DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
 					__gen.writeStringField("message_time",
-					        _dateFormat.format(_message.getCreated()));
+							_dateFormat.format(_message.getCreated()));
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
-					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			}
 		});

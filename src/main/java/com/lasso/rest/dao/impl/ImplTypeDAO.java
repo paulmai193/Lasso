@@ -39,9 +39,9 @@ public class ImplTypeDAO implements TypeDAO {
 		}
 		else {
 			Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-					.add(Restrictions.in("id", __listIdsType))
-					.add(Restrictions.eq("status", (byte) 1))
-					.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("sort"));
+			        .add(Restrictions.in("id", __listIdsType))
+			        .add(Restrictions.eq("status", (byte) 1))
+			        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("sort"));
 			return _criteria.list();
 		}
 	}
@@ -54,7 +54,7 @@ public class ImplTypeDAO implements TypeDAO {
 	@Override
 	public Type getTypeById(int __typeId) {
 		return (Type) this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-				.add(Restrictions.idEq(__typeId)).uniqueResult();
+		        .add(Restrictions.idEq(__typeId)).uniqueResult();
 	}
 
 	/*
@@ -66,10 +66,30 @@ public class ImplTypeDAO implements TypeDAO {
 	@Override
 	public List<Type> getTypesByCategory(Category __category) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class)
-				.add(Restrictions.eq("categoryId", __category.getId()))
-				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-				.addOrder(Order.asc("sort"));
+		        .add(Restrictions.eq("categoryId", __category.getId()))
+		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .addOrder(Order.asc("sort"));
 		return _criteria.list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.TypeDAO#getTypesByIdTypesAndCategory(java.util.List,
+	 * com.lasso.rest.model.datasource.Category)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Type> getTypesByIdTypesAndCategory(List<Integer> __listIdTypes,
+	        Category __category) {
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Type.class);
+		if (!__listIdTypes.isEmpty()) {
+			_criteria.add(Restrictions.in("id", __listIdTypes));
+		}
+		return _criteria.add(Restrictions.eq("categoryId", __category.getId()))
+		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .addOrder(Order.asc("sort")).list();
+
 	}
 
 	/**
@@ -80,4 +100,10 @@ public class ImplTypeDAO implements TypeDAO {
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}
+
+	// @Override
+	// public List<Type> getTypesByStyles(List<TypesStyle> __typesStyles) {
+	// // TODO Auto-generated method stub
+	// return null;
+	// }
 }

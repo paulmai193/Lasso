@@ -18,32 +18,66 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
 
+/**
+ * The Class ListMessageResponse.
+ *
+ * @author Paul Mai
+ */
 @JsonInclude(value = Include.NON_NULL)
 @JsonSerialize(using = ListMessageSerializer.class)
 public class ListMessageResponse extends BaseResponse {
 
+	/** The message datas. */
 	private List<Object[]>	messageDatas;
+
+	/** The prefix url. */
 	private String			prefixUrl;
 
+	/**
+	 * Instantiates a new list message response.
+	 *
+	 * @param __error the error
+	 */
+	public ListMessageResponse(boolean __error) {
+		super(__error);
+	}
+
+	/**
+	 * Instantiates a new list message response.
+	 *
+	 * @param __error the error
+	 * @param __message the message
+	 */
+	public ListMessageResponse(boolean __error, String __message) {
+		super(__error, __message);
+	}
+
+	/**
+	 * Instantiates a new list message response.
+	 *
+	 * @param __error the error
+	 * @param __message the message
+	 * @param __detail the detail
+	 */
+	public ListMessageResponse(boolean __error, String __message, String __detail) {
+		super(__error, __message, __detail);
+	}
+
+	/**
+	 * Instantiates a new list message response.
+	 *
+	 * @param __messageDatas the message datas
+	 * @param __prefixUrl the prefix url
+	 */
 	public ListMessageResponse(List<Object[]> __messageDatas, String __prefixUrl) {
 		super();
 		this.messageDatas = __messageDatas;
 		this.prefixUrl = __prefixUrl;
 	}
 
-	public ListMessageResponse(boolean __error) {
-		super(__error);
-	}
-
-	public ListMessageResponse(boolean __error, String __message) {
-		super(__error, __message);
-	}
-
-	public ListMessageResponse(boolean __error, String __message, String __detail) {
-		super(__error, __message, __detail);
-	}
-
 	/**
+	 * Gets the message datas.
+	 *
 	 * @return the messageDatas
 	 */
 	public List<Object[]> getMessageDatas() {
@@ -51,6 +85,8 @@ public class ListMessageResponse extends BaseResponse {
 	}
 
 	/**
+	 * Gets the prefix url.
+	 *
 	 * @return the prefixUrl
 	 */
 	public String getPrefixUrl() {
@@ -63,7 +99,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 
 	@Override
 	public void serialize(ListMessageResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -99,12 +135,12 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 					}
 					else {
 						__gen.writeStringField("sender_avatar",
-						        __value.getPrefixUrl() + "/Icon/" + _sender.getImage());
+								__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
 					}
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
-					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			}
 		});

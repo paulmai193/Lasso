@@ -15,12 +15,13 @@ import com.lasso.exception.ObjectParamException;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CounterOfferRequest extends BaseRequest {
 
+	/** The amount. */
+	@JsonProperty("amount")
+	private Double	amount;
+
 	/** The id job. */
 	@JsonProperty("job_id")
 	private Integer	idJob;
-
-	@JsonProperty("amount")
-	private Double	amount;
 
 	/**
 	 * Instantiates a new confirm order request.
@@ -28,6 +29,11 @@ public class CounterOfferRequest extends BaseRequest {
 	public CounterOfferRequest() {
 	}
 
+	/**
+	 * Gets the amount.
+	 *
+	 * @return the amount
+	 */
 	public Double getAmount() {
 		return this.amount;
 	}

@@ -38,74 +38,101 @@ public final class Account implements Principal, Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
-
+	/** The account info. */
 	@Lob
 	@Column(name = "account_info")
 	private String				accountInfo;
 
+	/** The alternative contact. */
 	@Column(name = "alternative_contact")
 	private String				alternativeContact;
 
+	/** The app session. */
 	@Column(name = "app_session")
 	private String				appSession;
 
+	/** The company address. */
 	@Column(name = "company_address")
 	private String				companyAddress;
 
+	/** The company name. */
 	@Column(name = "company_name")
 	private String				companyName;
 
+	/** The company telephone. */
 	@Column(name = "company_telephone")
 	private String				companyTelephone;
 
+	/** The country id. */
 	@Column(name = "country_id")
 	private Integer				countryId;
 
+	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				created;
 
+	/** The deleted. */
 	private Byte				deleted;
 
+	/** The device id. */
 	@Column(name = "device_id")
 	private String				deviceId;
 
+	/** The email. */
 	private String				email;
 
+	/** The featured. */
 	private Integer				featured;
 
+	/** The gender. */
 	private Short				gender;
 
+	/** The handphone number. */
 	@Column(name = "handphone_number")
 	private String				handphoneNumber;
 
+	/** The id. */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer				id;
+
+	/** The image. */
 	private String				image;
 
+	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
+	/** The name. */
 	private String				name;
 
+	/** The otp. */
 	private String				otp;
 
+	/** The password. */
 	private String				password;
 
+	/** The payment method. */
 	@Column(name = "payment_method")
 	private Byte				paymentMethod;
 
+	/** The recommended. */
 	private Integer				recommended;
 
+	/** The rewards. */
 	private Integer				rewards;
 
+	/** The role. */
 	private Byte				role;
 
+	/** The settings. */
 	@Lob
 	private String				settings;
 
+	/** The status. */
 	private Byte				status;
 
+	/** The subscribe. */
 	private Byte				subscribe;
 
 	/**
@@ -134,7 +161,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-			        .getAlternativeContact();
+					.getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -142,26 +169,14 @@ public final class Account implements Principal, Serializable {
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
-			        .getValue();
+					.getValue();
 		}
 
 	}
 
 	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return this.id;
-	}
-
-	/**
-	 * @param __id the id to set
-	 */
-	public void setId(Integer __id) {
-		this.id = __id;
-	}
-
-	/**
+	 * Gets the account info.
+	 *
 	 * @return the accountInfo
 	 */
 	public String getAccountInfo() {
@@ -169,13 +184,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __accountInfo the accountInfo to set
-	 */
-	public void setAccountInfo(String __accountInfo) {
-		this.accountInfo = __accountInfo;
-	}
-
-	/**
+	 * Gets the alternative contact.
+	 *
 	 * @return the alternativeContact
 	 */
 	public String getAlternativeContact() {
@@ -183,13 +193,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __alternativeContact the alternativeContact to set
-	 */
-	public void setAlternativeContact(String __alternativeContact) {
-		this.alternativeContact = __alternativeContact;
-	}
-
-	/**
+	 * Gets the app session.
+	 *
 	 * @return the appSession
 	 */
 	public String getAppSession() {
@@ -197,13 +202,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __appSession the appSession to set
-	 */
-	public void setAppSession(String __appSession) {
-		this.appSession = __appSession;
-	}
-
-	/**
+	 * Gets the company address.
+	 *
 	 * @return the companyAddress
 	 */
 	public String getCompanyAddress() {
@@ -211,13 +211,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __companyAddress the companyAddress to set
-	 */
-	public void setCompanyAddress(String __companyAddress) {
-		this.companyAddress = __companyAddress;
-	}
-
-	/**
+	 * Gets the company name.
+	 *
 	 * @return the companyName
 	 */
 	public String getCompanyName() {
@@ -225,13 +220,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __companyName the companyName to set
-	 */
-	public void setCompanyName(String __companyName) {
-		this.companyName = __companyName;
-	}
-
-	/**
+	 * Gets the company telephone.
+	 *
 	 * @return the companyTelephone
 	 */
 	public String getCompanyTelephone() {
@@ -239,13 +229,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __companyTelephone the companyTelephone to set
-	 */
-	public void setCompanyTelephone(String __companyTelephone) {
-		this.companyTelephone = __companyTelephone;
-	}
-
-	/**
+	 * Gets the country id.
+	 *
 	 * @return the countryId
 	 */
 	public Integer getCountryId() {
@@ -253,13 +238,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __countryId the countryId to set
-	 */
-	public void setCountryId(Integer __countryId) {
-		this.countryId = __countryId;
-	}
-
-	/**
+	 * Gets the created.
+	 *
 	 * @return the created
 	 */
 	public Date getCreated() {
@@ -267,13 +247,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __created the created to set
-	 */
-	public void setCreated(Date __created) {
-		this.created = __created;
-	}
-
-	/**
+	 * Gets the deleted.
+	 *
 	 * @return the deleted
 	 */
 	public Byte getDeleted() {
@@ -281,13 +256,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __deleted the deleted to set
-	 */
-	public void setDeleted(Byte __deleted) {
-		this.deleted = __deleted;
-	}
-
-	/**
+	 * Gets the device id.
+	 *
 	 * @return the deviceId
 	 */
 	public String getDeviceId() {
@@ -295,13 +265,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __deviceId the deviceId to set
-	 */
-	public void setDeviceId(String __deviceId) {
-		this.deviceId = __deviceId;
-	}
-
-	/**
+	 * Gets the email.
+	 *
 	 * @return the email
 	 */
 	public String getEmail() {
@@ -309,13 +274,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __email the email to set
-	 */
-	public void setEmail(String __email) {
-		this.email = __email;
-	}
-
-	/**
+	 * Gets the featured.
+	 *
 	 * @return the featured
 	 */
 	public Integer getFeatured() {
@@ -323,13 +283,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __featured the featured to set
-	 */
-	public void setFeatured(Integer __featured) {
-		this.featured = __featured;
-	}
-
-	/**
+	 * Gets the gender.
+	 *
 	 * @return the gender
 	 */
 	public Short getGender() {
@@ -337,13 +292,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __gender the gender to set
-	 */
-	public void setGender(Short __gender) {
-		this.gender = __gender;
-	}
-
-	/**
+	 * Gets the handphone number.
+	 *
 	 * @return the handphoneNumber
 	 */
 	public String getHandphoneNumber() {
@@ -351,13 +301,17 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __handphoneNumber the handphoneNumber to set
+	 * Gets the id.
+	 *
+	 * @return the id
 	 */
-	public void setHandphoneNumber(String __handphoneNumber) {
-		this.handphoneNumber = __handphoneNumber;
+	public Integer getId() {
+		return this.id;
 	}
 
 	/**
+	 * Gets the image.
+	 *
 	 * @return the image
 	 */
 	public String getImage() {
@@ -365,13 +319,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __image the image to set
-	 */
-	public void setImage(String __image) {
-		this.image = __image;
-	}
-
-	/**
+	 * Gets the modified.
+	 *
 	 * @return the modified
 	 */
 	public Date getModified() {
@@ -379,13 +328,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __modified the modified to set
-	 */
-	public void setModified(Date __modified) {
-		this.modified = __modified;
-	}
-
-	/**
+	 * Gets the name.
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -393,13 +337,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __name the name to set
-	 */
-	public void setName(String __name) {
-		this.name = __name;
-	}
-
-	/**
+	 * Gets the otp.
+	 *
 	 * @return the otp
 	 */
 	public String getOtp() {
@@ -407,13 +346,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __otp the otp to set
-	 */
-	public void setOtp(String __otp) {
-		this.otp = __otp;
-	}
-
-	/**
+	 * Gets the password.
+	 *
 	 * @return the password
 	 */
 	public String getPassword() {
@@ -421,13 +355,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __password the password to set
-	 */
-	public void setPassword(String __password) {
-		this.password = __password;
-	}
-
-	/**
+	 * Gets the payment method.
+	 *
 	 * @return the paymentMethod
 	 */
 	public Byte getPaymentMethod() {
@@ -435,13 +364,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __paymentMethod the paymentMethod to set
-	 */
-	public void setPaymentMethod(Byte __paymentMethod) {
-		this.paymentMethod = __paymentMethod;
-	}
-
-	/**
+	 * Gets the recommended.
+	 *
 	 * @return the recommended
 	 */
 	public Integer getRecommended() {
@@ -449,13 +373,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __recommended the recommended to set
-	 */
-	public void setRecommended(Integer __recommended) {
-		this.recommended = __recommended;
-	}
-
-	/**
+	 * Gets the rewards.
+	 *
 	 * @return the rewards
 	 */
 	public Integer getRewards() {
@@ -463,13 +382,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __rewards the rewards to set
-	 */
-	public void setRewards(Integer __rewards) {
-		this.rewards = __rewards;
-	}
-
-	/**
+	 * Gets the role.
+	 *
 	 * @return the role
 	 */
 	public Byte getRole() {
@@ -477,13 +391,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __role the role to set
-	 */
-	public void setRole(Byte __role) {
-		this.role = __role;
-	}
-
-	/**
+	 * Gets the settings.
+	 *
 	 * @return the settings
 	 */
 	public String getSettings() {
@@ -491,13 +400,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __settings the settings to set
-	 */
-	public void setSettings(String __settings) {
-		this.settings = __settings;
-	}
-
-	/**
+	 * Gets the status.
+	 *
 	 * @return the status
 	 */
 	public Byte getStatus() {
@@ -505,13 +409,8 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
-	 * @param __status the status to set
-	 */
-	public void setStatus(Byte __status) {
-		this.status = __status;
-	}
-
-	/**
+	 * Gets the subscribe.
+	 *
 	 * @return the subscribe
 	 */
 	public Byte getSubscribe() {
@@ -519,6 +418,242 @@ public final class Account implements Principal, Serializable {
 	}
 
 	/**
+	 * Sets the account info.
+	 *
+	 * @param __accountInfo the accountInfo to set
+	 */
+	public void setAccountInfo(String __accountInfo) {
+		this.accountInfo = __accountInfo;
+	}
+
+	/**
+	 * Sets the alternative contact.
+	 *
+	 * @param __alternativeContact the alternativeContact to set
+	 */
+	public void setAlternativeContact(String __alternativeContact) {
+		this.alternativeContact = __alternativeContact;
+	}
+
+	/**
+	 * Sets the app session.
+	 *
+	 * @param __appSession the appSession to set
+	 */
+	public void setAppSession(String __appSession) {
+		this.appSession = __appSession;
+	}
+
+	/**
+	 * Sets the company address.
+	 *
+	 * @param __companyAddress the companyAddress to set
+	 */
+	public void setCompanyAddress(String __companyAddress) {
+		this.companyAddress = __companyAddress;
+	}
+
+	/**
+	 * Sets the company name.
+	 *
+	 * @param __companyName the companyName to set
+	 */
+	public void setCompanyName(String __companyName) {
+		this.companyName = __companyName;
+	}
+
+	/**
+	 * Sets the company telephone.
+	 *
+	 * @param __companyTelephone the companyTelephone to set
+	 */
+	public void setCompanyTelephone(String __companyTelephone) {
+		this.companyTelephone = __companyTelephone;
+	}
+
+	/**
+	 * Sets the country id.
+	 *
+	 * @param __countryId the countryId to set
+	 */
+	public void setCountryId(Integer __countryId) {
+		this.countryId = __countryId;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param __created the created to set
+	 */
+	public void setCreated(Date __created) {
+		this.created = __created;
+	}
+
+	/**
+	 * Sets the deleted.
+	 *
+	 * @param __deleted the deleted to set
+	 */
+	public void setDeleted(Byte __deleted) {
+		this.deleted = __deleted;
+	}
+
+	/**
+	 * Sets the device id.
+	 *
+	 * @param __deviceId the deviceId to set
+	 */
+	public void setDeviceId(String __deviceId) {
+		this.deviceId = __deviceId;
+	}
+
+	/**
+	 * Sets the email.
+	 *
+	 * @param __email the email to set
+	 */
+	public void setEmail(String __email) {
+		this.email = __email;
+	}
+
+	/**
+	 * Sets the featured.
+	 *
+	 * @param __featured the featured to set
+	 */
+	public void setFeatured(Integer __featured) {
+		this.featured = __featured;
+	}
+
+	/**
+	 * Sets the gender.
+	 *
+	 * @param __gender the gender to set
+	 */
+	public void setGender(Short __gender) {
+		this.gender = __gender;
+	}
+
+	/**
+	 * Sets the handphone number.
+	 *
+	 * @param __handphoneNumber the handphoneNumber to set
+	 */
+	public void setHandphoneNumber(String __handphoneNumber) {
+		this.handphoneNumber = __handphoneNumber;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param __id the id to set
+	 */
+	public void setId(Integer __id) {
+		this.id = __id;
+	}
+
+	/**
+	 * Sets the image.
+	 *
+	 * @param __image the image to set
+	 */
+	public void setImage(String __image) {
+		this.image = __image;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param __modified the modified to set
+	 */
+	public void setModified(Date __modified) {
+		this.modified = __modified;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param __name the name to set
+	 */
+	public void setName(String __name) {
+		this.name = __name;
+	}
+
+	/**
+	 * Sets the otp.
+	 *
+	 * @param __otp the otp to set
+	 */
+	public void setOtp(String __otp) {
+		this.otp = __otp;
+	}
+
+	/**
+	 * Sets the password.
+	 *
+	 * @param __password the password to set
+	 */
+	public void setPassword(String __password) {
+		this.password = __password;
+	}
+
+	/**
+	 * Sets the payment method.
+	 *
+	 * @param __paymentMethod the paymentMethod to set
+	 */
+	public void setPaymentMethod(Byte __paymentMethod) {
+		this.paymentMethod = __paymentMethod;
+	}
+
+	/**
+	 * Sets the recommended.
+	 *
+	 * @param __recommended the recommended to set
+	 */
+	public void setRecommended(Integer __recommended) {
+		this.recommended = __recommended;
+	}
+
+	/**
+	 * Sets the rewards.
+	 *
+	 * @param __rewards the rewards to set
+	 */
+	public void setRewards(Integer __rewards) {
+		this.rewards = __rewards;
+	}
+
+	/**
+	 * Sets the role.
+	 *
+	 * @param __role the role to set
+	 */
+	public void setRole(Byte __role) {
+		this.role = __role;
+	}
+
+	/**
+	 * Sets the settings.
+	 *
+	 * @param __settings the settings to set
+	 */
+	public void setSettings(String __settings) {
+		this.settings = __settings;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param __status the status to set
+	 */
+	public void setStatus(Byte __status) {
+		this.status = __status;
+	}
+
+	/**
+	 * Sets the subscribe.
+	 *
 	 * @param __subscribe the subscribe to set
 	 */
 	public void setSubscribe(Byte __subscribe) {

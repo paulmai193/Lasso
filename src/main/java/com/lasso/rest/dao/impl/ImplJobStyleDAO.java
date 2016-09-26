@@ -37,7 +37,7 @@ public class ImplJobStyleDAO implements JobStyleDAO {
 	@Override
 	public List<JobsStyle> getListJobStylesByJobId(int __idJob) {
 		return this.sessionFactory.getCurrentSession().createCriteria(JobsStyle.class)
-		        .add(Restrictions.eq("jobId", __idJob)).list();
+				.add(Restrictions.eq("jobId", __idJob)).list();
 	}
 
 	/*
@@ -48,7 +48,7 @@ public class ImplJobStyleDAO implements JobStyleDAO {
 	@Override
 	public void removeJobStyleByJobId(Integer __idJob) {
 		this.sessionFactory.getCurrentSession().createQuery("delete JobsStyle where jobId = :id")
-		        .setInteger("id", __idJob).executeUpdate();
+		.setInteger("id", __idJob).executeUpdate();
 	}
 
 	/*

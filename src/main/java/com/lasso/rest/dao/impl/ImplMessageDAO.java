@@ -32,6 +32,61 @@ public class ImplMessageDAO implements MessageDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * com.lasso.rest.dao.MessageDAO#getLastMessageOfRoot(com.lasso.rest.model.datasource.Message)
+	 */
+	@Override
+	public Message getLastMessageOfRoot(Message __rootMessage) {
+		List<Message> _messages = this.getListMessageByIdParent(__rootMessage.getId());
+		return _messages.size() == 0 ? null : _messages.get((_messages.size() - 1));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.MessageDAO#getListMessageByIdParent(int)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Message> getListMessageByIdParent(int __idMessage) {
+		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
+				.add(Restrictions.eq("parentId", __idMessage))
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+				.addOrder(Order.asc("created")).list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.MessageDAO#getListRootMessageByIdReceiver(java.lang.Integer)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Message> getListRootMessageByIdReceiver(Integer __idReceiver) {
+		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
+				.add(Restrictions.eq("toAccountId", __idReceiver))
+				.add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.MessageDAO#getRootMessage(int)
+	 */
+	@Override
+	public Message getRootMessage(int __idMessage) {
+		Message _rootMessage = this.sessionFactory.getCurrentSession().get(Message.class,
+				__idMessage);
+		if (_rootMessage.getParentId() > 0) {
+			_rootMessage = this.getRootMessage(_rootMessage.getParentId());
+		}
+		return _rootMessage;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.MessageDAO#saveMessages(java.util.List)
 	 */
 	@Override
@@ -47,40 +102,6 @@ public class ImplMessageDAO implements MessageDAO {
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
-	}
-
-	@Override
-	public Message getLastMessageOfRoot(Message __rootMessage) {
-		List<Message> _messages = this.getListMessageByIdParent(__rootMessage.getId());
-		return _messages.size() == 0 ? null : _messages.get((_messages.size() - 1));
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Message> getListRootMessageByIdReceiver(Integer __idReceiver) {
-		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
-		        .add(Restrictions.eq("toAccountId", __idReceiver))
-		        .add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
-		        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Message> getListMessageByIdParent(int __idMessage) {
-		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
-		        .add(Restrictions.eq("parentId", __idMessage))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("created")).list();
-	}
-
-	@Override
-	public Message getRootMessage(int __idMessage) {
-		Message _rootMessage = this.sessionFactory.getCurrentSession().get(Message.class,
-		        __idMessage);
-		if (_rootMessage.getParentId() > 0) {
-			_rootMessage = this.getRootMessage(_rootMessage.getParentId());
-		}
-		return _rootMessage;
 	}
 
 }

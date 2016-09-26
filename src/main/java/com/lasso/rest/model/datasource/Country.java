@@ -32,100 +32,202 @@ public class Country implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long	serialVersionUID	= 1L;
 
+	/** The code. */
+	private String				code;
+
+	/** The created. */
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date				created;
+
+	/** The deleted. */
+	private byte				deleted;
+
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int					id;
 
-	private String				code;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
-
-	private byte				deleted;
-
+	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
+	/** The name. */
 	private String				name;
 
+	/** The phone code. */
 	@Column(name = "phone_code")
 	private int					phoneCode;
 
+	/** The sort. */
 	private int					sort;
 
+	/** The status. */
 	private byte				status;
 
+	/**
+	 * Instantiates a new country.
+	 */
 	public Country() {
 	}
 
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	/**
+	 * Gets the code.
+	 *
+	 * @return the code
+	 */
 	public String getCode() {
 		return this.code;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
-	}
-
+	/**
+	 * Gets the created.
+	 *
+	 * @return the created
+	 */
 	public Date getCreated() {
 		return this.created;
 	}
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-
+	/**
+	 * Gets the deleted.
+	 *
+	 * @return the deleted
+	 */
 	public byte getDeleted() {
 		return this.deleted;
 	}
 
-	public void setDeleted(byte deleted) {
-		this.deleted = deleted;
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public int getId() {
+		return this.id;
 	}
 
+	/**
+	 * Gets the modified.
+	 *
+	 * @return the modified
+	 */
 	public Date getModified() {
 		return this.modified;
 	}
 
-	public void setModified(Date modified) {
-		this.modified = modified;
-	}
-
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	/**
+	 * Gets the phone code.
+	 *
+	 * @return the phone code
+	 */
 	public int getPhoneCode() {
 		return this.phoneCode;
 	}
 
-	public void setPhoneCode(int phoneCode) {
-		this.phoneCode = phoneCode;
-	}
-
+	/**
+	 * Gets the sort.
+	 *
+	 * @return the sort
+	 */
 	public int getSort() {
 		return this.sort;
 	}
 
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
-
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
 	public byte getStatus() {
 		return this.status;
 	}
 
+	/**
+	 * Sets the code.
+	 *
+	 * @param code the new code
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	/**
+	 * Sets the created.
+	 *
+	 * @param created the new created
+	 */
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(byte deleted) {
+		this.deleted = deleted;
+	}
+
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets the modified.
+	 *
+	 * @param modified the new modified
+	 */
+	public void setModified(Date modified) {
+		this.modified = modified;
+	}
+
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Sets the phone code.
+	 *
+	 * @param phoneCode the new phone code
+	 */
+	public void setPhoneCode(int phoneCode) {
+		this.phoneCode = phoneCode;
+	}
+
+	/**
+	 * Sets the sort.
+	 *
+	 * @param sort the new sort
+	 */
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
 	public void setStatus(byte status) {
 		this.status = status;
 	}

@@ -39,13 +39,13 @@ public class CreateNewOrderRequest extends BaseRequest {
 	@JsonProperty("category_id")
 	private Integer			idCategory;
 
-	/** The id style. */
-	@JsonProperty("type_id")
-	private Integer			idType;
-
 	/** The id types. */
 	@JsonProperty("style_id")
 	private List<Integer>	idStyles;
+
+	/** The id style. */
+	@JsonProperty("type_id")
+	private Integer			idType;
 
 	/** The last submission. */
 	@JsonProperty("last_submission")
@@ -70,6 +70,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the asset url.
+	 *
 	 * @return the assetUrl
 	 */
 	public String getAssetUrl() {
@@ -77,6 +79,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the budget.
+	 *
 	 * @return the budget
 	 */
 	public Double getBudget() {
@@ -84,6 +88,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the description.
+	 *
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -91,6 +97,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the further.
+	 *
 	 * @return the further
 	 */
 	public String getFurther() {
@@ -98,6 +106,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the id category.
+	 *
 	 * @return the idCategory
 	 */
 	public Integer getIdCategory() {
@@ -105,13 +115,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
-	 * @return the idType
-	 */
-	public Integer getIdType() {
-		return this.idType;
-	}
-
-	/**
+	 * Gets the id styles.
+	 *
 	 * @return the idStyles
 	 */
 	public List<Integer> getIdStyles() {
@@ -119,6 +124,17 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the id type.
+	 *
+	 * @return the idType
+	 */
+	public Integer getIdType() {
+		return this.idType;
+	}
+
+	/**
+	 * Gets the last submission.
+	 *
 	 * @return the lastSubmission
 	 */
 	public Date getLastSubmission() {
@@ -126,6 +142,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the objective.
+	 *
 	 * @return the objective
 	 */
 	public String getObjective() {
@@ -133,6 +151,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the reference.
+	 *
 	 * @return the reference
 	 */
 	public List<String> getReference() {
@@ -140,6 +160,8 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the submission.
+	 *
 	 * @return the submission
 	 */
 	public Date getSubmission() {
