@@ -173,13 +173,29 @@ public class ManageOrderController extends BaseController {
 	 * @param __idCategory the id category
 	 * @param __idStyle the id style
 	 * @param __idsType the ids type
+	 * @param __filterRelevancy the filter relevancy.
+	 *        <li>0 for default
+	 *        <li>1 for 1st style
+	 *        <li>2 for 2nd style
+	 * @param __filterBudget the filter budget
+	 *        <li>0 for default
+	 *        <li>1 for smaller than or equal the expectation
+	 *        <li>2 for bigger than the expectation
+	 * @param __filterQuality the filter quality
+	 *        <li>0 for default
+	 *        <li>1 for featured
+	 *        <li>2 for recommended
+	 *        <li>3 for popular
 	 * @return the designers
 	 */
 	@GET
 	@Path("/list/designers")
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
 	        @QueryParam("category_id") int __idCategory, @QueryParam("style_id") int __idStyle,
-	        @QueryParam("type_ids") String __idsType) {
+	        @QueryParam("type_ids") String __idsType,
+	        @QueryParam("filter_1") byte __filterRelevancy,
+	        @QueryParam("filter_2") byte __filterBudget,
+	        @QueryParam("filter_3") byte __filterQuality) {
 		int _size = 8;
 		List<Integer> _listIdsType = new ArrayList<>();
 		String[] _s = __idsType.split(",");

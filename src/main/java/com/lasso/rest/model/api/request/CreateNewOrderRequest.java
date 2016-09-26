@@ -1,6 +1,9 @@
 package com.lasso.rest.model.api.request;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class CreateNewOrderRequest extends BaseRequest {
 	private String			assetUrl;
 
 	/** The budget. */
-	@JsonProperty("job_budget")
+	@JsonProperty("budget")
 	private Double			budget;
 
 	/** The description. */
@@ -48,7 +51,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	private Integer			idType;
 
 	/** The last submission. */
-	@JsonProperty("last_submission")
 	private Date			lastSubmission;
 
 	/** The objective. */
@@ -60,7 +62,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 	private List<String>	reference;
 
 	/** The submission. */
-	@JsonProperty("submission")
 	private Date			submission;
 
 	/**
@@ -215,6 +216,34 @@ public class CreateNewOrderRequest extends BaseRequest {
 		}
 		if (this.further == null) {
 			throw new ObjectParamException("Invalid further information");
+		}
+	}
+
+	/**
+	 * @param __lastSubmission the lastSubmission to set
+	 */
+	@JsonProperty("last_submission")
+	public void setLastSubmission(String __lastSubmission) {
+		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.lastSubmission = _dateFormat.parse(__lastSubmission);
+		}
+		catch (ParseException ex) {
+			this.lastSubmission = null;
+		}
+	}
+
+	/**
+	 * @param __submission the submission to set
+	 */
+	@JsonProperty("submission")
+	public void setSubmission(String __submission) {
+		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.submission = _dateFormat.parse(__submission);
+		}
+		catch (ParseException ex) {
+			this.submission = null;
 		}
 	}
 

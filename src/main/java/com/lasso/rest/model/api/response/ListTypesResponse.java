@@ -96,14 +96,14 @@ class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 
 	@Override
 	public void serialize(ListTypesResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
 			__gen.writeObjectField("detail", __value.getDetail());
 			__gen.writeObjectField("message", __value.getMessage());
 		}
-		__gen.writeArrayFieldStart("types");
+		__gen.writeArrayFieldStart("data");
 		__value.getDatas().forEach(new Consumer<Type>() {
 
 			@Override
@@ -112,8 +112,13 @@ class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 					__gen.writeStartObject();
 					__gen.writeNumberField("type_id", __type.getId());
 					__gen.writeStringField("type_title", __type.getTitle());
-					__gen.writeStringField("image",
-							__value.getPrefixUrl() + "/Small/" + __type.getImage());
+					if (__type.getImage() == null || __type.getImage().isEmpty()) {
+						__gen.writeStringField("image", "");
+					}
+					else {
+						__gen.writeStringField("image",
+						        __value.getPrefixUrl() + "/Small/" + __type.getImage());
+					}
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
