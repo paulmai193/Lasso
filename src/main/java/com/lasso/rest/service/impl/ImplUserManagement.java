@@ -412,6 +412,12 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UserManagement#getListPortfoliosByCondition(int, int, int,
+	 * java.util.List, int, java.lang.Integer[])
+	 */
 	@Override
 	public List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
 	        List<Integer> _idsStyle, int __idType, Integer[] __filter) {
