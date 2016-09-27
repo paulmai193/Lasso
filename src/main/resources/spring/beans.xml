@@ -17,6 +17,10 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="accountRatingDAO" class="com.lasso.rest.dao.impl.ImplAccountRatingDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="bannerDAO" class="com.lasso.rest.dao.impl.ImplBannerDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -58,6 +62,10 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="projectDAO" class="com.lasso.rest.dao.impl.ImplProjectDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="promoDAO" class="com.lasso.rest.dao.impl.ImplPromoDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
@@ -114,6 +122,8 @@
 	</bean>
 	<bean id="userManagement" class="com.lasso.rest.service.impl.ImplUserManagement"
 		lazy-init="false" scope="singleton" parent="projectManagement">
+		<property name="accountRatingDAO" ref="accountRatingDAO" />
+		<property name="promoDAO" ref="promoDAO" />
 	</bean>
 
 	<!-- Controller Layer -->

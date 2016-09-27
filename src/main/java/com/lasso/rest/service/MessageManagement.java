@@ -2,6 +2,7 @@ package com.lasso.rest.service;
 
 import java.util.List;
 
+import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
 
 /**
@@ -27,5 +28,13 @@ public interface MessageManagement {
 	 * @return the messages detail of account
 	 */
 	List<Object[]> getMessagesDetailOfAccount(Account __account, int __idMessage);
+
+	/**
+	 * Send message.
+	 *
+	 * @param __sender the sender
+	 * @param __sendMessageRequest the send message request
+	 */
+	void sendMessage(Account __sender, SendMessageRequest __sendMessageRequest);
 
 }

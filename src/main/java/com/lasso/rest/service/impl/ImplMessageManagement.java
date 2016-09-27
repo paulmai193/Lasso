@@ -9,9 +9,11 @@ import javax.ws.rs.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lasso.define.Constant;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.dao.MessageDAO;
+import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
@@ -45,7 +47,14 @@ public class ImplMessageManagement implements MessageManagement {
 	 */
 	@Override
 	public List<Object[]> getListMessagesOfAccount(Account __account) {
-		List<Message> _messages = this.messageDAO.getListRootMessageByIdReceiver(__account.getId());
+		List<Message> _messages;
+		if (__account.getRole().equals(Constant.ROLE_DESIGNER)) {
+			_messages = this.messageDAO.getListRootMessageByIdReceiver(__account.getId());
+		}
+		else {
+			_messages = this.messageDAO.getListRootMessageByIdRSender(__account.getId());
+		}
+
 		List<Object[]> _messageDatas = new ArrayList<>();
 		_messages.forEach(new Consumer<Message>() {
 
@@ -100,6 +109,28 @@ public class ImplMessageManagement implements MessageManagement {
 			}
 		});
 		return _messageDatas;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.MessageManagement#sendMessage(com.lasso.rest.model.datasource.Account,
+	 * com.lasso.rest.model.api.request.SendMessageRequest)
+	 */
+	@Override
+	public void sendMessage(Account __sender, SendMessageRequest __sendMessageRequest) {
+		Account _receiver = this.accountDAO.getAccountById(__sendMessageRequest.getIdReceiver());
+		if (_receiver == null) {
+			throw new NotFoundException("Receiver not found");
+		}
+		Message _rootMessage = this.messageDAO.getRootMessage(__sendMessageRequest.getIdRoot());
+		if (_rootMessage == null) {
+			throw new NotFoundException("Root message not found");
+		}
+		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
+				__sendMessageRequest.getMessage(), _rootMessage.getTitle(), _receiver.getId());
+		this.messageDAO.saveMessage(_message);
 	}
 
 	/**

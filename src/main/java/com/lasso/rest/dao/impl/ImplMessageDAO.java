@@ -72,6 +72,20 @@ public class ImplMessageDAO implements MessageDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.MessageDAO#getListRootMessageByIdRSender(java.lang.Integer)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Message> getListRootMessageByIdRSender(Integer __idSender) {
+		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
+				.add(Restrictions.eq("fromAccountId", __idSender))
+				.add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.MessageDAO#getRootMessage(int)
 	 */
 	@Override
@@ -87,11 +101,21 @@ public class ImplMessageDAO implements MessageDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.MessageDAO#saveMessage(com.lasso.rest.model.datasource.Message)
+	 */
+	@Override
+	public void saveMessage(Message __message) {
+		this.sessionFactory.getCurrentSession().save(__message);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.MessageDAO#saveMessages(java.util.List)
 	 */
 	@Override
 	public void saveMessages(List<Message> __messages) {
-		__messages.forEach(_message -> this.sessionFactory.getCurrentSession().save(_message));
+		__messages.forEach(_message -> this.saveMessage(_message));
 	}
 
 	/*

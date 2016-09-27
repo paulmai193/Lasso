@@ -2,12 +2,15 @@ package com.lasso.rest.controller;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.ListMessageResponse;
 import com.lasso.rest.model.api.response.MessageDetailResponse;
@@ -34,7 +38,7 @@ import com.lasso.rest.service.UserManagement;
 @Produces(MediaType.APPLICATION_JSON)
 @AccountAuthenticate
 @AccountAllow(status = "" + Constant.ACC_ACTIVATE)
-public class MessageController {
+public class MessageController extends BaseController {
 
 	/** The avatar storage path. */
 	private String				avatarStoragePath;
@@ -89,6 +93,22 @@ public class MessageController {
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
 				null, _prefixJob);
 		return new MessageDetailResponse(_orderDetail, _messageDatas, _prefixAvatar);
+	}
+
+	/**
+	 * Send message.
+	 *
+	 * @param __sendMessageRequest the send message request
+	 * @return the response
+	 */
+	@POST
+	@Path("/send")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response sendMessage(SendMessageRequest __sendMessageRequest) {
+		__sendMessageRequest.validate();
+		Account _sender = (Account) this.validateContext.getUserPrincipal();
+		this.messageManagement.sendMessage(_sender, __sendMessageRequest);
+		return this.success();
 	}
 
 	/**

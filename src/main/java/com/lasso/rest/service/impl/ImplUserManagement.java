@@ -99,10 +99,10 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 */
 	@Override
 	public void applyPromoCodeForOrder(Account __user,
-			UsePromoCodeForOrder __usePromoCodeForOrder) {
+	        UsePromoCodeForOrder __usePromoCodeForOrder) {
 		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __usePromoCodeForOrder.getIdJob());
 		PromoCode _promoCode = this.promoDAO
-				.getPromoCodeByCode(__usePromoCodeForOrder.getPromoCode());
+		        .getPromoCodeByCode(__usePromoCodeForOrder.getPromoCode());
 		if (_promoCode == null) {
 			throw new NotFoundException("Code not found");
 		}
@@ -111,7 +111,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 		else {
 			PromoHistory _promoHistory = new PromoHistory(__user.getId(),
-					__usePromoCodeForOrder.getIdJob(), _promoCode.getId());
+			        __usePromoCodeForOrder.getIdJob(), _promoCode.getId());
 			this.promoDAO.savePromoHistory(_promoHistory);
 
 			_job.setDiscount(_job.getBudget() * _promoCode.getDiscount());
@@ -129,37 +129,37 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 */
 	@Override
 	public void chooseDesignerForOrder(Account __user,
-			ChooseDesignerForOrderRequest __chooseDesignerForJobRequest) {
+	        ChooseDesignerForOrderRequest __chooseDesignerForJobRequest) {
 		Job _job = this.jobDAO.getJobOfUserById(__user.getId(),
-				__chooseDesignerForJobRequest.getIdJob());
+		        __chooseDesignerForJobRequest.getIdJob());
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
 		}
 		else if (!_job.getStep().equals(JobStepConstant.JOB_STEP_BRIEF)) {
 			throw new NotAllowedException(
-					"This job cannot edit at "
-							+ JobStepConstant.getByCode(_job.getStep()).getStepName(),
-							Response.status(Status.FORBIDDEN).build());
+			        "This job cannot edit at "
+			                + JobStepConstant.getByCode(_job.getStep()).getStepName(),
+			        Response.status(Status.FORBIDDEN).build());
 		}
 		else {
 			// update designer chosen by user
 			List<JobsAccount> _jobsAccounts = new ArrayList<>();
 			List<Message> _messages = new ArrayList<>();
 			__chooseDesignerForJobRequest.getDesignerIds()
-			.stream().filter(_idDesigner -> this.accountDAO.getAccountById(_idDesigner)
-					.getRole().equals(Constant.ROLE_DESIGNER))
-			.forEach(new Consumer<Integer>() {
+			        .stream().filter(_idDesigner -> this.accountDAO.getAccountById(_idDesigner)
+			                .getRole().equals(Constant.ROLE_DESIGNER))
+			        .forEach(new Consumer<Integer>() {
 
-				@Override
-				public void accept(Integer __idDesigner) {
-					_jobsAccounts.add(new JobsAccount(__idDesigner, _job.getId()));
+				        @Override
+				        public void accept(Integer __idDesigner) {
+					        _jobsAccounts.add(new JobsAccount(__idDesigner, _job.getId()));
 
-					String _title = "New offer from " + __user.getName();
-					String _message = "Hi, please check this offer.";
-					_messages.add(new Message(__user.getId(), _job.getId(), _message,
-							_title, __idDesigner));
-				}
-			});
+					        String _title = "New offer from " + __user.getName();
+					        String _message = "Hi, please check this offer.";
+					        _messages.add(new Message(__user.getId(), _job.getId(), _message,
+					                _title, __idDesigner));
+				        }
+			        });
 			// Save designer seleted and message will send to them
 			this.jobAccountDAO.saveJobAccounts(_jobsAccounts);
 			this.messageDAO.saveMessages(_messages);
@@ -187,8 +187,8 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		_job.setCompleted((byte) 1);
 		this.jobDAO.updateJob(_job);
 		AccountsRating _accountsRating = new AccountsRating(__completeJobRequest.getIdDesigner(),
-				__completeJobRequest.getCommunication(), __completeJobRequest.getExperience(),
-				__completeJobRequest.getIdJob());
+		        __completeJobRequest.getCommunication(), __completeJobRequest.getExperience(),
+		        __completeJobRequest.getIdJob());
 		this.accountRatingDAO.saveRating(_accountsRating);
 		Account _designer = this.accountDAO.getAccountById(__completeJobRequest.getIdDesigner());
 		if (_designer != null) {
@@ -212,14 +212,14 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 		else if (this.jobAccountDAO.getByJobId(__confirmOrderRequest.getIdJob()) != null) {
 			throw new IllegalArgumentException(
-					"This job was confirm before. Denied re-other confirm");
+			        "This job was confirm before. Denied re-other confirm");
 		}
 		else {
 			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(
-					__confirmOrderRequest.getIdJob(), __confirmOrderRequest.getIdDesigner());
+			        __confirmOrderRequest.getIdJob(), __confirmOrderRequest.getIdDesigner());
 			if (_jobsAccount == null) {
 				throw new NullPointerException(
-						"Order to this designer not valid, or designer do not accept this order");
+				        "Order to this designer not valid, or designer do not accept this order");
 			}
 			else {
 				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_CONFIRM.getCode());
@@ -246,9 +246,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 */
 	@Override
 	public void createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		String _webContextStoragePath = this.genericManagement
-				.loadWebContextStoragePath(__user.getAppSession());
+		        .loadWebContextStoragePath(__user.getAppSession());
 		try {
 			Job _job = new Job(__createNewOrderRequest);
 			_job.setFee(_job.getBudget() * this.genericManagement.getServiceFee() / 100);
@@ -257,34 +257,34 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 
 			List<JobsStyle> _jobStyles = new ArrayList<>();
 			__createNewOrderRequest.getIdStyles()
-			.forEach(_id -> _jobStyles.add(new JobsStyle(_idJob, _id)));
+			        .forEach(_id -> _jobStyles.add(new JobsStyle(_idJob, _id)));
 			this.jobStyleDAO.saveListJobStyles(_jobStyles);
 
 			// Copy portfolio images from temporary directory to resource directory
 			for (String _tempFileName : __createNewOrderRequest.getReference()) {
 				File _tempFile = new File(
-						_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+				        _webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
 					// Move original file
 					FileUtils.copyFileToDirectory(_tempFile,
-							new File(_webContextStoragePath + this.jobStoragePath + "/Original"),
-							false);
+					        new File(_webContextStoragePath + this.jobStoragePath + "/Original"),
+					        false);
 
 					// Resize into 3 other size
 					File _icon = new File(_webContextStoragePath + this.jobStoragePath + "/Icon/"
-							+ _tempFileName);
+					        + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
 					File _small = new File(_webContextStoragePath + this.jobStoragePath + "/Small/"
-							+ _tempFileName);
+					        + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
 					File _retina = new File(_webContextStoragePath + this.jobStoragePath
-							+ "/Retina/" + _tempFileName);
+					        + "/Retina/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
 				}
 				else {
 					Logger.getLogger(this.getClass())
-					.warn("Job temporary file not exist. Check this path: "
-							+ _tempFile.getAbsolutePath());
+					        .warn("Job temporary file not exist. Check this path: "
+					                + _tempFile.getAbsolutePath());
 				}
 			}
 		}
@@ -303,20 +303,20 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 */
 	@Override
 	public void editOrder(Account __user, EditOrderRequest __editJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		Job _job = this.jobDAO.getJobOfUserById(__user.getId(), __editJobRequest.getIdJob());
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
 		}
 		else if (!_job.getStep().equals(JobStepConstant.JOB_STEP_BRIEF)) {
 			throw new NotAllowedException(
-					"This job cannot edit at "
-							+ JobStepConstant.getByCode(_job.getStep()).getStepName(),
-							Response.status(Status.FORBIDDEN).build());
+			        "This job cannot edit at "
+			                + JobStepConstant.getByCode(_job.getStep()).getStepName(),
+			        Response.status(Status.FORBIDDEN).build());
 		}
 		else {
 			String _webContextStoragePath = this.genericManagement
-					.loadWebContextStoragePath(__user.getAppSession());
+			        .loadWebContextStoragePath(__user.getAppSession());
 			try {
 				// Update brief of job
 				_job.setFee(_job.getBudget() * this.genericManagement.getServiceFee() / 100);
@@ -329,35 +329,35 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				// Update new job types
 				List<JobsStyle> _jobStyles = new ArrayList<>();
 				__editJobRequest.getIdStyles()
-				.forEach(_id -> _jobStyles.add(new JobsStyle(_job.getId(), _id)));
+				        .forEach(_id -> _jobStyles.add(new JobsStyle(_job.getId(), _id)));
 				this.jobStyleDAO.saveListJobStyles(_jobStyles);
 
 				// Copy portfolio images from temporary directory to resource directory
 				for (String _tempFileName : __editJobRequest.getReference()) {
 					File _tempFile = new File(_webContextStoragePath + this.temporaryStoragePath
-							+ "/" + _tempFileName);
+					        + "/" + _tempFileName);
 					if (_tempFile.exists()) {
 						// Move original file
 						FileUtils.copyFileToDirectory(_tempFile,
-								new File(
-										_webContextStoragePath + this.jobStoragePath + "/Original"),
-								false);
+						        new File(
+						                _webContextStoragePath + this.jobStoragePath + "/Original"),
+						        false);
 
 						// Resize into 3 other size
 						File _icon = new File(_webContextStoragePath + this.jobStoragePath
-								+ "/Icon/" + _tempFileName);
+						        + "/Icon/" + _tempFileName);
 						this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
 						File _small = new File(_webContextStoragePath + this.jobStoragePath
-								+ "/Small/" + _tempFileName);
+						        + "/Small/" + _tempFileName);
 						this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
 						File _retina = new File(_webContextStoragePath + this.jobStoragePath
-								+ "/Retina/" + _tempFileName);
+						        + "/Retina/" + _tempFileName);
 						this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
 					}
 					else {
 						Logger.getLogger(this.getClass())
-						.warn("Job temporary file not exist. Check this path: "
-								+ _tempFile.getAbsolutePath());
+						        .warn("Job temporary file not exist. Check this path: "
+						                + _tempFile.getAbsolutePath());
 					}
 				}
 			}
@@ -384,13 +384,13 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		else {
 			String _designerName = "";
 			JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
-					.getByJobId(_job.getId());
+			        .getByJobId(_job.getId());
 			_designerName = _jobsAccount == null ? ""
-					: ImplUserManagement.this.accountDAO.getAccountById(_jobsAccount.getAccountId())
-					.getName();
+			        : ImplUserManagement.this.accountDAO.getAccountById(_jobsAccount.getAccountId())
+			                .getName();
 			List<Integer> _styleIds = new ArrayList<>();
 			ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(_job.getId())
-			.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+			        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 			List<Type> _types = ImplUserManagement.this.typeDAO.getListByByListIds(_styleIds);
 
 			Type _style = ImplUserManagement.this.typeDAO.getTypeById(_job.getTypeId());
@@ -422,15 +422,15 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				public void accept(Job __job) {
 					String _designerName = "";
 					JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
-							.getByJobId(__job.getId());
+					        .getByJobId(__job.getId());
 					_designerName = _jobsAccount == null ? ""
-							: ImplUserManagement.this.accountDAO
-							.getAccountById(_jobsAccount.getAccountId()).getName();
+					        : ImplUserManagement.this.accountDAO
+					                .getAccountById(_jobsAccount.getAccountId()).getName();
 					List<Integer> _styleIds = new ArrayList<>();
 					ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(__job.getId())
-					.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+					        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 					List<Type> _types = ImplUserManagement.this.typeDAO
-							.getListByByListIds(_styleIds);
+					        .getListByByListIds(_styleIds);
 
 					Type _style = ImplUserManagement.this.typeDAO.getTypeById(__job.getTypeId());
 
@@ -452,7 +452,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 */
 	@Override
 	public List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-			List<Integer> _idsStyle, int __idType, Integer[] __filter) {
+	        List<Integer> _idsStyle, int __idType, Integer[] __filter) {
 		List<Object[]> _datas = new ArrayList<>();
 
 		List<Integer> _idsType = new ArrayList<>();
@@ -465,7 +465,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		// Get portfolio by conditions
 		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO.getListByIdTypes(_idsType);
 		List<Portfolio> _portfolios = this.portfolioDAO.searchPortfolios(__index, __size,
-				__idCategory, _idsStyle, _portfolioTypes, __filter[1]);
+		        __idCategory, _idsStyle, _portfolioTypes, __filter[1]);
 
 		// Get desiger of this portolios
 		Set<Account> _tmpSetAccounts = new HashSet<>();
@@ -474,7 +474,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			@Override
 			public void accept(Portfolio __portfolio) {
 				Account _designer = ImplUserManagement.this.accountDAO
-						.getAccountById(__portfolio.getAccountId());
+				        .getAccountById(__portfolio.getAccountId());
 				if (!_tmpSetAccounts.contains(_designer)) {
 					Object[] _data = { __portfolio, _designer };
 
@@ -497,17 +497,17 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 							return _designer2.getFeatured().compareTo(_designer1.getFeatured());
 						case 2:
 							return _designer2.getRecommended()
-									.compareTo(_designer1.getRecommended());
+							        .compareTo(_designer1.getRecommended());
 						case 3:
 							return _designer2.getRewards().compareTo(_designer1.getRewards());
 
 						default:
 							return (_designer2.getFeatured().intValue()
-									+ _designer2.getRecommended().intValue()
-									+ _designer2.getRewards().intValue())
-									- (_designer1.getFeatured().intValue()
-											+ _designer1.getRecommended().intValue()
-											+ _designer1.getRewards().intValue());
+							        + _designer2.getRecommended().intValue()
+							        + _designer2.getRewards().intValue())
+							        - (_designer1.getFeatured().intValue()
+							                + _designer1.getRecommended().intValue()
+							                + _designer1.getRewards().intValue());
 					}
 				}
 				catch (Exception _ex) {
@@ -537,7 +537,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			@Override
 			public void accept(JobsAccount __jobsAccount) {
 				Account _designer = ImplUserManagement.this.accountDAO
-						.getAccountById(__jobsAccount.getAccountId());
+				        .getAccountById(__jobsAccount.getAccountId());
 				if (_designer != null) {
 					Object[] designerJob = { __jobsAccount, _designer };
 					_designersJobs.add(designerJob);
@@ -546,7 +546,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		});
 		List<Integer> _styleIds = new ArrayList<>();
 		ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(__idJob)
-		.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+		        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 		List<Style> _styles = ImplUserManagement.this.styleDAO.getListByByListIds(_styleIds);
 		if (_styleIds.isEmpty()) {
 			throw new NotFoundException("Styles not found");
@@ -582,17 +582,26 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			PromoHistory _promoHistory = this.promoDAO.getPromoHistroyByJobId(__idJob);
 			if (_promoHistory != null) {
 				PromoCode _promoCode = this.promoDAO
-						.getPromoCodeById(_promoHistory.getPromoCodeId());
+				        .getPromoCodeById(_promoHistory.getPromoCodeId());
 				_data[1] = _promoCode;
 			}
 			List<Style> _styles = new ArrayList<>();
 			this.jobStyleDAO.getListJobStylesByJobId(__idJob).forEach(
-					_jobStyle -> _styles.add(this.styleDAO.getById(_jobStyle.getStyleId())));
+			        _jobStyle -> _styles.add(this.styleDAO.getById(_jobStyle.getStyleId())));
 			_data[2] = _styles;
 			Type _type = this.typeDAO.getTypeById(_job.getTypeId());
 			_data[3] = _type;
 			return _data;
 		}
+	}
+
+	/**
+	 * Sets the account rating DAO.
+	 *
+	 * @param __accountRatingDAO the accountRatingDAO to set
+	 */
+	public void setAccountRatingDAO(AccountRatingDAO __accountRatingDAO) {
+		this.accountRatingDAO = __accountRatingDAO;
 	}
 
 	/**

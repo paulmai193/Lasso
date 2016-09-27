@@ -10,12 +10,12 @@ import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.PromoHistory;
 
 /**
- * The Class ImplPomoDAO.
+ * The Class ImplPromoDAO.
  *
  * @author Paul Mai
  */
 @Repository
-public class ImplPomoDAO implements PromoDAO {
+public class ImplPromoDAO implements PromoDAO {
 
 	/** The session factory. */
 	@Autowired

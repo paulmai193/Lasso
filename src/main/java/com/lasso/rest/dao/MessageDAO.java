@@ -36,12 +36,27 @@ public interface MessageDAO extends HibernateSession {
 	List<Message> getListRootMessageByIdReceiver(Integer __idReceiver);
 
 	/**
+	 * Gets the list root message by id R sender.
+	 *
+	 * @param __idSender the id sender
+	 * @return the list root message by id R sender
+	 */
+	List<Message> getListRootMessageByIdRSender(Integer __idSender);
+
+	/**
 	 * Gets the root message.
 	 *
 	 * @param __idMessage the id message
 	 * @return the root message
 	 */
 	Message getRootMessage(int __idMessage);
+
+	/**
+	 * Save message.
+	 *
+	 * @param __message the message
+	 */
+	void saveMessage(Message __message);
 
 	/**
 	 * Save messages.
