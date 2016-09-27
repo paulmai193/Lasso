@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
+import com.lasso.rest.model.api.request.CompleteJobRequest;
 import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
@@ -45,6 +46,13 @@ public interface UserManagement extends ProjectManagement {
 	 */
 	void chooseDesignerForOrder(Account __user,
 			ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
+
+	/**
+	 * Complete job.
+	 *
+	 * @param __completeJobRequest the complete job request
+	 */
+	void completeJob(CompleteJobRequest __completeJobRequest);
 
 	/**
 	 * Confirm order.

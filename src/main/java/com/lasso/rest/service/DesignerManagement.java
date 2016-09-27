@@ -7,6 +7,7 @@ import com.lasso.rest.model.api.request.ConfirmOfferRequest;
 import com.lasso.rest.model.api.request.CounterOfferRequest;
 import com.lasso.rest.model.api.request.CreatePortfolioRequest;
 import com.lasso.rest.model.api.request.EditPortfolioRequest;
+import com.lasso.rest.model.api.request.UpdateJobStageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -88,5 +89,13 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @return the portfolio
 	 */
 	Portfolio getPortfolio(Account __account, Integer __id);
+
+	/**
+	 * Update stage.
+	 *
+	 * @param __designer the designer
+	 * @param __updateJobStageRequest the update job stage request
+	 */
+	void updateStage(Account __designer, UpdateJobStageRequest __updateJobStageRequest);
 
 }

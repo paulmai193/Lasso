@@ -167,7 +167,7 @@ public class BrowseController extends BaseController {
 			@QueryParam("keyword") String __keyword) {
 		int _size = 8;
 		List<Integer> _idTypes = new ArrayList<>();
-		String[] _strings = __idTypes.split(",");
+		String[] _strings = __idTypes == null ? "".split("") : __idTypes.split(",");
 		for (String _string : _strings) {
 			try {
 				_idTypes.add(Integer.parseInt(_string));

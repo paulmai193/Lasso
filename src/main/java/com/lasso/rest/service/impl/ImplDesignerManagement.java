@@ -14,10 +14,12 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lasso.define.JobStepConstant;
 import com.lasso.rest.model.api.request.ConfirmOfferRequest;
 import com.lasso.rest.model.api.request.CounterOfferRequest;
 import com.lasso.rest.model.api.request.CreatePortfolioRequest;
 import com.lasso.rest.model.api.request.EditPortfolioRequest;
+import com.lasso.rest.model.api.request.UpdateJobStageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
@@ -61,6 +63,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			}
 			else {
 				_jobsAccount.setConfirm(__confirmOfferRequest.getStatus());
+				_jobsAccount.setModified(new Date());
 				this.jobAccountDAO.update(_jobsAccount);
 			}
 		}
@@ -86,6 +89,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			}
 			else {
 				_jobsAccount.setCounter(__counterOfferRequest.getAmount());
+				_jobsAccount.setModified(new Date());
 				this.jobAccountDAO.update(_jobsAccount);
 			}
 		}
@@ -179,6 +183,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 
 		// Delete this portfolio
 		__portfolio.setDeleted((byte) 1);
+		__portfolio.setModified(new Date());
 		this.portfolioDAO.updatePortfolio(__portfolio);
 	}
 
@@ -306,6 +311,34 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.DesignerManagement#updateStage(com.lasso.rest.model.datasource.
+	 * Account, com.lasso.rest.model.api.request.UpdateJobStageRequest)
+	 */
+	@Override
+	public void updateStage(Account __designer, UpdateJobStageRequest __updateJobStageRequest) {
+		Job _job = this.jobDAO.getJobById(__updateJobStageRequest.getIdJob());
+		if (_job == null
+				|| _job.getStep().equals(JobStepConstant.JOB_STEP_COMPLETE.getStepCode())) {
+			throw new NotFoundException("Job not found or offer not completed");
+		}
+		else {
+			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(),
+					__designer.getId());
+			if (_jobsAccount == null || !_jobsAccount.getConfirm().equals((byte) 1)) {
+				throw new NotFoundException("Designer not have or not confirm this job");
+			}
+			else {
+				_job.setStage(__updateJobStageRequest.getStage());
+				_job.setStageDate(new Date());
+				_job.setModified(new Date());
+				this.jobDAO.updateJob(_job);
+			}
+		}
 	}
 
 }

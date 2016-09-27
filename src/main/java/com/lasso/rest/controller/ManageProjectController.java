@@ -20,6 +20,7 @@ import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.ConfirmOfferRequest;
 import com.lasso.rest.model.api.request.CounterOfferRequest;
+import com.lasso.rest.model.api.request.UpdateJobStageRequest;
 import com.lasso.rest.model.api.response.GetOfferResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.DesignerManagement;
@@ -153,5 +154,21 @@ public class ManageProjectController extends BaseController {
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
 		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
+	 * Update stage.
+	 *
+	 * @param __updateJobStageRequest the update job stage request
+	 * @return the response
+	 */
+	@POST
+	@Path("/update_stage")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateStage(UpdateJobStageRequest __updateJobStageRequest) {
+		__updateJobStageRequest.validate();
+		Account _designer = (Account) this.validateContext.getUserPrincipal();
+		this.designerManagement.updateStage(_designer, __updateJobStageRequest);
+		return this.success();
 	}
 }

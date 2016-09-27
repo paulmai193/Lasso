@@ -115,7 +115,7 @@ class JobDetailSerializer extends JsonSerializer<Object[]> {
 		__gen.writeStringField("date_due", _fullDateFormat.format(_job.getLatestSubmission()));
 		__gen.writeStringField("date_brief", _shortDateFormat.format(_job.getSubmission()));
 		__gen.writeStringField("date_stage", _shortDateFormat.format(_job.getStageDate()));
-		__gen.writeStringField("stage", JobStageConstant.getByCode(_job.getStage()).getStageName());
+		__gen.writeStringField("stage", JobStageConstant.getByCode(_job.getStage()).getName());
 		// switch (_job.getStage()) {
 		// case 1:
 		// __gen.writeStringField("stage", "1st Draft");

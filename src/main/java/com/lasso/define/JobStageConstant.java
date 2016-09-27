@@ -27,7 +27,7 @@ public enum JobStageConstant {
 	 */
 	public static JobStageConstant getByCode(byte __code) {
 		for (JobStageConstant _jobStageConstant : JobStageConstant.values()) {
-			if (_jobStageConstant.getStageCode() == __code) {
+			if (_jobStageConstant.getCode() == __code) {
 				return _jobStageConstant;
 			}
 		}
@@ -35,10 +35,10 @@ public enum JobStageConstant {
 	}
 
 	/** The stage code. */
-	private byte	stageCode;
+	private byte	code;
 
 	/** The stage name. */
-	private String	stageName;
+	private String	name;
 
 	/**
 	 * Instantiates a new job stage constant.
@@ -47,26 +47,26 @@ public enum JobStageConstant {
 	 * @param __stageName the stage name
 	 */
 	private JobStageConstant(byte __stageCode, String __stageName) {
-		this.stageCode = __stageCode;
-		this.stageName = __stageName;
+		this.code = __stageCode;
+		this.name = __stageName;
 	}
 
 	/**
 	 * Gets the stage code.
 	 *
-	 * @return the stageCode
+	 * @return the code
 	 */
-	public byte getStageCode() {
-		return this.stageCode;
+	public byte getCode() {
+		return this.code;
 	}
 
 	/**
 	 * Gets the stage name.
 	 *
-	 * @return the stageName
+	 * @return the name
 	 */
-	public String getStageName() {
-		return this.stageName;
+	public String getName() {
+		return this.name;
 	}
 
 }

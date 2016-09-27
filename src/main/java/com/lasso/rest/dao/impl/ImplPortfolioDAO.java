@@ -114,11 +114,11 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 				.add(Restrictions.in("id", _portfolioIds)).add(Restrictions.eq("status", (byte) 1))
 				.add(Restrictions.eq("deleted", (byte) 0));
 		if (__budgetCompare.intValue() > 0) {
-			_criteria.add(Restrictions.gt("amount", __budgetCompare))
+			_criteria.add(Restrictions.gt("amount", __budgetCompare.doubleValue()))
 			.addOrder(Order.desc("amount"));
 		}
 		else if (__budgetCompare.intValue() <= 0) {
-			_criteria.add(Restrictions.le("amount", __budgetCompare.intValue() * -1))
+			_criteria.add(Restrictions.le("amount", __budgetCompare.doubleValue() * -1D))
 			.addOrder(Order.asc("amount"));
 		}
 

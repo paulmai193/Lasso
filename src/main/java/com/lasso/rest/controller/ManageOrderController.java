@@ -25,6 +25,7 @@ import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
+import com.lasso.rest.model.api.request.CompleteJobRequest;
 import com.lasso.rest.model.api.request.ConfirmOrderRequest;
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
@@ -123,6 +124,21 @@ public class ManageOrderController extends BaseController {
 		__chooseDesignerForJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.chooseDesignerForOrder(_user, __chooseDesignerForJobRequest);
+		return this.success();
+	}
+
+	/**
+	 * Complete job.
+	 *
+	 * @param __completeJobRequest the complete job request
+	 * @return the response
+	 */
+	@POST
+	@Path("/comlete")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response completeJob(CompleteJobRequest __completeJobRequest) {
+		__completeJobRequest.validate();
+		this.userManagement.completeJob(__completeJobRequest);
 		return this.success();
 	}
 
