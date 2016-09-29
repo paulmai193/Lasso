@@ -113,7 +113,8 @@ class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 					__gen.writeNumberField("type_id", __type.getId());
 					__gen.writeStringField("type_title", __type.getTitle());
 					__gen.writeObjectFieldStart("image");
-					ListTypeSerializer.this.serializeImage(__gen, __value.getPrefixUrl(), __type.getImage());
+					ListTypeSerializer.this.serializeImage(__gen, __value.getPrefixUrl(),
+							__type.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}

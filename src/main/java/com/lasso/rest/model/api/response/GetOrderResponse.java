@@ -21,6 +21,7 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
+import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
@@ -44,6 +45,9 @@ public class GetOrderResponse extends BaseResponse {
 
 	/** The prefix job. */
 	private String		prefixJob;
+
+	/** The prefix portfolio. */
+	private String		prefixPortfolio;
 
 	/** The prefix style. */
 	private String		prefixStyle;
@@ -90,9 +94,11 @@ public class GetOrderResponse extends BaseResponse {
 	 * @param __prefixType the prefix type
 	 * @param __prefixCategory the prefix category
 	 * @param __prefixJob the prefix job
+	 * @param __prefixPortfolio the prefix portfolio
 	 */
 	public GetOrderResponse(Object[] __data, String __prefixAvatar, String __prefixStyle,
-			String __prefixType, String __prefixCategory, String __prefixJob) {
+	        String __prefixType, String __prefixCategory, String __prefixJob,
+	        String __prefixPortfolio) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -100,6 +106,7 @@ public class GetOrderResponse extends BaseResponse {
 		this.prefixType = __prefixType;
 		this.prefixCategory = __prefixCategory;
 		this.prefixJob = __prefixJob;
+		this.prefixPortfolio = __prefixPortfolio;
 	}
 
 	/**
@@ -139,6 +146,15 @@ public class GetOrderResponse extends BaseResponse {
 	}
 
 	/**
+	 * Gets the prefix portfolio.
+	 *
+	 * @return the prefix portfolio
+	 */
+	public String getPrefixPortfolio() {
+		return this.prefixPortfolio;
+	}
+
+	/**
 	 * Gets the prefix style.
 	 *
 	 * @return the prefixStyle
@@ -163,7 +179,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOrderResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
@@ -200,7 +216,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeStringField("title", __style.getTitle());
 					__gen.writeObjectFieldStart("images");
 					GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixStyle(),
-							__style.getImage());
+					        __style.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -237,22 +253,21 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeStringField("objective", _job.getObjective());
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
 
-		List<Account> _unConfirm = new ArrayList<>(), _confirm = new ArrayList<>();
-		List<Object[]> _counterOffer = new ArrayList<>();
+		List<Object[]> _unConfirm = new ArrayList<>(), _confirm = new ArrayList<>(),
+		        _counterOffer = new ArrayList<>();
 		_designersJobs.forEach(new Consumer<Object[]>() {
 
 			@Override
 			public void accept(Object[] __obs) {
 				try {
 					JobsAccount _jobsAccount = (JobsAccount) __obs[0];
-					Account _designer = (Account) __obs[1];
 					if (_jobsAccount.getConfirm()
-							.equals(JobConfirmationConstant.JOB_UN_CONFIRM.getCode())) {
-						_unConfirm.add(_designer);
+					        .equals(JobConfirmationConstant.JOB_UN_CONFIRM.getCode())) {
+						_unConfirm.add(__obs);
 					}
 					else if (_jobsAccount.getConfirm()
-							.equals(JobConfirmationConstant.JOB_CONFIRM.getCode())) {
-						_confirm.add(_designer);
+					        .equals(JobConfirmationConstant.JOB_CONFIRM.getCode())) {
+						_confirm.add(__obs);
 					}
 					if (_jobsAccount.getCounter().compareTo(0D) > 0) {
 						_counterOffer.add(__obs);
@@ -266,15 +281,18 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		});
 		__gen.writeObjectFieldStart("designers");
 		__gen.writeArrayFieldStart("un_confirm");
-		this.serializeAccounts(__gen, _unConfirm, __value.getPrefixAvatar());
+		this.serializeAccounts(__gen, _unConfirm, __value.getPrefixAvatar(),
+		        __value.getPrefixPortfolio());
 		__gen.writeEndArray();
 
 		__gen.writeArrayFieldStart("confirm");
-		this.serializeAccounts(__gen, _confirm, __value.getPrefixAvatar());
+		this.serializeAccounts(__gen, _confirm, __value.getPrefixAvatar(),
+		        __value.getPrefixPortfolio());
 		__gen.writeEndArray();
 
 		__gen.writeArrayFieldStart("counter_offer");
-		this.serializeCounterAccounts(__gen, _counterOffer, __value.getPrefixAvatar());
+		this.serializeCounterAccounts(__gen, _counterOffer, __value.getPrefixAvatar(),
+		        __value.getPrefixPortfolio());
 		__gen.writeEndArray();
 		__gen.writeEndObject();
 		__gen.writeEndObject();
@@ -282,21 +300,27 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeEndObject();
 	}
 
-	private void serializeAccounts(JsonGenerator __gen, List<Account> __accounts,
-			String __prefixUrl) {
-		__accounts.forEach(new Consumer<Account>() {
+	private void serializeAccounts(JsonGenerator __gen, List<Object[]> __unConfirm,
+	        String __prefixAvatar, String __prefixPortfolio) {
+		__unConfirm.forEach(new Consumer<Object[]>() {
 
 			@Override
-			public void accept(Account __account) {
+			public void accept(Object[] __accounts) {
 				try {
+					Account _account = (Account) __accounts[1];
+					Portfolio _portfolio = (Portfolio) __accounts[2];
 					__gen.writeStartObject();
-					__gen.writeNumberField("account_id", __account.getId());
-					__gen.writeStringField("account_name", __account.getName());
-					__gen.writeNumberField("account_reward",
-							__account.getRewards() == 0 ? 1 : __account.getRewards());
-					__gen.writeObjectFieldStart("avatar");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl,
-							__account.getImage());
+					__gen.writeNumberField("designer_id", _account.getId());
+					__gen.writeStringField("designer_name", _account.getName());
+					__gen.writeNumberField("designer_reward",
+					        _account.getRewards() == 0 ? 1 : _account.getRewards());
+					__gen.writeObjectFieldStart("designer_avatar");
+					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
+					        _account.getImage());
+					__gen.writeEndObject();
+					__gen.writeObjectFieldStart("portfolio_image");
+					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
+					        _portfolio.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -308,22 +332,27 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 	}
 
 	private void serializeCounterAccounts(JsonGenerator __gen, List<Object[]> __counterAccounts,
-			String __prefixUrl) {
+	        String __prefixAvatar, String __prefixPortfolio) {
 		__counterAccounts.forEach(new Consumer<Object[]>() {
 
 			@Override
 			public void accept(Object[] __counterAccount) {
 				try {
+					Portfolio _portfolio = (Portfolio) __counterAccount[2];
 					Account _account = (Account) __counterAccount[1];
 					Double _counter = (Double) __counterAccount[0];
 					__gen.writeStartObject();
 					__gen.writeNumberField("designer_id", _account.getId());
 					__gen.writeStringField("designer_name", _account.getName());
 					__gen.writeNumberField("designer_reward",
-							_account.getRewards() == 0 ? 1 : _account.getRewards());
+					        _account.getRewards() == 0 ? 1 : _account.getRewards());
 					__gen.writeObjectFieldStart("designer_avatar");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl,
-							_account.getImage());
+					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
+					        _account.getImage());
+					__gen.writeEndObject();
+					__gen.writeObjectFieldStart("portfolio_image");
+					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
+					        _portfolio.getImage());
 					__gen.writeEndObject();
 					__gen.writeNumberField("counter", _counter);
 					__gen.writeEndObject();

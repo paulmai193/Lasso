@@ -91,7 +91,7 @@ public class PublicController extends BaseController {
 	public void receivePaypalCallback() {
 		// For a full list of configuration parameters refer in wiki page.
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
-
+		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();

@@ -87,9 +87,9 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	 * Account, java.lang.Integer)
 	 */
 	@Override
-	public Portfolio getPortfolioOfAccount(Account __account, Integer __id) {
+	public Portfolio getPortfolioOfAccount(Account __account, Integer __idPortfolio) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("id", __id))
+				.add(Restrictions.eq("id", __idPortfolio))
 				.add(Restrictions.eq("accountId", __account.getId()))
 				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}

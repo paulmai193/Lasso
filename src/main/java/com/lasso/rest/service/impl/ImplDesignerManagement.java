@@ -324,7 +324,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 								.getListByByListIds(_styleIds);
 						Type _type = ImplDesignerManagement.this.typeDAO
 								.getTypeById(_job.getTypeId());
-						Category _category = ImplDesignerManagement.this.categoryDAO.getCategoryById(_job.getCategoryId());
+						Category _category = ImplDesignerManagement.this.categoryDAO
+								.getCategoryById(_job.getCategoryId());
 						Object[] _data = { _job, _userName, _styles, _type, _category };
 
 						_datas.add(_data);

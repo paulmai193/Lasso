@@ -50,10 +50,10 @@ public interface PortfolioDAO extends HibernateSession {
 	 * Gets the portfolio of account.
 	 *
 	 * @param __account the account
-	 * @param __id the id
+	 * @param __idPortfolio the id portfolio
 	 * @return the portfolio of account
 	 */
-	Portfolio getPortfolioOfAccount(Account __account, Integer __id);
+	Portfolio getPortfolioOfAccount(Account __account, Integer __idPortfolio);
 
 	/**
 	 * Search portfolios.

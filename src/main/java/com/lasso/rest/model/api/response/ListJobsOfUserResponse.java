@@ -110,6 +110,7 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 			Category _category = (Category) _objects[4];
 
 			__gen.writeNumberField("job_id", _job.getId());
+			__gen.writeNumberField("job_budget", _job.getBudget());
 			__gen.writeArrayFieldStart("styles");
 			for (Style _style : _styles) {
 				__gen.writeStartObject();
