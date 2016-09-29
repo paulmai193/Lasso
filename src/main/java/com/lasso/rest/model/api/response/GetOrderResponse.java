@@ -92,7 +92,7 @@ public class GetOrderResponse extends BaseResponse {
 	 * @param __prefixJob the prefix job
 	 */
 	public GetOrderResponse(Object[] __data, String __prefixAvatar, String __prefixStyle,
-	        String __prefixType, String __prefixCategory, String __prefixJob) {
+			String __prefixType, String __prefixCategory, String __prefixJob) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -163,7 +163,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOrderResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
@@ -200,7 +200,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeStringField("title", __style.getTitle());
 					__gen.writeObjectFieldStart("images");
 					GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixStyle(),
-					        __style.getImage());
+							__style.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -220,7 +220,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
-		__gen.writeArrayFieldStart("reference");
+		__gen.writeArrayFieldStart("images");
 		if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
 			for (String _referenceImage : _job.getReference().trim().split(",")) {
 				__gen.writeStartObject();
@@ -247,11 +247,11 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					JobsAccount _jobsAccount = (JobsAccount) __obs[0];
 					Account _designer = (Account) __obs[1];
 					if (_jobsAccount.getConfirm()
-					        .equals(JobConfirmationConstant.JOB_UN_CONFIRM.getCode())) {
+							.equals(JobConfirmationConstant.JOB_UN_CONFIRM.getCode())) {
 						_unConfirm.add(_designer);
 					}
 					else if (_jobsAccount.getConfirm()
-					        .equals(JobConfirmationConstant.JOB_CONFIRM.getCode())) {
+							.equals(JobConfirmationConstant.JOB_CONFIRM.getCode())) {
 						_confirm.add(_designer);
 					}
 					if (_jobsAccount.getCounter().compareTo(0D) > 0) {
@@ -283,7 +283,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 	}
 
 	private void serializeAccounts(JsonGenerator __gen, List<Account> __accounts,
-	        String __prefixUrl) {
+			String __prefixUrl) {
 		__accounts.forEach(new Consumer<Account>() {
 
 			@Override
@@ -293,10 +293,10 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeNumberField("account_id", __account.getId());
 					__gen.writeStringField("account_name", __account.getName());
 					__gen.writeNumberField("account_reward",
-					        __account.getRewards() == 0 ? 1 : __account.getRewards());
+							__account.getRewards() == 0 ? 1 : __account.getRewards());
 					__gen.writeObjectFieldStart("avatar");
 					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl,
-					        __account.getImage());
+							__account.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -308,7 +308,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 	}
 
 	private void serializeCounterAccounts(JsonGenerator __gen, List<Object[]> __counterAccounts,
-	        String __prefixUrl) {
+			String __prefixUrl) {
 		__counterAccounts.forEach(new Consumer<Object[]>() {
 
 			@Override
@@ -320,10 +320,10 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					__gen.writeNumberField("designer_id", _account.getId());
 					__gen.writeStringField("designer_name", _account.getName());
 					__gen.writeNumberField("designer_reward",
-					        _account.getRewards() == 0 ? 1 : _account.getRewards());
+							_account.getRewards() == 0 ? 1 : _account.getRewards());
 					__gen.writeObjectFieldStart("designer_avatar");
 					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl,
-					        _account.getImage());
+							_account.getImage());
 					__gen.writeEndObject();
 					__gen.writeNumberField("counter", _counter);
 					__gen.writeEndObject();

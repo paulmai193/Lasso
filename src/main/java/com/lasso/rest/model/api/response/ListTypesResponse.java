@@ -112,13 +112,9 @@ class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 					__gen.writeStartObject();
 					__gen.writeNumberField("type_id", __type.getId());
 					__gen.writeStringField("type_title", __type.getTitle());
-					if (__type.getImage() == null || __type.getImage().isEmpty()) {
-						__gen.writeStringField("image", "");
-					}
-					else {
-						__gen.writeStringField("image",
-								__value.getPrefixUrl() + "/Small/" + __type.getImage());
-					}
+					__gen.writeObjectFieldStart("image");
+					ListTypeSerializer.this.serializeImage(__gen, __value.getPrefixUrl(), __type.getImage());
+					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
@@ -131,4 +127,24 @@ class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
 		__gen.writeEndObject();
 	}
 
+	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
+		try {
+			if (imageName == null || imageName.trim().isEmpty()) {
+				__gen.writeStringField("original", "");
+				__gen.writeStringField("small", "");
+				__gen.writeStringField("icon", "");
+				__gen.writeStringField("retina", "");
+			}
+			else {
+				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
+				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
+				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
+				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
+			}
+		}
+		catch (Exception _ex) {
+			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+		}
+
+	}
 }

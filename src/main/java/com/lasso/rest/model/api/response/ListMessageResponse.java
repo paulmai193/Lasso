@@ -121,13 +121,13 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 					__gen.writeStringField("message_title", _job.getDescription());
 					__gen.writeStringField("message_content", _message.getMessage());
 					if (_job.getPaid().equals((byte) 0)) {
-						__gen.writeStringField("message_status", "job_confirm");
+						__gen.writeStringField("action_status", "job_confirm");
 					}
 					else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
-						__gen.writeStringField("message_status", "job_completed");
+						__gen.writeStringField("action_status", "job_completed");
 					}
 					else {
-						__gen.writeStringField("message_status", "job_explain");
+						__gen.writeStringField("action_status", "job_explain");
 					}
 					__gen.writeStringField("sender_name", _sender.getName());
 					if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {

@@ -22,10 +22,10 @@ public interface MessageDAO extends HibernateSession {
 	/**
 	 * Gets the list message by id parent.
 	 *
-	 * @param __idMessage the id message
+	 * @param __idMessageRoot the id root message
 	 * @return the list message by id parent
 	 */
-	List<Message> getListMessageByIdParent(int __idMessage);
+	List<Message> getListMessageByIdParent(int __idMessageRoot);
 
 	/**
 	 * Gets the list root message by id receiver.

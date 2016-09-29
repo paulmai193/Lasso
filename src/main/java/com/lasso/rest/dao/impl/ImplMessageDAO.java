@@ -48,9 +48,9 @@ public class ImplMessageDAO implements MessageDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Message> getListMessageByIdParent(int __idMessage) {
+	public List<Message> getListMessageByIdParent(int __idMessageRoot) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
-				.add(Restrictions.eq("parentId", __idMessage))
+				.add(Restrictions.eq("parentId", __idMessageRoot))
 				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
 				.addOrder(Order.asc("created")).list();
 	}

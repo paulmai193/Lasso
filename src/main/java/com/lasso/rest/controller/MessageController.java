@@ -82,7 +82,7 @@ public class MessageController extends BaseController {
 	 */
 	@GET
 	@Path("/detail")
-	public MessageDetailResponse getMessageDetail(@QueryParam("id") int __idMessage) {
+	public MessageDetailResponse getMessageDetail(@QueryParam("message_id") int __idMessage) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
 				__idMessage);

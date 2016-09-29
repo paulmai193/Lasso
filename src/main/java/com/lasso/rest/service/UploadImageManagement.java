@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.imageio.stream.ImageOutputStream;
-
 /**
  * The Interface UploadImageManagement.
  *
@@ -22,7 +20,7 @@ public interface UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-			ImageOutputStream __destinationImageFile) throws IOException;
+			File __destinationImageFile) throws IOException;
 
 	/**
 	 * Generate image name.

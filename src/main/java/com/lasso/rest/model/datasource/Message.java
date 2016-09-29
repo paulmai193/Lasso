@@ -96,7 +96,7 @@ public class Message implements Serializable {
 	 * @param __toAccountId the to account id
 	 */
 	public Message(Integer __fromAccountId, Integer __jobId, String __message, String __title,
-	        Integer __toAccountId) {
+			Integer __toAccountId) {
 		super();
 		this.created = this.modified = new Date();
 		this.fromAccountId = __fromAccountId;

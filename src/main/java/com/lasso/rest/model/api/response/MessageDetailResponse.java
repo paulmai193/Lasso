@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
@@ -131,17 +132,17 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		__gen.writeObjectFieldStart("job");
 		GetOrderResponse _orderDetail = __value.getOrderDetail();
 		Job _job = (Job) _orderDetail.getData()[0];
-		List<Type> _types = (List<Type>) _orderDetail.getData()[2];
-		Style _style = (Style) _orderDetail.getData()[3];
+		List<Style> _styles = (List<Style>) _orderDetail.getData()[2];
+		Type _type = (Type) _orderDetail.getData()[3];
 		__gen.writeStringField("job_description", _job.getDescription());
-		__gen.writeArrayFieldStart("types");
-		_types.forEach(new Consumer<Type>() {
+		__gen.writeArrayFieldStart("styles");
+		_styles.forEach(new Consumer<Style>() {
 
 			@Override
-			public void accept(Type __type) {
+			public void accept(Style __style) {
 				try {
 					__gen.writeStartObject();
-					__gen.writeStringField("type_title", __type.getTitle());
+					__gen.writeStringField("style_title", __style.getTitle());
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
@@ -151,12 +152,13 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			}
 		});
 		__gen.writeEndArray();
-		__gen.writeStringField("style_title", _style.getTitle());
+		__gen.writeStringField("type_title", _type.getTitle());
 		DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		__gen.writeStringField("submission", _dateFormat.format(_job.getSubmission()));
 		__gen.writeStringField("objective", _job.getObjective());
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
-		__gen.writeStringField("further_info", _job.getFurtherInformation());
+		__gen.writeStringField("further_info",
+				_job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
 		__gen.writeEndObject();
 
 		__gen.writeArrayFieldStart("messages");
@@ -190,6 +192,16 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			}
 		});
 		__gen.writeEndArray();
+
+		if (_job.getPaid().equals((byte) 0)) {
+			__gen.writeStringField("action_status", "job_confirm");
+		}
+		else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+			__gen.writeStringField("action_status", "job_completed");
+		}
+		else {
+			__gen.writeStringField("action_status", "job_explain");
+		}
 
 		__gen.writeEndObject();
 

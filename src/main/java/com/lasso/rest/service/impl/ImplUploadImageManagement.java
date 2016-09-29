@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
 
 import org.apache.log4j.Logger;
 import org.imgscalr.Scalr;
@@ -36,7 +35,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-			ImageOutputStream __destinationImageFile) throws IOException {
+			File __destinationImageFile) throws IOException {
 		BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 		BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
 
@@ -53,6 +52,8 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 		_g2d.drawImage(_watermarkImage, _topLeftX, _topLeftY, null);
 
 		ImageIO.write(_sourceImage, "jpg", __destinationImageFile);
+		this.changeOwner(__destinationImageFile);
+
 		_g2d.dispose();
 
 	}
@@ -95,6 +96,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			}
 			/* retrieve image */
 			ImageIO.write(dbi, "jpg", __destinationFile);
+			this.changeOwner(__destinationFile);
 		}
 	}
 
@@ -125,6 +127,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			}
 			/* retrieve image */
 			ImageIO.write(dbi, "jpg", __destinationFile);
+			this.changeOwner(__destinationFile);
 		}
 	}
 
@@ -154,15 +157,6 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void changeOwner(File __file) throws IOException {
-		// GroupPrincipal _parentGroup = Files.readAttributes(__file.getParentFile().toPath(),
-		// PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS).group();
-		// Logger.getLogger(this.getClass()).debug("Folder owner: " + _parentGroup.getName());
-		// GroupPrincipal _currentGroup = Files.readAttributes(__file.toPath(),
-		// PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS).group();
-		// Logger.getLogger(this.getClass()).debug("File owner: " + _currentGroup.getName());
-		// Files.getFileAttributeView(__file.toPath(), PosixFileAttributeView.class,
-		// LinkOption.NOFOLLOW_LINKS).setGroup(_parentGroup);
-
 		__file.setExecutable(true, false);
 		__file.setReadable(true, false);
 	}

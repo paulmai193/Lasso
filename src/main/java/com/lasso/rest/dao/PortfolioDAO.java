@@ -61,15 +61,14 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @param __offset the offset
 	 * @param __limit the limit
 	 * @param __idCategory the id category
-	 * @param ___idsStyle the id style
+	 * @param __idsStyle the id style
 	 * @param __portfolioTypes the list portfolio types
 	 * @param __budgetCompare the budget compare. negative value for smaller or equal, positive
 	 *        value for bigger
 	 * @return the list portfolios by condition
 	 */
 	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-			List<Integer> ___idsStyle, List<PortfolioType> __portfolioTypes,
-			double __budgetCompare);
+			List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
 
 	/**
 	 * Update portfolio.
