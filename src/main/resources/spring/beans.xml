@@ -125,6 +125,11 @@
 		<property name="accountRatingDAO" ref="accountRatingDAO" />
 		<property name="promoDAO" ref="promoDAO" />
 	</bean>
+	<bean id="messageManagement" class="com.lasso.rest.service.impl.ImplMessageManagement">
+		<property name="accountDAO" ref="accountDAO" />
+		<property name="jobDAO" ref="jobDAO" />
+		<property name="messageDAO" ref="messageDAO" />
+	</bean>
 
 	<!-- Controller Layer -->
 	<bean id="accountController" class="com.lasso.rest.controller.AccountController"
@@ -182,6 +187,15 @@
 		<property name="designerManagement" ref="designerManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="categoryStoragePath" ref="categoryStoragePath" />
+		<property name="jobStoragePath" ref="jobStoragePath" />
+		<property name="httpHost" ref="httpHost" />
+	</bean>
+	
+	<bean id="messageController" class="com.lasso.rest.controller.MessageController"
+		lazy-init="false">
+		<property name="messageManagement" ref="messageManagement" />
+		<property name="userManagement" ref="userManagement" />
+		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="jobStoragePath" ref="jobStoragePath" />
 		<property name="httpHost" ref="httpHost" />
 	</bean>

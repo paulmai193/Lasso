@@ -35,24 +35,24 @@ public class Message implements Serializable {
 	private Date				created;
 
 	/** The deleted. */
-	private byte				deleted;
+	private Byte				deleted;
 
 	/** The from account id. */
 	@Column(name = "from_account_id")
-	private int					fromAccountId;
+	private Integer				fromAccountId;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int					id;
+	private Integer				id;
 
 	/** The is read. */
 	@Column(name = "is_read")
-	private byte				isRead;
+	private Byte				isRead;
 
 	/** The job id. */
 	@Column(name = "job_id")
-	private int					jobId;
+	private Integer				jobId;
 
 	/** The message. */
 	@Lob
@@ -64,21 +64,21 @@ public class Message implements Serializable {
 
 	/** The parent id. */
 	@Column(name = "parent_id")
-	private int					parentId;
+	private Integer				parentId;
 
 	/** The status. */
-	private byte				status;
+	private Byte				status;
 
 	/** The title. */
 	private String				title;
 
 	/** The to account id. */
 	@Column(name = "to_account_id")
-	private int					toAccountId;
+	private Integer				toAccountId;
 
 	/** The user id. */
 	@Column(name = "user_id")
-	private int					userId;
+	private Integer				userId;
 
 	/**
 	 * Instantiates a new message.
@@ -95,8 +95,8 @@ public class Message implements Serializable {
 	 * @param __title the title
 	 * @param __toAccountId the to account id
 	 */
-	public Message(int __fromAccountId, int __jobId, String __message, String __title,
-			int __toAccountId) {
+	public Message(Integer __fromAccountId, Integer __jobId, String __message, String __title,
+	        Integer __toAccountId) {
 		super();
 		this.created = this.modified = new Date();
 		this.fromAccountId = __fromAccountId;
@@ -122,7 +122,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the deleted
 	 */
-	public byte getDeleted() {
+	public Byte getDeleted() {
 		return this.deleted;
 	}
 
@@ -131,7 +131,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the from account id
 	 */
-	public int getFromAccountId() {
+	public Integer getFromAccountId() {
 		return this.fromAccountId;
 	}
 
@@ -140,7 +140,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
@@ -149,7 +149,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the checks if is read
 	 */
-	public byte getIsRead() {
+	public Byte getIsRead() {
 		return this.isRead;
 	}
 
@@ -158,7 +158,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the job id
 	 */
-	public int getJobId() {
+	public Integer getJobId() {
 		return this.jobId;
 	}
 
@@ -185,7 +185,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the parent id
 	 */
-	public int getParentId() {
+	public Integer getParentId() {
 		return this.parentId;
 	}
 
@@ -194,7 +194,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the status
 	 */
-	public byte getStatus() {
+	public Byte getStatus() {
 		return this.status;
 	}
 
@@ -212,7 +212,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the to account id
 	 */
-	public int getToAccountId() {
+	public Integer getToAccountId() {
 		return this.toAccountId;
 	}
 
@@ -221,7 +221,7 @@ public class Message implements Serializable {
 	 *
 	 * @return the user id
 	 */
-	public int getUserId() {
+	public Integer getUserId() {
 		return this.userId;
 	}
 
@@ -239,7 +239,7 @@ public class Message implements Serializable {
 	 *
 	 * @param deleted the new deleted
 	 */
-	public void setDeleted(byte deleted) {
+	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
 	}
 
@@ -248,7 +248,7 @@ public class Message implements Serializable {
 	 *
 	 * @param fromAccountId the new from account id
 	 */
-	public void setFromAccountId(int fromAccountId) {
+	public void setFromAccountId(Integer fromAccountId) {
 		this.fromAccountId = fromAccountId;
 	}
 
@@ -257,7 +257,7 @@ public class Message implements Serializable {
 	 *
 	 * @param id the new id
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -266,7 +266,7 @@ public class Message implements Serializable {
 	 *
 	 * @param isRead the new checks if is read
 	 */
-	public void setIsRead(byte isRead) {
+	public void setIsRead(Byte isRead) {
 		this.isRead = isRead;
 	}
 
@@ -275,7 +275,7 @@ public class Message implements Serializable {
 	 *
 	 * @param jobId the new job id
 	 */
-	public void setJobId(int jobId) {
+	public void setJobId(Integer jobId) {
 		this.jobId = jobId;
 	}
 
@@ -302,7 +302,7 @@ public class Message implements Serializable {
 	 *
 	 * @param parentId the new parent id
 	 */
-	public void setParentId(int parentId) {
+	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
 
@@ -311,7 +311,7 @@ public class Message implements Serializable {
 	 *
 	 * @param status the new status
 	 */
-	public void setStatus(byte status) {
+	public void setStatus(Byte status) {
 		this.status = status;
 	}
 
@@ -329,7 +329,7 @@ public class Message implements Serializable {
 	 *
 	 * @param toAccountId the new to account id
 	 */
-	public void setToAccountId(int toAccountId) {
+	public void setToAccountId(Integer toAccountId) {
 		this.toAccountId = toAccountId;
 	}
 
@@ -338,7 +338,7 @@ public class Message implements Serializable {
 	 *
 	 * @param userId the new user id
 	 */
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
