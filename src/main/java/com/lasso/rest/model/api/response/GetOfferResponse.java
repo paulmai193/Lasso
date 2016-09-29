@@ -143,8 +143,8 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeObjectFieldStart("data");
 		Job _job = (Job) __value.getData()[0];
 		Account _user = (Account) __value.getData()[1];
-		Type _type = (Type) __value.getData()[2];
-		List<Style> _styles = (List<Style>) __value.getData()[3];
+		List<Style> _styles = (List<Style>) __value.getData()[2];
+		Type _type = (Type) __value.getData()[3];
 		Category _category = (Category) __value.getData()[4];
 
 		__gen.writeStringField("job_description", _job.getDescription());

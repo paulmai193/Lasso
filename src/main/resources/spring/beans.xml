@@ -177,6 +177,14 @@
 		<property name="typeStoragePath" ref="typeStoragePath" />
 		<property name="httpHost" ref="httpHost" />
 	</bean>
+	<bean id="manageProjectController" class="com.lasso.rest.controller.ManageProjectController"
+		lazy-init="false">
+		<property name="designerManagement" ref="designerManagement" />
+		<property name="avatarStoragePath" ref="avatarStoragePath" />
+		<property name="categoryStoragePath" ref="categoryStoragePath" />
+		<property name="jobStoragePath" ref="jobStoragePath" />
+		<property name="httpHost" ref="httpHost" />
+	</bean>
 
 	<!-- Filter Layer -->
 	<bean id="accountAuthenticateFilter"
