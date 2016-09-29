@@ -69,7 +69,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 */
 	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
 			List<Integer> ___idsStyle, List<PortfolioType> __portfolioTypes,
-			Integer __budgetCompare);
+			double __budgetCompare);
 
 	/**
 	 * Update portfolio.

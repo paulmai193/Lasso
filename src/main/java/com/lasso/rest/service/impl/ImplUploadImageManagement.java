@@ -7,11 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.attribute.GroupPrincipal;
-import java.nio.file.attribute.PosixFileAttributeView;
-import java.nio.file.attribute.PosixFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -41,7 +36,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-	        ImageOutputStream __destinationImageFile) throws IOException {
+			ImageOutputStream __destinationImageFile) throws IOException {
 		BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 		BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
 
@@ -70,7 +65,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	@Override
 	public String generateImageName(String __extension) {
 		return EncryptionUtil.uniqid("", false)
-		        + new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
+				+ new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
 	}
 
 	/*
@@ -81,9 +76,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
-	        throws IOException {
+			throws IOException {
 		Logger.getLogger(this.getClass())
-		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -111,9 +106,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
-	        Double __width) throws IOException {
+			Double __width) throws IOException {
 		Logger.getLogger(this.getClass())
-		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -141,15 +136,15 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
-	        throws IOException, IllegalArgumentException {
+			throws IOException, IllegalArgumentException {
 		Logger.getLogger(this.getClass())
-		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		BufferedImage _buffered = ImageIO.read(__fileStream);
 		if (_buffered == null) {
 			throw new IllegalArgumentException("File not image");
 		}
-		this.changeOwner(__destinationFile);
 		ImageIO.write(_buffered, __extension, __destinationFile);
+		this.changeOwner(__destinationFile);
 	}
 
 	/**
@@ -159,9 +154,16 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void changeOwner(File __file) throws IOException {
-		GroupPrincipal _group = Files.readAttributes(__file.getParentFile().toPath(),
-		        PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS).group();
-		Files.getFileAttributeView(__file.toPath(), PosixFileAttributeView.class,
-		        LinkOption.NOFOLLOW_LINKS).setGroup(_group);
+		// GroupPrincipal _parentGroup = Files.readAttributes(__file.getParentFile().toPath(),
+		// PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS).group();
+		// Logger.getLogger(this.getClass()).debug("Folder owner: " + _parentGroup.getName());
+		// GroupPrincipal _currentGroup = Files.readAttributes(__file.toPath(),
+		// PosixFileAttributes.class, LinkOption.NOFOLLOW_LINKS).group();
+		// Logger.getLogger(this.getClass()).debug("File owner: " + _currentGroup.getName());
+		// Files.getFileAttributeView(__file.toPath(), PosixFileAttributeView.class,
+		// LinkOption.NOFOLLOW_LINKS).setGroup(_parentGroup);
+
+		__file.setExecutable(true, false);
+		__file.setReadable(true, false);
 	}
 }

@@ -85,12 +85,13 @@ public class BrowseController extends BaseController {
 	/**
 	 * Gets the banners.
 	 *
+	 * @param __type the type
 	 * @return the banners
 	 */
 	@GET
 	@Path("/banner")
-	public ListBannerReponse getBanners() {
-		List<Banner> _banners = this.projectManagement.getListBanner();
+	public ListBannerReponse getBanners(@QueryParam("type") byte __type) {
+		List<Banner> _banners = this.projectManagement.getListBanner(__type);
 		String _prefixUrl = this.httpHost + this.bannerStoragePath;
 		return new ListBannerReponse(_banners, _prefixUrl);
 	}

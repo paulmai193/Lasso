@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.Style;
@@ -24,7 +25,7 @@ import com.lasso.rest.model.datasource.Type;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
-
+@JsonSerialize(using = OrderPaymentDetailSerializer.class)
 public class OrderPaymentDetailResponse extends BaseResponse {
 
 	/** The job. */
@@ -33,11 +34,11 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	/** The promo code. */
 	private PromoCode	promoCode;
 
-	/** The style. */
-	private Style		style;
-
 	/** The types. */
-	private List<Type>	types;
+	private List<Style>	styles;
+
+	/** The style. */
+	private Type		type;
 
 	/**
 	 * Instantiates a new order payment detail response.
@@ -74,16 +75,16 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	 *
 	 * @param __job the job
 	 * @param __promoCode the promo code
-	 * @param __types the types
-	 * @param __style the style
+	 * @param __styles the styles
+	 * @param __type the type
 	 */
-	public OrderPaymentDetailResponse(Job __job, PromoCode __promoCode, List<Type> __types,
-			Style __style) {
+	public OrderPaymentDetailResponse(Job __job, PromoCode __promoCode, List<Style> __styles,
+			Type __type) {
 		super();
 		this.job = __job;
 		this.promoCode = __promoCode;
-		this.types = __types;
-		this.style = __style;
+		this.styles = __styles;
+		this.type = __type;
 	}
 
 	/**
@@ -105,22 +106,23 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	}
 
 	/**
-	 * Gets the style.
+	 * Gets the styles.
 	 *
-	 * @return the style
+	 * @return the styles
 	 */
-	public Style getStyle() {
-		return this.style;
+	public List<Style> getStyles() {
+		return this.styles;
 	}
 
 	/**
-	 * Gets the types.
+	 * Gets the type.
 	 *
-	 * @return the types
+	 * @return the type
 	 */
-	public List<Type> getTypes() {
-		return this.types;
+	public Type getType() {
+		return this.type;
 	}
+
 }
 
 class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResponse> {
@@ -135,13 +137,13 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 			__gen.writeObjectField("message", __value.getMessage());
 		}
 		__gen.writeObjectFieldStart("data");
-		this.serializeOrder(__gen, __value.getJob(), __value.getTypes(), __value.getStyle());
+		this.serializeOrder(__gen, __value.getJob(), __value.getStyles(), __value.getType());
 		this.serializePayment(__gen, __value.getJob(), __value.getPromoCode());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 	}
 
-	private void serializeOrder(JsonGenerator __gen, Job __job, List<Type> __types, Style __style) {
+	private void serializeOrder(JsonGenerator __gen, Job __job, List<Style> __styles, Type __type) {
 		try {
 			__gen.writeStringField("job_description", __job.getDescription());
 			__gen.writeNumberField("job_amount", __job.getBudget() + __job.getFee());
@@ -149,19 +151,19 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 			__gen.writeStringField("submission", _dateFormat.format(__job.getSubmission()));
 			__gen.writeStringField("last_submission",
 					_dateFormat.format(__job.getLatestSubmission()));
-			__gen.writeStringField("style_title", __style.getTitle());
-			__gen.writeArrayFieldStart("types");
-			__types.forEach(_type -> {
+			__gen.writeStringField("type_title", __type.getTitle());
+			__gen.writeArrayFieldStart("style_title");
+			__styles.forEach(_style -> {
 				try {
-					__gen.writeStringField("type_title", _type.getTitle());
+					__gen.writeString(_style.getTitle());
 				}
-				catch (IOException _ex) {
+				catch (Exception _ex) {
 					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			});
 			__gen.writeEndArray();
 		}
-		catch (IOException _ex) {
+		catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}
@@ -179,7 +181,7 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 				__gen.writeNumberField("promo_value", 0);
 			}
 		}
-		catch (IOException _ex) {
+		catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}

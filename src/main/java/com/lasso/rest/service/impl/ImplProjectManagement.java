@@ -223,11 +223,11 @@ public class ImplProjectManagement implements ProjectManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.ProjectManagement#getListBanner()
+	 * @see com.lasso.rest.service.ProjectManagement#getListBanner(byte)
 	 */
 	@Override
-	public List<Banner> getListBanner() {
-		return this.bannerDAO.getListBanner();
+	public List<Banner> getListBanner(byte __type) {
+		return this.bannerDAO.getListBanner(__type);
 	}
 
 	/*

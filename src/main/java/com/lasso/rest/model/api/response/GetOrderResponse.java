@@ -174,8 +174,8 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeObjectFieldStart("data");
 		Job _job = (Job) __value.getData()[0];
 		List<Object[]> _designersJobs = (List<Object[]>) __value.getData()[1];
-		List<Type> _types = (List<Type>) __value.getData()[2];
-		Style _style = (Style) __value.getData()[3];
+		List<Style> _styles = (List<Style>) __value.getData()[2];
+		Type _type = (Type) __value.getData()[3];
 		Category _category = (Category) __value.getData()[4];
 
 		__gen.writeStringField("job_description", _job.getDescription());
@@ -183,24 +183,24 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 
 		__gen.writeObjectFieldStart("category");
 		__gen.writeNumberField("category_id", _category.getId());
-		__gen.writeStringField("category_title", _category.getTitle());
+		__gen.writeStringField("title", _category.getTitle());
 		__gen.writeObjectFieldStart("images");
 		this.serializeImage(__gen, __value.getPrefixCategory(), _category.getImage());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
-		__gen.writeArrayFieldStart("types");
-		_types.forEach(new Consumer<Type>() {
+		__gen.writeArrayFieldStart("styles");
+		_styles.forEach(new Consumer<Style>() {
 
 			@Override
-			public void accept(Type __type) {
+			public void accept(Style __style) {
 				try {
 					__gen.writeStartObject();
-					__gen.writeNumberField("type_id", __type.getId());
-					__gen.writeStringField("type_title", __type.getTitle());
+					__gen.writeNumberField("style_id", __style.getId());
+					__gen.writeStringField("title", __style.getTitle());
 					__gen.writeObjectFieldStart("images");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixType(),
-							__type.getImage());
+					GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixStyle(),
+							__style.getImage());
 					__gen.writeEndObject();
 					__gen.writeEndObject();
 				}
@@ -212,11 +212,11 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		});
 		__gen.writeEndArray();
 
-		__gen.writeObjectFieldStart("style");
-		__gen.writeNumberField("style_id", _style.getId());
-		__gen.writeStringField("style_title", _style.getTitle());
-		__gen.writeObjectFieldStart("images");
-		this.serializeImage(__gen, __value.getPrefixStyle(), _style.getImage());
+		__gen.writeObjectFieldStart("type");
+		__gen.writeNumberField("type_id", _type.getId());
+		__gen.writeStringField("type_title", _type.getTitle());
+		__gen.writeObjectFieldStart("image");
+		this.serializeImage(__gen, __value.getPrefixType(), _type.getImage());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
@@ -230,7 +230,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		}
 		__gen.writeEndArray();
 
-		__gen.writeNumberField("budget", _job.getBudget());
+		__gen.writeNumberField("job_budget", _job.getBudget());
 		DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		__gen.writeStringField("submission", _dateFormat.format(_job.getSubmission()));
 		__gen.writeStringField("last_submission", _dateFormat.format(_job.getLatestSubmission()));
@@ -317,11 +317,11 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 					Account _account = (Account) __counterAccount[1];
 					Double _counter = (Double) __counterAccount[0];
 					__gen.writeStartObject();
-					__gen.writeNumberField("account_id", _account.getId());
-					__gen.writeStringField("account_name", _account.getName());
-					__gen.writeNumberField("account_reward",
+					__gen.writeNumberField("designer_id", _account.getId());
+					__gen.writeStringField("designer_name", _account.getName());
+					__gen.writeNumberField("designer_reward",
 							_account.getRewards() == 0 ? 1 : _account.getRewards());
-					__gen.writeObjectFieldStart("avatar");
+					__gen.writeObjectFieldStart("designer_avatar");
 					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixUrl,
 							_account.getImage());
 					__gen.writeEndObject();

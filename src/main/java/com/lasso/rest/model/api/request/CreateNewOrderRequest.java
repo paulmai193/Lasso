@@ -27,7 +27,7 @@ public class CreateNewOrderRequest extends BaseRequest {
 	private String			assetUrl;
 
 	/** The budget. */
-	@JsonProperty("budget")
+	@JsonProperty("job_budget")
 	private Double			budget;
 
 	/** The description. */

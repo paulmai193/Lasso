@@ -10,6 +10,9 @@ public enum JobStageConstant {
 	/** The job stage 1st draft. */
 	JOB_STAGE_1ST_DRAFT((byte) 1, "1st Draft"),
 
+	/** The job stage 1st not start. */
+	JOB_STAGE_1ST_NOT_START((byte) 0, "Not start yet"),
+
 	/** The job stage completed. */
 	JOB_STAGE_COMPLETED((byte) 4, "Completed"),
 

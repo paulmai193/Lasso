@@ -104,7 +104,7 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	@Override
 	public List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
 			List<Integer> ___idsStyle, List<PortfolioType> __portfolioTypes,
-			Integer __budgetCompare) {
+			double __budgetCompare) {
 		List<Integer> _portfolioIds = new ArrayList<>();
 		__portfolioTypes.forEach(_pt -> _portfolioIds.add(_pt.getPortfolioId()));
 
@@ -113,12 +113,12 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 				.add(Restrictions.in("styleId", ___idsStyle))
 				.add(Restrictions.in("id", _portfolioIds)).add(Restrictions.eq("status", (byte) 1))
 				.add(Restrictions.eq("deleted", (byte) 0));
-		if (__budgetCompare.intValue() > 0) {
-			_criteria.add(Restrictions.gt("amount", __budgetCompare.doubleValue()))
+		if (__budgetCompare > 0) {
+			_criteria.add(Restrictions.gt("amount", __budgetCompare))
 			.addOrder(Order.desc("amount"));
 		}
-		else if (__budgetCompare.intValue() <= 0) {
-			_criteria.add(Restrictions.le("amount", __budgetCompare.doubleValue() * -1D))
+		else if (__budgetCompare <= 0) {
+			_criteria.add(Restrictions.le("amount", __budgetCompare * -1D))
 			.addOrder(Order.asc("amount"));
 		}
 

@@ -18,7 +18,7 @@ import com.lasso.exception.ObjectParamException;
 public class ChooseDesignerForOrderRequest extends BaseRequest {
 
 	/** The designer ids. */
-	@JsonProperty("designer_ids")
+	@JsonProperty("designer_id")
 	private List<Integer>	designerIds;
 
 	/** The id job. */

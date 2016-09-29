@@ -13,8 +13,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.JobStepConstant;
 import com.lasso.rest.model.datasource.Job;
-import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.datasource.Style;
 
 /**
  * The Class ListJobsResponse.
@@ -93,7 +94,7 @@ class ListJobsSerializer extends JsonSerializer<List<Object[]>> {
 
 	@Override
 	public void serialize(List<Object[]> __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		DateFormat _dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		__gen.writeStartArray();
 		for (Object[] _objects : __value) {
@@ -102,22 +103,33 @@ class ListJobsSerializer extends JsonSerializer<List<Object[]>> {
 			String _designer = (String) _objects[1];
 
 			@SuppressWarnings("unchecked")
-			List<Type> _types = (List<Type>) _objects[2];
-			String _style = (String) _objects[3];
+			List<Style> _styles = (List<Style>) _objects[2];
+			String _typeTitle = (String) _objects[3];
 			__gen.writeNumberField("job_id", _job.getId());
-			__gen.writeArrayFieldStart("types");
-			for (Type _type : _types) {
+			__gen.writeArrayFieldStart("styles");
+			for (Style _style : _styles) {
 				__gen.writeStartObject();
-				__gen.writeNumberField("type_id", _type.getId());
-				__gen.writeStringField("type_title", _type.getTitle());
+				__gen.writeNumberField("style_id", _style.getId());
+				__gen.writeStringField("style_title", _style.getTitle());
 				__gen.writeEndObject();
 			}
 			__gen.writeEndArray();
 			__gen.writeStringField("designer", _designer);
-			__gen.writeStringField("style", _style);
+			__gen.writeStringField("type_title", _typeTitle);
 			__gen.writeStringField("date_due", _dateFormat.format(_job.getLatestSubmission()));
-			__gen.writeStringField("status",
-					_job.getCompleted() == 0 ? "In Progress" : "Completed");
+			String _status;
+			if (_job.getPaid().equals((byte) 0)) {
+				_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
+			}
+			else {
+				if (_job.getCompleted().equals((byte) 0)) {
+					_status = "In Progress";
+				}
+				else {
+					_status = "Completed";
+				}
+			}
+			__gen.writeStringField("status", _status);
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();

@@ -8,15 +8,17 @@ package com.lasso.define;
 public enum JobStepConstant {
 
 	/** The job step brief. */
-	JOB_STEP_BRIEF((byte) 1, "Brief new job step"),
+	JOB_STEP_BRIEF((byte) 1, "In Shortlist"),
 	/** The job step choose designer. */
-	JOB_STEP_CHOOSE_DESIGNER((byte) 2, "Choose designer step"),
+	JOB_STEP_CHOOSE_DESIGNER((byte) 2, "In Confirmation"),
 	/** The job step complete. */
-	JOB_STEP_COMPLETE((byte) 5, "Completed step"),
+	JOB_STEP_COMPLETE((byte) 5, "Completed"),
 	/** The job step confirm. */
-	JOB_STEP_CONFIRM((byte) 3, "Confirmation step"),
+	JOB_STEP_CONFIRM((byte) 3, "In Payment"),
+	/** The job step brief. */
+	JOB_STEP_DRAFT((byte) 0, "In Draft"),
 	/** The job step pay. */
-	JOB_STEP_PAY((byte) 4, "Payment step");
+	JOB_STEP_PAY((byte) 4, "In Payment");
 
 	/**
 	 * Gets the by code.

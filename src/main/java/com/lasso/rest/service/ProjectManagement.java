@@ -53,9 +53,10 @@ public interface ProjectManagement {
 	/**
 	 * Gets the list banner.
 	 *
+	 * @param __type the type
 	 * @return the list banner
 	 */
-	List<Banner> getListBanner();
+	List<Banner> getListBanner(byte __type);
 
 	/**
 	 * Gets the list types by id category and style.

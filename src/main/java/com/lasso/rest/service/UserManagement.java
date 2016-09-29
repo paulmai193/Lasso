@@ -67,10 +67,11 @@ public interface UserManagement extends ProjectManagement {
 	 *
 	 * @param __user the user
 	 * @param __createNewOrderRequest the create new order request
+	 * @return the job ID
 	 * @throws UnirestException the unirest exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	void createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
+	Integer createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
 			throws UnirestException, IOException;
 
 	/**
@@ -114,7 +115,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the list portfolios data by condition {portoflio, designer}
 	 */
 	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-			List<Integer> _idsStyle, int __idType, Integer[] __filter);
+			List<Integer> _idsStyle, int __idType, Number[] __filter);
 
 	/**
 	 * Gets the order data by id.

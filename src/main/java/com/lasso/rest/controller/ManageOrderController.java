@@ -31,6 +31,7 @@ import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
 import com.lasso.rest.model.api.request.PaymentForOrderRequest;
 import com.lasso.rest.model.api.request.UsePromoCodeForOrder;
+import com.lasso.rest.model.api.response.BriefNewJobResponse;
 import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.JobDetailResponse;
 import com.lasso.rest.model.api.response.ListDesignersResponse;
@@ -103,12 +104,12 @@ public class ManageOrderController extends BaseController {
 	@POST
 	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response briefNewJob(CreateNewOrderRequest __createNewJobRequest)
+	public BriefNewJobResponse briefNewJob(CreateNewOrderRequest __createNewJobRequest)
 			throws UnirestException, IOException {
 		__createNewJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
-		this.userManagement.createNewOrder(_user, __createNewJobRequest);
-		return this.success();
+		int _idJob = this.userManagement.createNewOrder(_user, __createNewJobRequest);
+		return new BriefNewJobResponse(_idJob);
 	}
 
 	/**
@@ -134,7 +135,7 @@ public class ManageOrderController extends BaseController {
 	 * @return the response
 	 */
 	@POST
-	@Path("/comlete")
+	@Path("/complete")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response completeJob(CompleteJobRequest __completeJobRequest) {
 		__completeJobRequest.validate();
@@ -208,7 +209,7 @@ public class ManageOrderController extends BaseController {
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
 			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
 			@QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
-			@QueryParam("filter_2") int __filterBudget,
+			@QueryParam("filter_2") double __filterBudget,
 			@QueryParam("filter_3") int __filterQuality) {
 		int _size = 8;
 		List<Integer> _listIdsStyle = new ArrayList<>();
@@ -225,7 +226,7 @@ public class ManageOrderController extends BaseController {
 		if (!_listIdsStyle.contains(__filterRelevancy)) {
 			__filterRelevancy = 0;
 		}
-		Integer[] _filter = { __filterRelevancy, __filterBudget, __filterQuality };
+		Number[] _filter = { __filterRelevancy, __filterBudget, __filterQuality };
 
 		// Get portfolios by category and style
 		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, _size,
@@ -272,12 +273,7 @@ public class ManageOrderController extends BaseController {
 
 		// {job, designer_account, type, style}
 		List<Object[]> _jobDatas = this.userManagement.getListJobsDataOfUser(_user);
-		if (_jobDatas.isEmpty()) {
-			throw new NotFoundException("Data not found");
-		}
-		else {
-			return new ListJobsResponse(_jobDatas);
-		}
+		return new ListJobsResponse(_jobDatas);
 	}
 
 	/**
@@ -312,16 +308,16 @@ public class ManageOrderController extends BaseController {
 	 */
 	@SuppressWarnings("unchecked")
 	@GET
-	@Path("/payment/detail")
+	@Path("/detail/payment")
 	public OrderPaymentDetailResponse getPaymentDetail(@QueryParam("id") int __idJob) {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		try {
 			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
 			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
-					(PromoCode) _paymentDetail[1], (List<Type>) _paymentDetail[2],
-					(Style) _paymentDetail[3]);
+					(PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
+					(Type) _paymentDetail[3]);
 		}
-		catch (NullPointerException | NotFoundException _ex) {
+		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
 		}
 	}

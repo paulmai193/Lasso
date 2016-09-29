@@ -17,11 +17,7 @@ public class PaymentForOrderRequest extends BaseRequest {
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer	idJob;
-
-	/** The payment. */
-	@JsonProperty("payment")
-	private byte	payment;
+	private Integer idJob;
 
 	/**
 	 * Instantiates a new payment for order request.
@@ -38,15 +34,6 @@ public class PaymentForOrderRequest extends BaseRequest {
 		return this.idJob;
 	}
 
-	/**
-	 * Gets the payment.
-	 *
-	 * @return the payment
-	 */
-	public byte getPayment() {
-		return this.payment;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -56,9 +43,6 @@ public class PaymentForOrderRequest extends BaseRequest {
 	public void validate() throws ObjectParamException {
 		if (this.idJob == null) {
 			throw new ObjectParamException("Invalid job ID");
-		}
-		if (this.payment != 0 && this.payment != 1) {
-			throw new ObjectParamException("Invalid payment method");
 		}
 	}
 
