@@ -24,11 +24,11 @@ import com.lasso.rest.model.datasource.Style;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
-public class JobOfUserDetailResponse extends BaseResponse {
+public class JobOfDesignerDetailResponse extends BaseResponse {
 
 	/** The data. */
 	@JsonProperty("data")
-	@JsonSerialize(using = JobOfUserDetailSerializer.class)
+	@JsonSerialize(using = JobOfDesignerDetailSerializer.class)
 	private Object[] data;
 
 	/**
@@ -36,7 +36,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 *
 	 * @param __error the error
 	 */
-	public JobOfUserDetailResponse(boolean __error) {
+	public JobOfDesignerDetailResponse(boolean __error) {
 		super(__error);
 	}
 
@@ -46,7 +46,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 * @param __error the error
 	 * @param __message the message
 	 */
-	public JobOfUserDetailResponse(boolean __error, String __message) {
+	public JobOfDesignerDetailResponse(boolean __error, String __message) {
 		super(__error, __message);
 	}
 
@@ -57,7 +57,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 * @param __message the message
 	 * @param __detail the detail
 	 */
-	public JobOfUserDetailResponse(boolean __error, String __message, String __detail) {
+	public JobOfDesignerDetailResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
 	}
 
@@ -66,7 +66,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 *
 	 * @param __data the data
 	 */
-	public JobOfUserDetailResponse(Object[] __data) {
+	public JobOfDesignerDetailResponse(Object[] __data) {
 		this.data = __data;
 	}
 
@@ -89,7 +89,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	}
 }
 
-class JobOfUserDetailSerializer extends JsonSerializer<Object[]> {
+class JobOfDesignerDetailSerializer extends JsonSerializer<Object[]> {
 
 	@Override
 	public void serialize(Object[] __value, JsonGenerator __gen, SerializerProvider __serializers)
@@ -109,7 +109,7 @@ class JobOfUserDetailSerializer extends JsonSerializer<Object[]> {
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();
-		__gen.writeStringField("designer", _designer);
+		__gen.writeStringField("user", _designer);
 		__gen.writeStringField("type_title", _typeTitle);
 		DateFormat _fullDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		DateFormat _shortDateFormat = new SimpleDateFormat("dd.MM");

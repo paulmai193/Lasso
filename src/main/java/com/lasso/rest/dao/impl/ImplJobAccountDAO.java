@@ -73,6 +73,20 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.JobAccountDAO#getListJobsAccountOfDesigner(java.lang.Integer)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<JobsAccount> getListJobsAccountOfDesigner(Integer __idDesigner) {
+		return this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
+				.add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
+				.list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * com.lasso.rest.dao.JobAccountDAO#saveJobAccount(com.lasso.rest.model.datasource.JobsAccount)
 	 */

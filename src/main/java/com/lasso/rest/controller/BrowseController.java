@@ -42,8 +42,6 @@ import com.lasso.rest.service.ProjectManagement;
 @Lazy(false)
 @Path("/browse")
 @Produces(value = { MediaType.APPLICATION_JSON })
-@AccountAuthenticate
-@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 public class BrowseController extends BaseController {
 
 	/** The avatar storage path. */
@@ -105,6 +103,8 @@ public class BrowseController extends BaseController {
 	 */
 	@GET
 	@Path("/category")
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index,
 			@QueryParam("keyword") String __keyword) {
 		int _size = 8;
@@ -122,6 +122,8 @@ public class BrowseController extends BaseController {
 	 */
 	@GET
 	@Path("/category/detail")
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public CategoryResponse getCategoryDetail(@QueryParam("id") int __idCategory) {
 		String _prefixUrl = this.httpHost + this.categoryStoragePath;
 		Category _category = this.projectManagement.getCategoryById(__idCategory);
@@ -143,6 +145,8 @@ public class BrowseController extends BaseController {
 	 */
 	@GET
 	@Path("/project")
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
 			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		int _size = 8;
@@ -163,6 +167,8 @@ public class BrowseController extends BaseController {
 	 */
 	@GET
 	@Path("/sub_category")
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListSubCategoriesResponse getListStyles(@QueryParam("index") int __index,
 			@QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes,
 			@QueryParam("keyword") String __keyword) {
@@ -192,6 +198,8 @@ public class BrowseController extends BaseController {
 	 */
 	@GET
 	@Path("/type")
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListTypesResponse getListTypes(@QueryParam("category_id") int __idCategory,
 			@QueryParam("style_id") Integer __idStyle) {
 		List<Type> _types = this.projectManagement.getListTypesByIdCategoryAndStyle(__idCategory,
@@ -208,6 +216,8 @@ public class BrowseController extends BaseController {
 	 */
 	@GET
 	@Path("/project/detail")
+	@AccountAuthenticate
+	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ProjectDetailResponse getProjectDetail(@QueryParam("id") int __idProject) {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;

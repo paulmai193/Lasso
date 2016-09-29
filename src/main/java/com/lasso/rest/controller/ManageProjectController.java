@@ -1,5 +1,7 @@
 package com.lasso.rest.controller;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -22,6 +24,8 @@ import com.lasso.rest.model.api.request.ConfirmOfferRequest;
 import com.lasso.rest.model.api.request.CounterOfferRequest;
 import com.lasso.rest.model.api.request.UpdateJobStageRequest;
 import com.lasso.rest.model.api.response.GetOfferResponse;
+import com.lasso.rest.model.api.response.JobOfDesignerDetailResponse;
+import com.lasso.rest.model.api.response.ListJobsOfDesignerResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.DesignerManagement;
 
@@ -90,6 +94,44 @@ public class ManageProjectController extends BaseController {
 	}
 
 	/**
+	 * Gets the job detail.
+	 *
+	 * @param __idJob the id job
+	 * @return the job detail
+	 * @throws NotFoundException the not found exception
+	 */
+	@GET
+	@Path("/manage/detail")
+	public JobOfDesignerDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
+	        throws javassist.NotFoundException {
+		Account _designer = (Account) this.validateContext.getUserPrincipal();
+
+		// {job, designer_account, type, style}
+		Object[] _jobDetail = this.designerManagement.getJobDataOfDesignerById(_designer, __idJob);
+		if (_jobDetail == null) {
+			throw new NotFoundException("Data not found");
+		}
+		else {
+			return new JobOfDesignerDetailResponse(_jobDetail);
+		}
+	}
+
+	/**
+	 * Gets the list jobs.
+	 *
+	 * @return the list jobs
+	 */
+	@GET
+	@Path("/manage")
+	public ListJobsOfDesignerResponse getListJobs() {
+		Account _designer = (Account) this.validateContext.getUserPrincipal();
+
+		// {job, user name, type, style}
+		List<Object[]> _jobDatas = this.designerManagement.getListJobsDataOfDesigner(_designer);
+		return new ListJobsOfDesignerResponse(_jobDatas);
+	}
+
+	/**
 	 * Gets the order detail.
 	 *
 	 * @param __idJob the id job
@@ -97,14 +139,14 @@ public class ManageProjectController extends BaseController {
 	 */
 	@GET
 	@Path("/offer/detail")
-	public GetOfferResponse getOfferDetail(@QueryParam("id") int __idJob) {
+	public GetOfferResponse getOfferDetail(@QueryParam("job_id") int __idJob) {
 		try {
 			Object[] _orderData = this.designerManagement.getOfferDataById(__idJob);
 			String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			return new GetOfferResponse(_orderData, _prefixAvatarUrl, _prefixCategoryUrl,
-					_prefixJobUrl);
+			        _prefixJobUrl);
 		}
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);

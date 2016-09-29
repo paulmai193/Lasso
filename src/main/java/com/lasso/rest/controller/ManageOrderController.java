@@ -33,9 +33,9 @@ import com.lasso.rest.model.api.request.PaymentForOrderRequest;
 import com.lasso.rest.model.api.request.UsePromoCodeForOrder;
 import com.lasso.rest.model.api.response.BriefNewJobResponse;
 import com.lasso.rest.model.api.response.GetOrderResponse;
-import com.lasso.rest.model.api.response.JobDetailResponse;
+import com.lasso.rest.model.api.response.JobOfUserDetailResponse;
 import com.lasso.rest.model.api.response.ListDesignersResponse;
-import com.lasso.rest.model.api.response.ListJobsResponse;
+import com.lasso.rest.model.api.response.ListJobsOfUserResponse;
 import com.lasso.rest.model.api.response.OrderPaymentDetailResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
@@ -247,7 +247,7 @@ public class ManageOrderController extends BaseController {
 	 */
 	@GET
 	@Path("/manage/detail")
-	public JobDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
+	public JobOfUserDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
 			throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
@@ -257,7 +257,7 @@ public class ManageOrderController extends BaseController {
 			throw new NotFoundException("Data not found");
 		}
 		else {
-			return new JobDetailResponse(_jobDetail);
+			return new JobOfUserDetailResponse(_jobDetail);
 		}
 	}
 
@@ -268,12 +268,12 @@ public class ManageOrderController extends BaseController {
 	 */
 	@GET
 	@Path("/manage")
-	public ListJobsResponse getListJobs() {
+	public ListJobsOfUserResponse getListJobs() {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
 		List<Object[]> _jobDatas = this.userManagement.getListJobsDataOfUser(_user);
-		return new ListJobsResponse(_jobDatas);
+		return new ListJobsOfUserResponse(_jobDatas);
 	}
 
 	/**

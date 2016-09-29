@@ -37,6 +37,14 @@ public interface JobAccountDAO extends HibernateSession {
 	List<JobsAccount> getByOfferId(int __idJob);
 
 	/**
+	 * Gets the list jobs account of designer.
+	 *
+	 * @param __idDesigner the id designer
+	 * @return the list jobs account of designer
+	 */
+	List<JobsAccount> getListJobsAccountOfDesigner(Integer __idDesigner);
+
+	/**
 	 * Save job account.
 	 *
 	 * @param __jobsAccount the jobs account

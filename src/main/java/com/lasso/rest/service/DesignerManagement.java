@@ -74,6 +74,23 @@ public interface DesignerManagement extends ProjectManagement {
 	List<Portfolio> getAllPortfolios(Account __account);
 
 	/**
+	 * Gets the job data of designer by id.
+	 *
+	 * @param __designer the designer
+	 * @param __idJob the id job
+	 * @return the job data of designer by id
+	 */
+	Object[] getJobDataOfDesignerById(Account __designer, int __idJob);
+
+	/**
+	 * Gets the list jobs data of designer.
+	 *
+	 * @param __designer the designer
+	 * @return the list jobs data of designer
+	 */
+	List<Object[]> getListJobsDataOfDesigner(Account __designer);
+
+	/**
 	 * Gets the offer data by id.
 	 *
 	 * @param __idJob the id job

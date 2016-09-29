@@ -81,7 +81,7 @@ public class GetOfferResponse extends BaseResponse {
 	 * @param __prefixJob the prefix job
 	 */
 	public GetOfferResponse(Object[] __data, String __prefixAvatar, String __prefixCategory,
-			String __prefixJob) {
+	        String __prefixJob) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -132,7 +132,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOfferResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
@@ -143,8 +143,8 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeObjectFieldStart("data");
 		Job _job = (Job) __value.getData()[0];
 		Account _user = (Account) __value.getData()[1];
-		List<Type> _types = (List<Type>) __value.getData()[2];
-		Style _style = (Style) __value.getData()[3];
+		Type _type = (Type) __value.getData()[2];
+		List<Style> _styles = (List<Style>) __value.getData()[3];
 		Category _category = (Category) __value.getData()[4];
 
 		__gen.writeStringField("job_description", _job.getDescription());
@@ -160,15 +160,15 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
-		__gen.writeArrayFieldStart("types");
-		_types.forEach(new Consumer<Type>() {
+		__gen.writeArrayFieldStart("styles");
+		_styles.forEach(new Consumer<Style>() {
 
 			@Override
-			public void accept(Type __type) {
+			public void accept(Style __type) {
 				try {
 					__gen.writeStartObject();
-					__gen.writeNumberField("type_id", __type.getId());
-					__gen.writeStringField("type_title", __type.getTitle());
+					__gen.writeNumberField("style_id", __type.getId());
+					__gen.writeStringField("style_title", __type.getTitle());
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
@@ -179,9 +179,9 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		});
 		__gen.writeEndArray();
 
-		__gen.writeObjectFieldStart("style");
-		__gen.writeNumberField("style_id", _style.getId());
-		__gen.writeStringField("style_title", _style.getTitle());
+		__gen.writeObjectFieldStart("type");
+		__gen.writeNumberField("type_id", _type.getId());
+		__gen.writeStringField("type_title", _type.getTitle());
 		__gen.writeEndObject();
 
 		__gen.writeArrayFieldStart("images");
@@ -212,7 +212,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 			__gen.writeNumberField("account_id", __account.getId());
 			__gen.writeStringField("account_name", __account.getName());
 			__gen.writeNumberField("account_reward",
-					__account.getRewards() == 0 ? 1 : __account.getRewards());
+			        __account.getRewards() == 0 ? 1 : __account.getRewards());
 			__gen.writeObjectFieldStart("avatar");
 			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
 			__gen.writeEndObject();

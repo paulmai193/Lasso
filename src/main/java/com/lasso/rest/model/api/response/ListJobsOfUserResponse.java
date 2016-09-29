@@ -25,11 +25,11 @@ import com.lasso.rest.model.datasource.Type;
  * @author Paul Mai
  */
 @JsonInclude(value = Include.NON_NULL)
-public class ListJobsOfDesignerResponse extends BaseResponse {
+public class ListJobsOfUserResponse extends BaseResponse {
 
 	/** The datas. */
 	@JsonProperty("data")
-	@JsonSerialize(using = ListJobsOfDesignerSerializer.class)
+	@JsonSerialize(using = ListJobsOfUserSerializer.class)
 	private List<Object[]> datas;
 
 	/**
@@ -37,7 +37,7 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	 *
 	 * @param __error the error
 	 */
-	public ListJobsOfDesignerResponse(boolean __error) {
+	public ListJobsOfUserResponse(boolean __error) {
 		super(__error);
 	}
 
@@ -47,7 +47,7 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	 * @param __error the error
 	 * @param __message the message
 	 */
-	public ListJobsOfDesignerResponse(boolean __error, String __message) {
+	public ListJobsOfUserResponse(boolean __error, String __message) {
 		super(__error, __message);
 	}
 
@@ -58,7 +58,7 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	 * @param __message the message
 	 * @param __detail the detail
 	 */
-	public ListJobsOfDesignerResponse(boolean __error, String __message, String __detail) {
+	public ListJobsOfUserResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
 	}
 
@@ -67,7 +67,7 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	 *
 	 * @param __datas the datas
 	 */
-	public ListJobsOfDesignerResponse(List<Object[]> __datas) {
+	public ListJobsOfUserResponse(List<Object[]> __datas) {
 		super();
 		this.datas = __datas;
 	}
@@ -92,7 +92,7 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 
 }
 
-class ListJobsOfDesignerSerializer extends JsonSerializer<List<Object[]>> {
+class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 
 	@Override
 	public void serialize(List<Object[]> __value, JsonGenerator __gen,
@@ -118,7 +118,7 @@ class ListJobsOfDesignerSerializer extends JsonSerializer<List<Object[]>> {
 				__gen.writeEndObject();
 			}
 			__gen.writeEndArray();
-			__gen.writeStringField("user", _designer);
+			__gen.writeStringField("designer", _designer);
 			__gen.writeStringField("type_title", _type.getTitle());
 			__gen.writeNumberField("type_id", _type.getId());
 			__gen.writeNumberField("category_id", _category.getId());
