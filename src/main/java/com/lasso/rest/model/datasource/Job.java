@@ -138,7 +138,7 @@ public class Job implements Serializable {
 		this.categoryId = __newJobRequest.getIdCategory();
 		this.created = this.modified = new Date();
 		this.stage = 0;
-		this.step = 1;
+		this.step = __newJobRequest.getStep();
 		this.typeId = __newJobRequest.getIdType();
 		this.latestSubmission = __newJobRequest.getLastSubmission();
 		this.objective = __newJobRequest.getObjective();

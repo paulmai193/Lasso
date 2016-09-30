@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -96,11 +98,10 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 
 	@Override
 	public void serialize(List<Object[]> __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		DateFormat _dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		__gen.writeStartArray();
 		for (Object[] _objects : __value) {
-			__gen.writeStartObject();
 			Job _job = (Job) _objects[0];
 			String _designer = (String) _objects[1];
 
@@ -108,36 +109,43 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 			List<Style> _styles = (List<Style>) _objects[2];
 			Type _type = (Type) _objects[3];
 			Category _category = (Category) _objects[4];
-
-			__gen.writeNumberField("job_id", _job.getId());
-			__gen.writeNumberField("job_budget", _job.getBudget());
-			__gen.writeArrayFieldStart("styles");
-			for (Style _style : _styles) {
+			try {
 				__gen.writeStartObject();
-				__gen.writeNumberField("style_id", _style.getId());
-				__gen.writeStringField("style_title", _style.getTitle());
-				__gen.writeEndObject();
-			}
-			__gen.writeEndArray();
-			__gen.writeStringField("designer", _designer);
-			__gen.writeStringField("type_title", _type.getTitle());
-			__gen.writeNumberField("type_id", _type.getId());
-			__gen.writeNumberField("category_id", _category.getId());
-			__gen.writeStringField("date_due", _dateFormat.format(_job.getLatestSubmission()));
-			String _status;
-			if (_job.getPaid().equals((byte) 0)) {
-				_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
-			}
-			else {
-				if (_job.getCompleted().equals((byte) 0)) {
-					_status = "In Progress";
+				__gen.writeNumberField("job_id", _job.getId());
+				__gen.writeNumberField("job_budget", _job.getBudget());
+				__gen.writeStringField("job_description", _job.getDescription());
+				__gen.writeArrayFieldStart("styles");
+				for (Style _style : _styles) {
+					__gen.writeStartObject();
+					__gen.writeNumberField("style_id", _style.getId());
+					__gen.writeStringField("title", _style.getTitle());
+					__gen.writeEndObject();
+				}
+				__gen.writeEndArray();
+				__gen.writeStringField("designer", _designer);
+				__gen.writeStringField("type_title", _type.getTitle());
+				__gen.writeNumberField("type_id", _type.getId());
+				__gen.writeNumberField("category_id", _category.getId());
+				__gen.writeStringField("date_due", _dateFormat.format(_job.getLatestSubmission()));
+				String _status;
+				if (_job.getPaid().equals((byte) 0)) {
+					_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
 				}
 				else {
-					_status = "Completed";
+					if (_job.getCompleted().equals((byte) 0)) {
+						_status = "In Progress";
+					}
+					else {
+						_status = "Completed";
+					}
 				}
+				__gen.writeStringField("status", _status);
+				__gen.writeEndObject();
 			}
-			__gen.writeStringField("status", _status);
-			__gen.writeEndObject();
+			catch (Exception _ex) {
+				Logger.getLogger(getClass()).warn("Unwanted error of job " + _job.getId(), _ex);
+			}
+
 		}
 		__gen.writeEndArray();
 	}

@@ -73,10 +73,17 @@ public class AccountController extends BaseController {
 	@Autowired
 	private GenericManagement	genericManagement;
 
+	/** The http image host. */
 	private String				httpImageHost;
 
+	/** The http host. */
 	private String				httpHost;
 
+	/**
+	 * Sets the http host.
+	 *
+	 * @param __httpHost the new http host
+	 */
 	public void setHttpHost(String __httpHost) {
 		this.httpHost = __httpHost;
 	}
@@ -355,6 +362,11 @@ public class AccountController extends BaseController {
 		this.genericManagement = __genericManagement;
 	}
 
+	/**
+	 * Sets the http image host.
+	 *
+	 * @param __httpImageHost the new http image host
+	 */
 	public void setHttpImageHost(String __httpImageHost) {
 		this.httpImageHost = __httpImageHost;
 	}

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Style;
@@ -134,6 +135,8 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		Job _job = (Job) _orderDetail.getData()[0];
 		List<Style> _styles = (List<Style>) _orderDetail.getData()[2];
 		Type _type = (Type) _orderDetail.getData()[3];
+		Category _category = (Category) _orderDetail.getData()[4];
+
 		__gen.writeStringField("job_description", _job.getDescription());
 		__gen.writeArrayFieldStart("styles");
 		_styles.forEach(new Consumer<Style>() {
@@ -142,7 +145,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			public void accept(Style __style) {
 				try {
 					__gen.writeStartObject();
-					__gen.writeStringField("style_title", __style.getTitle());
+					__gen.writeStringField("title", __style.getTitle());
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
@@ -153,6 +156,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		});
 		__gen.writeEndArray();
 		__gen.writeStringField("type_title", _type.getTitle());
+		__gen.writeStringField("category_title", _category.getTitle());
 		DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		__gen.writeStringField("submission", _dateFormat.format(_job.getSubmission()));
 		__gen.writeStringField("objective", _job.getObjective());
@@ -173,6 +177,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 					__gen.writeStartObject();
 					__gen.writeNumberField("message_id", _message.getId());
 					__gen.writeStringField("message_content", _message.getMessage());
+					__gen.writeNumberField("sender_id", _sender.getId());
 					__gen.writeStringField("sender_name", _sender.getName());
 					if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
 						__gen.writeStringField("sender_avatar", "");

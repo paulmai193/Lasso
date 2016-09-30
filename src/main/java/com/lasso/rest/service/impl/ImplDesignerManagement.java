@@ -58,7 +58,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		}
 		else {
 			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(),
-					__designer.getId());
+			        __designer.getId());
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Offer for found");
 			}
@@ -84,7 +84,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		}
 		else {
 			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(),
-					__designer.getId());
+			        __designer.getId());
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Offer for found");
 			}
@@ -105,12 +105,12 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException, UnirestException {
+	        throws IOException, UnirestException {
 		String _webContextStoragePath = this.genericManagement
-				.loadWebContextStoragePath(__desiger.getAppSession());
+		        .loadWebContextStoragePath(__desiger.getAppSession());
 		try {
 			Category _category = this.categoryDAO
-					.getCategoryById(__createPortfolioRequest.getIdCategory());
+			        .getCategoryById(__createPortfolioRequest.getIdCategory());
 			Style _style = this.styleDAO.getById(__createPortfolioRequest.getIdStyle());
 			if (_category == null || _category.getDeleted().equals((byte) 1)) {
 				throw new NotFoundException("Category not found");
@@ -122,16 +122,16 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray());
 			_image = _image.substring(1, _image.length() - 1);
 			Portfolio _portfolio = new Portfolio(__createPortfolioRequest.getAmount(), new Date(),
-					__desiger.getId(), __createPortfolioRequest.getIdCategory(),
-					__createPortfolioRequest.getIdStyle(), _image,
-					__createPortfolioRequest.getInfo(), new Date(), (byte) 1,
-					__createPortfolioRequest.getTitle());
+			        __desiger.getId(), __createPortfolioRequest.getIdCategory(),
+			        __createPortfolioRequest.getIdStyle(), _image,
+			        __createPortfolioRequest.getInfo(), new Date(), (byte) 1,
+			        __createPortfolioRequest.getTitle());
 			int _id = this.portfolioDAO.createPortfolio(_portfolio);
 			for (int _idType : __createPortfolioRequest.getIdTypes()) {
 				Type _type = this.typeDAO.getTypeById(_idType);
 				if (_type != null && _type.getDeleted().equals((byte) 0)) {
 					PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id,
-							_idType);
+					        _idType);
 					this.portfolioTypeDAO.createPortfolioType(_portfolioType);
 				}
 			}
@@ -139,28 +139,28 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			// Copy portfolio images from temporary directory to resource directory
 			for (String _tempFileName : __createPortfolioRequest.getImages()) {
 				File _tempFile = new File(
-						_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+				        _webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
 					// Move original file
 					FileUtils.copyFileToDirectory(_tempFile, new File(
-							_webContextStoragePath + this.portfolioStoragePath + "/Original/"),
-							false);
+					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"),
+					        false);
 
 					// Resize into 3 other size
 					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Icon/" + _tempFileName);
+					        + "/Icon/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
 					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Small/" + _tempFileName);
+					        + "/Small/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
 					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Retina/" + _tempFileName);
+					        + "/Retina/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
 				}
 				else {
 					Logger.getLogger(this.getClass())
-					.warn("Portfolio temporary file not exist. Check this path: "
-							+ _tempFile.getAbsolutePath());
+					        .warn("Portfolio temporary file not exist. Check this path: "
+					                + _tempFile.getAbsolutePath());
 				}
 			}
 		}
@@ -196,9 +196,9 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
+	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
 		String _webContextStoragePath = this.genericManagement
-				.loadWebContextStoragePath(__desiger.getAppSession());
+		        .loadWebContextStoragePath(__desiger.getAppSession());
 		try {
 			__portfolio.update(__editPortfolioRequest);
 			this.portfolioDAO.updatePortfolio(__portfolio);
@@ -209,35 +209,35 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			// Insert new portfolio type
 			for (int _idType : __editPortfolioRequest.getIdTypes()) {
 				PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(),
-						__portfolio.getId(), _idType);
+				        __portfolio.getId(), _idType);
 				this.portfolioTypeDAO.createPortfolioType(_portfolioType);
 			}
 
 			// Copy portfolio images from temporary directory to resource directory
 			for (String _tempFileName : __editPortfolioRequest.getImages()) {
 				File _tempFile = new File(
-						_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+				        _webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
 					// Move original file
 					FileUtils.copyFileToDirectory(_tempFile, new File(
-							_webContextStoragePath + this.portfolioStoragePath + "/Original/"),
-							false);
+					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"),
+					        false);
 
 					// Resize into 3 other size
 					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Icon/" + _tempFileName);
+					        + "/Icon/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
 					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Small/" + _tempFileName);
+					        + "/Small/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
 					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Retina/" + _tempFileName);
+					        + "/Retina/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
 				}
 				else {
 					Logger.getLogger(this.getClass())
-					.warn("Portfolio temporary file not exist. Check this path: "
-							+ _tempFile.getAbsolutePath());
+					        .warn("Portfolio temporary file not exist. Check this path: "
+					                + _tempFile.getAbsolutePath());
 				}
 			}
 		}
@@ -268,7 +268,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	@Override
 	public Object[] getJobDataOfDesignerById(Account __designer, int __idJob) {
 		JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(__idJob,
-				__designer.getId());
+		        __designer.getId());
 		if (_jobsAccount == null) {
 			throw new NotFoundException("Job not found");
 		}
@@ -276,10 +276,10 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			String _userName = "";
 			Job _job = this.jobDAO.getJobById(_jobsAccount.getJobId());
 			_userName = _job == null ? ""
-					: this.accountDAO.getAccountById(_job.getAccountId()).getName();
+			        : this.accountDAO.getAccountById(_job.getAccountId()).getName();
 			List<Integer> _styleIds = new ArrayList<>();
 			this.jobStyleDAO.getListJobStylesByJobId(_job.getId())
-			.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+			        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 			List<Style> _styles = this.styleDAO.getListByByListIds(_styleIds);
 
 			Type _type = this.typeDAO.getTypeById(_job.getTypeId());
@@ -300,7 +300,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	public List<Object[]> getListJobsDataOfDesigner(Account __designer) {
 		List<Object[]> _datas = new ArrayList<>();
 		List<JobsAccount> _jobsAccounts = this.jobAccountDAO
-				.getListJobsAccountOfDesigner(__designer.getId());
+		        .getListJobsAccountOfDesigner(__designer.getId());
 		if (_jobsAccounts.isEmpty()) {
 			return new ArrayList<>();
 		}
@@ -312,20 +312,20 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 					try {
 						String _userName = "";
 						Job _job = ImplDesignerManagement.this.jobDAO
-								.getJobById(__jobsAccount.getJobId());
+						        .getJobById(__jobsAccount.getJobId());
 						_userName = _job == null ? ""
-								: ImplDesignerManagement.this.accountDAO
-								.getAccountById(_job.getAccountId()).getName();
+						        : ImplDesignerManagement.this.accountDAO
+						                .getAccountById(_job.getAccountId()).getName();
 						List<Integer> _styleIds = new ArrayList<>();
 						ImplDesignerManagement.this.jobStyleDAO
-						.getListJobStylesByJobId(_job.getId())
-						.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+						        .getListJobStylesByJobId(_job.getId())
+						        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 						List<Style> _styles = ImplDesignerManagement.this.styleDAO
-								.getListByByListIds(_styleIds);
+						        .getListByByListIds(_styleIds);
 						Type _type = ImplDesignerManagement.this.typeDAO
-								.getTypeById(_job.getTypeId());
+						        .getTypeById(_job.getTypeId());
 						Category _category = ImplDesignerManagement.this.categoryDAO
-								.getCategoryById(_job.getCategoryId());
+						        .getCategoryById(_job.getCategoryId());
 						Object[] _data = { _job, _userName, _styles, _type, _category };
 
 						_datas.add(_data);
@@ -357,7 +357,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		}
 		List<Integer> _styleIds = new ArrayList<>();
 		this.jobStyleDAO.getListJobStylesByJobId(__idJob)
-		.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+		        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 		List<Style> _styles = this.styleDAO.getListByByListIds(_styleIds);
 		if (_styleIds.isEmpty()) {
 			throw new NotFoundException("Styles not found");
@@ -405,18 +405,18 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	public void updateStage(Account __designer, UpdateJobStageRequest __updateJobStageRequest) {
 		Job _job = this.jobDAO.getJobById(__updateJobStageRequest.getIdJob());
 		if (_job == null
-				|| _job.getStep().equals(JobStepConstant.JOB_STEP_COMPLETE.getStepCode())) {
+		        || _job.getStep().equals(JobStepConstant.JOB_STEP_COMPLETE.getStepCode())) {
 			throw new NotFoundException("Job not found or offer not completed");
 		}
 		else {
 			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(),
-					__designer.getId());
+			        __designer.getId());
 			if (_jobsAccount == null || !_jobsAccount.getConfirm().equals((byte) 1)) {
 				throw new NotFoundException("Designer not have or not confirm this job");
 			}
 			else {
 				_job.setStage(__updateJobStageRequest.getStage());
-				_job.setStageDate(new Date());
+				_job.setStageDate(__updateJobStageRequest.getDeliveryDate());
 				_job.setModified(new Date());
 				this.jobDAO.updateJob(_job);
 			}

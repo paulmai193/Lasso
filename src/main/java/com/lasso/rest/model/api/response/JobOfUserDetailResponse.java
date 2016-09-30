@@ -93,7 +93,7 @@ class JobOfUserDetailSerializer extends JsonSerializer<Object[]> {
 
 	@Override
 	public void serialize(Object[] __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	        throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		Job _job = (Job) __value[0];
 		String _designer = (String) __value[1];
@@ -101,27 +101,26 @@ class JobOfUserDetailSerializer extends JsonSerializer<Object[]> {
 		@SuppressWarnings("unchecked")
 		List<Style> _styles = (List<Style>) __value[2];
 		String _typeTitle = (String) __value[3];
+		__gen.writeStringField("job_description", _job.getDescription());
 		__gen.writeArrayFieldStart("styles");
 		for (Style _style : _styles) {
 			__gen.writeStartObject();
 			__gen.writeNumberField("style_id", _style.getId());
-			__gen.writeStringField("style_title", _style.getTitle());
+			__gen.writeStringField("title", _style.getTitle());
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();
 		__gen.writeStringField("designer", _designer);
 		__gen.writeStringField("type_title", _typeTitle);
 		DateFormat _fullDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		DateFormat _shortDateFormat = new SimpleDateFormat("dd.MM");
 		__gen.writeStringField("date_due", _fullDateFormat.format(_job.getLatestSubmission()));
-		__gen.writeStringField("date_brief", _shortDateFormat.format(_job.getSubmission()));
+		__gen.writeStringField("date_brief", _fullDateFormat.format(_job.getSubmission()));
 		if (_job.getStageDate() == null) {
 			_job.setStageDate(_job.getCreated());
 		}
-		__gen.writeStringField("date_stage", _shortDateFormat.format(_job.getStageDate()));
+		__gen.writeStringField("date_stage", _fullDateFormat.format(_job.getStageDate()));
 		__gen.writeStringField("stage", JobStageConstant.getByCode(_job.getStage()).getName());
-		__gen.writeStringField("date_complete",
-				_shortDateFormat.format(_job.getLatestSubmission()));
+		__gen.writeStringField("date_complete", _fullDateFormat.format(_job.getLatestSubmission()));
 		String _status;
 		if (_job.getPaid().equals((byte) 0)) {
 			_status = JobStepConstant.getByCode(_job.getStep()).getStepName();

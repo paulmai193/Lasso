@@ -96,7 +96,7 @@ class ListJobsOfDesignerSerializer extends JsonSerializer<List<Object[]>> {
 
 	@Override
 	public void serialize(List<Object[]> __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		DateFormat _dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		__gen.writeStartArray();
 		for (Object[] _objects : __value) {
@@ -110,11 +110,12 @@ class ListJobsOfDesignerSerializer extends JsonSerializer<List<Object[]>> {
 			Category _category = (Category) _objects[4];
 
 			__gen.writeNumberField("job_id", _job.getId());
+			__gen.writeStringField("job_description", _job.getDescription());
 			__gen.writeArrayFieldStart("styles");
 			for (Style _style : _styles) {
 				__gen.writeStartObject();
 				__gen.writeNumberField("style_id", _style.getId());
-				__gen.writeStringField("style_title", _style.getTitle());
+				__gen.writeStringField("title", _style.getTitle());
 				__gen.writeEndObject();
 			}
 			__gen.writeEndArray();

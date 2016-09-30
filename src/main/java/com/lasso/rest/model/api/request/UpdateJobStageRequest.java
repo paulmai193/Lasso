@@ -1,5 +1,9 @@
 package com.lasso.rest.model.api.request;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -22,6 +26,8 @@ public class UpdateJobStageRequest extends BaseRequest {
 
 	/** The stage. */
 	private Byte	stage;
+
+	private Date	deliveryDate;
 
 	/**
 	 * Instantiates a new confirm order request.
@@ -47,6 +53,21 @@ public class UpdateJobStageRequest extends BaseRequest {
 		return this.stage;
 	}
 
+	public Date getDeliveryDate() {
+		return this.deliveryDate;
+	}
+
+	@JsonProperty("delivery_date")
+	public void setDeliveryDate(String __deliveryDate) {
+		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.deliveryDate = _dateFormat.parse(__deliveryDate);
+		}
+		catch (Exception _ex) {
+			this.deliveryDate = null;
+		}
+	}
+
 	/**
 	 * Sets the stage.
 	 *
@@ -56,9 +77,9 @@ public class UpdateJobStageRequest extends BaseRequest {
 	public void setStage(Byte __stage) {
 		if (__stage != null) {
 			if (__stage.equals(JobStageConstant.JOB_STAGE_1ST_DRAFT.getCode())
-					|| (__stage.equals(JobStageConstant.JOB_STAGE_REVISED.getCode()))
-					|| (__stage.equals(JobStageConstant.JOB_STAGE_FINAL_ARTWORK.getCode()))
-					|| (__stage.equals(JobStageConstant.JOB_STAGE_COMPLETED.getCode()))) {
+			        || (__stage.equals(JobStageConstant.JOB_STAGE_REVISED.getCode()))
+			        || (__stage.equals(JobStageConstant.JOB_STAGE_FINAL_ARTWORK.getCode()))
+			        || (__stage.equals(JobStageConstant.JOB_STAGE_COMPLETED.getCode()))) {
 				this.stage = __stage;
 			}
 		}
@@ -76,6 +97,9 @@ public class UpdateJobStageRequest extends BaseRequest {
 		}
 		if (this.idJob == null) {
 			throw new ObjectParamException("Invalid job");
+		}
+		if (this.deliveryDate == null) {
+			throw new ObjectParamException("Invalid delivery date");
 		}
 	}
 

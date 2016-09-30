@@ -64,6 +64,10 @@ public class CreateNewOrderRequest extends BaseRequest {
 	/** The submission. */
 	private Date			submission;
 
+	/** The step. */
+	@JsonProperty("save_type")
+	private Byte			step;
+
 	/**
 	 * Instantiates a new creates the new offer request.
 	 */
@@ -201,6 +205,15 @@ public class CreateNewOrderRequest extends BaseRequest {
 		}
 	}
 
+	/**
+	 * Gets the step.
+	 *
+	 * @return the step
+	 */
+	public byte getStep() {
+		return this.step;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -248,6 +261,9 @@ public class CreateNewOrderRequest extends BaseRequest {
 		}
 		if (this.further == null) {
 			throw new ObjectParamException("Invalid further information");
+		}
+		if (this.step == null) {
+			this.step = 1;
 		}
 	}
 

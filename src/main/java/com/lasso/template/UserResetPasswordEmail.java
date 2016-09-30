@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * The Class UserResetPasswordEmail.
  *
  * @author Paul Mai
  */
@@ -25,8 +26,10 @@ public class UserResetPasswordEmail implements EmailTemplate {
 	private File	template;
 
 	/**
+	 * Instantiates a new user reset password email.
 	 *
 	 * @param __firstName the first name
+	 * @param __resetLink the reset link
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
