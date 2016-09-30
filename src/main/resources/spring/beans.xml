@@ -211,7 +211,6 @@
 	<!-- Utility -->
 	<bean id="emailUtil" class="com.lasso.util.EmailUtil" init-method="initialized"
 		lazy-init="false" scope="prototype">
-		<property name="propertyFile" value="classpath:config/email.properties" />
 		<property name="genericManagement" ref="genericManagement" />
 	</bean>
 

@@ -3,6 +3,8 @@
  */
 package com.lasso.rest.service;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -29,7 +31,7 @@ public interface AccountManagement {
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
 	public void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest);
+	        AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
@@ -60,7 +62,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String forgotPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	        throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Gets the all accounts.
@@ -127,9 +129,11 @@ public interface AccountManagement {
 	 * @param __registerType the register type: "designer" or "user"
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void sendActivationEmail(String __email, String __refLink, String __registerType)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Send reset password email.
@@ -140,7 +144,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	        throws AddressException, MessagingException;
 
 	/**
 	 * Validate the token to verify secured account.

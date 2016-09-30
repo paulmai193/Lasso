@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.function.BiConsumer;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -21,6 +22,7 @@ import javax.mail.BodyPart;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -30,7 +32,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.springframework.core.io.Resource;
+import org.apache.log4j.Logger;
 
 import com.lasso.rest.service.GenericManagement;
 
@@ -47,9 +49,6 @@ public final class EmailUtil {
 	/** The password. */
 	private String				password;
 
-	/** The property file. */
-	private Resource			propertyFile;
-
 	/** The session. */
 	private Session				session;
 
@@ -63,7 +62,7 @@ public final class EmailUtil {
 	}
 
 	/**
-	 * Send email.
+	 * Send email with attachment.
 	 *
 	 * @param __subject the subject
 	 * @param __content the content
@@ -72,15 +71,16 @@ public final class EmailUtil {
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
-	public synchronized void sendEmail(String __subject, String __content, File __attachment,
-			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
+	public synchronized void sendEmailWithAttachment(String __subject, String __content,
+	        File __attachment, Map<RecipientType, String> __recipients)
+	        throws AddressException, MessagingException {
 		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
-		this.sendEmail(__subject, __content, _attachments, __recipients);
+		this.sendEmailWithAttachment(__subject, __content, _attachments, __recipients);
 	}
 
 	/**
-	 * Send email.
+	 * Send email with attachment.
 	 *
 	 * @param __subject the subject
 	 * @param __content the content
@@ -89,30 +89,23 @@ public final class EmailUtil {
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
-	public synchronized void sendEmail(String __subject, String __content, List<File> __attachments,
-			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
-
-		// Create a default MimeMessage object.
+	public synchronized void sendEmailWithAttachment(String __subject, String __content,
+	        List<File> __attachments, Map<RecipientType, String> __recipients)
+	        throws AddressException, MessagingException {
 		MimeMessage _message = new MimeMessage(this.session);
-
 		_message.setFrom(new InternetAddress(this.username));
 		for (Entry<RecipientType, String> _element : __recipients.entrySet()) {
 			_message.setRecipients(_element.getKey(), InternetAddress.parse(_element.getValue()));
 		}
 		_message.setSubject(__subject, "UTF-8");
-
 		Multipart _multipart = new MimeMultipart();
-
 		BodyPart _messageBodyPart = new MimeBodyPart();
 		_messageBodyPart.setContent(__content, "text/html; charset=UTF-8");
 		_multipart.addBodyPart(_messageBodyPart);
-
 		for (File _file : __attachments) {
 			this.attachFile(_multipart, _file);
 		}
-
 		_message.setContent(_multipart);
-
 		Transport.send(_message);
 	}
 
@@ -126,22 +119,95 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __subject, String __content,
-			Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
-
+	        Map<RecipientType, String> __recipients) throws AddressException, MessagingException {
 		MimeMessage _message = new MimeMessage(this.session);
-
 		_message.setFrom(new InternetAddress(this.username));
 		for (Entry<RecipientType, String> _element : __recipients.entrySet()) {
 			_message.setRecipients(_element.getKey(), InternetAddress.parse(_element.getValue()));
 		}
 		_message.setSubject(__subject, "UTF-8");
 		_message.setContent(__content, "text/html; charset=UTF-8");
-
 		Transport.send(_message);
 	}
 
 	/**
-	 * Send email.
+	 * Send email by template.
+	 *
+	 * @param __recipients the recipients
+	 * @param __subject the subject
+	 * @param __content the content
+	 * @param __recipientType the recipient type
+	 * @param __mapTemplate the map template
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	public synchronized void sendEmailByTemplate(String __recipients, String __subject,
+	        String __content, RecipientType __recipientType, Map<String, File> __mapTemplate)
+	        throws FileNotFoundException, IOException, URISyntaxException, AddressException,
+	        MessagingException {
+		Map<RecipientType, String> _recipients = new HashMap<>(1);
+		_recipients.put(__recipientType, __recipients);
+		this.sendEmailByTemplate(__subject, __content, _recipients, __mapTemplate);
+	}
+
+	/**
+	 * Send email by template.
+	 *
+	 * @param __subject the subject
+	 * @param __content the content
+	 * @param __recipients the recipients
+	 * @param __mapTemplate the map template
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
+	 */
+	public synchronized void sendEmailByTemplate(String __subject, String __content,
+	        Map<RecipientType, String> __recipients, Map<String, File> __mapTemplate)
+	        throws FileNotFoundException, IOException, URISyntaxException, AddressException,
+	        MessagingException {
+		MimeMessage _message = new MimeMessage(this.session);
+		_message.setFrom(new InternetAddress(this.username));
+		for (Entry<RecipientType, String> _element : __recipients.entrySet()) {
+			_message.setRecipients(_element.getKey(), InternetAddress.parse(_element.getValue()));
+		}
+		_message.setSubject(__subject, "UTF-8");
+
+		/* Create multipart content 2 part */
+		// The message body part
+		MimeMultipart _multipart = new MimeMultipart("related");
+		BodyPart _messageBodyPart = new MimeBodyPart();
+		_messageBodyPart.setContent(__content, "text/html; charset=UTF-8");
+		_multipart.addBodyPart(_messageBodyPart);
+
+		// And the embedded image part
+		__mapTemplate.forEach(new BiConsumer<String, File>() {
+
+			@Override
+			public void accept(String __cid, File __image) {
+				// TODO Attach inline image
+				MimeBodyPart _mimeBodyPart = new MimeBodyPart();
+				try {
+					_mimeBodyPart.attachFile(__image);
+					_mimeBodyPart.setContentID("<" + __cid + ">");
+					_mimeBodyPart.setDisposition(Part.INLINE);
+					_multipart.addBodyPart(_mimeBodyPart);
+				}
+				catch (Exception _ex) {
+					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+				}
+			}
+		});
+		_message.setContent(_multipart);
+		Transport.send(_message);
+	}
+
+	/**
+	 * Send email with attachment.
 	 *
 	 * @param __recipients the recipients
 	 * @param __subject the subject
@@ -151,12 +217,13 @@ public final class EmailUtil {
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
-	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-			File __attachment, RecipientType __receipientType)
-					throws AddressException, MessagingException {
+	public synchronized void sendEmailWithAttachment(String __recipients, String __subject,
+	        String __content, File __attachment, RecipientType __receipientType)
+	        throws AddressException, MessagingException {
 		List<File> _attachments = new ArrayList<>(1);
 		_attachments.add(__attachment);
-		this.sendEmail(__recipients, __subject, __content, _attachments, __receipientType);
+		this.sendEmailWithAttachment(__recipients, __subject, __content, _attachments,
+		        __receipientType);
 	}
 
 	/**
@@ -170,12 +237,12 @@ public final class EmailUtil {
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
-	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-			List<File> __attachments, RecipientType __receipientType)
-					throws AddressException, MessagingException {
+	public synchronized void sendEmailWithAttachment(String __recipients, String __subject,
+	        String __content, List<File> __attachments, RecipientType __receipientType)
+	        throws AddressException, MessagingException {
 		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__receipientType, __recipients);
-		this.sendEmail(__subject, __content, __attachments, _mapRecipients);
+		this.sendEmailWithAttachment(__subject, __content, __attachments, _mapRecipients);
 	}
 
 	/**
@@ -189,7 +256,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	public synchronized void sendEmail(String __recipients, String __subject, String __content,
-			RecipientType __recipientType) throws AddressException, MessagingException {
+	        RecipientType __recipientType) throws AddressException, MessagingException {
 		Map<RecipientType, String> _mapRecipients = new HashMap<>(1);
 		_mapRecipients.put(__recipientType, __recipients);
 		this.sendEmail(__subject, __content, _mapRecipients);
@@ -205,15 +272,6 @@ public final class EmailUtil {
 	}
 
 	/**
-	 * Sets the property file.
-	 *
-	 * @param __propertyFile the new property file
-	 */
-	public void setPropertyFile(final Resource __propertyFile) {
-		this.propertyFile = __propertyFile;
-	}
-
-	/**
 	 * Attach file.
 	 *
 	 * @param __multipart the multipart
@@ -221,7 +279,7 @@ public final class EmailUtil {
 	 * @throws MessagingException the messaging exception
 	 */
 	private synchronized void attachFile(Multipart __multipart, File __file)
-			throws MessagingException {
+	        throws MessagingException {
 		BodyPart _attachPart = new MimeBodyPart();
 		DataSource _source = new FileDataSource(__file);
 		_attachPart.setDataHandler(new DataHandler(_source));
@@ -238,15 +296,6 @@ public final class EmailUtil {
 	 */
 	@SuppressWarnings("unused")
 	private void initialized() throws FileNotFoundException, IOException, URISyntaxException {
-		// Properties _props = new Properties();
-		// _props.load(this.propertyFile.getInputStream());
-		// this.username = _props.containsKey("email.username") ?
-		// _props.getProperty("email.username")
-		// : "n/a";
-		// this.password = _props.containsKey("email.password") ?
-		// _props.getProperty("email.password")
-		// : "n/a";
-
 		Map<String, String> _mapConfig = this.genericManagement.loadConfig();
 		this.username = _mapConfig.get("EmailConfig.email_username");
 		this.password = _mapConfig.get("EmailConfig.email_password");
@@ -257,7 +306,7 @@ public final class EmailUtil {
 			_emailHost = _emailHost.replace("ssl://", "");
 			_props.setProperty("mail.smtp.ssl.enable", "true");
 			_props.setProperty("mail.smtp.socketFactory.port",
-					_mapConfig.get("EmailConfig.email_port"));
+			        _mapConfig.get("EmailConfig.email_port"));
 			_props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		}
 		else {
