@@ -78,7 +78,7 @@ public class MessageDetailResponse extends BaseResponse {
 	 * @param __prefixUrl the prefix url
 	 */
 	public MessageDetailResponse(GetOrderResponse __orderDetail, List<Object[]> __messageDatas,
-			String __prefixUrl) {
+	        String __prefixUrl) {
 		super();
 		this.orderDetail = __orderDetail;
 		this.messageDatas = __messageDatas;
@@ -119,7 +119,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(MessageDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -157,8 +157,8 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		__gen.writeStringField("submission", _dateFormat.format(_job.getSubmission()));
 		__gen.writeStringField("objective", _job.getObjective());
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
-		__gen.writeStringField("further_info",
-				_job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
+		__gen.writeStringField("further_information",
+		        _job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
 		__gen.writeEndObject();
 
 		__gen.writeArrayFieldStart("messages");
@@ -179,11 +179,11 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 					}
 					else {
 						__gen.writeStringField("sender_avatar",
-								__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
+						        __value.getPrefixUrl() + "/Icon/" + _sender.getImage());
 					}
 					DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
 					__gen.writeStringField("message_time",
-							_dateFormat.format(_message.getCreated()));
+					        _dateFormat.format(_message.getCreated()));
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {

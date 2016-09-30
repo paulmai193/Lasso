@@ -34,20 +34,11 @@ public class DesignerActivateEmail implements EmailTemplate {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DesignerActivateEmail(String __firstName, String __activateLink)
-			throws URISyntaxException, IOException {
+	        throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.activateLink = __activateLink;
 		this.loadTemplate();
-	}
-
-	/**
-	 * Gets the activate link.
-	 *
-	 * @return the activateLink
-	 */
-	public String getActivateLink() {
-		return this.activateLink;
 	}
 
 	/*
@@ -64,15 +55,6 @@ public class DesignerActivateEmail implements EmailTemplate {
 		String[] _replaceStrings = { this.firstName, this.activateLink };
 
 		return StringUtils.replaceEach(_content, _searchStrings, _replaceStrings);
-	}
-
-	/**
-	 * Gets the first name.
-	 *
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return this.firstName;
 	}
 
 	/*
@@ -103,8 +85,8 @@ public class DesignerActivateEmail implements EmailTemplate {
 	 */
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
-		this.template = new File(
-				this.getClass().getClassLoader().getResource("designer-active-account").toURI());
+		this.template = new File(this.getClass().getClassLoader()
+		        .getResource("/email-template/designer-active-account").toURI());
 	}
 
 }

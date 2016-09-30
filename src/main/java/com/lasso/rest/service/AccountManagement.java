@@ -31,7 +31,7 @@ public interface AccountManagement {
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
 	public void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest);
+	        AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
@@ -62,7 +62,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String forgotPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	        throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Gets the all accounts.
@@ -126,27 +126,32 @@ public interface AccountManagement {
 	 *
 	 * @param __email the email
 	 * @param __refLink the reference link
-	 * @param __registerType the register type: "designer" or "user"
+	 * @param __role the role: "designer" or "user"
 	 * @param __firstName the first name
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void sendActivationEmail(String __email, String __refLink, String __registerType,
-			String __firstName)
-					throws AddressException, MessagingException, URISyntaxException, IOException;
+	public void sendActivationEmail(String __email, String __refLink, String __role,
+	        String __firstName)
+	        throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Send reset password email.
 	 *
 	 * @param __email the email
 	 * @param __refLink the reference link
+	 * @param __role the role: "designer" or "user"
+	 * @param __firstName the first name
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException;
+	public void sendResetPasswordEmail(String __email, String __refLink, String __role,
+	        String __firstName)
+	        throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Validate the token to verify secured account.

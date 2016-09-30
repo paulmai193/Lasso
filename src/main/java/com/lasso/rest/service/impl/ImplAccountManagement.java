@@ -34,8 +34,10 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.AccountManagement;
 import com.lasso.template.DesignerActivateEmail;
+import com.lasso.template.DesignerResetPasswordEmail;
 import com.lasso.template.EmailTemplate;
 import com.lasso.template.UserActivateEmail;
+import com.lasso.template.UserResetPasswordEmail;
 import com.lasso.util.EmailUtil;
 import com.lasso.util.EncryptionUtil;
 
@@ -70,26 +72,26 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest) {
+	        AccountChangeDetailRequest __accountChangeDetailRequest) {
 		if (__accountChangeDetailRequest instanceof DesignerChangeDetailRequest) {
 			__account.setAccountInfo(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest).getAccountInfo());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getAccountInfo());
 			__account.setAlternativeContact(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest)
-					.getAlternativeContact());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest)
+			                .getAlternativeContact());
 			__account.setCountryId(__accountChangeDetailRequest.getCountry().getId());
 			__account.setModified(new Date());
 			__account.setPaymentMethod(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest).getPayment());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getPayment());
 			__account.setHandphoneNumber(__accountChangeDetailRequest.getPhone().getValue());
 		}
 		else if (__accountChangeDetailRequest instanceof UserChangeDetailRequest) {
 			__account.setCompanyAddress(
-					((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
 			__account.setCompanyName(
-					((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
 			__account.setCompanyTelephone(((UserChangeDetailRequest) __accountChangeDetailRequest)
-					.getCompanyPhone().getValue());
+			        .getCompanyPhone().getValue());
 			__account.setCountryId(__accountChangeDetailRequest.getCountry().getId());
 			__account.setModified(new Date());
 			__account.setHandphoneNumber(__accountChangeDetailRequest.getPhone().getValue());
@@ -135,7 +137,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 * @see com.lasso.rest.service.AccountManagement#resetPassword(java.lang.String)
 	 */
 	public String forgotPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException {
+	        throws NotFoundException, AddressException, MessagingException {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		if (_account == null) {
 			throw new NotFoundException("Email not exist");
@@ -146,7 +148,9 @@ public class ImplAccountManagement implements AccountManagement {
 			_account.setOtp(_otp.toString());
 			_account.setModified(new Date());
 			this.accountDAO.updateAccount(_account);
-			return MessageFormat.format("/reset?otp={0}", _otp);
+			return MessageFormat
+			        .format((_account.getRole().equals((byte) 0) ? "user=" : "designer=")
+			                + _account.getName() + "/reset?otp={0}", _otp);
 		}
 	}
 
@@ -159,18 +163,6 @@ public class ImplAccountManagement implements AccountManagement {
 	public List<Account> getAllAccounts() {
 		return this.accountDAO.getAll();
 	}
-
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// *
-	// com.lasso.rest.service.AccountManagement#getCountry(com.lasso.rest.model.datasource.Account)
-	// */
-	// @Override
-	// public Country getCountry(Account __account) {
-	// return __account.getCountry();
-	// }
 
 	/*
 	 * (non-Javadoc)
@@ -272,20 +264,18 @@ public class ImplAccountManagement implements AccountManagement {
 	 * java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void sendActivationEmail(String __email, String __refLink, String __registerType,
-			String __firstName)
-					throws AddressException, MessagingException, URISyntaxException, IOException {
-		// Load content depend on register type
+	public void sendActivationEmail(String __email, String __refLink, String __role,
+	        String __firstName)
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
 		EmailTemplate _emailTemplate;
-		if (__registerType.equalsIgnoreCase("designer")) {
+		if (__role.equalsIgnoreCase("designer")) {
 			_emailTemplate = new DesignerActivateEmail(__firstName, __refLink);
-
 		}
 		else {
 			_emailTemplate = new UserActivateEmail(__firstName, __refLink);
 		}
 		this.emailUtil.sendEmailByTemplate(__email, "Xác thực tài khoản",
-				_emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
+		        _emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
 	}
 
 	/*
@@ -295,11 +285,18 @@ public class ImplAccountManagement implements AccountManagement {
 	 * java.lang.String)
 	 */
 	@Override
-	public void sendResetPasswordEmail(String __email, String __refLink)
-			throws AddressException, MessagingException {
-		this.emailUtil.sendEmail(__email, "Phục hồi mật khẩu",
-				"Vui lòng bấm vào link sau để phục hồi mật khẩu của bạn:<br>" + __refLink,
-				RecipientType.TO);
+	public void sendResetPasswordEmail(String __email, String __refLink, String __role,
+	        String __firstName)
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
+		EmailTemplate _emailTemplate;
+		if (__role.equalsIgnoreCase("designer")) {
+			_emailTemplate = new DesignerResetPasswordEmail(__firstName, __refLink);
+		}
+		else {
+			_emailTemplate = new UserResetPasswordEmail(__firstName, __refLink);
+		}
+		this.emailUtil.sendEmailByTemplate(__email, "Phục hồi mật khẩu",
+		        _emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
 	}
 
 	/**

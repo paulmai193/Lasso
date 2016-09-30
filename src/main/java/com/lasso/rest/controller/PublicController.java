@@ -92,6 +92,8 @@ public class PublicController extends BaseController {
 		// For a full list of configuration parameters refer in wiki page.
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
+		Logger.getLogger(this.getClass())
+		        .info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();
@@ -99,9 +101,9 @@ public class PublicController extends BaseController {
 		Map<String, String> map = ipnlistener.getIpnMap();
 
 		Logger.getLogger(this.getClass())
-		.info("******* IPN (name:value) pair : " + map + " "
-				+ "######### TransactionType : " + transactionType
-				+ " ======== IPN verified : " + isIpnVerified);
+		        .info("******* IPN VERIFY (name:value) pair : " + map + " "
+		                + "######### TransactionType : " + transactionType
+		                + " ======== IPN verified : " + isIpnVerified);
 	}
 
 	/**
@@ -124,9 +126,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/active")
 	public Response testActive(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=active&otp=" + __otp;
+		        + __request.getServerPort() + "/verify?type=active&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 
@@ -141,9 +143,9 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/reset")
 	public Response testReset(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
+	        @QueryParam("otp") String __otp) throws URISyntaxException {
 		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
+		        + __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
 		return Response.seeOther(new URI(_redirectSchema)).build();
 	}
 

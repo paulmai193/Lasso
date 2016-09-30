@@ -81,7 +81,7 @@ public class GetOfferResponse extends BaseResponse {
 	 * @param __prefixJob the prefix job
 	 */
 	public GetOfferResponse(Object[] __data, String __prefixAvatar, String __prefixCategory,
-			String __prefixJob) {
+	        String __prefixJob) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -132,7 +132,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOfferResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
@@ -150,11 +150,13 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeStringField("job_description", _job.getDescription());
 		__gen.writeNumberField("job_step", _job.getStep());
 
+		__gen.writeObjectFieldStart("user");
 		this.serializeAccounts(__gen, _user, __value.getPrefixAvatar());
+		__gen.writeEndObject();
 
 		__gen.writeObjectFieldStart("category");
 		__gen.writeNumberField("category_id", _category.getId());
-		__gen.writeStringField("category_title", _category.getTitle());
+		__gen.writeStringField("title", _category.getTitle());
 		__gen.writeObjectFieldStart("images");
 		this.serializeImage(__gen, __value.getPrefixCategory(), _category.getImage());
 		__gen.writeEndObject();
@@ -168,7 +170,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 				try {
 					__gen.writeStartObject();
 					__gen.writeNumberField("style_id", __type.getId());
-					__gen.writeStringField("style_title", __type.getTitle());
+					__gen.writeStringField("title", __type.getTitle());
 					__gen.writeEndObject();
 				}
 				catch (IOException _ex) {
@@ -194,13 +196,13 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		}
 		__gen.writeEndArray();
 
-		__gen.writeNumberField("budget", _job.getBudget());
+		__gen.writeNumberField("job_budget", _job.getBudget());
 		DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		__gen.writeStringField("submission", _dateFormat.format(_job.getSubmission()));
 		__gen.writeStringField("last_submission", _dateFormat.format(_job.getLatestSubmission()));
 		__gen.writeStringField("objective", _job.getObjective());
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
-		__gen.writeStringField("further_info", _job.getFurtherInformation());
+		__gen.writeStringField("further_information", _job.getFurtherInformation());
 
 		__gen.writeEndObject();
 
@@ -212,7 +214,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 			__gen.writeNumberField("account_id", __account.getId());
 			__gen.writeStringField("account_name", __account.getName());
 			__gen.writeNumberField("account_reward",
-					__account.getRewards() == 0 ? 1 : __account.getRewards());
+			        __account.getRewards() == 0 ? 1 : __account.getRewards());
 			__gen.writeObjectFieldStart("avatar");
 			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
 			__gen.writeEndObject();

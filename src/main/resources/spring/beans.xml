@@ -138,6 +138,7 @@
 		<property name="genericManagement" ref="genericManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="httpHost" ref="httpHost" />
+		<property name="httpImageHost" ref="httpImageHost" />
 
 	</bean>
 	<bean id="uploadController" class="com.lasso.rest.controller.UploadController"
@@ -147,7 +148,7 @@
 		<property name="genericManagement" ref="genericManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
-		<property name="httpHost" ref="httpHost" />
+		<property name="httpHost" ref="httpImageHost" />
 	</bean>
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController"
 		lazy-init="false">
@@ -157,7 +158,7 @@
 		lazy-init="false">
 		<property name="designerManagement" ref="designerManagement" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
-		<property name="httpHost" ref="httpHost" />
+		<property name="httpHost" ref="httpImageHost" />
 	</bean>
 	<bean id="browseController" class="com.lasso.rest.controller.BrowseController"
 		lazy-init="false">
@@ -169,7 +170,7 @@
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
 		<property name="styleStoragePath" ref="styleStoragePath" />
 		<property name="typeStoragePath" ref="typeStoragePath" />
-		<property name="httpHost" ref="httpHost" />
+		<property name="httpHost" ref="httpImageHost" />
 	</bean>
 	<bean id="manageOrderController" class="com.lasso.rest.controller.ManageOrderController"
 		lazy-init="false">
@@ -180,7 +181,7 @@
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
 		<property name="styleStoragePath" ref="styleStoragePath" />
 		<property name="typeStoragePath" ref="typeStoragePath" />
-		<property name="httpHost" ref="httpHost" />
+		<property name="httpHost" ref="httpImageHost" />
 	</bean>
 	<bean id="manageProjectController" class="com.lasso.rest.controller.ManageProjectController"
 		lazy-init="false">
@@ -188,7 +189,7 @@
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="categoryStoragePath" ref="categoryStoragePath" />
 		<property name="jobStoragePath" ref="jobStoragePath" />
-		<property name="httpHost" ref="httpHost" />
+		<property name="httpHost" ref="httpImageHost" />
 	</bean>
 	
 	<bean id="messageController" class="com.lasso.rest.controller.MessageController"
@@ -198,7 +199,7 @@
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="jobStoragePath" ref="jobStoragePath" />
 		<property name="portfolioStoragePath" ref="portfolioStoragePath" />
-		<property name="httpHost" ref="httpHost" />
+		<property name="httpHost" ref="httpImageHost" />
 	</bean>
 
 	<!-- Filter Layer -->

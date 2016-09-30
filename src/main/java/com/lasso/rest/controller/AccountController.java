@@ -73,8 +73,13 @@ public class AccountController extends BaseController {
 	@Autowired
 	private GenericManagement	genericManagement;
 
-	/** The http host. */
+	private String				httpImageHost;
+
 	private String				httpHost;
+
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
+	}
 
 	/** The request. */
 	@Context
@@ -96,9 +101,9 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_DESIGNER)
 	public Response changeDetailDesigner(
-			DesignerChangeDetailRequest __designerChangeDetailRequest) {
+	        DesignerChangeDetailRequest __designerChangeDetailRequest) {
 		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
-				__designerChangeDetailRequest);
+		        __designerChangeDetailRequest);
 	}
 
 	/**
@@ -114,7 +119,7 @@ public class AccountController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_USER)
 	public Response changeDetailUser(UserChangeDetailRequest __userChangeDetailRequest) {
 		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
-				__userChangeDetailRequest);
+		        __userChangeDetailRequest);
 	}
 
 	/**
@@ -132,12 +137,12 @@ public class AccountController extends BaseController {
 		__changePasswordRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		if (this.accountManagement.changePassword(__changePasswordRequest.getOldPassword(),
-				__changePasswordRequest.getNewPassword(), _account)) {
+		        __changePasswordRequest.getNewPassword(), _account)) {
 			return this.success();
 		}
 		else {
 			return this.fail(new BaseResponse(true, "Current password not match."),
-					Status.FORBIDDEN);
+			        Status.FORBIDDEN);
 		}
 	}
 
@@ -149,24 +154,25 @@ public class AccountController extends BaseController {
 	 * @throws NotFoundException the not found exception
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/forget_password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response forgetPassword(ForgetPasswordRequest __forgetPasswordRequest)
-			throws NotFoundException, AddressException, MessagingException {
+	        throws NotFoundException, AddressException, MessagingException, URISyntaxException,
+	        IOException {
 		__forgetPasswordRequest.validate();
 		String _refQuery = this.accountManagement
-				.forgotPassword(__forgetPasswordRequest.getEmail().getValue());
-		String _refLink = "http://"
-				+ this.request.getServerName() /*
-				 * + ":"
-				 * + this.request.getServerPort() +
-				 * this.request.getContextPath() + "/public"
-				 */
-				+ _refQuery;
+		        .forgotPassword(__forgetPasswordRequest.getEmail().getValue());
+		String _prefix = _refQuery.substring(0, _refQuery.indexOf("/"));
+		String _role = _prefix.substring(0, _prefix.indexOf("="));
+		String _firstName = _prefix.replace(_role + "=", "");
+		_refQuery = _refQuery.replace(_prefix, "");
+		String _refLink = this.httpHost + _refQuery;
 		this.accountManagement.sendResetPasswordEmail(__forgetPasswordRequest.getEmail().getValue(),
-				_refLink);
+		        _refLink, _role, _firstName);
 		return this.success();
 	}
 
@@ -181,7 +187,7 @@ public class AccountController extends BaseController {
 	public DetailAccountResponse getDetail() {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		Country _country = this.genericManagement.getCountryById(_account.getCountryId());
-		String _prefixUrl = this.httpHost + this.avatarStoragePath;
+		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
 			return new DetailDesignerResponse(_account, _country, _prefixUrl);
 		}
@@ -217,9 +223,9 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse login(LoginRequest __loginRequest) {
 		__loginRequest.validate();
-		String _prefixUrl = this.httpHost + this.avatarStoragePath;
+		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
 		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
-				__loginRequest.getPassword(), _prefixUrl);
+		        __loginRequest.getPassword(), _prefixUrl);
 	}
 
 	/**
@@ -249,7 +255,7 @@ public class AccountController extends BaseController {
 	@Path("/register/designer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse registerDesignerAccount(DesignerRegisterRequest __registerAccount)
-			throws AddressException, MessagingException, URISyntaxException, IOException {
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
 		return this.registerNewAccount(this.request, __registerAccount, "designer");
 	}
 
@@ -267,7 +273,7 @@ public class AccountController extends BaseController {
 	@Path("/register/user")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse registerUserAccount(UserRegisterRequest __registerAccount)
-			throws AddressException, MessagingException, URISyntaxException, IOException {
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
 		return this.registerNewAccount(this.request, __registerAccount, "user");
 	}
 
@@ -284,10 +290,10 @@ public class AccountController extends BaseController {
 	@Path("/resend_activate")
 	@AccountAuthenticate
 	public Response resendActivateEmail()
-			throws AddressException, MessagingException, URISyntaxException, IOException {
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		String _refQuery = this.accountManagement.resendActivate(_account);
-		String _refLink = "http://" + this.request.getServerName() + _refQuery;
+		String _refLink = this.httpHost + _refQuery;
 
 		String _requestType;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
@@ -297,7 +303,7 @@ public class AccountController extends BaseController {
 			_requestType = "user";
 		}
 		this.accountManagement.sendActivationEmail(_account.getEmail(), _refLink, _requestType,
-				_account.getName());
+		        _account.getName());
 		return this.success();
 	}
 
@@ -315,7 +321,7 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	public Response resetPassword(ResetPasswordRequest __resetPasswordRequest)
-			throws NotFoundException, AddressException, MessagingException {
+	        throws NotFoundException, AddressException, MessagingException {
 		__resetPasswordRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.accountManagement.resetPassword(_account, __resetPasswordRequest.getPassword());
@@ -349,13 +355,8 @@ public class AccountController extends BaseController {
 		this.genericManagement = __genericManagement;
 	}
 
-	/**
-	 * Sets the http host.
-	 *
-	 * @param __httpHost the new http host
-	 */
-	public void setHttpHost(String __httpHost) {
-		this.httpHost = __httpHost;
+	public void setHttpImageHost(String __httpImageHost) {
+		this.httpImageHost = __httpImageHost;
 	}
 
 	/**
@@ -369,7 +370,7 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LoginResponse verify(VerifyAccountRequest __verifyAccountRequest) {
 		__verifyAccountRequest.validate();
-		String _prefixUrl = this.httpHost + this.avatarStoragePath;
+		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
 		return this.accountManagement.verifyAccount(__verifyAccountRequest.getOtp(), _prefixUrl);
 	}
 
@@ -381,10 +382,10 @@ public class AccountController extends BaseController {
 	 * @return the response
 	 */
 	private Response changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest) {
+	        AccountChangeDetailRequest __accountChangeDetailRequest) {
 		__accountChangeDetailRequest.validate();
 		Country _country = this.genericManagement
-				.getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
+		        .getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
 		__accountChangeDetailRequest.setCountry(_country);
 		__accountChangeDetailRequest.checkCountryValid();
 		this.accountManagement.changeAccountDetail(__account, __accountChangeDetailRequest);
@@ -404,20 +405,20 @@ public class AccountController extends BaseController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private LoginResponse registerNewAccount(HttpServletRequest __request,
-			AccountRegisterRequest __registerAccount, String __registerType)
-					throws AddressException, MessagingException, URISyntaxException, IOException {
+	        AccountRegisterRequest __registerAccount, String __registerType)
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
 		__registerAccount.validate();
 		Country _country = this.genericManagement
-				.getCountryIdByCode(__registerAccount.getCountryCode());
+		        .getCountryIdByCode(__registerAccount.getCountryCode());
 		if (_country == null) {
 			throw new NotFoundException("Country not found");
 		}
 		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount, _country);
-		String _refLink = "http://" + __request.getServerName() + _refQuery;
+		String _refLink = this.httpHost + _refQuery;
 		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
-				_refLink, __registerType, __registerAccount.getName());
-		String _prefixUrl = this.httpHost + this.avatarStoragePath;
+		        _refLink, __registerType, __registerAccount.getName());
+		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
 		return this.accountManagement.login(__registerAccount.getEmail().getValue(),
-				__registerAccount.getPassword(), _prefixUrl);
+		        __registerAccount.getPassword(), _prefixUrl);
 	}
 }
