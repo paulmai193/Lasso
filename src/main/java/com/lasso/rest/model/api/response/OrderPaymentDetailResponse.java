@@ -29,6 +29,9 @@ import com.lasso.rest.model.datasource.Type;
 @JsonSerialize(using = OrderPaymentDetailSerializer.class)
 public class OrderPaymentDetailResponse extends BaseResponse {
 
+	/** The category. */
+	private Category	category;
+
 	/** The job. */
 	private Job			job;
 
@@ -40,9 +43,6 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 
 	/** The style. */
 	private Type		type;
-
-	/** The category. */
-	private Category	category;
 
 	/**
 	 * Instantiates a new order payment detail response.
@@ -84,13 +84,22 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	 * @param __category the category
 	 */
 	public OrderPaymentDetailResponse(Job __job, PromoCode __promoCode, List<Style> __styles,
-	        Type __type, Category __category) {
+			Type __type, Category __category) {
 		super();
 		this.job = __job;
 		this.promoCode = __promoCode;
 		this.styles = __styles;
 		this.type = __type;
 		this.category = __category;
+	}
+
+	/**
+	 * Gets the category.
+	 *
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return this.category;
 	}
 
 	/**
@@ -128,22 +137,13 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	public Type getType() {
 		return this.type;
 	}
-
-	/**
-	 * Gets the category.
-	 *
-	 * @return the category
-	 */
-	public Category getCategory() {
-		return this.category;
-	}
 }
 
 class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResponse> {
 
 	@Override
 	public void serialize(OrderPaymentDetailResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -152,21 +152,21 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 		}
 		__gen.writeObjectFieldStart("data");
 		this.serializeOrder(__gen, __value.getJob(), __value.getStyles(), __value.getType(),
-		        __value.getCategory());
+				__value.getCategory());
 		this.serializePayment(__gen, __value.getJob(), __value.getPromoCode());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 	}
 
 	private void serializeOrder(JsonGenerator __gen, Job __job, List<Style> __styles, Type __type,
-	        Category __category) {
+			Category __category) {
 		try {
 			__gen.writeStringField("job_description", __job.getDescription());
 			__gen.writeNumberField("job_amount", __job.getBudget() + __job.getFee());
 			DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			__gen.writeStringField("submission", _dateFormat.format(__job.getSubmission()));
 			__gen.writeStringField("last_submission",
-			        _dateFormat.format(__job.getLatestSubmission()));
+					_dateFormat.format(__job.getLatestSubmission()));
 			__gen.writeStringField("type_title", __type.getTitle());
 			__gen.writeArrayFieldStart("style_title");
 			__styles.forEach(_style -> {

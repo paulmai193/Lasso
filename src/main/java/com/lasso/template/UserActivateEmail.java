@@ -10,11 +10,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * The Class DesignerActivateEmail.
+ * The Class UserActivateEmail.
  *
  * @author Paul Mai
  */
-public class DesignerActivateEmail implements EmailTemplate {
+public class UserActivateEmail implements EmailTemplate {
 
 	/** The activate link. */
 	private String	activateLink;
@@ -26,15 +26,15 @@ public class DesignerActivateEmail implements EmailTemplate {
 	private File	template;
 
 	/**
-	 * Instantiates a new designer activate email.
+	 * Instantiates a new user activate email.
 	 *
 	 * @param __firstName the first name
 	 * @param __activateLink the activate link
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DesignerActivateEmail(String __firstName, String __activateLink)
-			throws URISyntaxException, IOException {
+	public UserActivateEmail(String __firstName, String __activateLink)
+	        throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.activateLink = __activateLink;
@@ -83,9 +83,10 @@ public class DesignerActivateEmail implements EmailTemplate {
 	@Override
 	public Map<String, File> getTemplate() {
 		Map<String, File> _mapTemplate = new HashMap<>();
-		_mapTemplate.put("logo_designer.jpg", new File(this.template, "logo_designer.jpg"));
-		_mapTemplate.put("img_01_active.jpg", new File(this.template, "img_01_active.jpg"));
-		_mapTemplate.put("title_1_active.jpg", new File(this.template, "title_1_active.jpg"));
+		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
+		_mapTemplate.put("img_01_account.jpg", new File(this.template, "img_01_account.jpg"));
+		_mapTemplate.put("title_1_user_account.jpg",
+		        new File(this.template, "title_1_user_account.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
@@ -104,7 +105,7 @@ public class DesignerActivateEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(
-				this.getClass().getClassLoader().getResource("designer-active-account").toURI());
+		        this.getClass().getClassLoader().getResource("user-active-account").toURI());
 	}
 
 }
