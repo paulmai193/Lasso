@@ -1,9 +1,12 @@
 package com.lasso.rest.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.push.SendPushRequest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Interface MessageManagement.
@@ -36,5 +39,7 @@ public interface MessageManagement {
 	 * @param __sendMessageRequest the send message request
 	 */
 	void sendMessage(Account __sender, SendMessageRequest __sendMessageRequest);
+
+	void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException;
 
 }

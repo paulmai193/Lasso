@@ -418,8 +418,15 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 						String _designerName = "";
 						JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
 						        .getByJobId(__job.getId());
-						if (_jobsAccount == null) {
-							return;
+						if (_jobsAccount != null) {
+							Account _designer = accountDAO
+							        .getAccountById(_jobsAccount.getAccountId());
+							if (_designer != null) {
+								_designerName = _designer.getName();
+							}
+							else {
+								return;
+							}
 						}
 						List<Integer> _styleIds = new ArrayList<>();
 						ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(__job.getId())

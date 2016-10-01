@@ -48,8 +48,13 @@
 	<bean id="httpHost" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="http://lasso.voolatech.com" />
 	</bean>
+	
 	<bean id="httpImageHost" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="http://lasso.voolatech.com/img" />
+	</bean>
+	
+	<bean id="firebaseApiKey" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="AIzaSyApCKtSGbqYWdN9G-QWsfyKXVUkXKJLQ3Y" />
 	</bean>
 
 </beans>

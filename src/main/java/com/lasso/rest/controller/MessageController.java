@@ -1,5 +1,6 @@
 package com.lasso.rest.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -25,8 +26,11 @@ import com.lasso.rest.model.api.response.ListMessageResponse;
 import com.lasso.rest.model.api.response.MessageDetailResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Message;
+import com.lasso.rest.model.push.PushNotification;
+import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Class MessageController.
@@ -88,14 +92,14 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("message_id") int __idMessage) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-				__idMessage);
+		        __idMessage);
 		Message _rootMessage = (Message) _messageDatas.get(0)[0];
 		Object[] _orderData = this.userManagement.getOrderDataById(_rootMessage.getJobId());
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-				null, _prefixJob, _prefixPortfolio);
+		        null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas, _prefixAvatar);
 	}
 
@@ -113,6 +117,15 @@ public class MessageController extends BaseController {
 		Account _sender = (Account) this.validateContext.getUserPrincipal();
 		this.messageManagement.sendMessage(_sender, __sendMessageRequest);
 		return this.success();
+	}
+
+	@POST
+	@Path("/send/test")
+	public void sendTestMessage() throws UnirestException, IOException {
+		SendPushRequest __pushRequest = new SendPushRequest();
+		__pushRequest.setNotification(new PushNotification("Test title", "Test body"));
+		__pushRequest.setTo("xxx");
+		this.messageManagement.sendPush(__pushRequest);
 	}
 
 	/**

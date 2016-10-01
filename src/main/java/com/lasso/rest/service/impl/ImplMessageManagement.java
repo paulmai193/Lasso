@@ -1,15 +1,18 @@
 package com.lasso.rest.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 import javax.ws.rs.NotFoundException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lasso.define.Constant;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.JobDAO;
@@ -18,7 +21,12 @@ import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
+import com.lasso.rest.model.push.SendPushRequest;
+import com.lasso.rest.model.push.SendPushResponse;
 import com.lasso.rest.service.MessageManagement;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
  * The Class ImplMessageManagement.
@@ -40,6 +48,12 @@ public class ImplMessageManagement implements MessageManagement {
 	/** The message DAO. */
 	@Autowired
 	private MessageDAO	messageDAO;
+
+	private String		firebaseApiKey;
+
+	public void setFirebaseApiKey(String __firebaseApiKey) {
+		this.firebaseApiKey = __firebaseApiKey;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -133,6 +147,22 @@ public class ImplMessageManagement implements MessageManagement {
 		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
 		        __sendMessageRequest.getMessage(), _rootMessage.getTitle(), _receiver.getId());
 		this.messageDAO.saveMessage(_message);
+	}
+
+	@Override
+	public void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException {
+		final String _firebaseHost = "https://fcm.googleapis.com/fcm/send";
+		ObjectMapper _mapper = new ObjectMapper();
+		HttpResponse<String> _response = Unirest.post(_firebaseHost)
+		        .header("Content-Type", "application/json")
+		        .header("Authorization", "key=" + this.firebaseApiKey)
+		        .body(_mapper.writeValueAsString(__pushRequest)).asString();
+		Logger _logger = Logger.getLogger(getClass());
+		_logger.info("Send push status: " + _response.getStatus());
+		SendPushResponse _pushResponse = _mapper.readValue(_response.getBody(),
+		        SendPushResponse.class);
+		_logger.info("Result: Success - " + _pushResponse.getSuccess() + ", Failure - "
+		        + _pushResponse.getFailure());
 	}
 
 	/**

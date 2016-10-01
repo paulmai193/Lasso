@@ -105,7 +105,7 @@
 		<property name="jobDAO" ref="jobDAO" />
 		<property name="jobAccountDAO" ref="jobAccountDAO" />
 		<property name="jobStyleDAO" ref="jobStyleDAO" />
-		<property name="messageDAO" ref="messageDAO" />		
+		<property name="messageDAO" ref="messageDAO" />
 		<property name="portfolioDAO" ref="portfolioDAO" />
 		<property name="portfolioTypeDAO" ref="portfolioTypeDAO" />
 		<property name="projectDAO" ref="projectDAO" />
@@ -129,6 +129,7 @@
 		<property name="accountDAO" ref="accountDAO" />
 		<property name="jobDAO" ref="jobDAO" />
 		<property name="messageDAO" ref="messageDAO" />
+		<property name="firebaseApiKey" ref="firebaseApiKey" />
 	</bean>
 
 	<!-- Controller Layer -->
@@ -191,7 +192,7 @@
 		<property name="jobStoragePath" ref="jobStoragePath" />
 		<property name="httpHost" ref="httpImageHost" />
 	</bean>
-	
+
 	<bean id="messageController" class="com.lasso.rest.controller.MessageController"
 		lazy-init="false">
 		<property name="messageManagement" ref="messageManagement" />
