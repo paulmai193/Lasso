@@ -3,7 +3,6 @@ package com.lasso.rest.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.ws.rs.NotFoundException;
 
@@ -21,8 +20,8 @@ import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Message;
+import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
-import com.lasso.rest.model.push.SendPushResponse;
 import com.lasso.rest.service.MessageManagement;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -49,8 +48,14 @@ public class ImplMessageManagement implements MessageManagement {
 	@Autowired
 	private MessageDAO	messageDAO;
 
+	/** The firebase api key. */
 	private String		firebaseApiKey;
 
+	/**
+	 * Sets the firebase api key.
+	 *
+	 * @param __firebaseApiKey the new firebase api key
+	 */
 	public void setFirebaseApiKey(String __firebaseApiKey) {
 		this.firebaseApiKey = __firebaseApiKey;
 	}
@@ -72,25 +77,21 @@ public class ImplMessageManagement implements MessageManagement {
 		}
 
 		List<Object[]> _messageDatas = new ArrayList<>();
-		_messages.forEach(new Consumer<Message>() {
-
-			@Override
-			public void accept(Message __rootMessage) {
-				Object[] _data = { null, null, null };// {message, sender, job}
-				Message _lastMessage = ImplMessageManagement.this.messageDAO
-				        .getLastMessageOfRoot(__rootMessage);
-				_data[0] = _lastMessage == null ? __rootMessage : _lastMessage;
-				Account _sender = ImplMessageManagement.this.accountDAO
-				        .getAccountById(__rootMessage.getFromAccountId());
-				if (_sender != null) {
-					_data[1] = _sender;
-				}
-				Job _job = ImplMessageManagement.this.jobDAO.getJobById(__rootMessage.getJobId());
-				if (_job != null) {
-					_data[2] = _job;
-				}
-				_messageDatas.add(_data);
+		_messages.forEach(_rootMessage -> {
+			Object[] _data = { null, null, null };// {message, sender, job}
+			Message _lastMessage = ImplMessageManagement.this.messageDAO
+			        .getLastMessageOfRoot(_rootMessage);
+			_data[0] = _lastMessage == null ? _rootMessage : _lastMessage;
+			Account _sender = ImplMessageManagement.this.accountDAO
+			        .getAccountById(_rootMessage.getFromAccountId());
+			if (_sender != null) {
+				_data[1] = _sender;
 			}
+			Job _job = ImplMessageManagement.this.jobDAO.getJobById(_rootMessage.getJobId());
+			if (_job != null) {
+				_data[2] = _job;
+			}
+			_messageDatas.add(_data);
 		});
 		return _messageDatas;
 	}
@@ -112,16 +113,12 @@ public class ImplMessageManagement implements MessageManagement {
 		_messages.add(0, _rootMessage);
 
 		List<Object[]> _messageDatas = new ArrayList<>();
-		_messages.forEach(new Consumer<Message>() {
-
-			@Override
-			public void accept(Message __message) {
-				Account _sender = ImplMessageManagement.this.accountDAO
-				        .getAccountById(__message.getFromAccountId());
-				if (_sender != null) {
-					Object[] _data = { __message, _sender };
-					_messageDatas.add(_data);
-				}
+		_messages.forEach(_message -> {
+			Account _sender = ImplMessageManagement.this.accountDAO
+			        .getAccountById(_message.getFromAccountId());
+			if (_sender != null) {
+				Object[] _data = { _message, _sender };
+				_messageDatas.add(_data);
 			}
 		});
 		return _messageDatas;
@@ -147,8 +144,31 @@ public class ImplMessageManagement implements MessageManagement {
 		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
 		        __sendMessageRequest.getMessage(), _rootMessage.getTitle(), _receiver.getId());
 		this.messageDAO.saveMessage(_message);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				SendPushRequest _pushRequest = new SendPushRequest();
+				_pushRequest.setNotification(
+				        new PushNotification(_message.getTitle(), _message.getMessage()));
+				_pushRequest.setTo(_receiver.getDeviceId());
+				try {
+					sendPush(_pushRequest);
+				}
+				catch (Exception _ex) {
+					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+				}
+
+			}
+		}).start();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.MessageManagement#sendPush(com.lasso.rest.model.push.SendPushRequest)
+	 */
 	@Override
 	public void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException {
 		final String _firebaseHost = "https://fcm.googleapis.com/fcm/send";
@@ -159,10 +179,11 @@ public class ImplMessageManagement implements MessageManagement {
 		        .body(_mapper.writeValueAsString(__pushRequest)).asString();
 		Logger _logger = Logger.getLogger(getClass());
 		_logger.info("Send push status: " + _response.getStatus());
-		SendPushResponse _pushResponse = _mapper.readValue(_response.getBody(),
-		        SendPushResponse.class);
-		_logger.info("Result: Success - " + _pushResponse.getSuccess() + ", Failure - "
-		        + _pushResponse.getFailure());
+		_logger.info("Send push response: " + _response.getBody());
+		// SendPushResponse _pushResponse = _mapper.readValue(_response.getBody(),
+		// SendPushResponse.class);
+		// _logger.info("Result: Success - " + _pushResponse.getSuccess() + ", Failure - "
+		// + _pushResponse.getFailure());
 	}
 
 	/**

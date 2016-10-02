@@ -27,6 +27,7 @@ public class UpdateJobStageRequest extends BaseRequest {
 	/** The stage. */
 	private Byte	stage;
 
+	/** The delivery date. */
 	private Date	deliveryDate;
 
 	/**
@@ -53,10 +54,20 @@ public class UpdateJobStageRequest extends BaseRequest {
 		return this.stage;
 	}
 
+	/**
+	 * Gets the delivery date.
+	 *
+	 * @return the delivery date
+	 */
 	public Date getDeliveryDate() {
 		return this.deliveryDate;
 	}
 
+	/**
+	 * Sets the delivery date.
+	 *
+	 * @param __deliveryDate the new delivery date
+	 */
 	@JsonProperty("delivery_date")
 	public void setDeliveryDate(String __deliveryDate) {
 		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");

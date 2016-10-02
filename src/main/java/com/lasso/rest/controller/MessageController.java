@@ -1,6 +1,7 @@
 package com.lasso.rest.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -119,13 +120,21 @@ public class MessageController extends BaseController {
 		return this.success();
 	}
 
+	/**
+	 * Send test message.
+	 *
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@POST
 	@Path("/send/test")
 	public void sendTestMessage() throws UnirestException, IOException {
-		SendPushRequest __pushRequest = new SendPushRequest();
-		__pushRequest.setNotification(new PushNotification("Test title", "Test body"));
-		__pushRequest.setTo("xxx");
-		this.messageManagement.sendPush(__pushRequest);
+		SendPushRequest _pushRequest = new SendPushRequest();
+		_pushRequest.setNotification(new PushNotification("Test title", "Test body"));
+		List<String> _tokens = new ArrayList<>();
+		_tokens.add("482a11e04c6306fe3a0a09b3bb79291f58457696830875895eb62dfaf5cc0342");
+		_pushRequest.setPushTokens(_tokens);
+		this.messageManagement.sendPush(_pushRequest);
 	}
 
 	/**

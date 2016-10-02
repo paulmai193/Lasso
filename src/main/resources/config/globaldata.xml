@@ -54,7 +54,7 @@
 	</bean>
 	
 	<bean id="firebaseApiKey" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="AIzaSyApCKtSGbqYWdN9G-QWsfyKXVUkXKJLQ3Y" />
+		<constructor-arg type="java.lang.String" value="AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g" />
 	</bean>
 
 </beans>

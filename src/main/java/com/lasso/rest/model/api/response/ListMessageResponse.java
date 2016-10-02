@@ -120,6 +120,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 					__gen.writeNumberField("message_id", _message.getId());
 					__gen.writeStringField("message_title", _job.getDescription());
 					__gen.writeStringField("message_content", _message.getMessage());
+					__gen.writeNumberField("message_read", _message.getIsRead());
 					if (_job.getPaid().equals((byte) 0)) {
 						__gen.writeStringField("action_status", "job_confirm");
 					}

@@ -7,23 +7,36 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * The Class SendPushResponse.
+ *
+ * @author Paul Mai
+ */
 @JsonInclude(value = Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SendPushResponse {
 
+	/** The success. */
 	@JsonProperty("success")
 	private int				success;
 
+	/** The failure. */
 	@JsonProperty("failure")
 	private int				failure;
 
+	/** The results. */
 	@JsonProperty("results")
 	private List<Result>	results;
 
+	/**
+	 * Instantiates a new send push response.
+	 */
 	public SendPushResponse() {
 	}
 
 	/**
+	 * Gets the success.
+	 *
 	 * @return the success
 	 */
 	public int getSuccess() {
@@ -31,6 +44,8 @@ public class SendPushResponse {
 	}
 
 	/**
+	 * Sets the success.
+	 *
 	 * @param __success the success to set
 	 */
 	public void setSuccess(int __success) {
@@ -38,6 +53,8 @@ public class SendPushResponse {
 	}
 
 	/**
+	 * Gets the failure.
+	 *
 	 * @return the failure
 	 */
 	public int getFailure() {
@@ -45,6 +62,8 @@ public class SendPushResponse {
 	}
 
 	/**
+	 * Sets the failure.
+	 *
 	 * @param __failure the failure to set
 	 */
 	public void setFailure(int __failure) {
@@ -52,6 +71,8 @@ public class SendPushResponse {
 	}
 
 	/**
+	 * Gets the results.
+	 *
 	 * @return the results
 	 */
 	public List<Result> getResults() {
@@ -59,6 +80,8 @@ public class SendPushResponse {
 	}
 
 	/**
+	 * Sets the results.
+	 *
 	 * @param __results the results to set
 	 */
 	public void setResults(List<Result> __results) {

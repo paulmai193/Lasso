@@ -40,6 +40,13 @@ public interface MessageManagement {
 	 */
 	void sendMessage(Account __sender, SendMessageRequest __sendMessageRequest);
 
+	/**
+	 * Send push.
+	 *
+	 * @param __pushRequest the push request
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException;
 
 }

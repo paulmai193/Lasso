@@ -45,6 +45,9 @@ import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.PromoHistory;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.push.PushNotification;
+import com.lasso.rest.model.push.SendPushRequest;
+import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -64,6 +67,19 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	/** The promo DAO. */
 	@Autowired
 	private PromoDAO			promoDAO;
+
+	/** The message management. */
+	@Autowired
+	private MessageManagement	messageManagement;
+
+	/**
+	 * Sets the message management.
+	 *
+	 * @param __messageManagement the messageManagement to set
+	 */
+	public void setMessageManagement(MessageManagement __messageManagement) {
+		this.messageManagement = __messageManagement;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -137,30 +153,49 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			// update designer chosen by user
 			List<JobsAccount> _jobsAccounts = new ArrayList<>();
 			List<Message> _messages = new ArrayList<>();
-			__chooseDesignerForJobRequest.getDesignerIds()
-			        .stream().filter(_idDesigner -> this.accountDAO.getAccountById(_idDesigner)
-			                .getRole().equals(Constant.ROLE_DESIGNER))
-			        .forEach(new Consumer<Integer>() {
+			List<Object[]> _pushs = new ArrayList<>();
+			__chooseDesignerForJobRequest.getDesignerIds().forEach(_idDesigner -> {
+				Account _designer = accountDAO.getAccountById(_idDesigner);
+				if (_designer.getRole().equals(Constant.ROLE_DESIGNER)) {
+					_jobsAccounts.add(new JobsAccount(_idDesigner, _job.getId()));
+					String _title = "New offer from " + __user.getName();
+					String _message = "Hi, please check this offer.";
+					_messages.add(new Message(__user.getId(), _job.getId(), _message, _title,
+					        _idDesigner));
 
-				        @Override
-				        public void accept(Integer __idDesigner) {
-					        _jobsAccounts.add(new JobsAccount(__idDesigner, _job.getId()));
-
-					        String _title = "New offer from " + __user.getName();
-					        String _message = "Hi, please check this offer.";
-					        _messages.add(new Message(__user.getId(), _job.getId(), _message,
-					                _title, __idDesigner));
-				        }
-			        });
+					Object[] data = { _designer, _message };
+					_pushs.add(data);
+				}
+			});
 			// Save designer seleted and message will send to them
 			this.jobAccountDAO.saveJobAccounts(_jobsAccounts);
 			this.messageDAO.saveMessages(_messages);
 
-			// TODO All setting success, send message to designer
-
 			// Everything success, update step of job
 			_job.setStep(JobStepConstant.JOB_STEP_CHOOSE_DESIGNER.getStepCode());
 			this.jobDAO.updateJob(_job);
+
+			// All setting success, send message to designer
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					_pushs.forEach(_push -> {
+						SendPushRequest _pushRequest = new SendPushRequest();
+						_pushRequest.setNotification(
+						        new PushNotification(((Message) _push[1]).getTitle(),
+						                ((Message) _push[1]).getMessage()));
+						_pushRequest.setTo(((Account) _push[1]).getDeviceId());
+						try {
+							messageManagement.sendPush(_pushRequest);
+						}
+						catch (Exception _ex) {
+							Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+						}
+					});
+
+				}
+			}).start();
 		}
 	}
 
