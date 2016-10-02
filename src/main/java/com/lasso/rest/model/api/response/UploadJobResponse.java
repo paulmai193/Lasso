@@ -16,6 +16,7 @@ public class UploadJobResponse extends BaseResponse {
 	@JsonProperty("file_name")
 	private String	name;
 
+	/** The url. */
 	@JsonProperty("file_url")
 	private String	url;
 
@@ -49,6 +50,12 @@ public class UploadJobResponse extends BaseResponse {
 		super(__error, __message, __detail);
 	}
 
+	/**
+	 * Instantiates a new upload job response.
+	 *
+	 * @param __name the name
+	 * @param __url the url
+	 */
 	public UploadJobResponse(String __name, String __url) {
 		super();
 		this.name = __name;

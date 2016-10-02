@@ -16,26 +16,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SendPushRequest {
 
-	/** The to. */
-	@JsonProperty("to")
-	private String				to;
-
-	/** The push tokens. */
-	@JsonProperty("registration_ids")
-	private List<String>		pushTokens;
+	/** The data. */
+	@JsonProperty("data")
+	private PushData			data;
 
 	/** The notification. */
 	@JsonProperty("notification")
 	private PushNotification	notification;
 
-	/** The data. */
-	@JsonProperty("data")
-	private PushData			data;
+	/** The push tokens. */
+	@JsonProperty("registration_ids")
+	private List<String>		pushTokens;
+
+	/** The to. */
+	@JsonProperty("to")
+	private String				to;
 
 	/**
 	 * Instantiates a new send push request.
 	 */
 	public SendPushRequest() {
+	}
+
+	/**
+	 * Gets the data.
+	 *
+	 * @return the data
+	 */
+	public PushData getData() {
+		return this.data;
+	}
+
+	/**
+	 * Gets the notification.
+	 *
+	 * @return the notification
+	 */
+	public PushNotification getNotification() {
+		return this.notification;
+	}
+
+	/**
+	 * Gets the push tokens.
+	 *
+	 * @return the pushTokens
+	 */
+	public List<String> getPushTokens() {
+		return this.pushTokens;
 	}
 
 	/**
@@ -48,22 +75,21 @@ public class SendPushRequest {
 	}
 
 	/**
-	 * Sets the to.
+	 * Sets the data.
 	 *
-	 * @param __to the to to set
+	 * @param __data the data to set
 	 */
-	public void setTo(String __to) {
-		this.to = __to;
-		this.pushTokens = null;
+	public void setData(PushData __data) {
+		this.data = __data;
 	}
 
 	/**
-	 * Gets the push tokens.
+	 * Sets the notification.
 	 *
-	 * @return the pushTokens
+	 * @param __notification the notification to set
 	 */
-	public List<String> getPushTokens() {
-		return this.pushTokens;
+	public void setNotification(PushNotification __notification) {
+		this.notification = __notification;
 	}
 
 	/**
@@ -77,39 +103,13 @@ public class SendPushRequest {
 	}
 
 	/**
-	 * Gets the notification.
+	 * Sets the to.
 	 *
-	 * @return the notification
+	 * @param __to the to to set
 	 */
-	public PushNotification getNotification() {
-		return this.notification;
-	}
-
-	/**
-	 * Sets the notification.
-	 *
-	 * @param __notification the notification to set
-	 */
-	public void setNotification(PushNotification __notification) {
-		this.notification = __notification;
-	}
-
-	/**
-	 * Gets the data.
-	 *
-	 * @return the data
-	 */
-	public PushData getData() {
-		return this.data;
-	}
-
-	/**
-	 * Sets the data.
-	 *
-	 * @param __data the data to set
-	 */
-	public void setData(PushData __data) {
-		this.data = __data;
+	public void setTo(String __to) {
+		this.to = __to;
+		this.pushTokens = null;
 	}
 
 }

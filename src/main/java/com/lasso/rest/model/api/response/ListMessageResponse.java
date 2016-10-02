@@ -99,7 +99,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 
 	@Override
 	public void serialize(ListMessageResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -136,7 +136,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 					}
 					else {
 						__gen.writeStringField("sender_avatar",
-						        __value.getPrefixUrl() + "/Icon/" + _sender.getImage());
+								__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
 					}
 					__gen.writeNumberField("job_id", _job.getId());
 					__gen.writeEndObject();

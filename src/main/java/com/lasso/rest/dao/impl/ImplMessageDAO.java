@@ -44,6 +44,16 @@ public class ImplMessageDAO implements MessageDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.MessageDAO#getListMessageById(java.lang.Integer)
+	 */
+	@Override
+	public Message getListMessageById(Integer __idMessage) {
+		return this.sessionFactory.getCurrentSession().get(Message.class, __idMessage);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.MessageDAO#getListMessageByIdParent(int)
 	 */
 	@SuppressWarnings("unchecked")

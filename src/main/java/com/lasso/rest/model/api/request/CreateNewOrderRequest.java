@@ -61,12 +61,12 @@ public class CreateNewOrderRequest extends BaseRequest {
 	@JsonProperty("reference")
 	private List<String>	reference;
 
-	/** The submission. */
-	private Date			submission;
-
 	/** The step. */
 	@JsonProperty("save_type")
 	private Byte			step;
+
+	/** The submission. */
+	private Date			submission;
 
 	/**
 	 * Instantiates a new creates the new offer request.
@@ -165,6 +165,15 @@ public class CreateNewOrderRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the step.
+	 *
+	 * @return the step
+	 */
+	public byte getStep() {
+		return this.step;
+	}
+
+	/**
 	 * Gets the submission.
 	 *
 	 * @return the submission
@@ -203,15 +212,6 @@ public class CreateNewOrderRequest extends BaseRequest {
 		catch (ParseException ex) {
 			this.submission = null;
 		}
-	}
-
-	/**
-	 * Gets the step.
-	 *
-	 * @return the step
-	 */
-	public byte getStep() {
-		return this.step;
 	}
 
 	/*

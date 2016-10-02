@@ -20,6 +20,9 @@ import com.lasso.exception.ObjectParamException;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdateJobStageRequest extends BaseRequest {
 
+	/** The delivery date. */
+	private Date	deliveryDate;
+
 	/** The id job. */
 	@JsonProperty("job_id")
 	private Integer	idJob;
@@ -27,13 +30,19 @@ public class UpdateJobStageRequest extends BaseRequest {
 	/** The stage. */
 	private Byte	stage;
 
-	/** The delivery date. */
-	private Date	deliveryDate;
-
 	/**
 	 * Instantiates a new confirm order request.
 	 */
 	public UpdateJobStageRequest() {
+	}
+
+	/**
+	 * Gets the delivery date.
+	 *
+	 * @return the delivery date
+	 */
+	public Date getDeliveryDate() {
+		return this.deliveryDate;
 	}
 
 	/**
@@ -52,15 +61,6 @@ public class UpdateJobStageRequest extends BaseRequest {
 	 */
 	public Byte getStage() {
 		return this.stage;
-	}
-
-	/**
-	 * Gets the delivery date.
-	 *
-	 * @return the delivery date
-	 */
-	public Date getDeliveryDate() {
-		return this.deliveryDate;
 	}
 
 	/**
@@ -88,9 +88,9 @@ public class UpdateJobStageRequest extends BaseRequest {
 	public void setStage(Byte __stage) {
 		if (__stage != null) {
 			if (__stage.equals(JobStageConstant.JOB_STAGE_1ST_DRAFT.getCode())
-			        || (__stage.equals(JobStageConstant.JOB_STAGE_REVISED.getCode()))
-			        || (__stage.equals(JobStageConstant.JOB_STAGE_FINAL_ARTWORK.getCode()))
-			        || (__stage.equals(JobStageConstant.JOB_STAGE_COMPLETED.getCode()))) {
+					|| (__stage.equals(JobStageConstant.JOB_STAGE_REVISED.getCode()))
+					|| (__stage.equals(JobStageConstant.JOB_STAGE_FINAL_ARTWORK.getCode()))
+					|| (__stage.equals(JobStageConstant.JOB_STAGE_COMPLETED.getCode()))) {
 				this.stage = __stage;
 			}
 		}

@@ -40,6 +40,9 @@ public class ImplMessageManagement implements MessageManagement {
 	@Autowired
 	private AccountDAO	accountDAO;
 
+	/** The firebase api key. */
+	private String		firebaseApiKey;
+
 	/** The job DAO. */
 	@Autowired
 	private JobDAO		jobDAO;
@@ -47,18 +50,6 @@ public class ImplMessageManagement implements MessageManagement {
 	/** The message DAO. */
 	@Autowired
 	private MessageDAO	messageDAO;
-
-	/** The firebase api key. */
-	private String		firebaseApiKey;
-
-	/**
-	 * Sets the firebase api key.
-	 *
-	 * @param __firebaseApiKey the new firebase api key
-	 */
-	public void setFirebaseApiKey(String __firebaseApiKey) {
-		this.firebaseApiKey = __firebaseApiKey;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -89,7 +80,13 @@ public class ImplMessageManagement implements MessageManagement {
 			}
 			Job _job = ImplMessageManagement.this.jobDAO.getJobById(_rootMessage.getJobId());
 			if (_job != null) {
-				_data[2] = _job;
+				if (__account.getRole().equals(Constant.ROLE_DESIGNER)) {
+					_data[2] = _job;
+				}
+				else if (_job.getPaid().equals((byte) 1)
+				        && __account.getRole().equals(Constant.ROLE_USER)) {
+					_data[2] = _job;
+				}
 			}
 			_messageDatas.add(_data);
 		});
@@ -133,30 +130,31 @@ public class ImplMessageManagement implements MessageManagement {
 	 */
 	@Override
 	public void sendMessage(Account __sender, SendMessageRequest __sendMessageRequest) {
-		Account _receiver = this.accountDAO.getAccountById(__sendMessageRequest.getIdReceiver());
-		if (_receiver == null) {
-			throw new NotFoundException("Receiver not found");
-		}
 		Message _rootMessage = this.messageDAO.getRootMessage(__sendMessageRequest.getIdRoot());
 		if (_rootMessage == null) {
 			throw new NotFoundException("Root message not found");
 		}
+		int _idReceiver = _rootMessage.getFromAccountId().equals(__sender.getId())
+		        ? _rootMessage.getToAccountId() : _rootMessage.getFromAccountId();
 		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
-		        __sendMessageRequest.getMessage(), _rootMessage.getTitle(), _receiver.getId());
+		        __sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
+		        _rootMessage.getTitle(), _idReceiver);
 		this.messageDAO.saveMessage(_message);
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
+				Account _receiver = ImplMessageManagement.this.accountDAO
+				        .getAccountById(_idReceiver);
 				SendPushRequest _pushRequest = new SendPushRequest();
 				_pushRequest.setNotification(
 				        new PushNotification(_message.getTitle(), _message.getMessage()));
 				_pushRequest.setTo(_receiver.getDeviceId());
 				try {
-					sendPush(_pushRequest);
+					ImplMessageManagement.this.sendPush(_pushRequest);
 				}
 				catch (Exception _ex) {
-					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 
 			}
@@ -177,7 +175,7 @@ public class ImplMessageManagement implements MessageManagement {
 		        .header("Content-Type", "application/json")
 		        .header("Authorization", "key=" + this.firebaseApiKey)
 		        .body(_mapper.writeValueAsString(__pushRequest)).asString();
-		Logger _logger = Logger.getLogger(getClass());
+		Logger _logger = Logger.getLogger(this.getClass());
 		_logger.info("Send push status: " + _response.getStatus());
 		_logger.info("Send push response: " + _response.getBody());
 		// SendPushResponse _pushResponse = _mapper.readValue(_response.getBody(),
@@ -193,6 +191,15 @@ public class ImplMessageManagement implements MessageManagement {
 	 */
 	public void setAccountDAO(AccountDAO __accountDAO) {
 		this.accountDAO = __accountDAO;
+	}
+
+	/**
+	 * Sets the firebase api key.
+	 *
+	 * @param __firebaseApiKey the new firebase api key
+	 */
+	public void setFirebaseApiKey(String __firebaseApiKey) {
+		this.firebaseApiKey = __firebaseApiKey;
 	}
 
 	/**

@@ -15,10 +15,6 @@ import com.lasso.exception.ObjectParamException;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SendMessageRequest extends BaseRequest {
 
-	/** The id receiver. */
-	@JsonProperty("receiver_id")
-	private Integer	idReceiver;
-
 	/** The id root. */
 	@JsonProperty("root_id")
 	private Integer	idRoot;
@@ -31,15 +27,6 @@ public class SendMessageRequest extends BaseRequest {
 	 * Instantiates a new send message request.
 	 */
 	public SendMessageRequest() {
-	}
-
-	/**
-	 * Gets the id receiver.
-	 *
-	 * @return the idReceiver
-	 */
-	public Integer getIdReceiver() {
-		return this.idReceiver;
 	}
 
 	/**
@@ -67,9 +54,6 @@ public class SendMessageRequest extends BaseRequest {
 	 */
 	@Override
 	public void validate() throws ObjectParamException {
-		if (this.idReceiver == null) {
-			throw new ObjectParamException("Invalid designer");
-		}
 		if (this.idRoot == null) {
 			throw new ObjectParamException("Invalid root message");
 		}

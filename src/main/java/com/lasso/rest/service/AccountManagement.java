@@ -31,7 +31,7 @@ public interface AccountManagement {
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
 	public void changeAccountDetail(Account __account,
-	        AccountChangeDetailRequest __accountChangeDetailRequest);
+			AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
@@ -62,7 +62,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	public String forgotPassword(String __email)
-	        throws NotFoundException, AddressException, MessagingException;
+			throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Gets the all accounts.
@@ -134,8 +134,8 @@ public interface AccountManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void sendActivationEmail(String __email, String __refLink, String __role,
-	        String __firstName)
-	        throws AddressException, MessagingException, URISyntaxException, IOException;
+			String __firstName)
+					throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Send reset password email.
@@ -150,8 +150,8 @@ public interface AccountManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void sendResetPasswordEmail(String __email, String __refLink, String __role,
-	        String __firstName)
-	        throws AddressException, MessagingException, URISyntaxException, IOException;
+			String __firstName)
+					throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Validate the token to verify secured account.

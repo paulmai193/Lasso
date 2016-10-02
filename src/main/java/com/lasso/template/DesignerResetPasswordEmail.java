@@ -16,11 +16,11 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DesignerResetPasswordEmail implements EmailTemplate {
 
-	/** The activate link. */
-	private String	resetLink;
-
 	/** The first name. */
 	private String	firstName;
+
+	/** The activate link. */
+	private String	resetLink;
 
 	/** The template. */
 	private File	template;
@@ -34,7 +34,7 @@ public class DesignerResetPasswordEmail implements EmailTemplate {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DesignerResetPasswordEmail(String __firstName, String __resetLink)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.resetLink = __resetLink;
@@ -86,7 +86,7 @@ public class DesignerResetPasswordEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/designer-forgot-pass").toURI());
+				.getResource("/email-template/designer-forgot-pass").toURI());
 	}
 
 }

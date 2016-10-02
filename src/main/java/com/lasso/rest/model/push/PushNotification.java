@@ -13,11 +13,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PushNotification {
 
-	/** The title. */
-	private String	title;
-	
 	/** The body. */
 	private String	body;
+
+	/** The title. */
+	private String	title;
 
 	/**
 	 * Instantiates a new push notification.
@@ -32,21 +32,21 @@ public class PushNotification {
 	}
 
 	/**
-	 * Gets the title.
-	 *
-	 * @return the title
-	 */
-	public String getTitle() {
-		return this.title;
-	}
-
-	/**
 	 * Gets the body.
 	 *
 	 * @return the body
 	 */
 	public String getBody() {
 		return this.body;
+	}
+
+	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
+	public String getTitle() {
+		return this.title;
 	}
 
 }

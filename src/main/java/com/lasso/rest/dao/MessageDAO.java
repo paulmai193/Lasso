@@ -20,6 +20,14 @@ public interface MessageDAO extends HibernateSession {
 	Message getLastMessageOfRoot(Message __rootMessage);
 
 	/**
+	 * Gets the list message by id.
+	 *
+	 * @param __idMessage the id message
+	 * @return the list message by id
+	 */
+	Message getListMessageById(Integer __idMessage);
+
+	/**
 	 * Gets the list message by id parent.
 	 *
 	 * @param __idMessageRoot the id root message

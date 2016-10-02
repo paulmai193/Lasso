@@ -93,14 +93,14 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("message_id") int __idMessage) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-		        __idMessage);
+				__idMessage);
 		Message _rootMessage = (Message) _messageDatas.get(0)[0];
 		Object[] _orderData = this.userManagement.getOrderDataById(_rootMessage.getJobId());
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-		        null, _prefixJob, _prefixPortfolio);
+				null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas, _prefixAvatar);
 	}
 
