@@ -60,9 +60,9 @@ public class ImplMessageDAO implements MessageDAO {
 	@Override
 	public List<Message> getListMessageByIdParent(int __idMessageRoot) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
-		        .add(Restrictions.eq("parentId", __idMessageRoot))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("created")).list();
+				.add(Restrictions.eq("parentId", __idMessageRoot))
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+				.addOrder(Order.asc("created")).list();
 	}
 
 	/*
@@ -74,9 +74,9 @@ public class ImplMessageDAO implements MessageDAO {
 	@Override
 	public List<Message> getListRootMessageByIdReceiver(Integer __idReceiver) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
-		        .add(Restrictions.eq("toAccountId", __idReceiver))
-		        .add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
-		        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
+				.add(Restrictions.eq("toAccountId", __idReceiver))
+				.add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
 	}
 
 	/*
@@ -88,9 +88,9 @@ public class ImplMessageDAO implements MessageDAO {
 	@Override
 	public List<Message> getListRootMessageByIdRSender(Integer __idSender) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
-		        .add(Restrictions.eq("fromAccountId", __idSender))
-		        .add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
-		        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
+				.add(Restrictions.eq("fromAccountId", __idSender))
+				.add(Restrictions.eq("parentId", 0)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
 	}
 
 	/*
@@ -101,7 +101,7 @@ public class ImplMessageDAO implements MessageDAO {
 	@Override
 	public Message getRootMessage(int __idMessage) {
 		Message _rootMessage = this.sessionFactory.getCurrentSession().get(Message.class,
-		        __idMessage);
+				__idMessage);
 		if (_rootMessage.getParentId() > 0) {
 			_rootMessage = this.getRootMessage(_rootMessage.getParentId());
 		}

@@ -3,6 +3,7 @@
  */
 package com.lasso.rest.model.datasource;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Date;
@@ -20,6 +21,10 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.DesignerRegisterRequest;
 import com.lasso.rest.model.api.request.UserRegisterRequest;
@@ -394,9 +399,14 @@ public final class Account implements Principal, Serializable {
 	 * Gets the settings.
 	 *
 	 * @return the settings
+	 * @throws JsonParseException the json parse exception
+	 * @throws JsonMappingException the json mapping exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public String getSettings() {
-		return this.settings;
+	public AccountSettings getSettings()
+			throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper _mapper = new ObjectMapper();
+		return _mapper.readValue(this.settings, AccountSettings.class);
 	}
 
 	/**
@@ -631,6 +641,21 @@ public final class Account implements Principal, Serializable {
 	 */
 	public void setRole(Byte __role) {
 		this.role = __role;
+	}
+
+	/**
+	 * Sets the settings.
+	 *
+	 * @param __settings the new settings
+	 */
+	public void setSettings(AccountSettings __settings) {
+		ObjectMapper _mapper = new ObjectMapper();
+		try {
+			this.settings = _mapper.writeValueAsString(this);
+		}
+		catch (JsonProcessingException ex) {
+			this.settings = super.toString();
+		}
 	}
 
 	/**

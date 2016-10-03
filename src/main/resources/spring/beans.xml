@@ -124,6 +124,7 @@
 		lazy-init="false" scope="singleton" parent="projectManagement">
 		<property name="accountRatingDAO" ref="accountRatingDAO" />
 		<property name="promoDAO" ref="promoDAO" />
+		<property name="emailUtil" ref="emailUtil" />
 	</bean>
 	<bean id="messageManagement" class="com.lasso.rest.service.impl.ImplMessageManagement">
 		<property name="accountDAO" ref="accountDAO" />

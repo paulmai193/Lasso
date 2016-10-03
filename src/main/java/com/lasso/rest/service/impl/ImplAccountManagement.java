@@ -31,6 +31,7 @@ import com.lasso.rest.model.api.request.DesignerChangeDetailRequest;
 import com.lasso.rest.model.api.request.UserChangeDetailRequest;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.AccountSettings;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.AccountManagement;
 import com.lasso.template.DesignerActivateEmail;
@@ -217,6 +218,7 @@ public class ImplAccountManagement implements AccountManagement {
 		if (_account == null) {
 			_account = new Account(__registerAccount);
 			_account.setCountryId(__country.getId());
+			_account.setSettings(AccountSettings.createDefault());
 
 			// Request email available, create new account
 			String _otp = "" + EncryptionUtil.generateTOTP(_account.getEmail().getBytes());
