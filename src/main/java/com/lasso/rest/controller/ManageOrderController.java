@@ -37,7 +37,9 @@ import com.lasso.rest.model.api.response.JobOfUserDetailResponse;
 import com.lasso.rest.model.api.response.ListDesignersResponse;
 import com.lasso.rest.model.api.response.ListJobsOfUserResponse;
 import com.lasso.rest.model.api.response.OrderPaymentDetailResponse;
+import com.lasso.rest.model.api.response.RatingDetailResponse;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.AccountsRating;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.PromoCode;
@@ -106,7 +108,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public BriefNewJobResponse briefNewJob(CreateNewOrderRequest __createNewJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		__createNewJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		int _idJob = this.userManagement.createNewOrder(_user, __createNewJobRequest);
@@ -177,7 +179,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editJob(EditOrderRequest __editJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
@@ -208,10 +210,10 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/list/designers")
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
-			@QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
-			@QueryParam("filter_2") double __filterBudget,
-			@QueryParam("filter_3") int __filterQuality) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
+	        @QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
+	        @QueryParam("filter_2") double __filterBudget,
+	        @QueryParam("filter_3") int __filterQuality) {
 		int _size = 8;
 		List<Integer> _listIdsStyle = new ArrayList<>();
 		String[] _s = __idsStyle.split(",");
@@ -231,12 +233,12 @@ public class ManageOrderController extends BaseController {
 
 		// Get portfolios by category and style
 		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, _size,
-				__idCategory, _listIdsStyle, __idType, _filter);
+		        __idCategory, _listIdsStyle, __idType, _filter);
 		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 
 		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
-				__index + _size);
+		        __index + _size);
 	}
 
 	/**
@@ -249,7 +251,7 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/manage/detail")
 	public JobOfUserDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-			throws javassist.NotFoundException {
+	        throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
@@ -295,7 +297,7 @@ public class ManageOrderController extends BaseController {
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
-					_prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
+			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -316,12 +318,27 @@ public class ManageOrderController extends BaseController {
 		try {
 			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
 			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
-					(PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
-					(Type) _paymentDetail[3], (Category) _paymentDetail[4]);
+			        (PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
+			        (Type) _paymentDetail[3], (Category) _paymentDetail[4]);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
 		}
+	}
+
+	/**
+	 * Gets the rating detail.
+	 *
+	 * @param __idJob the id job
+	 * @return the rating detail
+	 */
+	@GET
+	@Path("/rating/detail")
+	public RatingDetailResponse getRatingDetail(@QueryParam("job_id") int __idJob) {
+		Object[] _datas = this.userManagement.getJobRatingDetail(__idJob);
+		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
+		return new RatingDetailResponse((Account) _datas[0], (AccountsRating) _datas[1],
+		        _prefixAvatar);
 	}
 
 	/**

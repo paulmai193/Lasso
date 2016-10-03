@@ -219,7 +219,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 * (non-Javadoc)
 	 * 
 	 * @see com.lasso.rest.service.UserManagement#completeJob(com.lasso.rest.model.api.request.
-	 * CompleteJobRequest)
+	 * RatingDetailResponse)
 	 */
 	@Override
 	public void completeJob(CompleteJobRequest __completeJobRequest) {
@@ -230,14 +230,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		_job.setCompleted((byte) 1);
 		this.jobDAO.updateJob(_job);
 		AccountsRating _accountsRating = new AccountsRating(__completeJobRequest.getIdDesigner(),
-		        __completeJobRequest.getCommunication(), __completeJobRequest.getExperience(),
-		        __completeJobRequest.getIdJob());
+		        __completeJobRequest.getIdJob(), __completeJobRequest.getCommunication(),
+		        __completeJobRequest.getExperience(), __completeJobRequest.getQuality());
 		this.accountRatingDAO.saveRating(_accountsRating);
-		Account _designer = this.accountDAO.getAccountById(__completeJobRequest.getIdDesigner());
-		if (_designer != null) {
-			_designer.setRewards(__completeJobRequest.getQuality());
-			this.accountDAO.updateAccount(_designer);
-		}
 	}
 
 	/*
@@ -444,6 +439,28 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			return _data;
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UserManagement#getJobRatingDetail(int)
+	 */
+	@Override
+	public Object[] getJobRatingDetail(int __idJob) {
+		JobsAccount _jobsAccount = this.jobAccountDAO.getByJobId(__idJob);
+		if (_jobsAccount == null) {
+			throw new NotFoundException("Job account not found");
+		}
+		Account _designer = this.accountDAO.getAccountById(_jobsAccount.getAccountId());
+		if (_designer == null) {
+			throw new NotFoundException("Designer not found");
+		}
+		AccountsRating _rating = this.accountRatingDAO.getByAccountAndJob(_designer.getId(),
+		        __idJob);
+
+		Object[] _data = { _designer, _rating };
+		return _data;
 	}
 
 	/*

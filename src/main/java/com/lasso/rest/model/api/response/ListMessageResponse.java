@@ -112,10 +112,10 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 
 			@Override
 			public void accept(Object[] __messageData) {
+				Message _message = (Message) __messageData[0];
+				Account _sender = (Account) __messageData[1];
+				Job _job = (Job) __messageData[2];
 				try {
-					Message _message = (Message) __messageData[0];
-					Account _sender = (Account) __messageData[1];
-					Job _job = (Job) __messageData[2];
 					__gen.writeStartObject();
 					__gen.writeNumberField("message_id", _message.getId());
 					__gen.writeStringField("message_title", _job.getDescription());
@@ -141,7 +141,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 					__gen.writeNumberField("job_id", _job.getId());
 					__gen.writeEndObject();
 				}
-				catch (IOException _ex) {
+				catch (Exception _ex) {
 					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			}

@@ -55,6 +55,39 @@ public class PublicController extends BaseController {
 	}
 
 	/**
+	 * Gets the faq.
+	 *
+	 * @param __staticPage the static page
+	 * @return the faq
+	 */
+	@GET
+	@Path("/public/page/{static_page}")
+	@Produces(MediaType.TEXT_HTML)
+	public String getFAQ(@PathParam("static_page") String __staticPage) {
+		Map<String, String> _config = this.genericManagement.loadConfig();
+		switch (__staticPage) {
+			case "faq":
+				return _config.get("FAQ.content");
+
+			case "term_of_service":
+				return _config.get("Page.term_of_service");
+
+			case "privacy":
+				return _config.get("Page.privacy");
+
+			case "help_center":
+				return _config.get("Page.help_center");
+
+			case "partner":
+				return _config.get("Page.partner");
+
+			default:
+				return "";
+		}
+
+	}
+
+	/**
 	 * Gets the service fee.
 	 *
 	 * @return the service fee
@@ -90,7 +123,7 @@ public class PublicController extends BaseController {
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Logger.getLogger(this.getClass())
-		        .info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
+		.info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();
@@ -98,9 +131,9 @@ public class PublicController extends BaseController {
 		Map<String, String> map = ipnlistener.getIpnMap();
 
 		Logger.getLogger(this.getClass())
-		        .info("******* IPN VERIFY (name:value) pair : " + map + " "
-		                + "######### TransactionType : " + transactionType
-		                + " ======== IPN verified : " + isIpnVerified);
+		.info("******* IPN VERIFY (name:value) pair : " + map + " "
+				+ "######### TransactionType : " + transactionType
+				+ " ======== IPN verified : " + isIpnVerified);
 	}
 
 	/**
@@ -110,39 +143,6 @@ public class PublicController extends BaseController {
 	 */
 	public void setGenericManagement(GenericManagement __genericManagement) {
 		this.genericManagement = __genericManagement;
-	}
-
-	/**
-	 * Gets the faq.
-	 *
-	 * @param __staticPage the static page
-	 * @return the faq
-	 */
-	@GET
-	@Path("/public/page/{static_page}")
-	@Produces(MediaType.TEXT_HTML)
-	public String getFAQ(@PathParam("static_page") String __staticPage) {
-		Map<String, String> _config = this.genericManagement.loadConfig();
-		switch (__staticPage) {
-			case "faq":
-				return _config.get("FAQ.content");
-
-			case "term_of_service":
-				return _config.get("Page.term_of_service");
-
-			case "privacy":
-				return _config.get("Page.privacy");
-
-			case "help_center":
-				return _config.get("Page.help_center");
-
-			case "partner":
-				return _config.get("Page.partner");
-
-			default:
-				return "";
-		}
-
 	}
 
 }

@@ -67,16 +67,19 @@ public class AccountsRating implements Serializable {
 	 * Instantiates a new accounts rating.
 	 *
 	 * @param __designerId the designer id
+	 * @param __jobId the job id
 	 * @param __communication the communication
 	 * @param __experience the experience
-	 * @param __jobId the job id
+	 * @param __quality the quality
 	 */
-	public AccountsRating(int __designerId, int __communication, int __experience, int __jobId) {
+	public AccountsRating(int __designerId, int __jobId, int __communication, int __experience,
+	        int __quality) {
 		super();
 		this.accountId = __designerId;
 		this.communication = __communication;
 		this.experience = __experience;
 		this.jobId = __jobId;
+		this.quality = __quality;
 	}
 
 	/**

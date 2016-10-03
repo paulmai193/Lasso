@@ -1,6 +1,7 @@
 package com.lasso.rest.dao.impl;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,18 @@ public class ImplAccountRatingDAO implements AccountRatingDAO {
 	/** The session factory. */
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.AccountRatingDAO#getByAccountAndJob(java.lang.Integer, int)
+	 */
+	@Override
+	public AccountsRating getByAccountAndJob(Integer __idAccount, int __idJob) {
+		return (AccountsRating) this.sessionFactory.getCurrentSession()
+				.createCriteria(AccountsRating.class).add(Restrictions.eq("accountId", __idAccount))
+				.add(Restrictions.eq("jobId", __idJob)).uniqueResult();
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -96,6 +96,14 @@ public interface UserManagement extends ProjectManagement {
 	Object[] getJobDataOfUserById(Account __user, int __idJob) throws NotFoundException;
 
 	/**
+	 * Gets the job rating detail.
+	 *
+	 * @param __idJob the id job
+	 * @return the job rating detail
+	 */
+	Object[] getJobRatingDetail(int __idJob);
+
+	/**
 	 * Gets the list jobs data of user.
 	 *
 	 * @param __user the user
