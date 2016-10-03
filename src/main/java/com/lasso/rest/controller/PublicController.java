@@ -1,19 +1,16 @@
 package com.lasso.rest.controller;
 
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +90,7 @@ public class PublicController extends BaseController {
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Logger.getLogger(this.getClass())
-		.info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
+		        .info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();
@@ -101,9 +98,9 @@ public class PublicController extends BaseController {
 		Map<String, String> map = ipnlistener.getIpnMap();
 
 		Logger.getLogger(this.getClass())
-		.info("******* IPN VERIFY (name:value) pair : " + map + " "
-				+ "######### TransactionType : " + transactionType
-				+ " ======== IPN verified : " + isIpnVerified);
+		        .info("******* IPN VERIFY (name:value) pair : " + map + " "
+		                + "######### TransactionType : " + transactionType
+		                + " ======== IPN verified : " + isIpnVerified);
 	}
 
 	/**
@@ -116,37 +113,36 @@ public class PublicController extends BaseController {
 	}
 
 	/**
-	 * Test active.
+	 * Gets the faq.
 	 *
-	 * @param __request the request
-	 * @param __otp the otp
-	 * @return the response
-	 * @throws URISyntaxException the URI syntax exception
+	 * @param __staticPage the static page
+	 * @return the faq
 	 */
 	@GET
-	@Path("/public/active")
-	public Response testActive(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
-		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=active&otp=" + __otp;
-		return Response.seeOther(new URI(_redirectSchema)).build();
-	}
+	@Path("/public/page/{static_page}")
+	@Produces(MediaType.TEXT_HTML)
+	public String getFAQ(@PathParam("static_page") String __staticPage) {
+		Map<String, String> _config = this.genericManagement.loadConfig();
+		switch (__staticPage) {
+			case "faq":
+				return _config.get("FAQ.content");
 
-	/**
-	 * Test reset.
-	 *
-	 * @param __request the request
-	 * @param __otp the otp
-	 * @return the response
-	 * @throws URISyntaxException the URI syntax exception
-	 */
-	@GET
-	@Path("/public/reset")
-	public Response testReset(@Context HttpServletRequest __request,
-			@QueryParam("otp") String __otp) throws URISyntaxException {
-		String _redirectSchema = "lasso://" + __request.getServerName() + ":"
-				+ __request.getServerPort() + "/verify?type=reset&otp=" + __otp;
-		return Response.seeOther(new URI(_redirectSchema)).build();
+			case "term_of_service":
+				return _config.get("Page.term_of_service");
+
+			case "privacy":
+				return _config.get("Page.privacy");
+
+			case "help_center":
+				return _config.get("Page.help_center");
+
+			case "partner":
+				return _config.get("Page.partner");
+
+			default:
+				return "";
+		}
+
 	}
 
 }
