@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
 
@@ -37,9 +36,6 @@ public class MessageDetailResponse extends BaseResponse {
 
 	/** The order detail. */
 	private GetOrderResponse	orderDetail;
-
-	/** The prefix url. */
-	private String				prefixUrl;
 
 	/**
 	 * Instantiates a new message detail response.
@@ -76,14 +72,11 @@ public class MessageDetailResponse extends BaseResponse {
 	 *
 	 * @param __orderDetail the order detail
 	 * @param __messageDatas the message datas
-	 * @param __prefixUrl the prefix url
 	 */
-	public MessageDetailResponse(GetOrderResponse __orderDetail, List<Object[]> __messageDatas,
-			String __prefixUrl) {
+	public MessageDetailResponse(GetOrderResponse __orderDetail, List<Object[]> __messageDatas) {
 		super();
 		this.orderDetail = __orderDetail;
 		this.messageDatas = __messageDatas;
-		this.prefixUrl = __prefixUrl;
 	}
 
 	/**
@@ -104,20 +97,10 @@ public class MessageDetailResponse extends BaseResponse {
 		return this.orderDetail;
 	}
 
-	/**
-	 * Gets the prefix url.
-	 *
-	 * @return the prefixUrl
-	 */
-	public String getPrefixUrl() {
-		return this.prefixUrl;
-	}
-
 }
 
 class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(MessageDetailResponse __value, JsonGenerator __gen,
 			SerializerProvider __serializers) throws IOException, JsonProcessingException {
@@ -129,75 +112,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		}
 
 		__gen.writeObjectFieldStart("data");
-
-		__gen.writeObjectFieldStart("job");
-		GetOrderResponse _orderDetail = __value.getOrderDetail();
-		Job _job = (Job) _orderDetail.getData()[0];
-		List<Style> _styles = (List<Style>) _orderDetail.getData()[2];
-		Type _type = (Type) _orderDetail.getData()[3];
-		Category _category = (Category) _orderDetail.getData()[4];
-
-		__gen.writeStringField("job_description", _job.getDescription());
-		__gen.writeArrayFieldStart("styles");
-		_styles.forEach(new Consumer<Style>() {
-
-			@Override
-			public void accept(Style __style) {
-				try {
-					__gen.writeStartObject();
-					__gen.writeStringField("title", __style.getTitle());
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
-
-			}
-		});
-		__gen.writeEndArray();
-		__gen.writeStringField("type_title", _type.getTitle());
-		__gen.writeStringField("category_title", _category.getTitle());
-		DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		__gen.writeStringField("submission", _dateFormat.format(_job.getSubmission()));
-		__gen.writeStringField("objective", _job.getObjective());
-		__gen.writeStringField("asset_url", _job.getAssetsUrl());
-		__gen.writeStringField("further_information",
-				_job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
-		__gen.writeEndObject();
-
-		__gen.writeArrayFieldStart("messages");
-		_dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
-		__value.getMessageDatas().forEach(new Consumer<Object[]>() {
-
-			@Override
-			public void accept(Object[] __messageData) {
-				try {
-					Message _message = (Message) __messageData[0];
-					Account _sender = (Account) __messageData[1];
-					__gen.writeStartObject();
-					__gen.writeNumberField("message_id", _message.getId());
-					__gen.writeStringField("message_content", _message.getMessage());
-					__gen.writeNumberField("sender_id", _sender.getId());
-					__gen.writeStringField("sender_name", _sender.getName());
-					if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
-						__gen.writeStringField("sender_avatar", "");
-					}
-					else {
-						__gen.writeStringField("sender_avatar",
-								__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
-					}
-					DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
-					__gen.writeStringField("message_time",
-							_dateFormat.format(_message.getCreated()));
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
-			}
-		});
-		__gen.writeEndArray();
-
+		Job _job = (Job) __value.getOrderDetail().getData()[0];
 		if (_job.getPaid().equals((byte) 0)) {
 			__gen.writeStringField("action_status", "job_confirm");
 		}
@@ -208,9 +123,111 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			__gen.writeStringField("action_status", "job_explain");
 		}
 
+		__gen.writeObjectFieldStart("job");
+		this.serializeJob(__gen, __value);
 		__gen.writeEndObject();
 
+		__gen.writeArrayFieldStart("messages");
+		__value.getMessageDatas().forEach(_data -> this.serializeMessages(__gen, _data,
+				__value.getOrderDetail().getPrefixAvatar()));
+		__gen.writeEndArray();
+
 		__gen.writeEndObject();
+		__gen.writeEndObject();
+	}
+
+	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
+		try {
+			if (imageName == null || imageName.trim().isEmpty()) {
+				__gen.writeStringField("original", "");
+				__gen.writeStringField("small", "");
+				__gen.writeStringField("icon", "");
+				__gen.writeStringField("retina", "");
+			}
+			else {
+				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
+				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
+				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
+				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
+			}
+		}
+		catch (Exception _ex) {
+			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+		}
+
+	}
+
+	private void serializeJob(JsonGenerator __gen, MessageDetailResponse __value) {
+		GetOrderResponse _orderDetail = __value.getOrderDetail();
+		Job _job = (Job) _orderDetail.getData()[0];
+
+		@SuppressWarnings("unchecked")
+		List<Style> _styles = (List<Style>) _orderDetail.getData()[2];
+		Type _type = (Type) _orderDetail.getData()[3];
+		Category _category = (Category) _orderDetail.getData()[4];
+
+		try {
+			__gen.writeStringField("job_description", _job.getDescription());
+			__gen.writeArrayFieldStart("styles");
+			_styles.forEach(_style -> {
+				try {
+					__gen.writeStartObject();
+					__gen.writeStringField("title", _style.getTitle());
+					__gen.writeEndObject();
+				}
+				catch (IOException _ex) {
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+				}
+
+			});
+			__gen.writeEndArray();
+			__gen.writeStringField("type_title", _type.getTitle());
+			__gen.writeStringField("category_title", _category.getTitle());
+			DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			__gen.writeStringField("submission", _dateFormat.format(_job.getSubmission()));
+			__gen.writeStringField("objective", _job.getObjective());
+			__gen.writeStringField("asset_url", _job.getAssetsUrl());
+			__gen.writeStringField("further_information",
+					_job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
+			__gen.writeArrayFieldStart("images");
+			if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
+				for (String _referenceImage : _job.getReference().trim().split(",")) {
+					__gen.writeStartObject();
+					this.serializeImage(__gen, _orderDetail.getPrefixJob(), _referenceImage);
+					__gen.writeEndObject();
+				}
+			}
+			__gen.writeEndArray();
+		}
+		catch (IOException _ex) {
+			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+		}
+	}
+
+	private void serializeMessages(JsonGenerator __gen, Object[] __messageData,
+			String __prefixJobUrl) {
+		try {
+			Message _message = (Message) __messageData[0];
+			Account _sender = (Account) __messageData[1];
+			__gen.writeStartObject();
+			__gen.writeNumberField("message_id", _message.getId());
+			__gen.writeStringField("message_content", _message.getMessage());
+			__gen.writeNumberField("sender_id", _sender.getId());
+			__gen.writeStringField("sender_name", _sender.getName());
+			if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
+				__gen.writeStringField("sender_avatar", "");
+			}
+			else {
+				__gen.writeStringField("sender_avatar",
+						__prefixJobUrl + "/Icon/" + _sender.getImage());
+			}
+			DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
+			__gen.writeStringField("message_time", _dateFormat.format(_message.getCreated()));
+			__gen.writeEndObject();
+		}
+		catch (IOException _ex) {
+			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+		}
 	}
 
 }

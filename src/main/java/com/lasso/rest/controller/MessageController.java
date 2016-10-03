@@ -101,7 +101,7 @@ public class MessageController extends BaseController {
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
 				null, _prefixJob, _prefixPortfolio);
-		return new MessageDetailResponse(_orderDetail, _messageDatas, _prefixAvatar);
+		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 
 	/**

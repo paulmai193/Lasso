@@ -92,26 +92,12 @@ public class Message implements Serializable {
 	 * @param __fromAccountId the from account id
 	 * @param __jobId the job id
 	 * @param __message the message
-	 * @param __title the title
-	 * @param __toAccountId the to account id
-	 */
-	public Message(Integer __fromAccountId, Integer __jobId, String __message, String __title,
-	        Integer __toAccountId) {
-		this(__fromAccountId, __jobId, __message, 0, __title, __toAccountId);
-	}
-
-	/**
-	 * Instantiates a new message.
-	 *
-	 * @param __fromAccountId the from account id
-	 * @param __jobId the job id
-	 * @param __message the message
 	 * @param __parentId the parent id
 	 * @param __title the title
 	 * @param __toAccountId the to account id
 	 */
 	public Message(Integer __fromAccountId, Integer __jobId, String __message, Integer __parentId,
-	        String __title, Integer __toAccountId) {
+			String __title, Integer __toAccountId) {
 		super();
 		this.created = this.modified = new Date();
 		this.fromAccountId = __fromAccountId;
@@ -121,6 +107,20 @@ public class Message implements Serializable {
 		this.status = 1;
 		this.title = __title;
 		this.toAccountId = __toAccountId;
+	}
+
+	/**
+	 * Instantiates a new message.
+	 *
+	 * @param __fromAccountId the from account id
+	 * @param __jobId the job id
+	 * @param __message the message
+	 * @param __title the title
+	 * @param __toAccountId the to account id
+	 */
+	public Message(Integer __fromAccountId, Integer __jobId, String __message, String __title,
+			Integer __toAccountId) {
+		this(__fromAccountId, __jobId, __message, 0, __title, __toAccountId);
 	}
 
 	/**

@@ -73,4 +73,11 @@ public interface MessageDAO extends HibernateSession {
 	 */
 	void saveMessages(List<Message> __messages);
 
+	/**
+	 * Update message.
+	 *
+	 * @param __message the message
+	 */
+	void updateMessage(Message __message);
+
 }

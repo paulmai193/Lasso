@@ -143,7 +143,8 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 				__gen.writeEndObject();
 			}
 			catch (Exception _ex) {
-				Logger.getLogger(this.getClass()).warn("Unwanted error of job " + _job.getId(), _ex);
+				Logger.getLogger(this.getClass()).warn("Unwanted error of job " + _job.getId(),
+						_ex);
 			}
 
 		}

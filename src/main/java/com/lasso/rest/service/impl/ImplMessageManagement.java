@@ -71,10 +71,10 @@ public class ImplMessageManagement implements MessageManagement {
 		_messages.forEach(_rootMessage -> {
 			Object[] _data = { null, null, null };// {message, sender, job}
 			Message _lastMessage = ImplMessageManagement.this.messageDAO
-			        .getLastMessageOfRoot(_rootMessage);
+					.getLastMessageOfRoot(_rootMessage);
 			_data[0] = _lastMessage == null ? _rootMessage : _lastMessage;
 			Account _sender = ImplMessageManagement.this.accountDAO
-			        .getAccountById(_rootMessage.getFromAccountId());
+					.getAccountById(_rootMessage.getFromAccountId());
 			if (_sender != null) {
 				_data[1] = _sender;
 			}
@@ -84,7 +84,7 @@ public class ImplMessageManagement implements MessageManagement {
 					_data[2] = _job;
 				}
 				else if (_job.getPaid().equals((byte) 1)
-				        && __account.getRole().equals(Constant.ROLE_USER)) {
+						&& __account.getRole().equals(Constant.ROLE_USER)) {
 					_data[2] = _job;
 				}
 			}
@@ -111,8 +111,13 @@ public class ImplMessageManagement implements MessageManagement {
 
 		List<Object[]> _messageDatas = new ArrayList<>();
 		_messages.forEach(_message -> {
+			// Update read status for these messages
+			_message.setIsRead((byte) 1);
+			this.messageDAO.updateMessage(_message);
+
+			// Get return data
 			Account _sender = ImplMessageManagement.this.accountDAO
-			        .getAccountById(_message.getFromAccountId());
+					.getAccountById(_message.getFromAccountId());
 			if (_sender != null) {
 				Object[] _data = { _message, _sender };
 				_messageDatas.add(_data);
@@ -135,30 +140,30 @@ public class ImplMessageManagement implements MessageManagement {
 			throw new NotFoundException("Root message not found");
 		}
 		int _idReceiver = _rootMessage.getFromAccountId().equals(__sender.getId())
-		        ? _rootMessage.getToAccountId() : _rootMessage.getFromAccountId();
-		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
-		        __sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
-		        _rootMessage.getTitle(), _idReceiver);
-		this.messageDAO.saveMessage(_message);
-		new Thread(new Runnable() {
+				? _rootMessage.getToAccountId() : _rootMessage.getFromAccountId();
+				Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
+						__sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
+						_rootMessage.getTitle(), _idReceiver);
+				this.messageDAO.saveMessage(_message);
+				new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				Account _receiver = ImplMessageManagement.this.accountDAO
-				        .getAccountById(_idReceiver);
-				SendPushRequest _pushRequest = new SendPushRequest();
-				_pushRequest.setNotification(
-				        new PushNotification(_message.getTitle(), _message.getMessage()));
-				_pushRequest.setTo(_receiver.getDeviceId());
-				try {
-					ImplMessageManagement.this.sendPush(_pushRequest);
-				}
-				catch (Exception _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
+					@Override
+					public void run() {
+						Account _receiver = ImplMessageManagement.this.accountDAO
+								.getAccountById(_idReceiver);
+						SendPushRequest _pushRequest = new SendPushRequest();
+						_pushRequest.setNotification(
+								new PushNotification(_message.getTitle(), _message.getMessage()));
+						_pushRequest.setTo(_receiver.getDeviceId());
+						try {
+							ImplMessageManagement.this.sendPush(_pushRequest);
+						}
+						catch (Exception _ex) {
+							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+						}
 
-			}
-		}).start();
+					}
+				}).start();
 	}
 
 	/*
@@ -172,9 +177,9 @@ public class ImplMessageManagement implements MessageManagement {
 		final String _firebaseHost = "https://fcm.googleapis.com/fcm/send";
 		ObjectMapper _mapper = new ObjectMapper();
 		HttpResponse<String> _response = Unirest.post(_firebaseHost)
-		        .header("Content-Type", "application/json")
-		        .header("Authorization", "key=" + this.firebaseApiKey)
-		        .body(_mapper.writeValueAsString(__pushRequest)).asString();
+				.header("Content-Type", "application/json")
+				.header("Authorization", "key=" + this.firebaseApiKey)
+				.body(_mapper.writeValueAsString(__pushRequest)).asString();
 		Logger _logger = Logger.getLogger(this.getClass());
 		_logger.info("Send push status: " + _response.getStatus());
 		_logger.info("Send push response: " + _response.getBody());
