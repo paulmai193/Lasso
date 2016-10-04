@@ -54,7 +54,8 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	public JobsAccount getByJobId(int __idJob) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
 		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("deleted", (byte) 0)).add(Restrictions.eq("confirm", (byte) 2))
+		        .add(Restrictions.eq("deleted", (byte) 0))
+		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
 		        .uniqueResult();
 	}
 

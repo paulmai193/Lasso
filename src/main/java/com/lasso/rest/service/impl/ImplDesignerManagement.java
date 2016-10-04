@@ -277,7 +277,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public Object[] getJobDataOfDesignerById(Account __designer, int __idJob) {
-		JobsAccount _jobsAccount = this.jobAccountDAO.getConfirmByJobAndDesignerId(__idJob,
+		JobsAccount _jobsAccount = this.jobAccountDAO.getAcceptByJobAndDesignerId(__idJob,
 		        __designer.getId());
 		if (_jobsAccount == null) {
 			throw new NotFoundException("Job not found");
