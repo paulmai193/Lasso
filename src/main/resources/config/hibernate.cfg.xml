@@ -35,6 +35,7 @@
 		<mapping class="com.lasso.rest.model.datasource.Banner"/>
 		<mapping class="com.lasso.rest.model.datasource.Category"/>
 		<mapping class="com.lasso.rest.model.datasource.Configuration"/>
+		<mapping class="com.lasso.rest.model.datasource.Contact"/>
 		<mapping class="com.lasso.rest.model.datasource.Country"/>
 		<mapping class="com.lasso.rest.model.datasource.Job"/>
 		<mapping class="com.lasso.rest.model.datasource.JobsAccount"/>

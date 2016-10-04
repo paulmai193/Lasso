@@ -39,10 +39,23 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public JobsAccount getAcceptByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("accountId", __idDesigner))
-		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
-		        .uniqueResult();
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
+				.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.JobAccountDAO#getByJobAndDesignerId(java.lang.Integer,
+	 * java.lang.Integer)
+	 */
+	@Override
+	public JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
+		return (JobsAccount) this.sessionFactory.getCurrentSession()
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("accountId", __idDesigner)).uniqueResult();
 	}
 
 	/*
@@ -53,10 +66,10 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public JobsAccount getByJobId(int __idJob) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("deleted", (byte) 0))
-		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
-		        .uniqueResult();
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("deleted", (byte) 0))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
+				.uniqueResult();
 	}
 
 	/*
@@ -68,8 +81,8 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public List<JobsAccount> getByOfferId(int __idJob) {
 		return this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
-		        .add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
-		        .list();
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
+				.list();
 	}
 
 	/*
@@ -81,10 +94,10 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public JobsAccount getConfirmByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("accountId", __idDesigner))
-		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
-		        .uniqueResult();
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
+				.uniqueResult();
 	}
 
 	/*
@@ -96,9 +109,9 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public List<JobsAccount> getListJobsAccountOfDesigner(Integer __idDesigner) {
 		return this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
-		        .add(Restrictions.eq("accountId", __idDesigner))
-		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
-		        .addOrder(Order.desc("created")).list();
+				.add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
+				.addOrder(Order.desc("created")).list();
 	}
 
 	/*
@@ -109,17 +122,10 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	 */
 	public JobsAccount getUnConfirmByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
 		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("accountId", __idDesigner))
-		        .add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_UN_CONFIRM.getCode()))
-		        .uniqueResult();
-	}
-
-	@Override
-	public JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-		        .createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("accountId", __idDesigner)).uniqueResult();
+				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_UN_CONFIRM.getCode()))
+				.uniqueResult();
 	}
 
 	/*

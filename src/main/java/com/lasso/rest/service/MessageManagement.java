@@ -27,10 +27,10 @@ public interface MessageManagement {
 	 * Gets the messages detail of account.
 	 *
 	 * @param __account the account
-	 * @param __idMessage the id message
+	 * @param __idJob the id job
 	 * @return the messages detail of account
 	 */
-	List<Object[]> getMessagesDetailOfAccount(Account __account, int __idMessage);
+	List<Object[]> getMessagesDetailOfAccount(Account __account, int __idJob);
 
 	/**
 	 * Send message.

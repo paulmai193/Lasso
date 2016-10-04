@@ -15,6 +15,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Settings {
 
+	/** The Constant SETTING_OFF. */
+	@JsonIgnore
+	public static final String	SETTING_OFF	= "off";
+
 	/** The Constant SETTING_ON. */
 	@JsonIgnore
 	public static final String	SETTING_ON	= "on";
@@ -32,8 +36,14 @@ public class Settings {
 	private String				offer;
 
 	/** The status pdate. */
-	@JsonProperty("status-pdate")
-	private String				status_pdate;
+	@JsonProperty("status-update")
+	private String				status_update;
+
+	/**
+	 * Instantiates a new settings.
+	 */
+	public Settings() {
+	}
 
 	/**
 	 * Instantiates a new settings.
@@ -44,11 +54,11 @@ public class Settings {
 	 * @param __news_promotions the news promotions
 	 */
 	public Settings(String __messages, String __offer, String __status_pdate,
-			String __news_promotions) {
+	        String __news_promotions) {
 		super();
 		this.messages = __messages;
 		this.offer = __offer;
-		this.status_pdate = __status_pdate;
+		this.status_update = __status_pdate;
 		this.news_promotions = __news_promotions;
 	}
 
@@ -80,12 +90,12 @@ public class Settings {
 	}
 
 	/**
-	 * Gets the status pdate.
+	 * Gets the status update.
 	 *
-	 * @return the status_pdate
+	 * @return the status update
 	 */
-	public String getStatus_pdate() {
-		return this.status_pdate;
+	public String getStatus_update() {
+		return this.status_update;
 	}
 
 	/**
@@ -116,12 +126,12 @@ public class Settings {
 	}
 
 	/**
-	 * Sets the status pdate.
+	 * Sets the status update.
 	 *
-	 * @param __status_pdate the status_pdate to set
+	 * @param __status_pdate the new status update
 	 */
-	public void setStatus_pdate(String __status_pdate) {
-		this.status_pdate = __status_pdate;
+	public void setStatus_update(String __status_pdate) {
+		this.status_update = __status_pdate;
 	}
 
 }

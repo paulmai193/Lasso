@@ -22,4 +22,10 @@ public class Constant {
 	/** The Constant ROLE_USER. */
 	public static final byte	ROLE_USER			= 0;
 
+	/** The Constant SEND_CONTACT. */
+	public static final byte	SEND_CONTACT		= 0;
+
+	/** The Constant SEND_FEEDBACK. */
+	public static final byte	SEND_FEEDBACK		= 1;
+
 }

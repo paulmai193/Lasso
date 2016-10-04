@@ -105,12 +105,17 @@ public class ImplMessageManagement implements MessageManagement {
 	 * datasource.Account, int)
 	 */
 	@Override
-	public List<Object[]> getMessagesDetailOfAccount(Account __account, int __idMessage) {
-		Message _rootMessage = this.messageDAO.getRootMessage(__idMessage);
-		if (_rootMessage == null) {
-			throw new NotFoundException("Message not found");
+	public List<Object[]> getMessagesDetailOfAccount(Account __account, int __idJob) {
+		Message _rootMessage = this.messageDAO.getRootMessage(__idJob);
+		// if (_rootMessage == null) {
+		// throw new NotFoundException("Message not found");
+		// }
+		// List<Message> _messages = this.messageDAO.getListMessageByIdParent(_rootMessage.getId());
+		Job _job = this.jobDAO.getJobById(__idJob);
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
 		}
-		List<Message> _messages = this.messageDAO.getListMessageByIdParent(_rootMessage.getId());
+		List<Message> _messages = this.messageDAO.getListMessageByIdJob(__idJob);
 		_messages.add(0, _rootMessage);
 
 		List<Object[]> _messageDatas = new ArrayList<>();
@@ -159,7 +164,8 @@ public class ImplMessageManagement implements MessageManagement {
 							AccountSettings _accountSettings = _receiver.getSettings();
 
 							// Send push in-app
-							if (_accountSettings.getAppSettings().getMessages() != null) {
+							if (_accountSettings.getAppSettings().getMessages() != null
+									&& _accountSettings.getAppSettings().getMessages().equals("on")) {
 								SendPushRequest _pushRequest = new SendPushRequest();
 								_pushRequest.setNotification(
 										new PushNotification(_message.getTitle(), _message.getMessage()));
@@ -168,7 +174,8 @@ public class ImplMessageManagement implements MessageManagement {
 							}
 
 							// Send email
-							if (_accountSettings.getEmailSettings().getMessages() != null) {
+							if (_accountSettings.getEmailSettings().getMessages() != null
+									&& _accountSettings.getEmailSettings().getMessages().equals("on")) {
 								// EmailTemplate _emailTemplate = new DesignerActivateEmail(
 								// _designer.getName(), "#");
 								// ImplUserManagement.this.emailUtil.sendEmailByTemplate(

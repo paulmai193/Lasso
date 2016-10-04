@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import javax.mail.Message.RecipientType;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
@@ -51,8 +50,6 @@ import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
-import com.lasso.template.DesignerActivateEmail;
-import com.lasso.template.EmailTemplate;
 import com.lasso.util.EmailUtil;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -185,7 +182,8 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 							AccountSettings _accountSettings = _designer.getSettings();
 
 							// Send push in-app
-							if (_accountSettings.getAppSettings().getOffer() != null) {
+							if (_accountSettings.getAppSettings().getOffer() != null
+									&& _accountSettings.getAppSettings().getOffer().equals("on")) {
 								SendPushRequest _pushRequest = new SendPushRequest();
 								_pushRequest.setNotification(
 										new PushNotification(((Message) _push[1]).getTitle(),
@@ -195,13 +193,15 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 							}
 
 							// Send email
-							if (_accountSettings.getEmailSettings().getOffer() != null) {
-								EmailTemplate _emailTemplate = new DesignerActivateEmail(
-										_designer.getName(), "#");
-								ImplUserManagement.this.emailUtil.sendEmailByTemplate(
-										_designer.getEmail(), "New offer",
-										_emailTemplate.getContent(), RecipientType.TO,
-										_emailTemplate.getTemplate());
+							if (_accountSettings.getEmailSettings().getOffer() != null
+									&& _accountSettings.getEmailSettings().getOffer()
+									.equals("on")) {
+								// EmailTemplate _emailTemplate = new DesignerActivateEmail(
+								// _designer.getName(), "#");
+								// ImplUserManagement.this.emailUtil.sendEmailByTemplate(
+								// _designer.getEmail(), "New offer",
+								// _emailTemplate.getContent(), RecipientType.TO,
+								// _emailTemplate.getTemplate());
 							}
 						}
 						catch (Exception _ex) {

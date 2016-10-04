@@ -62,4 +62,15 @@ public interface GenericManagement {
 	 */
 	String loadWebContextStoragePath(String __app_session) throws UnirestException;
 
+	/**
+	 * Save contact.
+	 *
+	 * @param __email the email
+	 * @param __phone the phone
+	 * @param __name the name
+	 * @param __message the message
+	 * @param __type the type
+	 */
+	void saveContact(String __email, String __phone, String __name, String __message, byte __type);
+
 }

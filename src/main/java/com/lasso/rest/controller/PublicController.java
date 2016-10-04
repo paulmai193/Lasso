@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,16 +12,22 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.lasso.define.Constant;
 import com.lasso.define.PaypalCallbackConfiguration;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.request.ContactUsRequest;
+import com.lasso.rest.model.api.request.FeedbackRequest;
 import com.lasso.rest.model.api.response.GetServiceFeeResponse;
 import com.lasso.rest.model.api.response.ListCountriesResponse;
+import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.GenericManagement;
 import com.paypal.ipn.IPNMessage;
 
@@ -41,6 +48,10 @@ public class PublicController extends BaseController {
 	/** The request. */
 	@Context
 	private HttpServletRequest	request;
+
+	/** The validate context. */
+	@Context
+	private SecurityContext		validateContext;
 
 	/**
 	 * Gets the countries.
@@ -123,7 +134,7 @@ public class PublicController extends BaseController {
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Logger.getLogger(this.getClass())
-		.info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
+		        .info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();
@@ -131,9 +142,45 @@ public class PublicController extends BaseController {
 		Map<String, String> map = ipnlistener.getIpnMap();
 
 		Logger.getLogger(this.getClass())
-		.info("******* IPN VERIFY (name:value) pair : " + map + " "
-				+ "######### TransactionType : " + transactionType
-				+ " ======== IPN verified : " + isIpnVerified);
+		        .info("******* IPN VERIFY (name:value) pair : " + map + " "
+		                + "######### TransactionType : " + transactionType
+		                + " ======== IPN verified : " + isIpnVerified);
+	}
+
+	/**
+	 * Send feed bbck.
+	 *
+	 * @param __contactUsRequest the contact us request
+	 * @return the response
+	 */
+	@POST
+	@Path("/send/contactus")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response sendFeedBbck(ContactUsRequest __contactUsRequest) {
+		__contactUsRequest.validate();
+		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
+		        __contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
+		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+		return this.success();
+	}
+
+	/**
+	 * Send feed bbck.
+	 *
+	 * @param __feedbackRequest the feedback request
+	 * @return the response
+	 */
+	@POST
+	@Path("/send/feedback")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	public Response sendFeedBbck(FeedbackRequest __feedbackRequest) {
+		__feedbackRequest.validate();
+		Account _account = (Account) this.validateContext.getUserPrincipal();
+		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
+		        __feedbackRequest.getName(), __feedbackRequest.getMessage(),
+		        Constant.SEND_FEEDBACK);
+		return this.success();
 	}
 
 	/**

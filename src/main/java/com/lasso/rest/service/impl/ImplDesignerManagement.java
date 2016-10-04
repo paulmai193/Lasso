@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.define.JobConfirmationConstant;
-import com.lasso.define.JobStepConstant;
 import com.lasso.rest.model.api.request.ConfirmOfferRequest;
 import com.lasso.rest.model.api.request.CounterOfferRequest;
 import com.lasso.rest.model.api.request.CreatePortfolioRequest;
@@ -323,22 +322,27 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 						String _userName = "";
 						Job _job = ImplDesignerManagement.this.jobDAO
 						        .getJobById(__jobsAccount.getJobId());
-						_userName = _job == null ? ""
-						        : ImplDesignerManagement.this.accountDAO
-						                .getAccountById(_job.getAccountId()).getName();
-						List<Integer> _styleIds = new ArrayList<>();
-						ImplDesignerManagement.this.jobStyleDAO
-						        .getListJobStylesByJobId(_job.getId())
-						        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
-						List<Style> _styles = ImplDesignerManagement.this.styleDAO
-						        .getListByByListIds(_styleIds);
-						Type _type = ImplDesignerManagement.this.typeDAO
-						        .getTypeById(_job.getTypeId());
-						Category _category = ImplDesignerManagement.this.categoryDAO
-						        .getCategoryById(_job.getCategoryId());
-						Object[] _data = { _job, _userName, _styles, _type, _category };
+						if (_job.getPaid().equals((byte) 0)) {
+							return;
+						}
+						else {
+							_userName = _job == null ? ""
+							        : ImplDesignerManagement.this.accountDAO
+							                .getAccountById(_job.getAccountId()).getName();
+							List<Integer> _styleIds = new ArrayList<>();
+							ImplDesignerManagement.this.jobStyleDAO
+							        .getListJobStylesByJobId(_job.getId())
+							        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+							List<Style> _styles = ImplDesignerManagement.this.styleDAO
+							        .getListByByListIds(_styleIds);
+							Type _type = ImplDesignerManagement.this.typeDAO
+							        .getTypeById(_job.getTypeId());
+							Category _category = ImplDesignerManagement.this.categoryDAO
+							        .getCategoryById(_job.getCategoryId());
+							Object[] _data = { _job, _userName, _styles, _type, _category };
 
-						_datas.add(_data);
+							_datas.add(_data);
+						}
 					}
 					catch (Exception _ex) {
 						Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
@@ -414,15 +418,23 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	@Override
 	public void updateStage(Account __designer, UpdateJobStageRequest __updateJobStageRequest) {
 		Job _job = this.jobDAO.getJobById(__updateJobStageRequest.getIdJob());
-		if (_job == null
-		        || _job.getStep().equals(JobStepConstant.JOB_STEP_COMPLETE.getStepCode())) {
-			throw new NotFoundException("Job not found or offer not completed");
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else if (_job.getCompleted().equals((byte) 1)) {
+			throw new ForbiddenException("Job was completed");
+		}
+		else if (_job.getPaid().equals((byte) 0)) {
+			throw new ForbiddenException("Job not paid");
 		}
 		else {
 			JobsAccount _jobsAccount = this.jobAccountDAO.getAcceptByJobAndDesignerId(_job.getId(),
 			        __designer.getId());
-			if (_jobsAccount == null || !_jobsAccount.getConfirm().equals((byte) 1)) {
-				throw new NotFoundException("Designer not have or not confirm this job");
+			if (_jobsAccount == null) {
+				throw new NotFoundException("Designer not have this job");
+			}
+			else if (!_jobsAccount.getConfirm().equals(JobConfirmationConstant.JOB_ACCEPT)) {
+				throw new ForbiddenException("Designer not accept this job");
 			}
 			else {
 				_job.setStage(__updateJobStageRequest.getStage());

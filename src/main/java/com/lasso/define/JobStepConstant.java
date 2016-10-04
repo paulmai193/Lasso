@@ -18,7 +18,7 @@ public enum JobStepConstant {
 	/** The job step brief. */
 	JOB_STEP_DRAFT((byte) 0, "In Draft"),
 	/** The job step pay. */
-	JOB_STEP_PAY((byte) 4, "In Payment");
+	JOB_STEP_PAY((byte) 4, "Wait Check Payment");
 
 	/**
 	 * Gets the by code.

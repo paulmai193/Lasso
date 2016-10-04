@@ -28,6 +28,14 @@ public interface MessageDAO extends HibernateSession {
 	Message getListMessageById(Integer __idMessage);
 
 	/**
+	 * Gets the list message by id job.
+	 *
+	 * @param __idJob the id job
+	 * @return the list message by id job
+	 */
+	List<Message> getListMessageByIdJob(int __idJob);
+
+	/**
 	 * Gets the list message by id parent.
 	 *
 	 * @param __idMessageRoot the id root message

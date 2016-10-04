@@ -54,6 +54,19 @@ public class ImplMessageDAO implements MessageDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.MessageDAO#getListMessageByIdJob(int)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Message> getListMessageByIdJob(int __idJob) {
+		return this.sessionFactory.getCurrentSession().createCriteria(Message.class)
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("created")).list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.MessageDAO#getListMessageByIdParent(int)
 	 */
 	@SuppressWarnings("unchecked")

@@ -85,15 +85,15 @@ public class MessageController extends BaseController {
 	/**
 	 * Gets the message detail.
 	 *
-	 * @param __idMessage the id message
+	 * @param __idJob the id message
 	 * @return the message detail
 	 */
 	@GET
 	@Path("/detail")
-	public MessageDetailResponse getMessageDetail(@QueryParam("message_id") int __idMessage) {
+	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-				__idMessage);
+				__idJob);
 		Message _rootMessage = (Message) _messageDatas.get(0)[0];
 		Object[] _orderData = this.userManagement.getOrderDataById(_rootMessage.getJobId());
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;

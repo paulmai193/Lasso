@@ -33,6 +33,10 @@
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="contactDAO" class="com.lasso.rest.dao.impl.ImplContactDAO"
+		lazy-init="false" scope="singleton">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="countryDAO" class="com.lasso.rest.dao.impl.ImplCountryDAO"
 		lazy-init="false" scope="singleton">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -91,6 +95,7 @@
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement"
 		lazy-init="false" scope="singleton">
 		<property name="countryDAO" ref="countryDAO" />
+		<property name="contactDAO" ref="contactDAO" />
 		<property name="configurationDAO" ref="configurationDAO" />
 		<property name="webContextStoragePath" ref="webContextStoragePath" />
 	</bean>
