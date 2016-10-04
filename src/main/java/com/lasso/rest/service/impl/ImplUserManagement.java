@@ -253,7 +253,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 					"This job was confirm before. Denied re-other confirm");
 		}
 		else {
-			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(
+			JobsAccount _jobsAccount = this.jobAccountDAO.getConfirmByJobAndDesignerId(
 					__confirmOrderRequest.getIdJob(), __confirmOrderRequest.getIdDesigner());
 			if (_jobsAccount == null) {
 				throw new NullPointerException(
