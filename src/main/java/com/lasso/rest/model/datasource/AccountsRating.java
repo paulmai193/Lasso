@@ -73,7 +73,7 @@ public class AccountsRating implements Serializable {
 	 * @param __quality the quality
 	 */
 	public AccountsRating(int __designerId, int __jobId, int __communication, int __experience,
-	        int __quality) {
+			int __quality) {
 		super();
 		this.accountId = __designerId;
 		this.communication = __communication;

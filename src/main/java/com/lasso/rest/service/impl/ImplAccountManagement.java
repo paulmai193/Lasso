@@ -14,6 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -21,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.lasso.define.Constant;
 import com.lasso.exception.AuthenticateException;
 import com.lasso.exception.ResourceExistException;
@@ -28,6 +31,7 @@ import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.model.api.request.AccountChangeDetailRequest;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
 import com.lasso.rest.model.api.request.DesignerChangeDetailRequest;
+import com.lasso.rest.model.api.request.SettingsRequest;
 import com.lasso.rest.model.api.request.UserChangeDetailRequest;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
@@ -317,6 +321,23 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	public void setEmailUtil(EmailUtil __emailUtil) {
 		this.emailUtil = __emailUtil;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.AccountManagement#settings(com.lasso.rest.model.datasource.Account,
+	 * com.lasso.rest.model.api.request.SettingsRequest)
+	 */
+	@Override
+	public Response settings(Account __account, SettingsRequest __settingsRequest)
+			throws JsonParseException, JsonMappingException, IOException {
+		AccountSettings _settings = __account.getSettings();
+		_settings.setAppSettings(__settingsRequest.getAppSettings());
+		_settings.setEmailSettings(__settingsRequest.getEmailSettings());
+		this.accountDAO.updateAccount(__account);
+		return null;
 	}
 
 	/*

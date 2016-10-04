@@ -10,9 +10,13 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.lasso.rest.model.api.request.AccountChangeDetailRequest;
 import com.lasso.rest.model.api.request.AccountRegisterRequest;
+import com.lasso.rest.model.api.request.SettingsRequest;
 import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Country;
@@ -30,7 +34,7 @@ public interface AccountManagement {
 	 * @param __account the account
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
-	public void changeAccountDetail(Account __account,
+	void changeAccountDetail(Account __account,
 			AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
@@ -40,7 +44,7 @@ public interface AccountManagement {
 	 * @param __avatarName the avatar name
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public void changeAvatar(Account __account, String __avatarName);
+	void changeAvatar(Account __account, String __avatarName);
 
 	/**
 	 * Change password.
@@ -50,7 +54,7 @@ public interface AccountManagement {
 	 * @param __account the account
 	 * @return true, if successful
 	 */
-	public boolean changePassword(String __oldPassword, String __newPassword, Account __account);
+	boolean changePassword(String __oldPassword, String __newPassword, Account __account);
 
 	/**
 	 * Forgot password.
@@ -61,7 +65,7 @@ public interface AccountManagement {
 	 * @throws AddressException the address exception
 	 * @throws MessagingException the messaging exception
 	 */
-	public String forgotPassword(String __email)
+	String forgotPassword(String __email)
 			throws NotFoundException, AddressException, MessagingException;
 
 	/**
@@ -69,15 +73,7 @@ public interface AccountManagement {
 	 *
 	 * @return the all accounts in DB
 	 */
-	public List<Account> getAllAccounts();
-
-	// /**
-	// * Gets the country.
-	// *
-	// * @param __account the account
-	// * @return the country
-	// */
-	// public Country getCountry(Account __account);
+	List<Account> getAllAccounts();
 
 	/**
 	 * User login by email and password.
@@ -87,14 +83,14 @@ public interface AccountManagement {
 	 * @param __prefixAvatarUrl the prefix avatar url
 	 * @return the login response
 	 */
-	public LoginResponse login(String __email, String __password, String __prefixAvatarUrl);
+	LoginResponse login(String __email, String __password, String __prefixAvatarUrl);
 
 	/**
 	 * User Logout.
 	 *
 	 * @param __account the account
 	 */
-	public void logout(Account __account);
+	void logout(Account __account);
 
 	/**
 	 * Register user account.
@@ -103,7 +99,7 @@ public interface AccountManagement {
 	 * @param __country the country
 	 * @return the query string to activate registed account
 	 */
-	public String registerUserAccount(AccountRegisterRequest __registerAccount, Country __country);
+	String registerUserAccount(AccountRegisterRequest __registerAccount, Country __country);
 
 	/**
 	 * Resend activate.
@@ -111,7 +107,7 @@ public interface AccountManagement {
 	 * @param __account the account
 	 * @return the string
 	 */
-	public String resendActivate(Account __account);
+	String resendActivate(Account __account);
 
 	/**
 	 * Reset password.
@@ -119,7 +115,7 @@ public interface AccountManagement {
 	 * @param __account the account will reset password
 	 * @param __password the new password
 	 */
-	public void resetPassword(Account __account, String __password);
+	void resetPassword(Account __account, String __password);
 
 	/**
 	 * Send activation email.
@@ -133,9 +129,8 @@ public interface AccountManagement {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void sendActivationEmail(String __email, String __refLink, String __role,
-			String __firstName)
-					throws AddressException, MessagingException, URISyntaxException, IOException;
+	void sendActivationEmail(String __email, String __refLink, String __role, String __firstName)
+			throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Send reset password email.
@@ -149,9 +144,21 @@ public interface AccountManagement {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void sendResetPasswordEmail(String __email, String __refLink, String __role,
-			String __firstName)
-					throws AddressException, MessagingException, URISyntaxException, IOException;
+	void sendResetPasswordEmail(String __email, String __refLink, String __role, String __firstName)
+			throws AddressException, MessagingException, URISyntaxException, IOException;
+
+	/**
+	 * Settings.
+	 *
+	 * @param __account the account
+	 * @param __settingsRequest the settings request
+	 * @return the response
+	 * @throws JsonParseException the json parse exception
+	 * @throws JsonMappingException the json mapping exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	Response settings(Account __account, SettingsRequest __settingsRequest)
+			throws JsonParseException, JsonMappingException, IOException;
 
 	/**
 	 * Validate the token to verify secured account.
@@ -159,7 +166,7 @@ public interface AccountManagement {
 	 * @param __token the token
 	 * @return the verified account
 	 */
-	public Account validateAccountToken(String __token);
+	Account validateAccountToken(String __token);
 
 	/**
 	 * Verify account.
@@ -168,6 +175,6 @@ public interface AccountManagement {
 	 * @param __prefixAvatarUrl the prefix avatar url
 	 * @return the login response
 	 */
-	public LoginResponse verifyAccount(String __otp, String __prefixAvatarUrl);
+	LoginResponse verifyAccount(String __otp, String __prefixAvatarUrl);
 
 }

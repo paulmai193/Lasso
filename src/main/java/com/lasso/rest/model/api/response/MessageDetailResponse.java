@@ -103,7 +103,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 	@Override
 	public void serialize(MessageDetailResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -129,7 +129,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 		__gen.writeArrayFieldStart("messages");
 		__value.getMessageDatas().forEach(_data -> this.serializeMessages(__gen, _data,
-		        __value.getOrderDetail().getPrefixAvatar()));
+				__value.getOrderDetail().getPrefixAvatar()));
 		__gen.writeEndArray();
 
 		__gen.writeEndObject();
@@ -189,7 +189,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			__gen.writeStringField("objective", _job.getObjective());
 			__gen.writeStringField("asset_url", _job.getAssetsUrl());
 			__gen.writeStringField("further_information",
-			        _job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
+					_job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
 			__gen.writeArrayFieldStart("images");
 			if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
 				for (String _referenceImage : _job.getReference().trim().split(",")) {
@@ -206,7 +206,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 	}
 
 	private void serializeMessages(JsonGenerator __gen, Object[] __messageData,
-	        String __prefixJobUrl) {
+			String __prefixJobUrl) {
 		try {
 			Message _message = (Message) __messageData[0];
 			Account _sender = (Account) __messageData[1];
@@ -220,7 +220,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			}
 			else {
 				__gen.writeStringField("sender_avatar",
-				        __prefixJobUrl + "/Icon/" + _sender.getImage());
+						__prefixJobUrl + "/Icon/" + _sender.getImage());
 			}
 			DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
 			__gen.writeStringField("message_time", _dateFormat.format(_message.getCreated()));
