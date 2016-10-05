@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotFoundException;
@@ -63,9 +62,17 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Offer for found");
 			}
-			else if (_jobsAccount.getConfirm()
-			        .equals(JobConfirmationConstant.JOB_UN_CONFIRM.getCode())) {
+			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT
+			        .getCode()) {
+				throw new ForbiddenException("Offer was accepted");
+			}
+			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM
+			        .getCode()) {
 				throw new ForbiddenException("Offer was confirmed");
+			}
+			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_REJECT
+			        .getCode()) {
+				throw new ForbiddenException("Offer was rejected");
 			}
 			else {
 				_jobsAccount.setConfirm(__confirmOfferRequest.getStatus());
@@ -93,9 +100,17 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Offer for found");
 			}
-			else if (_jobsAccount.getConfirm()
-			        .equals(JobConfirmationConstant.JOB_UN_CONFIRM.getCode())) {
+			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT
+			        .getCode()) {
+				throw new ForbiddenException("Offer was accepted");
+			}
+			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM
+			        .getCode()) {
 				throw new ForbiddenException("Offer was confirmed");
+			}
+			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_REJECT
+			        .getCode()) {
+				throw new ForbiddenException("Offer was rejected");
 			}
 			else {
 				_jobsAccount.setCounter(__counterOfferRequest.getAmount());
@@ -314,14 +329,13 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			return new ArrayList<>();
 		}
 		else {
-			_jobsAccounts.forEach(new Consumer<JobsAccount>() {
-
-				@Override
-				public void accept(JobsAccount __jobsAccount) {
-					try {
+			_jobsAccounts.forEach(_jobAccount -> {
+				try {
+					if (_jobAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT
+					        .getCode()) {
 						String _userName = "";
 						Job _job = ImplDesignerManagement.this.jobDAO
-						        .getJobById(__jobsAccount.getJobId());
+						        .getJobById(_jobAccount.getJobId());
 						if (_job.getPaid().equals((byte) 0)) {
 							return;
 						}
@@ -344,9 +358,9 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 							_datas.add(_data);
 						}
 					}
-					catch (Exception _ex) {
-						Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-					}
+				}
+				catch (Exception _ex) {
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			});
 
@@ -433,8 +447,9 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Designer not have this job");
 			}
-			else if (!_jobsAccount.getConfirm().equals(JobConfirmationConstant.JOB_ACCEPT)) {
-				throw new ForbiddenException("Designer not accept this job");
+			else if (_jobsAccount.getConfirm().byteValue() != JobConfirmationConstant.JOB_ACCEPT
+			        .getCode()) {
+				throw new ForbiddenException("Job not accepted by user");
 			}
 			else {
 				_job.setStage(__updateJobStageRequest.getStage());

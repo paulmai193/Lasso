@@ -14,7 +14,10 @@ public enum JobConfirmationConstant {
 	JOB_CONFIRM((byte) 1, "Confirm"),
 
 	/** The job un confirm. */
-	JOB_UN_CONFIRM((byte) 0, "Un-confirm");
+	JOB_UN_CONFIRM((byte) 0, "Un-confirm"),
+
+	/** The job reject. */
+	JOB_REJECT((byte) -1, "Reject");
 
 	/**
 	 * Gets the by code.

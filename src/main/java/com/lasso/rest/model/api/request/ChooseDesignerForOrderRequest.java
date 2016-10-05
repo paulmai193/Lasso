@@ -1,6 +1,6 @@
 package com.lasso.rest.model.api.request;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,7 +19,7 @@ public class ChooseDesignerForOrderRequest extends BaseRequest {
 
 	/** The designer ids. */
 	@JsonProperty("designer_id")
-	private List<Integer>	designerIds;
+	private Set<Integer>	designerIds;
 
 	/** The id job. */
 	@JsonProperty("job_id")
@@ -36,7 +36,7 @@ public class ChooseDesignerForOrderRequest extends BaseRequest {
 	 *
 	 * @return the designer ids
 	 */
-	public List<Integer> getDesignerIds() {
+	public Set<Integer> getDesignerIds() {
 		return this.designerIds;
 	}
 
