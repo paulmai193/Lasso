@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.JobStepConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
@@ -81,7 +82,7 @@ public class GetOfferResponse extends BaseResponse {
 	 * @param __prefixJob the prefix job
 	 */
 	public GetOfferResponse(Object[] __data, String __prefixAvatar, String __prefixCategory,
-			String __prefixJob) {
+	        String __prefixJob) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -132,7 +133,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOfferResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
@@ -203,6 +204,19 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeStringField("objective", _job.getObjective());
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
 		__gen.writeStringField("further_information", _job.getFurtherInformation());
+		String _status;
+		if (_job.getPaid().equals((byte) 0)) {
+			_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
+		}
+		else {
+			if (_job.getCompleted().equals((byte) 0)) {
+				_status = "In Progress";
+			}
+			else {
+				_status = "Completed";
+			}
+		}
+		__gen.writeStringField("status", _status);
 
 		__gen.writeEndObject();
 
@@ -214,7 +228,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 			__gen.writeNumberField("account_id", __account.getId());
 			__gen.writeStringField("account_name", __account.getName());
 			__gen.writeNumberField("account_reward",
-					__account.getRewards() == 0 ? 1 : __account.getRewards());
+			        __account.getRewards() == 0 ? 1 : __account.getRewards());
 			__gen.writeObjectFieldStart("avatar");
 			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
 			__gen.writeEndObject();

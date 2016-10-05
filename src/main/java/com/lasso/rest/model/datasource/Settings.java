@@ -54,7 +54,7 @@ public class Settings {
 	 * @param __news_promotions the news promotions
 	 */
 	public Settings(String __messages, String __offer, String __status_pdate,
-	        String __news_promotions) {
+			String __news_promotions) {
 		super();
 		this.messages = __messages;
 		this.offer = __offer;

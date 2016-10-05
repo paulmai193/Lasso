@@ -148,7 +148,7 @@ public class PublicController extends BaseController {
 	}
 
 	/**
-	 * Send feed bbck.
+	 * Send feed contact us.
 	 *
 	 * @param __contactUsRequest the contact us request
 	 * @return the response
@@ -156,7 +156,7 @@ public class PublicController extends BaseController {
 	@POST
 	@Path("/send/contactus")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response sendFeedBbck(ContactUsRequest __contactUsRequest) {
+	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
 		        __contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
@@ -165,7 +165,7 @@ public class PublicController extends BaseController {
 	}
 
 	/**
-	 * Send feed bbck.
+	 * Send feed back.
 	 *
 	 * @param __feedbackRequest the feedback request
 	 * @return the response
@@ -174,7 +174,7 @@ public class PublicController extends BaseController {
 	@Path("/send/feedback")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
-	public Response sendFeedBbck(FeedbackRequest __feedbackRequest) {
+	public Response sendFeedBack(FeedbackRequest __feedbackRequest) {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),

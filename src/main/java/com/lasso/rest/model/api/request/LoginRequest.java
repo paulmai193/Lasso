@@ -1,5 +1,7 @@
 package com.lasso.rest.model.api.request;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -117,6 +119,9 @@ public class LoginRequest extends BaseRequest {
 		}
 		if (this.pushToken == null) {
 			throw new ObjectParamException("Invalid push token");
+		}
+		else {
+			Logger.getLogger(getClass()).debug("PUSH TOKEN: " + this.pushToken);
 		}
 	}
 

@@ -97,7 +97,7 @@ public class Message implements Serializable {
 	 * @param __toAccountId the to account id
 	 */
 	public Message(Integer __fromAccountId, Integer __jobId, String __message, Integer __parentId,
-	        String __title, Integer __toAccountId) {
+			String __title, Integer __toAccountId) {
 		super();
 		this.created = this.modified = new Date();
 		this.fromAccountId = __fromAccountId;
@@ -119,7 +119,7 @@ public class Message implements Serializable {
 	 * @param __toAccountId the to account id
 	 */
 	public Message(Integer __fromAccountId, Integer __jobId, String __message, String __title,
-	        Integer __toAccountId) {
+			Integer __toAccountId) {
 		this(__fromAccountId, __jobId, __message, 0, __title, __toAccountId);
 	}
 
