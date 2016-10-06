@@ -205,6 +205,7 @@ public class ImplAccountManagement implements AccountManagement {
 	@Override
 	public void logout(Account __account) {
 		__account.setAppSession(null);
+		__account.setDeviceId(null);
 		this.accountDAO.updateAccount(__account);
 	}
 

@@ -568,12 +568,9 @@ public class Job implements Serializable {
 	 */
 	public void update(EditOrderRequest __editJobRequest) {
 		this.assetsUrl = __editJobRequest.getAssetUrl();
-		this.budget = __editJobRequest.getBudget();
 		this.description = __editJobRequest.getDescription();
 		this.furtherInformation = __editJobRequest.getFurther();
-		this.categoryId = __editJobRequest.getIdCategory();
 		this.modified = new Date();
-		this.typeId = __editJobRequest.getIdType();
 		this.latestSubmission = __editJobRequest.getLastSubmission();
 		this.objective = __editJobRequest.getObjective();
 		String _reference = Arrays.toString(__editJobRequest.getReference().toArray());
