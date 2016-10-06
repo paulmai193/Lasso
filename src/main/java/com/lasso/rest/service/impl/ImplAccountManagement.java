@@ -337,6 +337,7 @@ public class ImplAccountManagement implements AccountManagement {
 		AccountSettings _settings = __account.getSettings();
 		_settings.setAppSettings(__settingsRequest.getAppSettings());
 		_settings.setEmailSettings(__settingsRequest.getEmailSettings());
+		__account.setSettings(_settings);
 		this.accountDAO.updateAccount(__account);
 	}
 

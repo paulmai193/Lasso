@@ -23,13 +23,13 @@ public class ImplAccountRatingDAO implements AccountRatingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.AccountRatingDAO#getByAccountAndJob(java.lang.Integer, int)
+	 * @see com.lasso.rest.dao.AccountRatingDAO#getByAccountAndJob(int, int)
 	 */
 	@Override
-	public AccountsRating getByAccountAndJob(Integer __idAccount, int __idJob) {
+	public AccountsRating getByAccountAndJob(int __idAccount, int __idJob) {
 		return (AccountsRating) this.sessionFactory.getCurrentSession()
-				.createCriteria(AccountsRating.class).add(Restrictions.eq("accountId", __idAccount))
-				.add(Restrictions.eq("jobId", __idJob)).uniqueResult();
+		        .createCriteria(AccountsRating.class).add(Restrictions.eq("accountId", __idAccount))
+		        .add(Restrictions.eq("jobId", __idJob)).uniqueResult();
 	}
 
 	/*

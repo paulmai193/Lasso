@@ -16,7 +16,7 @@ public interface AccountRatingDAO extends HibernateSession {
 	 * @param __idJob the id job
 	 * @return the by account and job
 	 */
-	AccountsRating getByAccountAndJob(Integer __idAccount, int __idJob);
+	AccountsRating getByAccountAndJob(int __idAccount, int __idJob);
 
 	/**
 	 * Save rating.

@@ -26,7 +26,6 @@ import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.ListMessageResponse;
 import com.lasso.rest.model.api.response.MessageDetailResponse;
 import com.lasso.rest.model.datasource.Account;
-import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.MessageManagement;
@@ -93,14 +92,14 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-				__idJob);
-		Message _rootMessage = (Message) _messageDatas.get(0)[0];
-		Object[] _orderData = this.userManagement.getOrderDataById(_rootMessage.getJobId());
+		        __idJob);
+		// Message _rootMessage = (Message) _messageDatas.get(0)[0];
+		Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-				null, _prefixJob, _prefixPortfolio);
+		        null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 

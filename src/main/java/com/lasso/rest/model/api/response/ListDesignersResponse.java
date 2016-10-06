@@ -3,6 +3,8 @@ package com.lasso.rest.model.api.response;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -73,7 +75,7 @@ public class ListDesignersResponse extends BaseResponse {
 	 * @param __nextIndex the next index
 	 */
 	public ListDesignersResponse(String __prefixAvatarUrl, String __prefixPortfolioUrl,
-			List<Object[]> __datas, int __nextIndex) {
+	        List<Object[]> __datas, int __nextIndex) {
 		super();
 		this.prefixAvatarUrl = __prefixAvatarUrl;
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
@@ -122,7 +124,7 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 
 	@Override
 	public void serialize(ListDesignersResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -131,67 +133,93 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 		}
 		__gen.writeNumberField("next_index", __value.getNextIndex());
 		__gen.writeArrayFieldStart("data");
-		for (Object[] _data : __value.getDatas()) {
+		__value.getDatas().forEach(_data -> {
 			Portfolio _portfolio = (Portfolio) _data[0];
 			Account _designer = (Account) _data[1];
 			if (_portfolio == null || _designer == null) {
-				break;
+				return;
 			}
 			else {
-				__gen.writeStartObject();
-				__gen.writeNumberField("designer_id", _designer.getId());
-				__gen.writeStringField("designer_name", _designer.getName());
-				__gen.writeObjectFieldStart("designer_avatar");
-				if (_designer.getImage().trim().isEmpty()) {
-					__gen.writeStringField("original", "");
-					__gen.writeStringField("retina", "");
-					__gen.writeStringField("small", "");
-					__gen.writeStringField("icon", "");
+				try {
+					__gen.writeStartObject();
+
+					this.serializeDesigner(__gen, _designer, __value.getPrefixAvatarUrl());
+
+					__gen.writeObjectFieldStart("portfolio_image");
+					this.serializePortfolioImage(__gen, _portfolio,
+					        __value.getPrefixPortfolioUrl());
+					__gen.writeEndObject();
+
+					__gen.writeEndObject();
 				}
-				else {
-					__gen.writeStringField("original", __value.getPrefixAvatarUrl() + "/Original/"
-							+ _designer.getImage().trim());
-					__gen.writeStringField("retina", __value.getPrefixAvatarUrl() + "/Retina/"
-							+ _designer.getImage().trim());
-					__gen.writeStringField("small",
-							__value.getPrefixAvatarUrl() + "/Small/" + _designer.getImage().trim());
-					__gen.writeStringField("icon",
-							__value.getPrefixAvatarUrl() + "/Icon/" + _designer.getImage().trim());
+				catch (Exception _ex) {
+					Logger.getLogger(getClass()).warn("Unwanted error", _ex);
 				}
-				__gen.writeEndObject();
-				__gen.writeObjectFieldStart("portfolio_image");
-				if (_portfolio.getImage().trim().isEmpty()) {
-					__gen.writeStringField("original", "");
-					__gen.writeStringField("retina", "");
-					__gen.writeStringField("small", "");
-					__gen.writeStringField("icon", "");
-				}
-				else {
-					String _firstImg = _portfolio.getImage().split(",")[0];
-					if (_firstImg == null || _firstImg.isEmpty()) {
-						__gen.writeStringField("original", "");
-						__gen.writeStringField("retina", "");
-						__gen.writeStringField("small", "");
-						__gen.writeStringField("icon", "");
-					}
-					else {
-						_firstImg = _firstImg.trim();
-						__gen.writeStringField("original",
-								__value.getPrefixPortfolioUrl() + "/Original/" + _firstImg);
-						__gen.writeStringField("retina",
-								__value.getPrefixPortfolioUrl() + "/Retina/" + _firstImg);
-						__gen.writeStringField("small",
-								__value.getPrefixPortfolioUrl() + "/Small/" + _firstImg);
-						__gen.writeStringField("icon",
-								__value.getPrefixPortfolioUrl() + "/Icon/" + _firstImg);
-					}
-				}
-				__gen.writeEndObject();
-				__gen.writeEndObject();
 			}
-		}
+		});
 		__gen.writeEndArray();
 		__gen.writeEndObject();
+	}
+
+	private void serializePortfolioImage(JsonGenerator __gen, Portfolio __portfolio,
+	        String __prefixPortfolioUrl) {
+		try {
+			if (__portfolio.getImage().trim().isEmpty()) {
+				__gen.writeStringField("original", "");
+				__gen.writeStringField("retina", "");
+				__gen.writeStringField("small", "");
+				__gen.writeStringField("icon", "");
+			}
+			else {
+				String _firstImg = __portfolio.getImage().split(",")[0];
+				if (_firstImg == null || _firstImg.isEmpty()) {
+					__gen.writeStringField("original", "");
+					__gen.writeStringField("retina", "");
+					__gen.writeStringField("small", "");
+					__gen.writeStringField("icon", "");
+				}
+				else {
+					_firstImg = _firstImg.trim();
+					__gen.writeStringField("original",
+					        __prefixPortfolioUrl + "/Original/" + _firstImg);
+					__gen.writeStringField("retina", __prefixPortfolioUrl + "/Retina/" + _firstImg);
+					__gen.writeStringField("small", __prefixPortfolioUrl + "/Small/" + _firstImg);
+					__gen.writeStringField("icon", __prefixPortfolioUrl + "/Icon/" + _firstImg);
+				}
+			}
+		}
+		catch (Exception _ex) {
+			Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+		}
+	}
+
+	private void serializeDesigner(JsonGenerator __gen, Account __designer,
+	        String __prefixAvatarUrl) {
+		try {
+			__gen.writeNumberField("designer_id", __designer.getId());
+			__gen.writeStringField("designer_name", __designer.getName());
+			__gen.writeObjectFieldStart("designer_avatar");
+			if (__designer.getImage() == null || __designer.getImage().trim().isEmpty()) {
+				__gen.writeStringField("original", "");
+				__gen.writeStringField("retina", "");
+				__gen.writeStringField("small", "");
+				__gen.writeStringField("icon", "");
+			}
+			else {
+				__gen.writeStringField("original",
+				        __prefixAvatarUrl + "/Original/" + __designer.getImage().trim());
+				__gen.writeStringField("retina",
+				        __prefixAvatarUrl + "/Retina/" + __designer.getImage().trim());
+				__gen.writeStringField("small",
+				        __prefixAvatarUrl + "/Small/" + __designer.getImage().trim());
+				__gen.writeStringField("icon",
+				        __prefixAvatarUrl + "/Icon/" + __designer.getImage().trim());
+			}
+			__gen.writeEndObject();
+		}
+		catch (Exception _ex) {
+			Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+		}
 	}
 
 }

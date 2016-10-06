@@ -166,7 +166,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-					.getAlternativeContact();
+			        .getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -174,7 +174,7 @@ public final class Account implements Principal, Serializable {
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
-					.getValue();
+			        .getValue();
 		}
 
 	}
@@ -404,7 +404,7 @@ public final class Account implements Principal, Serializable {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public AccountSettings getSettings()
-			throws JsonParseException, JsonMappingException, IOException {
+	        throws JsonParseException, JsonMappingException, IOException {
 		if (this.settings == null) {
 			return AccountSettings.createDefault();
 		}
@@ -657,7 +657,7 @@ public final class Account implements Principal, Serializable {
 	public void setSettings(AccountSettings __settings) {
 		ObjectMapper _mapper = new ObjectMapper();
 		try {
-			this.settings = _mapper.writeValueAsString(this);
+			this.settings = _mapper.writeValueAsString(__settings);
 		}
 		catch (JsonProcessingException ex) {
 			this.settings = super.toString();

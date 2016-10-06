@@ -32,6 +32,7 @@
 		
 		<!-- Mapping -->
 		<mapping class="com.lasso.rest.model.datasource.Account"/>
+		<mapping class="com.lasso.rest.model.datasource.AccountsRating"/>
 		<mapping class="com.lasso.rest.model.datasource.Banner"/>
 		<mapping class="com.lasso.rest.model.datasource.Category"/>
 		<mapping class="com.lasso.rest.model.datasource.Configuration"/>
