@@ -43,7 +43,7 @@
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
-	<security-constraint>
+	<!-- <security-constraint>
 		<display-name>exclude</display-name>
 		<web-resource-collection>
 			<web-resource-name>No Access</web-resource-name>
@@ -57,6 +57,6 @@
 	</security-constraint>
 	<security-role>
 		<role-name>tomcat</role-name>
-	</security-role>
+	</security-role> -->
 
 </web-app>

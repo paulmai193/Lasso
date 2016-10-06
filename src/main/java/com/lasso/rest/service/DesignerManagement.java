@@ -44,7 +44,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException, UnirestException;
+	        throws IOException, UnirestException;
 
 	/**
 	 * Delete portfolio.
@@ -63,7 +63,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws UnirestException the unirest exception
 	 */
 	void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
+	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
 
 	/**
 	 * Gets the all portfolios.
@@ -93,10 +93,11 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Gets the offer data by id.
 	 *
+	 * @param __designer the designer
 	 * @param __idJob the id job
 	 * @return the offer data by id
 	 */
-	Object[] getOfferDataById(int __idJob);
+	Object[] getOfferDataById(Account __designer, int __idJob);
 
 	/**
 	 * Gets the portfolio.

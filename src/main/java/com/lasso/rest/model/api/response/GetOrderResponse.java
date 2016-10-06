@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
 
@@ -97,8 +96,8 @@ public class GetOrderResponse extends BaseResponse {
 	 * @param __prefixPortfolio the prefix portfolio
 	 */
 	public GetOrderResponse(Object[] __data, String __prefixAvatar, String __prefixStyle,
-			String __prefixType, String __prefixCategory, String __prefixJob,
-			String __prefixPortfolio) {
+	        String __prefixType, String __prefixCategory, String __prefixJob,
+	        String __prefixPortfolio) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -179,7 +178,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOrderResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
@@ -207,24 +206,19 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeEndObject();
 
 		__gen.writeArrayFieldStart("styles");
-		_styles.forEach(new Consumer<Style>() {
-
-			@Override
-			public void accept(Style __style) {
-				try {
-					__gen.writeStartObject();
-					__gen.writeNumberField("style_id", __style.getId());
-					__gen.writeStringField("title", __style.getTitle());
-					__gen.writeObjectFieldStart("images");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixStyle(),
-							__style.getImage());
-					__gen.writeEndObject();
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
-
+		_styles.forEach(__style -> {
+			try {
+				__gen.writeStartObject();
+				__gen.writeNumberField("style_id", __style.getId());
+				__gen.writeStringField("title", __style.getTitle());
+				__gen.writeObjectFieldStart("images");
+				GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixStyle(),
+				        __style.getImage());
+				__gen.writeEndObject();
+				__gen.writeEndObject();
+			}
+			catch (IOException _ex) {
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 		});
 		__gen.writeEndArray();
@@ -256,40 +250,36 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
 
 		List<Object[]> _confirm = new ArrayList<>(), _counterOffer = new ArrayList<>();
-		_designersJobs.forEach(new Consumer<Object[]>() {
-
-			@Override
-			public void accept(Object[] __obs) {
-				try {
-					JobsAccount _jobsAccount = (JobsAccount) __obs[0];
-					if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM
-							.getCode()) {
-						_confirm.add(__obs);
-					}
-					if (_jobsAccount.getCounter().compareTo(0D) > 0) {
-						_counterOffer.add(__obs);
-					}
-
+		_designersJobs.forEach(__obs -> {
+			try {
+				JobsAccount _jobsAccount = (JobsAccount) __obs[0];
+				if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM
+				        .getCode()) {
+					_confirm.add(__obs);
 				}
-				catch (Exception _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+				if (_jobsAccount.getCounter().compareTo(0D) > 0) {
+					_counterOffer.add(__obs);
 				}
+
+			}
+			catch (Exception _ex) {
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 		});
 		__gen.writeObjectFieldStart("designers");
 		__gen.writeArrayFieldStart("selected");
 		this.serializeAccounts(__gen, _designersJobs, __value.getPrefixAvatar(),
-				__value.getPrefixPortfolio());
+		        __value.getPrefixPortfolio());
 		__gen.writeEndArray();
 
 		__gen.writeArrayFieldStart("confirm");
 		this.serializeAccounts(__gen, _confirm, __value.getPrefixAvatar(),
-				__value.getPrefixPortfolio());
+		        __value.getPrefixPortfolio());
 		__gen.writeEndArray();
 
 		__gen.writeArrayFieldStart("counter_offer");
 		this.serializeCounterAccounts(__gen, _counterOffer, __value.getPrefixAvatar(),
-				__value.getPrefixPortfolio());
+		        __value.getPrefixPortfolio());
 		__gen.writeEndArray();
 		__gen.writeEndObject();
 		__gen.writeEndObject();
@@ -298,66 +288,58 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 	}
 
 	private void serializeAccounts(JsonGenerator __gen, List<Object[]> __unConfirm,
-			String __prefixAvatar, String __prefixPortfolio) {
-		__unConfirm.forEach(new Consumer<Object[]>() {
-
-			@Override
-			public void accept(Object[] __accounts) {
-				try {
-					Account _account = (Account) __accounts[1];
-					Portfolio _portfolio = (Portfolio) __accounts[2];
-					__gen.writeStartObject();
-					__gen.writeNumberField("designer_id", _account.getId());
-					__gen.writeStringField("designer_name", _account.getName());
-					__gen.writeNumberField("designer_reward",
-							_account.getRewards() == 0 ? 1 : _account.getRewards());
-					__gen.writeObjectFieldStart("designer_avatar");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
-							_account.getImage());
-					__gen.writeEndObject();
-					__gen.writeObjectFieldStart("portfolio_image");
-					String _portfolioImage = _portfolio.getImage().split(",")[0];
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
-							_portfolioImage);
-					__gen.writeEndObject();
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
+	        String __prefixAvatar, String __prefixPortfolio) {
+		__unConfirm.forEach(__accounts -> {
+			try {
+				Account _account = (Account) __accounts[1];
+				Portfolio _portfolio = (Portfolio) __accounts[2];
+				__gen.writeStartObject();
+				__gen.writeNumberField("designer_id", _account.getId());
+				__gen.writeStringField("designer_name", _account.getName());
+				__gen.writeNumberField("designer_reward",
+				        _account.getRewards() == 0 ? 1 : _account.getRewards());
+				__gen.writeObjectFieldStart("designer_avatar");
+				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
+				        _account.getImage());
+				__gen.writeEndObject();
+				__gen.writeObjectFieldStart("portfolio_image");
+				String _portfolioImage = _portfolio.getImage().split(",")[0];
+				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
+				        _portfolioImage);
+				__gen.writeEndObject();
+				__gen.writeEndObject();
+			}
+			catch (IOException _ex) {
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 		});
 	}
 
 	private void serializeCounterAccounts(JsonGenerator __gen, List<Object[]> __counterAccounts,
-			String __prefixAvatar, String __prefixPortfolio) {
-		__counterAccounts.forEach(new Consumer<Object[]>() {
-
-			@Override
-			public void accept(Object[] __counterAccount) {
-				try {
-					Portfolio _portfolio = (Portfolio) __counterAccount[2];
-					Account _account = (Account) __counterAccount[1];
-					Double _counter = (Double) __counterAccount[0];
-					__gen.writeStartObject();
-					__gen.writeNumberField("designer_id", _account.getId());
-					__gen.writeStringField("designer_name", _account.getName());
-					__gen.writeNumberField("designer_reward",
-							_account.getRewards() == 0 ? 1 : _account.getRewards());
-					__gen.writeObjectFieldStart("designer_avatar");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
-							_account.getImage());
-					__gen.writeEndObject();
-					__gen.writeObjectFieldStart("portfolio_image");
-					GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
-							_portfolio.getImage());
-					__gen.writeEndObject();
-					__gen.writeNumberField("counter", _counter);
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
+	        String __prefixAvatar, String __prefixPortfolio) {
+		__counterAccounts.forEach(__counterAccount -> {
+			try {
+				Portfolio _portfolio = (Portfolio) __counterAccount[2];
+				Account _account = (Account) __counterAccount[1];
+				Double _counter = ((JobsAccount) __counterAccount[0]).getCounter();
+				__gen.writeStartObject();
+				__gen.writeNumberField("designer_id", _account.getId());
+				__gen.writeStringField("designer_name", _account.getName());
+				__gen.writeNumberField("designer_reward",
+				        _account.getRewards() == 0 ? 1 : _account.getRewards());
+				__gen.writeObjectFieldStart("designer_avatar");
+				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
+				        _account.getImage());
+				__gen.writeEndObject();
+				__gen.writeObjectFieldStart("portfolio_image");
+				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
+				        _portfolio.getImage());
+				__gen.writeEndObject();
+				__gen.writeNumberField("counter", _counter);
+				__gen.writeEndObject();
+			}
+			catch (IOException _ex) {
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 		});
 	}

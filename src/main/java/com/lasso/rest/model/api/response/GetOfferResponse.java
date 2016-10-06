@@ -15,10 +15,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lasso.define.JobStepConstant;
+import com.lasso.define.JobConfirmationConstant;
+import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
+import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
@@ -147,6 +149,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		List<Style> _styles = (List<Style>) __value.getData()[2];
 		Type _type = (Type) __value.getData()[3];
 		Category _category = (Category) __value.getData()[4];
+		JobsAccount _jobsAccount = (JobsAccount) __value.getData()[5];
 
 		__gen.writeStringField("job_description", _job.getDescription());
 		__gen.writeNumberField("job_step", _job.getStep());
@@ -206,17 +209,21 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeStringField("further_information", _job.getFurtherInformation());
 		String _status;
 		if (_job.getPaid().equals((byte) 0)) {
-			_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
-		}
-		else {
-			if (_job.getCompleted().equals((byte) 0)) {
-				_status = "In Progress";
+			if (_jobsAccount.getConfirm().equals(JobConfirmationConstant.JOB_UN_CONFIRM)) {
+				_status = "job_confirm";
 			}
 			else {
-				_status = "Completed";
+				_status = "job_wait_accept";
 			}
 		}
+		else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+			_status = "job_completed";
+		}
+		else {
+			_status = "job_explain";
+		}
 		__gen.writeStringField("status", _status);
+		__gen.writeNumberField("counter_amount", _jobsAccount.getCounter());
 
 		__gen.writeEndObject();
 
