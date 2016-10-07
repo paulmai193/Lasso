@@ -157,6 +157,7 @@ public class PublicController extends BaseController {
 	@POST
 	@Path("/send/contactus")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
@@ -174,6 +175,7 @@ public class PublicController extends BaseController {
 	@POST
 	@Path("/send/feedback")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	public Response sendFeedBack(FeedbackRequest __feedbackRequest) {
 		__feedbackRequest.validate();

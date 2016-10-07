@@ -136,6 +136,7 @@
 		<property name="jobDAO" ref="jobDAO" />
 		<property name="messageDAO" ref="messageDAO" />
 		<property name="firebaseApiKey" ref="firebaseApiKey" />
+		<property name="emailUtil" ref="emailUtil" />
 	</bean>
 
 	<!-- Controller Layer -->

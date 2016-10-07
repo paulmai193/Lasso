@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.ws.rs.NotFoundException;
 
 import org.apache.log4j.Logger;
@@ -24,6 +25,10 @@ import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.MessageManagement;
+import com.lasso.template.DesignerNewMessageEmail;
+import com.lasso.template.EmailTemplate;
+import com.lasso.template.UserNewMessageEmail;
+import com.lasso.util.EmailUtil;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -51,6 +56,13 @@ public class ImplMessageManagement implements MessageManagement {
 	/** The message DAO. */
 	@Autowired
 	private MessageDAO	messageDAO;
+
+	/** The email util. */
+	private EmailUtil	emailUtil;
+
+	public void setEmailUtil(EmailUtil __emailUtil) {
+		this.emailUtil = __emailUtil;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -107,10 +119,6 @@ public class ImplMessageManagement implements MessageManagement {
 	@Override
 	public List<Object[]> getMessagesDetailOfAccount(Account __account, int __idJob) {
 		Message _rootMessage = this.messageDAO.getRootMessage(__idJob);
-		// if (_rootMessage == null) {
-		// throw new NotFoundException("Message not found");
-		// }
-		// List<Message> _messages = this.messageDAO.getListMessageByIdParent(_rootMessage.getId());
 		Job _job = this.jobDAO.getJobById(__idJob);
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
@@ -177,12 +185,16 @@ public class ImplMessageManagement implements MessageManagement {
 					if (_accountSettings.getEmailSettings().getMessages() != null
 					        && _accountSettings.getEmailSettings().getMessages().equals("on")) {
 						// TODO Notify email
-						// EmailTemplate _emailTemplate = new DesignerActivateEmail(
-						// _designer.getName(), "#");
-						// ImplUserManagement.this.emailUtil.sendEmailByTemplate(
-						// _designer.getEmail(), "New offer",
-						// _emailTemplate.getContent(), RecipientType.TO,
-						// _emailTemplate.getTemplate());
+						EmailTemplate _emailTemplate;
+						if (_receiver.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+							_emailTemplate = new DesignerNewMessageEmail(_receiver.getName(), "#");
+						}
+						else {
+							_emailTemplate = new UserNewMessageEmail(_receiver.getName(), "#");
+						}
+						ImplMessageManagement.this.emailUtil.sendEmailByTemplate(
+						        _receiver.getEmail(), "New Message", _emailTemplate.getContent(),
+						        RecipientType.TO, _emailTemplate.getTemplate());
 					}
 				}
 				catch (Exception _ex) {
