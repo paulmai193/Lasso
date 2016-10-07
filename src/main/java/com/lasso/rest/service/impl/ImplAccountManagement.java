@@ -282,8 +282,8 @@ public class ImplAccountManagement implements AccountManagement {
 		else {
 			_emailTemplate = new UserActivateEmail(__firstName, __refLink);
 		}
-		this.emailUtil.sendEmailByTemplate(__email, "Xác thực tài khoản",
-		        _emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
+		this.emailUtil.sendEmailByTemplate(__email, "Activate Account", _emailTemplate.getContent(),
+		        RecipientType.TO, _emailTemplate.getTemplate());
 	}
 
 	/*
@@ -303,8 +303,8 @@ public class ImplAccountManagement implements AccountManagement {
 		else {
 			_emailTemplate = new UserResetPasswordEmail(__firstName, __refLink);
 		}
-		this.emailUtil.sendEmailByTemplate(__email, "Phục hồi mật khẩu",
-		        _emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
+		this.emailUtil.sendEmailByTemplate(__email, "Reset password", _emailTemplate.getContent(),
+		        RecipientType.TO, _emailTemplate.getTemplate());
 	}
 
 	/**

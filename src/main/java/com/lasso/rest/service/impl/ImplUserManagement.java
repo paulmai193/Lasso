@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
@@ -50,6 +51,8 @@ import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
+import com.lasso.template.DesignerNewOfferEmail;
+import com.lasso.template.EmailTemplate;
 import com.lasso.util.EmailUtil;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -199,12 +202,12 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 							        && _accountSettings.getEmailSettings().getOffer()
 							                .equals("on")) {
 								// TODO Notify email
-								// EmailTemplate _emailTemplate = new DesignerActivateEmail(
-								// _designer.getName(), "#");
-								// ImplUserManagement.this.emailUtil.sendEmailByTemplate(
-								// _designer.getEmail(), "New offer",
-								// _emailTemplate.getContent(), RecipientType.TO,
-								// _emailTemplate.getTemplate());
+								EmailTemplate _emailTemplate = new DesignerNewOfferEmail(
+								        _designer.getName(), "#");
+								ImplUserManagement.this.emailUtil.sendEmailByTemplate(
+								        _designer.getEmail(), "New job offer",
+								        _emailTemplate.getContent(), RecipientType.TO,
+								        _emailTemplate.getTemplate());
 							}
 						}
 						catch (Exception _ex) {
@@ -251,29 +254,31 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
 		}
-		else if (this.jobAccountDAO.getByJobId(__confirmOrderRequest.getIdJob()) != null) {
-			throw new IllegalArgumentException(
-			        "This job was confirm before. Denied re-other confirm");
-		}
 		else {
-			JobsAccount _jobsAccount = this.jobAccountDAO.getConfirmByJobAndDesignerId(
+			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(
 			        __confirmOrderRequest.getIdJob(), __confirmOrderRequest.getIdDesigner());
 			if (_jobsAccount == null) {
-				throw new NullPointerException(
-				        "Order to this designer not valid, or designer do not accept this order");
+				throw new NullPointerException("Order to this designer not valid");
+			}
+			else if (_jobsAccount.getConfirm().byteValue() < JobConfirmationConstant.JOB_CONFIRM
+			        .getCode()) {
+				throw new ForbiddenException("Designer not confirm this job");
 			}
 			else {
 				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_ACCEPT.getCode());
 				this.jobAccountDAO.saveJobAccount(_jobsAccount);
 
-				// Check if have counter offer, re-calculate order amount
+				// Update job
+				_job.setStep(JobStepConstant.JOB_STEP_CONFIRM.getStepCode());
+
+				// // Check if have counter offer, re-calculate order amount
 				double _counterOffer = _jobsAccount.getCounter();
 				if (_counterOffer > 0) {
 					_job.setBudget(_counterOffer);
 					_job.setFee(_counterOffer * this.genericManagement.getServiceFee() / 100);
-
-					this.jobDAO.updateJob(_job);
 				}
+
+				this.jobDAO.updateJob(_job);
 			}
 		}
 	}
@@ -366,37 +371,37 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				_job.update(__editJobRequest);
 				this.jobDAO.updateJob(_job);
 
-				// Remove old job types
-				this.jobStyleDAO.removeJobStyleByJobId(_job.getId());
-
 				// Copy portfolio images from temporary directory to resource directory
-				for (String _tempFileName : __editJobRequest.getReference()) {
+				__editJobRequest.getReference().forEach(_tempFileName -> {
 					File _tempFile = new File(_webContextStoragePath + this.temporaryStoragePath
 					        + "/" + _tempFileName);
 					if (_tempFile.exists()) {
 						// Move original file
-						FileUtils.copyFileToDirectory(_tempFile,
-						        new File(
-						                _webContextStoragePath + this.jobStoragePath + "/Original"),
-						        false);
-
-						// Resize into 3 other size
-						File _icon = new File(_webContextStoragePath + this.jobStoragePath
-						        + "/Icon/" + _tempFileName);
-						this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
-						File _small = new File(_webContextStoragePath + this.jobStoragePath
-						        + "/Small/" + _tempFileName);
-						this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
-						File _retina = new File(_webContextStoragePath + this.jobStoragePath
-						        + "/Retina/" + _tempFileName);
-						this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
+						try {
+							FileUtils.copyFileToDirectory(_tempFile, new File(
+							        _webContextStoragePath + this.jobStoragePath + "/Original"),
+							        false);
+							// Resize into 3 other size
+							File _icon = new File(_webContextStoragePath + this.jobStoragePath
+							        + "/Icon/" + _tempFileName);
+							this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
+							File _small = new File(_webContextStoragePath + this.jobStoragePath
+							        + "/Small/" + _tempFileName);
+							this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
+							File _retina = new File(_webContextStoragePath + this.jobStoragePath
+							        + "/Retina/" + _tempFileName);
+							this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
+						}
+						catch (IOException _ex) {
+							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+						}
 					}
 					else {
 						Logger.getLogger(this.getClass())
 						        .warn("Job temporary file not exist. Check this path: "
 						                + _tempFile.getAbsolutePath());
 					}
-				}
+				});
 			}
 			finally {
 				// Remove temporary directory which were older than 2 days
@@ -475,48 +480,44 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			return new ArrayList<>();
 		}
 		else {
-			_jobs.forEach(new Consumer<Job>() {
-
-				@Override
-				public void accept(Job __job) {
-					try {
-						String _designerName = "";
-						JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
-						        .getByJobId(__job.getId());
-						if (_jobsAccount != null) {
-							Account _designer = ImplUserManagement.this.accountDAO
-							        .getAccountById(_jobsAccount.getAccountId());
-							if (_designer != null) {
-								_designerName = _designer.getName();
-							}
-							else {
-								return;
-							}
+			_jobs.forEach(_job -> {
+				try {
+					String _designerName = "";
+					JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
+					        .getByJobId(_job.getId());
+					if (_jobsAccount != null) {
+						Account _designer = ImplUserManagement.this.accountDAO
+						        .getAccountById(_jobsAccount.getAccountId());
+						if (_designer != null) {
+							_designerName = _designer.getName();
 						}
-						List<Integer> _styleIds = new ArrayList<>();
-						ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(__job.getId())
-						        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
-						List<Style> _styles = ImplUserManagement.this.styleDAO
-						        .getListByByListIds(_styleIds);
-						if (_styles.isEmpty()) {
+						else {
 							return;
 						}
-						Type _type = ImplUserManagement.this.typeDAO.getTypeById(__job.getTypeId());
-						if (_type == null) {
-							return;
-						}
-						Category _category = ImplUserManagement.this.categoryDAO
-						        .getCategoryById(__job.getCategoryId());
-						if (_category == null) {
-							return;
-						}
-						Object[] _data = { __job, _designerName, _styles, _type, _category };
-
-						_datas.add(_data);
 					}
-					catch (Exception _ex) {
-						Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+					List<Integer> _styleIds = new ArrayList<>();
+					ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(_job.getId())
+					        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+					List<Style> _styles = ImplUserManagement.this.styleDAO
+					        .getListByByListIds(_styleIds);
+					if (_styles.isEmpty()) {
+						return;
 					}
+					Type _type = ImplUserManagement.this.typeDAO.getTypeById(_job.getTypeId());
+					if (_type == null) {
+						return;
+					}
+					Category _category = ImplUserManagement.this.categoryDAO
+					        .getCategoryById(_job.getCategoryId());
+					if (_category == null) {
+						return;
+					}
+					Object[] _data = { _job, _designerName, _styles, _type, _category };
+
+					_datas.add(_data);
+				}
+				catch (Exception _ex) {
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			});
 

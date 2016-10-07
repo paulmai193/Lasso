@@ -254,7 +254,9 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 			try {
 				JobsAccount _jobsAccount = (JobsAccount) __obs[0];
 				if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM
-				        .getCode()) {
+				        .getCode()
+				        || _jobsAccount.getConfirm()
+				                .byteValue() == JobConfirmationConstant.JOB_ACCEPT.getCode()) {
 					_confirm.add(__obs);
 				}
 				if (_jobsAccount.getCounter().compareTo(0D) > 0) {

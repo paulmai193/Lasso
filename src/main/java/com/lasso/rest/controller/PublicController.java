@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -129,12 +130,12 @@ public class PublicController extends BaseController {
 	 */
 	@POST
 	@Path("/paypal/callback")
-	public void receivePaypalCallback() {
+	public void receivePaypalCallback(MultivaluedMap<String, String[]> __multivaluedMap) {
 		// For a full list of configuration parameters refer in wiki page.
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Logger.getLogger(this.getClass())
-		        .info("******* IPN RAW (name:value) pair : " + this.request.getParameterMap());
+		        .info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();
