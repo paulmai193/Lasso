@@ -236,7 +236,7 @@ public class CreateNewOrderRequest extends BaseRequest {
 		if (this.reference == null) {
 			throw new ObjectParamException("Invalid reference");
 		}
-		if (this.budget == null) {
+		if (this.budget == null || this.budget.doubleValue() <= 0) {
 			throw new ObjectParamException("Invalid budget");
 		}
 		if (this.submission == null) {

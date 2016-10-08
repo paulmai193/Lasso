@@ -103,7 +103,7 @@ public class ManageProjectController extends BaseController {
 	@GET
 	@Path("/manage/detail")
 	public JobOfDesignerDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-	        throws javassist.NotFoundException {
+			throws javassist.NotFoundException {
 		Account _designer = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
@@ -147,7 +147,7 @@ public class ManageProjectController extends BaseController {
 			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			return new GetOfferResponse(_orderData, _prefixAvatarUrl, _prefixCategoryUrl,
-			        _prefixJobUrl);
+					_prefixJobUrl);
 		}
 		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);

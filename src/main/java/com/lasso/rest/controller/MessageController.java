@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import com.lasso.define.Constant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
+import com.lasso.rest.model.api.request.ReadMessageRequest;
 import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.ListMessageResponse;
@@ -92,14 +93,30 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-		        __idJob);
+				__idJob);
 		Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-		        null, _prefixJob, _prefixPortfolio);
+				null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
+	}
+
+	/**
+	 * Read message.
+	 *
+	 * @param __readMessageRequest the read message request
+	 * @return the response
+	 */
+	@POST
+	@Path("/read")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response readMessage(ReadMessageRequest __readMessageRequest) {
+		__readMessageRequest.validate();
+		Account _sender = (Account) this.validateContext.getUserPrincipal();
+		this.messageManagement.readMessage(_sender, __readMessageRequest);
+		return this.success();
 	}
 
 	/**

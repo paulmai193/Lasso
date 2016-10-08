@@ -202,6 +202,9 @@ public class CreatePortfolioRequest extends BaseRequest {
 		if (this.info == null) {
 			throw new ObjectParamException("Invalid portfolio info");
 		}
+		if (this.amount == null || this.amount.doubleValue() <= 0) {
+			throw new ObjectParamException("Invalid amount");
+		}
 	}
 
 }

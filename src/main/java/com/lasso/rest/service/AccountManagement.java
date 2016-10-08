@@ -34,7 +34,7 @@ public interface AccountManagement {
 	 * @param __accountChangeDetailRequest the account change detail request
 	 */
 	void changeAccountDetail(Account __account,
-	        AccountChangeDetailRequest __accountChangeDetailRequest);
+			AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
@@ -65,7 +65,7 @@ public interface AccountManagement {
 	 * @throws MessagingException the messaging exception
 	 */
 	String forgotPassword(String __email)
-	        throws NotFoundException, AddressException, MessagingException;
+			throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Gets the all accounts.
@@ -84,7 +84,7 @@ public interface AccountManagement {
 	 * @return the login response
 	 */
 	LoginResponse login(String __email, String __password, String __pushToken,
-	        String __prefixAvatarUrl);
+			String __prefixAvatarUrl);
 
 	/**
 	 * User Logout.
@@ -131,7 +131,7 @@ public interface AccountManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void sendActivationEmail(String __email, String __refLink, String __role, String __firstName)
-	        throws AddressException, MessagingException, URISyntaxException, IOException;
+			throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Send reset password email.
@@ -146,7 +146,7 @@ public interface AccountManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void sendResetPasswordEmail(String __email, String __refLink, String __role, String __firstName)
-	        throws AddressException, MessagingException, URISyntaxException, IOException;
+			throws AddressException, MessagingException, URISyntaxException, IOException;
 
 	/**
 	 * Settings.
@@ -158,7 +158,7 @@ public interface AccountManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void settings(Account __account, SettingsRequest __settingsRequest)
-	        throws JsonParseException, JsonMappingException, IOException;
+			throws JsonParseException, JsonMappingException, IOException;
 
 	/**
 	 * Validate the token to verify secured account.
@@ -178,6 +178,6 @@ public interface AccountManagement {
 	 * @return the login response
 	 */
 	LoginResponse verifyAccount(String __type, String __otp, String __pushToken,
-	        String __prefixAvatarUrl);
+			String __prefixAvatarUrl);
 
 }

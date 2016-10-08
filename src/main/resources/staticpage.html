@@ -2,12 +2,12 @@
 <style>
 @font-face {
     font-family: 'HelveticaNeueLTStdLt';
-    src: url('../fonts/HelveticaNeueLTStdLt.eot');
-    src: url('../fonts/HelveticaNeueLTStdLt.eot') format('embedded-opentype'),
-         url('../fonts/HelveticaNeueLTStdLt.woff2') format('woff2'),
-         url('../fonts/HelveticaNeueLTStdLt.woff') format('woff'),
-         url('../fonts/HelveticaNeueLTStdLt.ttf') format('truetype'),
-         url('../fonts/HelveticaNeueLTStdLt.svg#HelveticaNeueLTStdLt') format('svg');
+    src: url('../../fonts/HelveticaNeueLTStdLt.eot');
+    src: url('../../fonts/HelveticaNeueLTStdLt.eot') format('embedded-opentype'),
+         url('../../fonts/HelveticaNeueLTStdLt.woff2') format('woff2'),
+         url('../../fonts/HelveticaNeueLTStdLt.woff') format('woff'),
+         url('../../fonts/HelveticaNeueLTStdLt.ttf') format('truetype'),
+         url('../../fonts/HelveticaNeueLTStdLt.svg#HelveticaNeueLTStdLt') format('svg');
 }
 // Reset
 html,
@@ -324,6 +324,7 @@ noscript {
 .editor ol ol,.editor ol ul,.editor ul ol,.editor ul ul{padding-left:10px}
 .editor ol{list-style-type:decimal}
 .editor ul{list-style-type:disc}
+a, body {    color: #231f20;}
 @media only screen and (min-width:768px){
   .editor dl,.editor ol,.editor ul{padding:0 40px}
   .editor ol,.editor ul{-webkit-padding-start:40px}
@@ -334,5 +335,5 @@ noscript {
 </style>
 </head>
 <body>
-${body}
+<div class="editor">${body}</div>
 </body>

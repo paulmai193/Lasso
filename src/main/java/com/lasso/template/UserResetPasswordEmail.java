@@ -34,7 +34,7 @@ public class UserResetPasswordEmail implements EmailTemplate {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public UserResetPasswordEmail(String __firstName, String __resetLink)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.resetLink = __resetLink;
@@ -67,9 +67,9 @@ public class UserResetPasswordEmail implements EmailTemplate {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
 		_mapTemplate.put("img_01_user_forgot.jpg",
-		        new File(this.template, "img_01_user_forgot.jpg"));
+				new File(this.template, "img_01_user_forgot.jpg"));
 		_mapTemplate.put("title_1_user_forgot.jpg",
-		        new File(this.template, "title_1_user_forgot.jpg"));
+				new File(this.template, "title_1_user_forgot.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
@@ -89,7 +89,7 @@ public class UserResetPasswordEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/user-forgot-pass").toURI());
+				.getResource("/email-template/user-forgot-pass").toURI());
 	}
 
 }

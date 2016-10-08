@@ -3,6 +3,7 @@ package com.lasso.rest.service;
 import java.io.IOException;
 import java.util.List;
 
+import com.lasso.rest.model.api.request.ReadMessageRequest;
 import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.push.SendPushRequest;
@@ -31,6 +32,14 @@ public interface MessageManagement {
 	 * @return the messages detail of account
 	 */
 	List<Object[]> getMessagesDetailOfAccount(Account __account, int __idJob);
+
+	/**
+	 * Read message.
+	 *
+	 * @param __sender the sender
+	 * @param __readMessageRequest the read message request
+	 */
+	void readMessage(Account __sender, ReadMessageRequest __readMessageRequest);
 
 	/**
 	 * Send message.

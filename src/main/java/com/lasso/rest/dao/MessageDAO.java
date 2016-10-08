@@ -20,14 +20,6 @@ public interface MessageDAO extends HibernateSession {
 	Message getLastMessageOfRoot(Message __rootMessage);
 
 	/**
-	 * Gets the list message by id.
-	 *
-	 * @param __idMessage the id message
-	 * @return the list message by id
-	 */
-	Message getListMessageById(Integer __idMessage);
-
-	/**
 	 * Gets the list message by id job.
 	 *
 	 * @param __idJob the id job
@@ -60,12 +52,29 @@ public interface MessageDAO extends HibernateSession {
 	List<Message> getListRootMessageByIdRSender(Integer __idSender);
 
 	/**
+	 * Gets the message by id.
+	 *
+	 * @param __idMessage the id message
+	 * @return the list message by id
+	 */
+	Message getMessageById(Integer __idMessage);
+
+	/**
 	 * Gets the root message.
 	 *
 	 * @param __idMessage the id message
 	 * @return the root message
 	 */
 	Message getRootMessage(int __idMessage);
+
+	/**
+	 * Gets the root message by id job.
+	 *
+	 * @param __idAccount the id account
+	 * @param __idJob the id job
+	 * @return the root message by id job
+	 */
+	Message getRootMessageByIdJob(int __idAccount, int __idJob);
 
 	/**
 	 * Save message.
@@ -88,7 +97,5 @@ public interface MessageDAO extends HibernateSession {
 	 * @param __message the message
 	 */
 	void updateMessage(Message __message);
-
-	Message getRootMessageByIdJob(int __idAccount, int __idJob);
 
 }

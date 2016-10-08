@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage.RecipientType;
 import javax.ws.rs.NotFoundException;
 
 import org.apache.log4j.Logger;
@@ -17,6 +16,7 @@ import com.lasso.define.Constant;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.dao.MessageDAO;
+import com.lasso.rest.model.api.request.ReadMessageRequest;
 import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.AccountSettings;
@@ -46,6 +46,9 @@ public class ImplMessageManagement implements MessageManagement {
 	@Autowired
 	private AccountDAO	accountDAO;
 
+	/** The email util. */
+	private EmailUtil	emailUtil;
+
 	/** The firebase api key. */
 	private String		firebaseApiKey	= "AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g";
 
@@ -56,13 +59,6 @@ public class ImplMessageManagement implements MessageManagement {
 	/** The message DAO. */
 	@Autowired
 	private MessageDAO	messageDAO;
-
-	/** The email util. */
-	private EmailUtil	emailUtil;
-
-	public void setEmailUtil(EmailUtil __emailUtil) {
-		this.emailUtil = __emailUtil;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -84,10 +80,10 @@ public class ImplMessageManagement implements MessageManagement {
 		_messages.forEach(_rootMessage -> {
 			Object[] _data = { null, null, null };// {message, sender, job}
 			Message _lastMessage = ImplMessageManagement.this.messageDAO
-			        .getLastMessageOfRoot(_rootMessage);
+					.getLastMessageOfRoot(_rootMessage);
 			_data[0] = _lastMessage == null ? _rootMessage : _lastMessage;
 			Account _sender = ImplMessageManagement.this.accountDAO
-			        .getAccountById(_rootMessage.getFromAccountId());
+					.getAccountById(_rootMessage.getFromAccountId());
 			if (_sender != null) {
 				_data[1] = _sender;
 			}
@@ -97,7 +93,7 @@ public class ImplMessageManagement implements MessageManagement {
 					_data[2] = _job;
 				}
 				else if (_job.getPaid().equals((byte) 1)
-				        && __account.getRole().equals(Constant.ROLE_USER)) {
+						&& __account.getRole().equals(Constant.ROLE_USER)) {
 					_data[2] = _job;
 				}
 				else {
@@ -134,13 +130,27 @@ public class ImplMessageManagement implements MessageManagement {
 
 			// Get return data
 			Account _sender = ImplMessageManagement.this.accountDAO
-			        .getAccountById(_message.getFromAccountId());
+					.getAccountById(_message.getFromAccountId());
 			if (_sender != null) {
 				Object[] _data = { _message, _sender };
 				_messageDatas.add(_data);
 			}
 		});
 		return _messageDatas;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.service.MessageManagement#readMessage(com.lasso.rest.model.datasource.Account,
+	 * com.lasso.rest.model.api.request.ReadMessageRequest)
+	 */
+	@Override
+	public void readMessage(Account __sender, ReadMessageRequest __readMessageRequest) {
+		Message _message = this.messageDAO.getMessageById(__readMessageRequest.getIdMessage());
+		_message.setIsRead((byte) 1);
+		this.messageDAO.updateMessage(_message);
 	}
 
 	/*
@@ -157,54 +167,54 @@ public class ImplMessageManagement implements MessageManagement {
 			throw new NotFoundException("Root message not found");
 		}
 		int _idReceiver = _rootMessage.getFromAccountId().equals(__sender.getId())
-		        ? _rootMessage.getToAccountId() : _rootMessage.getFromAccountId();
-		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
-		        __sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
-		        _rootMessage.getTitle(), _idReceiver);
-		int _idMessage = this.messageDAO.saveMessage(_message);
-		new Thread(new Runnable() {
+				? _rootMessage.getToAccountId() : _rootMessage.getFromAccountId();
+				Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
+						__sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
+						_rootMessage.getTitle(), _idReceiver);
+				int _idMessage = this.messageDAO.saveMessage(_message);
+				new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				Account _receiver = ImplMessageManagement.this.accountDAO
-				        .getAccountById(_idReceiver);
-				try {
-					AccountSettings _accountSettings = _receiver.getSettings();
+					@Override
+					public void run() {
+						Account _receiver = ImplMessageManagement.this.accountDAO
+								.getAccountById(_idReceiver);
+						try {
+							AccountSettings _accountSettings = _receiver.getSettings();
 
-					// Send push in-app
-					if (_accountSettings.getAppSettings().getMessages() != null
-					        && _accountSettings.getAppSettings().getMessages().equals("on")) {
-						SendPushRequest _pushRequest = new SendPushRequest();
-						_pushRequest.setNotification(
-						        new PushNotification(_message.getTitle(), _message.getMessage()));
-						_pushRequest.setTo(_receiver.getDeviceId());
-						ImplMessageManagement.this.sendPush(_pushRequest);
-					}
+							// Send push in-app
+							if (_accountSettings.getAppSettings().getMessages() != null
+									&& _accountSettings.getAppSettings().getMessages().equals("on")) {
+								SendPushRequest _pushRequest = new SendPushRequest();
+								_pushRequest.setNotification(
+										new PushNotification(_message.getTitle(), _message.getMessage()));
+								_pushRequest.setTo(_receiver.getDeviceId());
+								ImplMessageManagement.this.sendPush(_pushRequest);
+							}
 
-					// Send email
-					if (_accountSettings.getEmailSettings().getMessages() != null
-					        && _accountSettings.getEmailSettings().getMessages().equals("on")) {
-						// TODO Notify email
-						EmailTemplate _emailTemplate;
-						String _link = "http://domain/message-detail-" + _idMessage
-						        + ".html?device_id=" + _receiver.getDeviceId();
-						if (_receiver.getRole().byteValue() == Constant.ROLE_DESIGNER) {
-							_emailTemplate = new DesignerNewMessageEmail(_receiver.getName(),
-							        _link);
+							// Send email
+							if (_accountSettings.getEmailSettings().getMessages() != null
+									&& _accountSettings.getEmailSettings().getMessages().equals("on")) {
+								// TODO Notify email
+								EmailTemplate _emailTemplate;
+								String _link = "http://domain/message-detail-" + _idMessage
+										+ ".html?device_id=" + _receiver.getDeviceId();
+								if (_receiver.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+									_emailTemplate = new DesignerNewMessageEmail(_receiver.getName(),
+											_link);
+								}
+								else {
+									_emailTemplate = new UserNewMessageEmail(_receiver.getName(), _link);
+								}
+								ImplMessageManagement.this.emailUtil.sendEmailByTemplate(
+										_receiver.getEmail(), "New Message", _emailTemplate.getContent(),
+										javax.mail.Message.RecipientType.TO, _emailTemplate.getTemplate());
+							}
 						}
-						else {
-							_emailTemplate = new UserNewMessageEmail(_receiver.getName(), _link);
+						catch (Exception _ex) {
+							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 						}
-						ImplMessageManagement.this.emailUtil.sendEmailByTemplate(
-						        _receiver.getEmail(), "New Message", _emailTemplate.getContent(),
-						        RecipientType.TO, _emailTemplate.getTemplate());
 					}
-				}
-				catch (Exception _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
-			}
-		}).start();
+				}).start();
 	}
 
 	/*
@@ -216,14 +226,14 @@ public class ImplMessageManagement implements MessageManagement {
 	@Override
 	public void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException {
 		if ((__pushRequest.getTo() != null && !__pushRequest.getTo().isEmpty())
-		        || (__pushRequest.getPushTokens() != null
-		                && !__pushRequest.getPushTokens().isEmpty())) {
+				|| (__pushRequest.getPushTokens() != null
+				&& !__pushRequest.getPushTokens().isEmpty())) {
 			final String _firebaseHost = "https://fcm.googleapis.com/fcm/send";
 			ObjectMapper _mapper = new ObjectMapper();
 			HttpResponse<String> _response = Unirest.post(_firebaseHost)
-			        .header("Content-Type", "application/json")
-			        .header("Authorization", "key=" + this.firebaseApiKey)
-			        .body(_mapper.writeValueAsString(__pushRequest)).asString();
+					.header("Content-Type", "application/json")
+					.header("Authorization", "key=" + this.firebaseApiKey)
+					.body(_mapper.writeValueAsString(__pushRequest)).asString();
 			Logger _logger = Logger.getLogger(this.getClass());
 			_logger.info("Send push status: " + _response.getStatus());
 			_logger.info("Send push response: " + _response.getBody());
@@ -243,6 +253,15 @@ public class ImplMessageManagement implements MessageManagement {
 	 */
 	public void setAccountDAO(AccountDAO __accountDAO) {
 		this.accountDAO = __accountDAO;
+	}
+
+	/**
+	 * Sets the email util.
+	 *
+	 * @param __emailUtil the new email util
+	 */
+	public void setEmailUtil(EmailUtil __emailUtil) {
+		this.emailUtil = __emailUtil;
 	}
 
 	/**

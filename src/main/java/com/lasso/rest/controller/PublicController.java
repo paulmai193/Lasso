@@ -42,8 +42,8 @@ import com.paypal.ipn.IPNMessage;
  * @author Paul Mai
  */
 @Controller
-@Lazy(false)
 @Path("/")
+@Lazy(false)
 public class PublicController extends BaseController {
 
 	/** The generic management. */
@@ -75,16 +75,16 @@ public class PublicController extends BaseController {
 	 *
 	 * @param __staticPage the static page
 	 * @return the faq
-	 * @throws URISyntaxException
-	 * @throws IOException
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@GET
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
 	public String getFAQ(@PathParam("static_page") String __staticPage)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		File _template = new File(
-		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+				this.getClass().getClassLoader().getResource("staticpage.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
@@ -134,16 +134,24 @@ public class PublicController extends BaseController {
 	 * Index.
 	 *
 	 * @param __request the request
+	 * @param __staticResource the static resource
 	 * @return the input stream
 	 */
 	@GET
+	@Path("/{static_resource : .+}")
 	@Produces(MediaType.TEXT_HTML)
-	public InputStream index(@Context HttpServletRequest __request) {
-		return __request.getServletContext().getResourceAsStream("index.jsp");
+	public InputStream index(@Context HttpServletRequest __request,
+			@PathParam("static_resource") String __staticResource) {
+		if (__staticResource == null || __staticResource.isEmpty()) {
+			__staticResource = "index.jsp";
+		}
+		return __request.getServletContext().getResourceAsStream(__staticResource);
 	}
 
 	/**
 	 * Receive paypal callback.
+	 *
+	 * @param __multivaluedMap the multivalued map
 	 */
 	@POST
 	@Path("/paypal/callback")
@@ -152,7 +160,7 @@ public class PublicController extends BaseController {
 		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Logger.getLogger(this.getClass())
-		        .info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
+		.info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();
@@ -160,27 +168,9 @@ public class PublicController extends BaseController {
 		Map<String, String> map = ipnlistener.getIpnMap();
 
 		Logger.getLogger(this.getClass())
-		        .info("******* IPN VERIFY (name:value) pair : " + map + " "
-		                + "######### TransactionType : " + transactionType
-		                + " ======== IPN verified : " + isIpnVerified);
-	}
-
-	/**
-	 * Send feed contact us.
-	 *
-	 * @param __contactUsRequest the contact us request
-	 * @return the response
-	 */
-	@POST
-	@Path("/send/contactus")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
-		__contactUsRequest.validate();
-		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
-		        __contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
-		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
-		return this.success();
+		.info("******* IPN VERIFY (name:value) pair : " + map + " "
+				+ "######### TransactionType : " + transactionType
+				+ " ======== IPN verified : " + isIpnVerified);
 	}
 
 	/**
@@ -198,8 +188,26 @@ public class PublicController extends BaseController {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
-		        __feedbackRequest.getName(), __feedbackRequest.getMessage(),
-		        Constant.SEND_FEEDBACK);
+				__feedbackRequest.getName(), __feedbackRequest.getMessage(),
+				Constant.SEND_FEEDBACK);
+		return this.success();
+	}
+
+	/**
+	 * Send feed contact us.
+	 *
+	 * @param __contactUsRequest the contact us request
+	 * @return the response
+	 */
+	@POST
+	@Path("/send/contactus")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
+		__contactUsRequest.validate();
+		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
+				__contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
+				__contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
 	}
 

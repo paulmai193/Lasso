@@ -84,7 +84,7 @@ public class GetOfferResponse extends BaseResponse {
 	 * @param __prefixJob the prefix job
 	 */
 	public GetOfferResponse(Object[] __data, String __prefixAvatar, String __prefixCategory,
-	        String __prefixJob) {
+			String __prefixJob) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -135,7 +135,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOfferResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
@@ -235,7 +235,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 			__gen.writeNumberField("account_id", __account.getId());
 			__gen.writeStringField("account_name", __account.getName());
 			__gen.writeNumberField("account_reward",
-			        __account.getRewards() == 0 ? 1 : __account.getRewards());
+					__account.getRewards() == 0 ? 1 : __account.getRewards());
 			__gen.writeObjectFieldStart("avatar");
 			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
 			__gen.writeEndObject();

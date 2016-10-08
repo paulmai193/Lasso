@@ -22,20 +22,21 @@ import com.lasso.exception.ObjectParamException;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EditOrderRequest extends BaseRequest {
 
-	/** The id job. */
-	@JsonProperty("job_id")
-	private Integer			idJob;
+	/** The asset url. */
+	@JsonProperty("asset_url")
+	private String			assetUrl;
 
 	/** The description. */
 	@JsonProperty("job_description")
 	private String			description;
 
-	/** The reference. */
-	@JsonProperty("reference")
-	private List<String>	reference;
+	/** The further. */
+	@JsonProperty("further_information")
+	private String			further;
 
-	/** The submission. */
-	private Date			submission;
+	/** The id job. */
+	@JsonProperty("job_id")
+	private Integer			idJob;
 
 	/** The last submission. */
 	private Date			lastSubmission;
@@ -44,27 +45,17 @@ public class EditOrderRequest extends BaseRequest {
 	@JsonProperty("objective")
 	private String			objective;
 
-	/** The asset url. */
-	@JsonProperty("asset_url")
-	private String			assetUrl;
+	/** The reference. */
+	@JsonProperty("reference")
+	private List<String>	reference;
 
-	/** The further. */
-	@JsonProperty("further_information")
-	private String			further;
+	/** The submission. */
+	private Date			submission;
 
 	/**
 	 * Instantiates a new edits the job request.
 	 */
 	public EditOrderRequest() {
-	}
-
-	/**
-	 * Gets the id job.
-	 *
-	 * @return the id job
-	 */
-	public Integer getIdJob() {
-		return this.idJob;
 	}
 
 	/**
@@ -92,6 +83,15 @@ public class EditOrderRequest extends BaseRequest {
 	 */
 	public String getFurther() {
 		return this.further;
+	}
+
+	/**
+	 * Gets the id job.
+	 *
+	 * @return the id job
+	 */
+	public Integer getIdJob() {
+		return this.idJob;
 	}
 
 	/**

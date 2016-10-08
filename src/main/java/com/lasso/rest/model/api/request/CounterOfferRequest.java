@@ -54,7 +54,7 @@ public class CounterOfferRequest extends BaseRequest {
 	 */
 	@Override
 	public void validate() throws ObjectParamException {
-		if (this.amount == null) {
+		if (this.amount == null || this.amount.doubleValue() <= 0) {
 			throw new ObjectParamException("Invalid amount");
 		}
 		if (this.idJob == null) {

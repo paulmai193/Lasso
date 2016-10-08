@@ -26,8 +26,6 @@ public class ListProjectsResponse extends BaseResponse {
 	/** The datas. {Project, designer avatar name} */
 	private List<Object[]>	datas;
 
-	private List<Object[]>	suggests;
-
 	/** The next index. */
 	private int				nextIndex;
 
@@ -36,6 +34,9 @@ public class ListProjectsResponse extends BaseResponse {
 
 	/** The prefix project url. */
 	private String			prefixProjectUrl;
+
+	/** The suggests. */
+	private List<Object[]>	suggests;
 
 	/**
 	 * Instantiates a new list projects response.
@@ -77,7 +78,7 @@ public class ListProjectsResponse extends BaseResponse {
 	 * @param __suggests the suggests
 	 */
 	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl,
-	        String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
+			String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
 		super();
 		this.nextIndex = __nextIndex;
 		this.prefixProjectUrl = __prefixProjectUrl;
@@ -93,10 +94,6 @@ public class ListProjectsResponse extends BaseResponse {
 	 */
 	public List<Object[]> getDatas() {
 		return this.datas;
-	}
-
-	public List<Object[]> getSuggests() {
-		return this.suggests;
 	}
 
 	/**
@@ -126,13 +123,22 @@ public class ListProjectsResponse extends BaseResponse {
 		return this.prefixProjectUrl;
 	}
 
+	/**
+	 * Gets the suggests.
+	 *
+	 * @return the suggests
+	 */
+	public List<Object[]> getSuggests() {
+		return this.suggests;
+	}
+
 }
 
 class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
 	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -145,11 +151,11 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-				        __value.getPrefixProjectUrl());
+						__value.getPrefixProjectUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
-				Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 
 		});
@@ -159,11 +165,11 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-				        __value.getPrefixProjectUrl());
+						__value.getPrefixProjectUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
-				Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 
 		});
@@ -173,7 +179,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 	}
 
 	private void serializeData(JsonGenerator __gen, Object[] __data, String __prefixAvatarUrl,
-	        String __prefixProjectUrl) {
+			String __prefixProjectUrl) {
 		try {
 			__gen.writeNumberField("project_id", ((Project) __data[0]).getId());
 			__gen.writeStringField("title", ((Project) __data[0]).getTitle());
@@ -186,13 +192,13 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("original",
-				        __prefixProjectUrl + "/Original/" + ((Project) __data[0]).getImage());
+						__prefixProjectUrl + "/Original/" + ((Project) __data[0]).getImage());
 				__gen.writeStringField("small",
-				        __prefixProjectUrl + "/Small/" + ((Project) __data[0]).getImage());
+						__prefixProjectUrl + "/Small/" + ((Project) __data[0]).getImage());
 				__gen.writeStringField("icon",
-				        __prefixProjectUrl + "/Icon/" + ((Project) __data[0]).getImage());
+						__prefixProjectUrl + "/Icon/" + ((Project) __data[0]).getImage());
 				__gen.writeStringField("retina",
-				        __prefixProjectUrl + "/Retina/" + ((Project) __data[0]).getImage());
+						__prefixProjectUrl + "/Retina/" + ((Project) __data[0]).getImage());
 			}
 			__gen.writeEndObject();
 
@@ -204,7 +210,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 		}
 		catch (Exception _ex) {
-			Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}
 

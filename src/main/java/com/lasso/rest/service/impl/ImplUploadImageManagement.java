@@ -36,6 +36,8 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	@Override
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
 			File __destinationImageFile) throws IOException {
+		Logger.getLogger(this.getClass())
+		.debug("Add watermark for image: " + __destinationImageFile.getAbsolutePath());
 		BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 		BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
 
