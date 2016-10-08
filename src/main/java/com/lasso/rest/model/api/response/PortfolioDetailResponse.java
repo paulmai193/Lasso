@@ -3,6 +3,8 @@ package com.lasso.rest.model.api.response;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -79,7 +81,7 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * @param __types the types
 	 */
 	public PortfolioDetailResponse(Category __category, Portfolio __portfolio,
-			String __prefixPortfolioUrl, Style __style, List<Type> __types) {
+	        String __prefixPortfolioUrl, Style __style, List<Type> __types) {
 		super();
 		this.category = __category;
 		this.portfolio = __portfolio;
@@ -184,7 +186,7 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 
 	@Override
 	public void serialize(PortfolioDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -196,12 +198,17 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 		__gen.writeStringField("category_title", __value.getCategory().getTitle());
 		__gen.writeNumberField("category_id", __value.getCategory().getId());
 		__gen.writeArrayFieldStart("types");
-		for (Type _type : __value.getTypes()) {
-			__gen.writeStartObject();
-			__gen.writeNumberField("type_id", _type.getId());
-			__gen.writeStringField("type_title", _type.getTitle());
-			__gen.writeEndObject();
-		}
+		__value.getTypes().forEach(_type -> {
+			try {
+				__gen.writeStartObject();
+				__gen.writeNumberField("type_id", _type.getId());
+				__gen.writeStringField("type_title", _type.getTitle());
+				__gen.writeEndObject();
+			}
+			catch (Exception _ex) {
+				Logger.getLogger(getClass()).warn("Unwanted error", _ex);
+			}
+		});
 		__gen.writeEndArray();
 
 		// __gen.writeObjectFieldStart("style");
@@ -219,13 +226,13 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeStartObject();
 					__gen.writeStringField("original", __value.getPrefixPortfolioUrl()
-							+ "/Original/" + _portfolioImage.trim());
+					        + "/Original/" + _portfolioImage.trim());
 					__gen.writeStringField("small",
-							__value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage.trim());
+					        __value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage.trim());
 					__gen.writeStringField("icon",
-							__value.getPrefixPortfolioUrl() + "/Icon/" + _portfolioImage.trim());
+					        __value.getPrefixPortfolioUrl() + "/Icon/" + _portfolioImage.trim());
 					__gen.writeStringField("retina",
-							__value.getPrefixPortfolioUrl() + "/Retina/" + _portfolioImage.trim());
+					        __value.getPrefixPortfolioUrl() + "/Retina/" + _portfolioImage.trim());
 					__gen.writeEndObject();
 				}
 				else {
