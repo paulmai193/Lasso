@@ -30,6 +30,10 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The email string. */
 	private String		emailString;
 
+	/** The gender. */
+	@JsonProperty(value = "gender")
+	private Short		gender;
+
 	/** The name. */
 	@JsonProperty(value = "name")
 	private String		name;
@@ -54,9 +58,6 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The subscribe. */
 	@JsonProperty(value = "subscribe")
 	private Boolean		subscribe;
-
-	@JsonProperty(value = "gender")
-	private Short		gender;
 
 	/**
 	 * Instantiates a new account register request.
@@ -83,6 +84,15 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public EmailParam getEmail() {
 		return this.email;
+	}
+
+	/**
+	 * Gets the gender.
+	 *
+	 * @return the gender
+	 */
+	public Short getGender() {
+		return this.gender;
 	}
 
 	/**
@@ -139,10 +149,6 @@ public class AccountRegisterRequest extends BaseRequest {
 		return this.subscribe;
 	}
 
-	public Short getGender() {
-		return this.gender;
-	}
-
 	/**
 	 * Sets the country code.
 	 *
@@ -169,6 +175,15 @@ public class AccountRegisterRequest extends BaseRequest {
 	@JsonProperty(value = "email")
 	public void setEmailString(String __emailString) {
 		this.emailString = __emailString;
+	}
+
+	/**
+	 * Sets the gender.
+	 *
+	 * @param __gender the new gender
+	 */
+	public void setGender(Short __gender) {
+		this.gender = __gender;
 	}
 
 	/**
@@ -235,10 +250,6 @@ public class AccountRegisterRequest extends BaseRequest {
 		this.subscribe = __subscribe;
 	}
 
-	public void setGender(Short __gender) {
-		this.gender = __gender;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -276,9 +287,9 @@ public class AccountRegisterRequest extends BaseRequest {
 		if (this.subscribe == null) {
 			throw new ObjectParamException("Invalid subcribe value");
 		}
-		if (gender == null || (gender.shortValue() == Constant.GENDER_MALE
-		        && gender.shortValue() == Constant.GENDER_FEMALE)) {
-			gender = Constant.GENDER_MALE;
+		if (this.gender == null || (this.gender.shortValue() == Constant.GENDER_MALE
+				&& this.gender.shortValue() == Constant.GENDER_FEMALE)) {
+			this.gender = Constant.GENDER_MALE;
 		}
 	}
 }

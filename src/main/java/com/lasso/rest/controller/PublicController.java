@@ -84,9 +84,9 @@ public class PublicController extends BaseController {
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
 	public String getFAQ(@PathParam("static_page") String __staticPage)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		File _template = new File(
-		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+				this.getClass().getClassLoader().getResource("staticpage.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
@@ -143,7 +143,7 @@ public class PublicController extends BaseController {
 	@Path("/{static_resource : .+}")
 	// @Produces(MediaType.TEXT_HTML)
 	public InputStream index(@Context HttpServletRequest __request,
-	        @PathParam("static_resource") String __staticResource) {
+			@PathParam("static_resource") String __staticResource) {
 		if (__staticResource == null || __staticResource.isEmpty()) {
 			__staticResource = "index.jsp";
 		}
@@ -160,7 +160,7 @@ public class PublicController extends BaseController {
 	public void receivePaypalCallback(MultivaluedMap<String, String> __multivaluedMap) {
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Logger.getLogger(this.getClass())
-		        .info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
+		.info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
 
 		// Modify request body to match with IPN verify
@@ -182,8 +182,8 @@ public class PublicController extends BaseController {
 		});
 
 		String _response = "******* IPN VERIFY (name:value) pair : " + _jsonObject.toString() + " "
-		        + "######### TransactionType : " + transactionType + " ======== IPN verified : "
-		        + isIpnVerified;
+				+ "######### TransactionType : " + transactionType + " ======== IPN verified : "
+				+ isIpnVerified;
 
 		Logger.getLogger(this.getClass()).info(_response);
 	}
@@ -203,8 +203,8 @@ public class PublicController extends BaseController {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
-		        __feedbackRequest.getName(), __feedbackRequest.getMessage(),
-		        Constant.SEND_FEEDBACK);
+				__feedbackRequest.getName(), __feedbackRequest.getMessage(),
+				Constant.SEND_FEEDBACK);
 		return this.success();
 	}
 
@@ -221,8 +221,8 @@ public class PublicController extends BaseController {
 	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
-		        __contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
-		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+				__contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
+				__contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
 	}
 

@@ -26,14 +26,15 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	@JsonProperty(value = "country_code")
 	private String		countryCode;
 
+	/** The gender. */
+	@JsonProperty(value = "gender")
+	private Short		gender;
+
 	/** The phone. */
 	private PhoneParam	phone;
 
 	/** The phone string. */
 	private String		phoneString;
-
-	@JsonProperty(value = "gender")
-	private Short		gender;
 
 	/**
 	 * Instantiates a new account change detail request.
@@ -71,16 +72,21 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	}
 
 	/**
+	 * Gets the gender.
+	 *
+	 * @return the gender
+	 */
+	public Short getGender() {
+		return this.gender;
+	}
+
+	/**
 	 * Gets the phone.
 	 *
 	 * @return the phone
 	 */
 	public PhoneParam getPhone() {
 		return this.phone;
-	}
-
-	public Short getGender() {
-		return this.gender;
 	}
 
 	/**
@@ -102,6 +108,15 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	}
 
 	/**
+	 * Sets the gender.
+	 *
+	 * @param __gender the new gender
+	 */
+	public void setGender(Short __gender) {
+		this.gender = __gender;
+	}
+
+	/**
 	 * Sets the phone.
 	 *
 	 * @param __phone the new phone
@@ -118,10 +133,6 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	@JsonProperty(value = "phone")
 	public void setPhoneString(String __phoneString) {
 		this.phoneString = __phoneString;
-	}
-
-	public void setGender(Short __gender) {
-		this.gender = __gender;
 	}
 
 	/*
@@ -155,9 +166,9 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		else {
 			this.phone = new PhoneParam(this.phoneString);
 		}
-		if (gender == null || (gender.shortValue() == Constant.GENDER_MALE
-		        && gender.shortValue() == Constant.GENDER_FEMALE)) {
-			gender = Constant.GENDER_MALE;
+		if (this.gender == null || (this.gender.shortValue() == Constant.GENDER_MALE
+				&& this.gender.shortValue() == Constant.GENDER_FEMALE)) {
+			this.gender = Constant.GENDER_MALE;
 		}
 	}
 
