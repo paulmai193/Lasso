@@ -13,7 +13,6 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -308,32 +307,37 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			this.jobStyleDAO.saveListJobStyles(_jobStyles);
 
 			// Copy portfolio images from temporary directory to resource directory
-			for (String _tempFileName : __createNewOrderRequest.getReference()) {
+			__createNewOrderRequest.getReference().forEach(_tempFileName -> {
 				File _tempFile = new File(
 						_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
-					// Move original file
-					FileUtils.copyFileToDirectory(_tempFile,
-							new File(_webContextStoragePath + this.jobStoragePath + "/Original"),
-							false);
 
-					// Resize into 3 other size
-					File _icon = new File(_webContextStoragePath + this.jobStoragePath + "/Icon/"
-							+ _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
-					File _small = new File(_webContextStoragePath + this.jobStoragePath + "/Small/"
-							+ _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
-					File _retina = new File(_webContextStoragePath + this.jobStoragePath
-							+ "/Retina/" + _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
+					try {
+						// Move original file
+						this.uploadImageManagement.copyImage(_tempFile, new File(
+								_webContextStoragePath + this.jobStoragePath + "/Original"));
+
+						// Resize into 3 other size
+						File _icon = new File(_webContextStoragePath + this.jobStoragePath
+								+ "/Icon/" + _tempFileName);
+						this.uploadImageManagement.resizeImage(_tempFile, _icon, 120, 184);
+						File _small = new File(_webContextStoragePath + this.jobStoragePath
+								+ "/Small/" + _tempFileName);
+						this.uploadImageManagement.resizeImage(_tempFile, _small, 182, 280);
+						File _retina = new File(_webContextStoragePath + this.jobStoragePath
+								+ "/Retina/" + _tempFileName);
+						this.uploadImageManagement.resizeImage(_tempFile, _retina, 364, 560);
+					}
+					catch (IOException _ex) {
+						Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+					}
 				}
 				else {
 					Logger.getLogger(this.getClass())
 					.warn("Job temporary file not exist. Check this path: "
 							+ _tempFile.getAbsolutePath());
 				}
-			}
+			});
 
 			return _job.getId();
 		}
@@ -379,19 +383,19 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 					if (_tempFile.exists()) {
 						// Move original file
 						try {
-							FileUtils.copyFileToDirectory(_tempFile, new File(
-									_webContextStoragePath + this.jobStoragePath + "/Original"),
-									false);
+							this.uploadImageManagement.copyImage(_tempFile, new File(
+									_webContextStoragePath + this.jobStoragePath + "/Original"));
+
 							// Resize into 3 other size
 							File _icon = new File(_webContextStoragePath + this.jobStoragePath
 									+ "/Icon/" + _tempFileName);
-							this.uploadImageManagement.resizeImage(_tempFile, _icon, 120D, 184D);
+							this.uploadImageManagement.resizeImage(_tempFile, _icon, 120, 184);
 							File _small = new File(_webContextStoragePath + this.jobStoragePath
 									+ "/Small/" + _tempFileName);
-							this.uploadImageManagement.resizeImage(_tempFile, _small, 182D, 280D);
+							this.uploadImageManagement.resizeImage(_tempFile, _small, 182, 280);
 							File _retina = new File(_webContextStoragePath + this.jobStoragePath
 									+ "/Retina/" + _tempFileName);
-							this.uploadImageManagement.resizeImage(_tempFile, _retina, 364D, 560D);
+							this.uploadImageManagement.resizeImage(_tempFile, _retina, 364, 560);
 						}
 						catch (IOException _ex) {
 							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);

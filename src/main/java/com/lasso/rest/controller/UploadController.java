@@ -191,13 +191,13 @@ public class UploadController extends BaseController implements Feature {
 			// Resize into 3 other size
 			File _icon = new File(
 					_webContextStoragePath + this.avatarStoragePath + "/Icon/" + _avatar.getName());
-			this.uploadImageManagement.resizeImage(_avatar, _icon, 45D, 45D);
+			this.uploadImageManagement.resizeImage(_avatar, _icon, 45, 45);
 			File _small = new File(_webContextStoragePath + this.avatarStoragePath + "/Small/"
 					+ _avatar.getName());
-			this.uploadImageManagement.resizeImage(_avatar, _small, 90D, 90D);
+			this.uploadImageManagement.resizeImage(_avatar, _small, 90, 90);
 			File _retina = new File(_webContextStoragePath + this.avatarStoragePath + "/Retina/"
 					+ _avatar.getName());
-			this.uploadImageManagement.resizeImage(_avatar, _retina, 180D, 180D);
+			this.uploadImageManagement.resizeImage(_avatar, _retina, 180, 180);
 
 			// Save avatar name to account
 			this.accountManagement.changeAvatar(_account, _avatar.getName());

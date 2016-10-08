@@ -4,6 +4,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -176,7 +177,8 @@ public class EditOrderRequest extends BaseRequest {
 			throw new ObjectParamException("Invalid description");
 		}
 		if (this.reference == null) {
-			throw new ObjectParamException("Invalid reference");
+			// throw new ObjectParamException("Invalid reference");
+			this.reference = new ArrayList<>();
 		}
 		if (this.submission == null) {
 			throw new ObjectParamException("Invalid submission");

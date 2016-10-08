@@ -152,6 +152,7 @@ class DesignerDetailSerializer extends JsonSerializer<DetailDesignerResponse> {
 		__gen.writeStringField("alt_contact", __value.getAccount().getAlternativeContact());
 		__gen.writeNumberField("payment", __value.getAccount().getPaymentMethod());
 		__gen.writeNumberField("gender", __value.getAccount().getGender());
+		__gen.writeStringField("password", __value.getAccount().getPassword());
 		__gen.writeEndObject();
 
 		__gen.writeEndObject();

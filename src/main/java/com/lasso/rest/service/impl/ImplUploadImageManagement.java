@@ -12,6 +12,7 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,11 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 		.debug("Add watermark for image: " + __destinationImageFile.getAbsolutePath());
 		BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 		BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
+		File _resizeWatermark = File.createTempFile("temp", null);
+		this.resizeImage(__watermarkImageFile, _resizeWatermark, _watermarkImage.getHeight() / 2,
+				_watermarkImage.getWidth() / 2);
+
+		BufferedImage _resizeWatermarkImage = ImageIO.read(_resizeWatermark);
 
 		// initializes necessary graphic properties
 		Graphics2D _g2d = (Graphics2D) _sourceImage.getGraphics();
@@ -47,17 +53,31 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 		_g2d.setComposite(_alphaChannel);
 
 		// calculates the coordinate where the image is painted
-		int _topLeftX = (_sourceImage.getWidth() - _watermarkImage.getWidth()) / 2;
-		int _topLeftY = (_sourceImage.getHeight() - _watermarkImage.getHeight()) / 2;
+		int _topLeftX = (_sourceImage.getWidth() - _resizeWatermarkImage.getWidth()) / 2;
+		int _topLeftY = (_sourceImage.getHeight() - _resizeWatermarkImage.getHeight()) / 2;
 
 		// paints the image watermark
-		_g2d.drawImage(_watermarkImage, _topLeftX, _topLeftY, null);
+		_g2d.drawImage(_resizeWatermarkImage, _topLeftX, _topLeftY, null);
 
-		ImageIO.write(_sourceImage, "jpg", __destinationImageFile);
+		String _imageName = __sourceImageFile.getName();
+		String _fileExtension = _imageName.substring(_imageName.lastIndexOf(".") + 1,
+				_imageName.length());
+		ImageIO.write(_sourceImage, _fileExtension, __destinationImageFile);
 		this.changeOwner(__destinationImageFile);
 
 		_g2d.dispose();
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UploadImageManagement#copyImage(java.io.File, java.io.File)
+	 */
+	@Override
+	public void copyImage(File __sourceFile, File __destinationFile) throws IOException {
+		FileUtils.copyFileToDirectory(__sourceFile, __destinationFile, false);
+		this.changeOwner(__destinationFile);
 	}
 
 	/*
@@ -75,10 +95,10 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File,
-	 * java.lang.Double)
+	 * java.lang.Integer)
 	 */
 	@Override
-	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
+	public void resizeImage(File __sourceFile, File __destinationFile, Integer __newSize)
 			throws IOException {
 		Logger.getLogger(this.getClass())
 		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
@@ -90,7 +110,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			BufferedImage dbi = null;
 			if (sbi != null) {
 				try {
-					dbi = Scalr.resize(sbi, __newSize.intValue());
+					dbi = Scalr.resize(sbi, __newSize);
 				}
 				finally {
 					sbi.flush();
@@ -106,11 +126,11 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 * (non-Javadoc)
 	 * 
 	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File,
-	 * java.lang.Double, java.lang.Double)
+	 * java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
-			Double __width) throws IOException {
+	public void resizeImage(File __sourceFile, File __destinationFile, Integer __height,
+			Integer __width) throws IOException {
 		Logger.getLogger(this.getClass())
 		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
@@ -120,7 +140,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			BufferedImage dbi = null;
 			if (sbi != null) {
 				try {
-					dbi = Scalr.resize(sbi, __width.intValue(), __height.intValue());
+					dbi = Scalr.resize(sbi, __width, __height);
 				}
 				finally {
 					sbi.flush();

@@ -101,6 +101,10 @@ public class ImplAccountManagement implements AccountManagement {
 		__account.setModified(new Date());
 		__account.setHandphoneNumber(__accountChangeDetailRequest.getPhone().getValue());
 		__account.setGender(__accountChangeDetailRequest.getGender());
+		if (__accountChangeDetailRequest.getPassword() != null
+				&& !__accountChangeDetailRequest.getPassword().isEmpty()) {
+			__account.setPassword(__accountChangeDetailRequest.getPassword());
+		}
 		this.accountDAO.updateAccount(__account);
 	}
 

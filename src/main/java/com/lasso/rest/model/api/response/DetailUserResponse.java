@@ -148,6 +148,7 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		__gen.writeStringField("com_name", __value.getAccount().getCompanyName());
 		__gen.writeStringField("com_phone", __value.getAccount().getCompanyTelephone());
 		__gen.writeNumberField("gender", __value.getAccount().getGender());
+		__gen.writeStringField("password", __value.getAccount().getPassword());
 		__gen.writeEndObject();
 
 		__gen.writeEndObject();

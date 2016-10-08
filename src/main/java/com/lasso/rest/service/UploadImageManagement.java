@@ -19,8 +19,17 @@ public interface UploadImageManagement {
 	 * @param __destinationImageFile the destination image file
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
+	void addWatermark(File __sourceImageFile, File __watermarkImageFile,
 			File __destinationImageFile) throws IOException;
+
+	/**
+	 * Copy image.
+	 *
+	 * @param __sourceFile the source file
+	 * @param __destinationFile the destination file
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	void copyImage(File __sourceFile, File __destinationFile) throws IOException;
 
 	/**
 	 * Generate image name.
@@ -28,7 +37,7 @@ public interface UploadImageManagement {
 	 * @param __extension the extension
 	 * @return the string
 	 */
-	public String generateImageName(String __extension);
+	String generateImageName(String __extension);
 
 	/**
 	 * Resize image.
@@ -38,7 +47,7 @@ public interface UploadImageManagement {
 	 * @param __newSize the new size
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void resizeImage(File __sourceFile, File __destinationFile, Double __newSize)
+	void resizeImage(File __sourceFile, File __destinationFile, Integer __newSize)
 			throws IOException;
 
 	/**
@@ -50,8 +59,8 @@ public interface UploadImageManagement {
 	 * @param __width the resize width
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public void resizeImage(File __sourceFile, File __destinationFile, Double __height,
-			Double __width) throws IOException;
+	void resizeImage(File __sourceFile, File __destinationFile, Integer __height, Integer __width)
+			throws IOException;
 
 	/**
 	 * Save file.
@@ -62,7 +71,7 @@ public interface UploadImageManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws IllegalArgumentException the illegal argument exception
 	 */
-	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
+	void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
 			throws IOException, IllegalArgumentException;
 
 }

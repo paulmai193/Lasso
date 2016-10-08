@@ -36,6 +36,9 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	/** The phone string. */
 	private String		phoneString;
 
+	@JsonProperty("password")
+	private String		password;
+
 	/**
 	 * Instantiates a new account change detail request.
 	 */
@@ -87,6 +90,20 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 */
 	public PhoneParam getPhone() {
 		return this.phone;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return this.password;
+	}
+
+	/**
+	 * @param __password the password to set
+	 */
+	public void setPassword(String __password) {
+		this.password = __password;
 	}
 
 	/**
@@ -167,7 +184,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 			this.phone = new PhoneParam(this.phoneString);
 		}
 		if (this.gender == null || (this.gender.shortValue() == Constant.GENDER_MALE
-				&& this.gender.shortValue() == Constant.GENDER_FEMALE)) {
+		        && this.gender.shortValue() == Constant.GENDER_FEMALE)) {
 			this.gender = Constant.GENDER_MALE;
 		}
 	}

@@ -573,8 +573,11 @@ public class Job implements Serializable {
 		this.modified = new Date();
 		this.latestSubmission = __editJobRequest.getLastSubmission();
 		this.objective = __editJobRequest.getObjective();
-		String _reference = Arrays.toString(__editJobRequest.getReference().toArray());
-		this.reference = _reference.substring(1, _reference.length() - 1);
+		if (!__editJobRequest.getReference().isEmpty()) {
+			String _reference = Arrays.toString(__editJobRequest.getReference().toArray())
+					.replace(" ", "");
+			this.reference = _reference.substring(1, _reference.length() - 1);
+		}
 		this.submission = __editJobRequest.getSubmission();
 	}
 
