@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
+import com.google.gson.JsonObject;
 import com.lasso.define.Constant;
 import com.lasso.define.PaypalCallbackConfiguration;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
@@ -82,9 +84,9 @@ public class PublicController extends BaseController {
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
 	public String getFAQ(@PathParam("static_page") String __staticPage)
-			throws URISyntaxException, IOException {
+	        throws URISyntaxException, IOException {
 		File _template = new File(
-				this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
@@ -139,9 +141,9 @@ public class PublicController extends BaseController {
 	 */
 	@GET
 	@Path("/{static_resource : .+}")
-	@Produces(MediaType.TEXT_HTML)
+	// @Produces(MediaType.TEXT_HTML)
 	public InputStream index(@Context HttpServletRequest __request,
-			@PathParam("static_resource") String __staticResource) {
+	        @PathParam("static_resource") String __staticResource) {
 		if (__staticResource == null || __staticResource.isEmpty()) {
 			__staticResource = "index.jsp";
 		}
@@ -155,22 +157,35 @@ public class PublicController extends BaseController {
 	 */
 	@POST
 	@Path("/paypal/callback")
-	public void receivePaypalCallback(MultivaluedMap<String, String[]> __multivaluedMap) {
-		// For a full list of configuration parameters refer in wiki page.
-		// (https://github.com/paypal/sdk-core-java/blob/master/README.md)
+	public void receivePaypalCallback(MultivaluedMap<String, String> __multivaluedMap) {
 		Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
 		Logger.getLogger(this.getClass())
-		.info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
+		        .info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
 		Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
-		IPNMessage ipnlistener = new IPNMessage(this.request, configurationMap);
+
+		// Modify request body to match with IPN verify
+		Map<String, String[]> _ipnMap = new HashMap<>();
+		__multivaluedMap.forEach((_key, _value) -> {
+			String[] _values = { _value.get(0) };
+			_ipnMap.put(_key, _values);
+		});
+
+		// Verify
+		IPNMessage ipnlistener = new IPNMessage(_ipnMap, configurationMap);
 		boolean isIpnVerified = ipnlistener.validate();
 		String transactionType = ipnlistener.getTransactionType();
 		Map<String, String> map = ipnlistener.getIpnMap();
 
-		Logger.getLogger(this.getClass())
-		.info("******* IPN VERIFY (name:value) pair : " + map + " "
-				+ "######### TransactionType : " + transactionType
-				+ " ======== IPN verified : " + isIpnVerified);
+		JsonObject _jsonObject = new JsonObject();
+		map.forEach((__t, __u) -> {
+			_jsonObject.addProperty(__t, __u);
+		});
+
+		String _response = "******* IPN VERIFY (name:value) pair : " + _jsonObject.toString() + " "
+		        + "######### TransactionType : " + transactionType + " ======== IPN verified : "
+		        + isIpnVerified;
+
+		Logger.getLogger(this.getClass()).info(_response);
 	}
 
 	/**
@@ -188,8 +203,8 @@ public class PublicController extends BaseController {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
-				__feedbackRequest.getName(), __feedbackRequest.getMessage(),
-				Constant.SEND_FEEDBACK);
+		        __feedbackRequest.getName(), __feedbackRequest.getMessage(),
+		        Constant.SEND_FEEDBACK);
 		return this.success();
 	}
 
@@ -206,8 +221,8 @@ public class PublicController extends BaseController {
 	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
-				__contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
-				__contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+		        __contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
+		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
 	}
 

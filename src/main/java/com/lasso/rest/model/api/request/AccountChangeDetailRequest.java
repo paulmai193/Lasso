@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lasso.define.Constant;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.model.variable.PhoneParam;
@@ -30,6 +31,9 @@ public class AccountChangeDetailRequest extends BaseRequest {
 
 	/** The phone string. */
 	private String		phoneString;
+
+	@JsonProperty(value = "gender")
+	private Short		gender;
 
 	/**
 	 * Instantiates a new account change detail request.
@@ -75,6 +79,10 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		return this.phone;
 	}
 
+	public Short getGender() {
+		return this.gender;
+	}
+
 	/**
 	 * Sets the country.
 	 *
@@ -112,6 +120,10 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		this.phoneString = __phoneString;
 	}
 
+	public void setGender(Short __gender) {
+		this.gender = __gender;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -142,6 +154,10 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		}
 		else {
 			this.phone = new PhoneParam(this.phoneString);
+		}
+		if (gender == null || (gender.shortValue() == Constant.GENDER_MALE
+		        && gender.shortValue() == Constant.GENDER_FEMALE)) {
+			gender = Constant.GENDER_MALE;
 		}
 	}
 

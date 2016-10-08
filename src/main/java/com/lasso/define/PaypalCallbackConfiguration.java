@@ -22,10 +22,10 @@ public class PaypalCallbackConfiguration {
 		configMap.putAll(PaypalCallbackConfiguration.getConfig());
 
 		// Account Credential
-		configMap.put("acct1.UserName", "jb-us-seller_api1.paypal.com");
-		configMap.put("acct1.Password", "WX4WTU3S8MY44S7F");
+		configMap.put("acct1.UserName", "logia193-facilitator_api1.gmail.com");
+		configMap.put("acct1.Password", "Y3VTR4R9528PVYZ2");
 		configMap.put("acct1.Signature",
-				"AFcWxV21C7fd0v3bYYYRCpSSRl31A7yDhhsPUU2XhtMoZXsWHFxu-RWy");
+		        "AFcWxV21C7fd0v3bYYYRCpSSRl31AiKB0ODaH0pnqv1zx88xOzFoCzyJ");
 		// Subject is optional, only required in case of third party permission
 		// configMap.put("acct1.Subject", "");
 

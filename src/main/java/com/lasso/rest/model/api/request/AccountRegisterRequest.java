@@ -6,6 +6,7 @@ package com.lasso.rest.model.api.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lasso.define.Constant;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.variable.EmailParam;
 import com.lasso.rest.model.variable.PhoneParam;
@@ -53,6 +54,9 @@ public class AccountRegisterRequest extends BaseRequest {
 	/** The subscribe. */
 	@JsonProperty(value = "subscribe")
 	private Boolean		subscribe;
+
+	@JsonProperty(value = "gender")
+	private Short		gender;
 
 	/**
 	 * Instantiates a new account register request.
@@ -133,6 +137,10 @@ public class AccountRegisterRequest extends BaseRequest {
 	 */
 	public Boolean getSubscribe() {
 		return this.subscribe;
+	}
+
+	public Short getGender() {
+		return this.gender;
 	}
 
 	/**
@@ -227,6 +235,10 @@ public class AccountRegisterRequest extends BaseRequest {
 		this.subscribe = __subscribe;
 	}
 
+	public void setGender(Short __gender) {
+		this.gender = __gender;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -263,6 +275,10 @@ public class AccountRegisterRequest extends BaseRequest {
 		}
 		if (this.subscribe == null) {
 			throw new ObjectParamException("Invalid subcribe value");
+		}
+		if (gender == null || (gender.shortValue() == Constant.GENDER_MALE
+		        && gender.shortValue() == Constant.GENDER_FEMALE)) {
+			gender = Constant.GENDER_MALE;
 		}
 	}
 }

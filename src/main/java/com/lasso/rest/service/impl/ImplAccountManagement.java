@@ -79,30 +79,28 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest) {
+	        AccountChangeDetailRequest __accountChangeDetailRequest) {
 		if (__accountChangeDetailRequest instanceof DesignerChangeDetailRequest) {
 			__account.setAccountInfo(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest).getAccountInfo());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getAccountInfo());
 			__account.setAlternativeContact(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest)
-					.getAlternativeContact());
-			__account.setCountryId(__accountChangeDetailRequest.getCountry().getId());
-			__account.setModified(new Date());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest)
+			                .getAlternativeContact());
 			__account.setPaymentMethod(
-					((DesignerChangeDetailRequest) __accountChangeDetailRequest).getPayment());
-			__account.setHandphoneNumber(__accountChangeDetailRequest.getPhone().getValue());
+			        ((DesignerChangeDetailRequest) __accountChangeDetailRequest).getPayment());
 		}
 		else if (__accountChangeDetailRequest instanceof UserChangeDetailRequest) {
 			__account.setCompanyAddress(
-					((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
 			__account.setCompanyName(
-					((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
 			__account.setCompanyTelephone(((UserChangeDetailRequest) __accountChangeDetailRequest)
-					.getCompanyPhone().getValue());
-			__account.setCountryId(__accountChangeDetailRequest.getCountry().getId());
-			__account.setModified(new Date());
-			__account.setHandphoneNumber(__accountChangeDetailRequest.getPhone().getValue());
+			        .getCompanyPhone().getValue());
 		}
+		__account.setCountryId(__accountChangeDetailRequest.getCountry().getId());
+		__account.setModified(new Date());
+		__account.setHandphoneNumber(__accountChangeDetailRequest.getPhone().getValue());
+		__account.setGender(__accountChangeDetailRequest.getGender());
 		this.accountDAO.updateAccount(__account);
 	}
 
@@ -144,7 +142,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 * @see com.lasso.rest.service.AccountManagement#resetPassword(java.lang.String)
 	 */
 	public String forgotPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException {
+	        throws NotFoundException, AddressException, MessagingException {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		if (_account == null) {
 			throw new NotFoundException("Email not exist");
@@ -156,8 +154,8 @@ public class ImplAccountManagement implements AccountManagement {
 			_account.setModified(new Date());
 			this.accountDAO.updateAccount(_account);
 			return MessageFormat
-					.format((_account.getRole().equals((byte) 0) ? "user=" : "designer=")
-							+ _account.getName() + "/reset?otp={0}", _otp);
+			        .format((_account.getRole().equals((byte) 0) ? "user=" : "designer=")
+			                + _account.getName() + "/reset?otp={0}", _otp);
 		}
 	}
 
@@ -179,7 +177,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public LoginResponse login(String __email, String __password, String __pushToken,
-			String __prefixAvatarUrl) {
+	        String __prefixAvatarUrl) {
 		Account _account = this.accountDAO.getAccountByEmail(__email);
 		LoginResponse _response;
 		if (_account == null) {
@@ -276,8 +274,8 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendActivationEmail(String __email, String __refLink, String __role,
-			String __firstName)
-					throws AddressException, MessagingException, URISyntaxException, IOException {
+	        String __firstName)
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
 		EmailTemplate _emailTemplate;
 		if (__role.equalsIgnoreCase("designer")) {
 			_emailTemplate = new DesignerActivateEmail(__firstName, __refLink);
@@ -286,7 +284,7 @@ public class ImplAccountManagement implements AccountManagement {
 			_emailTemplate = new UserActivateEmail(__firstName, __refLink);
 		}
 		this.emailUtil.sendEmailByTemplate(__email, "Activate Account", _emailTemplate.getContent(),
-				RecipientType.TO, _emailTemplate.getTemplate());
+		        RecipientType.TO, _emailTemplate.getTemplate());
 	}
 
 	/*
@@ -297,8 +295,8 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void sendResetPasswordEmail(String __email, String __refLink, String __role,
-			String __firstName)
-					throws AddressException, MessagingException, URISyntaxException, IOException {
+	        String __firstName)
+	        throws AddressException, MessagingException, URISyntaxException, IOException {
 		EmailTemplate _emailTemplate;
 		if (__role.equalsIgnoreCase("designer")) {
 			_emailTemplate = new DesignerResetPasswordEmail(__firstName, __refLink);
@@ -307,7 +305,7 @@ public class ImplAccountManagement implements AccountManagement {
 			_emailTemplate = new UserResetPasswordEmail(__firstName, __refLink);
 		}
 		this.emailUtil.sendEmailByTemplate(__email, "Reset password", _emailTemplate.getContent(),
-				RecipientType.TO, _emailTemplate.getTemplate());
+		        RecipientType.TO, _emailTemplate.getTemplate());
 	}
 
 	/**
@@ -337,7 +335,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public void settings(Account __account, SettingsRequest __settingsRequest)
-			throws JsonParseException, JsonMappingException, IOException {
+	        throws JsonParseException, JsonMappingException, IOException {
 		AccountSettings _settings = __account.getSettings();
 		_settings.setAppSettings(__settingsRequest.getAppSettings());
 		_settings.setEmailSettings(__settingsRequest.getEmailSettings());
@@ -371,7 +369,7 @@ public class ImplAccountManagement implements AccountManagement {
 	 */
 	@Override
 	public LoginResponse verifyAccount(String __type, String __otp, String __pushToken,
-			String __prefixAvatarUrl) {
+	        String __prefixAvatarUrl) {
 		Account _account = this.accountDAO.getAccountByOtp(__otp);
 		if (_account == null) {
 			throw new BadRequestException("Invalid otp");
@@ -392,16 +390,16 @@ public class ImplAccountManagement implements AccountManagement {
 						try {
 							if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
 								_emailTemplate = new DesignerCongratEmail(_account.getName(),
-										_link);
+								        _link);
 							}
 							else {
 								_emailTemplate = new UserCongratEmail(_account.getName(), _link);
 							}
 
 							ImplAccountManagement.this.emailUtil.sendEmailByTemplate(
-									_account.getEmail(), "Congratuation",
-									_emailTemplate.getContent(), RecipientType.TO,
-									_emailTemplate.getTemplate());
+							        _account.getEmail(), "Congratuation",
+							        _emailTemplate.getContent(), RecipientType.TO,
+							        _emailTemplate.getTemplate());
 						}
 						catch (Exception _ex) {
 							Logger.getLogger(this.getClass()).warn("Send email error", _ex);
@@ -411,7 +409,7 @@ public class ImplAccountManagement implements AccountManagement {
 				}, "Lasso Send Email").start();
 			}
 			return this.login(_account.getEmail(), _account.getPassword(), __pushToken,
-					__prefixAvatarUrl);
+			        __prefixAvatarUrl);
 		}
 	}
 }

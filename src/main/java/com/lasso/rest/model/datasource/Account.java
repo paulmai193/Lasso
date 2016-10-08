@@ -163,10 +163,11 @@ public final class Account implements Principal, Serializable {
 		this.role = __accountRegister.getRole();
 		this.rewards = 1;
 		this.subscribe = __accountRegister.getSubscribe() ? (byte) 1 : (byte) 0;
+		this.gender = __accountRegister.getGender();
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-					.getAlternativeContact();
+			        .getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -174,7 +175,7 @@ public final class Account implements Principal, Serializable {
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
 			this.companyTelephone = ((UserRegisterRequest) __accountRegister).getCompanyPhone()
-					.getValue();
+			        .getValue();
 		}
 
 	}
@@ -404,7 +405,7 @@ public final class Account implements Principal, Serializable {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public AccountSettings getSettings()
-			throws JsonParseException, JsonMappingException, IOException {
+	        throws JsonParseException, JsonMappingException, IOException {
 		if (this.settings == null) {
 			return AccountSettings.createDefault();
 		}

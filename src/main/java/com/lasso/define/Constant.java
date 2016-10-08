@@ -28,4 +28,10 @@ public class Constant {
 	/** The Constant SEND_FEEDBACK. */
 	public static final byte	SEND_FEEDBACK		= 1;
 
+	/** The Constant GENDER_MALE. */
+	public static final byte	GENDER_MALE			= 0;
+
+	/** The Constant GENDER_FEMALE. */
+	public static final byte	GENDER_FEMALE		= 1;
+
 }
