@@ -12,7 +12,7 @@ public enum JobStepConstant {
 	/** The job step choose designer. */
 	JOB_STEP_CHOOSE_DESIGNER((byte) 2, "In Confirmation"),
 	/** The job step complete. */
-	JOB_STEP_COMPLETE((byte) 5, "Completed"),
+	JOB_STEP_COMPLETE((byte) 5, "In progress"),
 	/** The job step confirm. */
 	JOB_STEP_CONFIRM((byte) 3, "In Payment"),
 	/** The job step brief. */

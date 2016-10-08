@@ -425,8 +425,8 @@ public class AccountController extends BaseController {
 	public LoginResponse verify(VerifyAccountRequest __verifyAccountRequest) {
 		__verifyAccountRequest.validate();
 		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
-		return this.accountManagement.verifyAccount(__verifyAccountRequest.getOtp(),
-		        __verifyAccountRequest.getPushToken(), _prefixUrl);
+		return this.accountManagement.verifyAccount(__verifyAccountRequest.getType(),
+		        __verifyAccountRequest.getOtp(), __verifyAccountRequest.getPushToken(), _prefixUrl);
 	}
 
 	/**

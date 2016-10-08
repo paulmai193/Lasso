@@ -17,6 +17,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,9 +39,11 @@ import com.lasso.rest.model.datasource.AccountSettings;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.AccountManagement;
 import com.lasso.template.DesignerActivateEmail;
+import com.lasso.template.DesignerCongratEmail;
 import com.lasso.template.DesignerResetPasswordEmail;
 import com.lasso.template.EmailTemplate;
 import com.lasso.template.UserActivateEmail;
+import com.lasso.template.UserCongratEmail;
 import com.lasso.template.UserResetPasswordEmail;
 import com.lasso.util.EmailUtil;
 import com.lasso.util.EncryptionUtil;
@@ -367,7 +370,8 @@ public class ImplAccountManagement implements AccountManagement {
 	 * java.lang.String, java.lang.String)
 	 */
 	@Override
-	public LoginResponse verifyAccount(String __otp, String __pushToken, String __prefixAvatarUrl) {
+	public LoginResponse verifyAccount(String __type, String __otp, String __pushToken,
+	        String __prefixAvatarUrl) {
 		Account _account = this.accountDAO.getAccountByOtp(__otp);
 		if (_account == null) {
 			throw new BadRequestException("Invalid otp");
@@ -377,6 +381,35 @@ public class ImplAccountManagement implements AccountManagement {
 			_account.setStatus(Constant.ACC_ACTIVATE);
 			_account.setModified(new Date());
 			this.accountDAO.updateAccount(_account);
+			if (__type.equalsIgnoreCase("active")) {
+				// TODO send welcome email
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						String _link = "http://domain?device_id=" + _account.getDeviceId();
+						EmailTemplate _emailTemplate;
+						try {
+							if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+								_emailTemplate = new DesignerCongratEmail(_account.getName(),
+								        _link);
+							}
+							else {
+								_emailTemplate = new UserCongratEmail(_account.getName(), _link);
+							}
+
+							ImplAccountManagement.this.emailUtil.sendEmailByTemplate(
+							        _account.getEmail(), "Congratuation",
+							        _emailTemplate.getContent(), RecipientType.TO,
+							        _emailTemplate.getTemplate());
+						}
+						catch (Exception _ex) {
+							Logger.getLogger(getClass()).warn("Send email error", _ex);
+						}
+
+					}
+				}, "Lasso Send Email").start();
+			}
 			return this.login(_account.getEmail(), _account.getPassword(), __pushToken,
 			        __prefixAvatarUrl);
 		}

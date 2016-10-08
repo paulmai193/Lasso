@@ -171,11 +171,13 @@ public interface AccountManagement {
 	/**
 	 * Verify account.
 	 *
+	 * @param __type the verify type
 	 * @param __otp the otp
 	 * @param __pushToken the push token
 	 * @param __prefixAvatarUrl the prefix avatar url
 	 * @return the login response
 	 */
-	LoginResponse verifyAccount(String __otp, String __pushToken, String __prefixAvatarUrl);
+	LoginResponse verifyAccount(String __type, String __otp, String __pushToken,
+	        String __prefixAvatarUrl);
 
 }

@@ -118,7 +118,7 @@ public class ImplMessageManagement implements MessageManagement {
 	 */
 	@Override
 	public List<Object[]> getMessagesDetailOfAccount(Account __account, int __idJob) {
-		Message _rootMessage = this.messageDAO.getRootMessage(__idJob);
+		Message _rootMessage = this.messageDAO.getRootMessageByIdJob(__account.getId(), __idJob);
 		Job _job = this.jobDAO.getJobById(__idJob);
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
@@ -161,7 +161,7 @@ public class ImplMessageManagement implements MessageManagement {
 		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
 		        __sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
 		        _rootMessage.getTitle(), _idReceiver);
-		this.messageDAO.saveMessage(_message);
+		int _idMessage = this.messageDAO.saveMessage(_message);
 		new Thread(new Runnable() {
 
 			@Override
@@ -186,11 +186,14 @@ public class ImplMessageManagement implements MessageManagement {
 					        && _accountSettings.getEmailSettings().getMessages().equals("on")) {
 						// TODO Notify email
 						EmailTemplate _emailTemplate;
+						String _link = "http://domain/message-detail-" + _idMessage
+						        + ".html?device_id=" + _receiver.getDeviceId();
 						if (_receiver.getRole().byteValue() == Constant.ROLE_DESIGNER) {
-							_emailTemplate = new DesignerNewMessageEmail(_receiver.getName(), "#");
+							_emailTemplate = new DesignerNewMessageEmail(_receiver.getName(),
+							        _link);
 						}
 						else {
-							_emailTemplate = new UserNewMessageEmail(_receiver.getName(), "#");
+							_emailTemplate = new UserNewMessageEmail(_receiver.getName(), _link);
 						}
 						ImplMessageManagement.this.emailUtil.sendEmailByTemplate(
 						        _receiver.getEmail(), "New Message", _emailTemplate.getContent(),
@@ -212,21 +215,25 @@ public class ImplMessageManagement implements MessageManagement {
 	 */
 	@Override
 	public void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException {
-		final String _firebaseHost = "https://fcm.googleapis.com/fcm/send";
-		ObjectMapper _mapper = new ObjectMapper();
-		HttpResponse<String> _response = Unirest.post(_firebaseHost)
-		        .header("Content-Type", "application/json")
-		        .header("Authorization", "key=" + this.firebaseApiKey)
-		        .body(_mapper.writeValueAsString(__pushRequest)).asString();
-		Logger _logger = Logger.getLogger(this.getClass());
-		_logger.info("Send push status: " + _response.getStatus());
-		_logger.info("Send push response: " + _response.getBody());
-		// SendPushResponse _pushResponse = _mapper.readValue(_response.getBody(),
-		// SendPushResponse.class);
-		// _logger.info("Result: Success - " + _pushResponse.getSuccess() + ", Failure - "
-		// + _pushResponse.getFailure());
-		System.out.println("Send push status: " + _response.getStatus());
-		System.out.println("Send push response: " + _response.getBody());
+		if ((__pushRequest.getTo() != null && !__pushRequest.getTo().isEmpty())
+		        || (__pushRequest.getPushTokens() != null
+		                && !__pushRequest.getPushTokens().isEmpty())) {
+			final String _firebaseHost = "https://fcm.googleapis.com/fcm/send";
+			ObjectMapper _mapper = new ObjectMapper();
+			HttpResponse<String> _response = Unirest.post(_firebaseHost)
+			        .header("Content-Type", "application/json")
+			        .header("Authorization", "key=" + this.firebaseApiKey)
+			        .body(_mapper.writeValueAsString(__pushRequest)).asString();
+			Logger _logger = Logger.getLogger(this.getClass());
+			_logger.info("Send push status: " + _response.getStatus());
+			_logger.info("Send push response: " + _response.getBody());
+			// SendPushResponse _pushResponse = _mapper.readValue(_response.getBody(),
+			// SendPushResponse.class);
+			// _logger.info("Result: Success - " + _pushResponse.getSuccess() + ", Failure - "
+			// + _pushResponse.getFailure());
+			System.out.println("Send push status: " + _response.getStatus());
+			System.out.println("Send push response: " + _response.getBody());
+		}
 	}
 
 	/**

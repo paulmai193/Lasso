@@ -71,8 +71,9 @@ public interface MessageDAO extends HibernateSession {
 	 * Save message.
 	 *
 	 * @param __message the message
+	 * @return ID message
 	 */
-	void saveMessage(Message __message);
+	Integer saveMessage(Message __message);
 
 	/**
 	 * Save messages.
@@ -87,5 +88,7 @@ public interface MessageDAO extends HibernateSession {
 	 * @param __message the message
 	 */
 	void updateMessage(Message __message);
+
+	Message getRootMessageByIdJob(int __idAccount, int __idJob);
 
 }

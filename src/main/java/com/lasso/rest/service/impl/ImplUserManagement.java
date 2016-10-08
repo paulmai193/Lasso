@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.ws.rs.ForbiddenException;
@@ -202,8 +201,10 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 							        && _accountSettings.getEmailSettings().getOffer()
 							                .equals("on")) {
 								// TODO Notify email
+								String _link = "http://domain/job-offer-" + _job.getId()
+								        + ".html?device_id=" + _designer.getDeviceId();
 								EmailTemplate _emailTemplate = new DesignerNewOfferEmail(
-								        _designer.getName(), "#");
+								        _designer.getName(), _link);
 								ImplUserManagement.this.emailUtil.sendEmailByTemplate(
 								        _designer.getEmail(), "New job offer",
 								        _emailTemplate.getContent(), RecipientType.TO,
@@ -539,9 +540,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		List<Integer> _idsType = new ArrayList<>();
 		_idsType.add(__idType);
 
-		if (__filter[0].intValue() > 0) {
-			_idsStyle.remove(__filter[0]);
-		}
+		// if (__filter[0].intValue() > 0) {
+		// _idsStyle.remove(__filter[0]);
+		// }
 
 		// Get portfolio by conditions
 		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO.getListByIdTypes(_idsType);
@@ -550,18 +551,14 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 
 		// Get desiger of this portolios
 		Set<Account> _tmpSetAccounts = new HashSet<>();
-		_portfolios.forEach(new Consumer<Portfolio>() {
+		_portfolios.forEach(__portfolio -> {
+			Account _designer = ImplUserManagement.this.accountDAO
+			        .getAccountById(__portfolio.getAccountId());
+			if (!_tmpSetAccounts.contains(_designer)) {
+				Object[] _data = { __portfolio, _designer };
 
-			@Override
-			public void accept(Portfolio __portfolio) {
-				Account _designer = ImplUserManagement.this.accountDAO
-				        .getAccountById(__portfolio.getAccountId());
-				if (!_tmpSetAccounts.contains(_designer)) {
-					Object[] _data = { __portfolio, _designer };
-
-					_datas.add(_data);
-					_tmpSetAccounts.add(_designer);
-				}
+				_datas.add(_data);
+				_tmpSetAccounts.add(_designer);
 			}
 		});
 
