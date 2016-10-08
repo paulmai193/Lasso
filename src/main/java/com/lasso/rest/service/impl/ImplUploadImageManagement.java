@@ -36,37 +36,42 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-			File __destinationImageFile) throws IOException {
+	        File __destinationImageFile) throws IOException {
 		Logger.getLogger(this.getClass())
-		.debug("Add watermark for image: " + __destinationImageFile.getAbsolutePath());
-		BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
-		BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
+		        .debug("Add watermark for image: " + __destinationImageFile.getAbsolutePath());
 		File _resizeWatermark = File.createTempFile("temp", null);
-		this.resizeImage(__watermarkImageFile, _resizeWatermark, _watermarkImage.getHeight() / 2,
-				_watermarkImage.getWidth() / 2);
+		try {
+			BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
+			BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
+			this.resizeImage(__watermarkImageFile, _resizeWatermark,
+			        _watermarkImage.getHeight() / 2, _watermarkImage.getWidth() / 2);
 
-		BufferedImage _resizeWatermarkImage = ImageIO.read(_resizeWatermark);
+			BufferedImage _resizeWatermarkImage = ImageIO.read(_resizeWatermark);
 
-		// initializes necessary graphic properties
-		Graphics2D _g2d = (Graphics2D) _sourceImage.getGraphics();
-		AlphaComposite _alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
-		_g2d.setComposite(_alphaChannel);
+			// initializes necessary graphic properties
+			Graphics2D _g2d = (Graphics2D) _sourceImage.getGraphics();
+			AlphaComposite _alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+			        0.3f);
+			_g2d.setComposite(_alphaChannel);
 
-		// calculates the coordinate where the image is painted
-		int _topLeftX = (_sourceImage.getWidth() - _resizeWatermarkImage.getWidth()) / 2;
-		int _topLeftY = (_sourceImage.getHeight() - _resizeWatermarkImage.getHeight()) / 2;
+			// calculates the coordinate where the image is painted
+			int _topLeftX = (_sourceImage.getWidth() - _resizeWatermarkImage.getWidth()) / 2;
+			int _topLeftY = (_sourceImage.getHeight() - _resizeWatermarkImage.getHeight()) / 2;
 
-		// paints the image watermark
-		_g2d.drawImage(_resizeWatermarkImage, _topLeftX, _topLeftY, null);
+			// paints the image watermark
+			_g2d.drawImage(_resizeWatermarkImage, _topLeftX, _topLeftY, null);
 
-		String _imageName = __sourceImageFile.getName();
-		String _fileExtension = _imageName.substring(_imageName.lastIndexOf(".") + 1,
-				_imageName.length());
-		ImageIO.write(_sourceImage, _fileExtension, __destinationImageFile);
-		this.changeOwner(__destinationImageFile);
+			String _imageName = __sourceImageFile.getName();
+			String _fileExtension = _imageName.substring(_imageName.lastIndexOf(".") + 1,
+			        _imageName.length());
+			ImageIO.write(_sourceImage, _fileExtension, __destinationImageFile);
+			this.changeOwner(__destinationImageFile);
 
-		_g2d.dispose();
-
+			_g2d.dispose();
+		}
+		finally {
+			_resizeWatermark.delete();
+		}
 	}
 
 	/*
@@ -88,7 +93,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	@Override
 	public String generateImageName(String __extension) {
 		return EncryptionUtil.uniqid("", false)
-				+ new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
+		        + new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
 	}
 
 	/*
@@ -99,9 +104,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Integer __newSize)
-			throws IOException {
+	        throws IOException {
 		Logger.getLogger(this.getClass())
-		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -130,9 +135,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void resizeImage(File __sourceFile, File __destinationFile, Integer __height,
-			Integer __width) throws IOException {
+	        Integer __width) throws IOException {
 		Logger.getLogger(this.getClass())
-		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -161,9 +166,9 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	 */
 	@Override
 	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
-			throws IOException, IllegalArgumentException {
+	        throws IOException, IllegalArgumentException {
 		Logger.getLogger(this.getClass())
-		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		        .debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		BufferedImage _buffered = ImageIO.read(__fileStream);
 		if (_buffered == null) {
 			throw new IllegalArgumentException("File not image");

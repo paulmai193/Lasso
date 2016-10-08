@@ -30,14 +30,15 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	@JsonProperty(value = "gender")
 	private Short		gender;
 
+	/** The password. */
+	@JsonProperty("password")
+	private String		password;
+
 	/** The phone. */
 	private PhoneParam	phone;
 
 	/** The phone string. */
 	private String		phoneString;
-
-	@JsonProperty("password")
-	private String		password;
 
 	/**
 	 * Instantiates a new account change detail request.
@@ -84,15 +85,8 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	}
 
 	/**
-	 * Gets the phone.
+	 * Gets the password.
 	 *
-	 * @return the phone
-	 */
-	public PhoneParam getPhone() {
-		return this.phone;
-	}
-
-	/**
 	 * @return the password
 	 */
 	public String getPassword() {
@@ -100,10 +94,12 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	}
 
 	/**
-	 * @param __password the password to set
+	 * Gets the phone.
+	 *
+	 * @return the phone
 	 */
-	public void setPassword(String __password) {
-		this.password = __password;
+	public PhoneParam getPhone() {
+		return this.phone;
 	}
 
 	/**
@@ -131,6 +127,15 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 */
 	public void setGender(Short __gender) {
 		this.gender = __gender;
+	}
+
+	/**
+	 * Sets the password.
+	 *
+	 * @param __password the password to set
+	 */
+	public void setPassword(String __password) {
+		this.password = __password;
 	}
 
 	/**
