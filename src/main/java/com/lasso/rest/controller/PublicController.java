@@ -1,6 +1,9 @@
 package com.lasso.rest.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +19,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -71,31 +75,44 @@ public class PublicController extends BaseController {
 	 *
 	 * @param __staticPage the static page
 	 * @return the faq
+	 * @throws URISyntaxException
+	 * @throws IOException
 	 */
 	@GET
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
-	public String getFAQ(@PathParam("static_page") String __staticPage) {
+	public String getFAQ(@PathParam("static_page") String __staticPage)
+	        throws URISyntaxException, IOException {
+		File _template = new File(
+		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
 			case "faq":
-				return _config.get("FAQ.content");
+				_content = _content.replace("${body}", _config.get("FAQ.content"));
+				break;
 
 			case "term_of_service":
-				return _config.get("Page.term_of_service");
+				_content = _content.replace("${body}", _config.get("Page.term_of_service"));
+				break;
 
 			case "privacy":
-				return _config.get("Page.privacy");
+				_content = _content.replace("${body}", _config.get("Page.privacy"));
+				break;
 
 			case "help_center":
-				return _config.get("Page.help_center");
+				_content = _content.replace("${body}", _config.get("Page.help_center"));
+				break;
 
 			case "partner":
-				return _config.get("Page.partner");
+				_content = _content.replace("${body}", _config.get("Page.partner"));
+				break;
 
 			default:
-				return "";
+				_content = "";
+				break;
 		}
+		return _content;
 
 	}
 

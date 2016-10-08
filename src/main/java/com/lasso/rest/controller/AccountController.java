@@ -163,6 +163,7 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	public Response changeSettings(SettingsRequest __settingsRequest)
 	        throws JsonParseException, JsonMappingException, IOException {
+		__settingsRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.accountManagement.settings(_account, __settingsRequest);
 		return this.success();

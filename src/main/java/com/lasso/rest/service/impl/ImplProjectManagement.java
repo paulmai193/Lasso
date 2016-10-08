@@ -356,28 +356,43 @@ public class ImplProjectManagement implements ProjectManagement {
 	@Override
 	public ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index,
 	        int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
-		List<Object[]> _datas = new ArrayList<>();
+		List<Object[]> _datas = new ArrayList<>(), _suggests = new ArrayList<>();
 		List<Project> _projects = this.projectDAO.searchProjects(__idStyle, __keyword, __index,
 		        __size);
 		if (_projects.isEmpty() && __index == 0 && (__keyword != null && !__keyword.isEmpty())) {
-			_projects = this.projectDAO.getRamdom(__size);
+			this.getProjectsBySubCategoryAndKeyword_getData(_suggests,
+			        this.projectDAO.getRamdom(__size));
 		}
-		for (Project _project : _projects) {
+		else {
+			this.getProjectsBySubCategoryAndKeyword_getData(_datas, _projects);
+		}
+		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
+		        __prefixProjectUrl, __prefixAvatarUrl, _datas, _suggests);
+		return _listProjectsResponse;
+	}
+
+	/**
+	 * Gets the projects by sub category and keyword get data.
+	 *
+	 * @param __datas the datas
+	 * @param __projects the projects
+	 * @return the projects by sub category and keyword get data
+	 */
+	private void getProjectsBySubCategoryAndKeyword_getData(List<Object[]> __datas,
+	        List<Project> __projects) {
+		__projects.forEach(_project -> {
 			try {
 				Object[] _data = { _project, "" };
 				Account _account = this.accountDAO.getAccountById(_project.getAccountId());
 				_data[1] = _account.getImage();
 
-				_datas.add(_data);
+				__datas.add(_data);
 			}
 			catch (Exception _ex) {
 				Logger.getLogger(this.getClass()).warn("Problem with project " + _project.getId(),
 				        _ex);
 			}
-		}
-		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
-		        __prefixProjectUrl, __prefixAvatarUrl, _datas);
-		return _listProjectsResponse;
+		});
 	}
 
 	/*

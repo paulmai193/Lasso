@@ -114,6 +114,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			}
 			else {
 				_jobsAccount.setCounter(__counterOfferRequest.getAmount());
+				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_CONFIRM.getCode());
 				_jobsAccount.setModified(new Date());
 				this.jobAccountDAO.update(_jobsAccount);
 			}

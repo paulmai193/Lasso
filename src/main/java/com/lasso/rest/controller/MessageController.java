@@ -93,7 +93,6 @@ public class MessageController extends BaseController {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
 		        __idJob);
-		// Message _rootMessage = (Message) _messageDatas.get(0)[0];
 		Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
