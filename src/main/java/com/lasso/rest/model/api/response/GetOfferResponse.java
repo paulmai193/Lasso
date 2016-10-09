@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
 
@@ -84,7 +83,7 @@ public class GetOfferResponse extends BaseResponse {
 	 * @param __prefixJob the prefix job
 	 */
 	public GetOfferResponse(Object[] __data, String __prefixAvatar, String __prefixCategory,
-			String __prefixJob) {
+	        String __prefixJob) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -135,8 +134,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(GetOfferResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
-
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -167,21 +165,17 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeEndObject();
 
 		__gen.writeArrayFieldStart("styles");
-		_styles.forEach(new Consumer<Style>() {
-
-			@Override
-			public void accept(Style __type) {
-				try {
-					__gen.writeStartObject();
-					__gen.writeNumberField("style_id", __type.getId());
-					__gen.writeStringField("title", __type.getTitle());
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
-
+		_styles.forEach(_style -> {
+			try {
+				__gen.writeStartObject();
+				__gen.writeNumberField("style_id", _style.getId());
+				__gen.writeStringField("title", _style.getTitle());
+				__gen.writeEndObject();
 			}
+			catch (IOException _ex) {
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+			}
+
 		});
 		__gen.writeEndArray();
 
@@ -208,15 +202,16 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeStringField("asset_url", _job.getAssetsUrl());
 		__gen.writeStringField("further_information", _job.getFurtherInformation());
 		String _status;
-		if (_job.getPaid().equals((byte) 0)) {
-			if (_jobsAccount.getConfirm().equals(JobConfirmationConstant.JOB_UN_CONFIRM)) {
+		if (_job.getPaid().byteValue() == (byte) 0) {
+			if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_UN_CONFIRM
+			        .getCode()) {
 				_status = "job_confirm";
 			}
 			else {
 				_status = "job_wait_accept";
 			}
 		}
-		else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+		else if (_job.getStage().byteValue() == JobStageConstant.JOB_STAGE_COMPLETED.getCode()) {
 			_status = "job_completed";
 		}
 		else {
@@ -235,7 +230,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 			__gen.writeNumberField("account_id", __account.getId());
 			__gen.writeStringField("account_name", __account.getName());
 			__gen.writeNumberField("account_reward",
-					__account.getRewards() == 0 ? 1 : __account.getRewards());
+			        __account.getRewards() == 0 ? 1 : __account.getRewards());
 			__gen.writeObjectFieldStart("avatar");
 			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
 			__gen.writeEndObject();

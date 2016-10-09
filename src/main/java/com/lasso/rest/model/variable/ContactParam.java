@@ -27,7 +27,7 @@ public class ContactParam extends AbstractParam<String> {
 	protected static final String	EMAIL_PATTERN	= "[^@]+@[^@]+\\.[^@]+";
 
 	/** The Constant PHONE_PATTERN. */
-	protected static final String	PHONE_PATTERN	= "^[\\d{1}\\+[(\\d{1}\\+)]]+\\d+";
+	protected static final String	PHONE_PATTERN	= "(\\()(\\+)(\\d{1,4})(\\))(\\s)(\\d{4})(\\s)(\\d{4})(\\s)(\\d{1})";
 
 	/** The contact type. */
 	protected byte					contactType;
