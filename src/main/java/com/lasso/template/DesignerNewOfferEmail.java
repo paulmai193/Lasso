@@ -16,8 +16,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DesignerNewOfferEmail implements EmailTemplate {
 
-	/** The activate link. */
-	private String	activateLink;
+	private String	link;
 
 	/** The first name. */
 	private String	firstName;
@@ -29,15 +28,14 @@ public class DesignerNewOfferEmail implements EmailTemplate {
 	 * Instantiates a new designer activate email.
 	 *
 	 * @param __firstName the first name
-	 * @param __activateLink the activate link
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public DesignerNewOfferEmail(String __firstName, String __activateLink)
-			throws URISyntaxException, IOException {
+	public DesignerNewOfferEmail(String __firstName, String __link)
+	        throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
-		this.activateLink = __activateLink;
+		this.link = __link;
 		this.loadTemplate();
 	}
 
@@ -52,7 +50,7 @@ public class DesignerNewOfferEmail implements EmailTemplate {
 		File _htmlTemplate = new File(this.template, "newsletter.html");
 		String _content = FileUtils.readFileToString(_htmlTemplate);
 		String[] _searchStrings = { "${FIRST-NAME}", "${OFFER_LINK}" };
-		String[] _replaceStrings = { this.firstName, this.activateLink };
+		String[] _replaceStrings = { this.firstName, this.link };
 
 		return StringUtils.replaceEach(_content, _searchStrings, _replaceStrings);
 	}
@@ -86,7 +84,7 @@ public class DesignerNewOfferEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-				.getResource("/email-template/designer-offer").toURI());
+		        .getResource("/email-template/designer-offer").toURI());
 	}
 
 }

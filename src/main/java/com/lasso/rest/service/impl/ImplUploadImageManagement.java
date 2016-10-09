@@ -51,7 +51,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			// initializes necessary graphic properties
 			Graphics2D _g2d = (Graphics2D) _sourceImage.getGraphics();
 			AlphaComposite _alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-			        0.3f);
+			        1.0f);
 			_g2d.setComposite(_alphaChannel);
 
 			// calculates the coordinate where the image is painted

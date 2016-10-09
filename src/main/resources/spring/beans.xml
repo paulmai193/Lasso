@@ -91,6 +91,7 @@
 		lazy-init="false" scope="singleton">
 		<property name="emailUtil" ref="emailUtil" />
 		<property name="accountDAO" ref="accountDAO" />
+		<property name="httpHost" ref="httpHost" />
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement"
 		lazy-init="false" scope="singleton">
@@ -130,6 +131,7 @@
 		<property name="accountRatingDAO" ref="accountRatingDAO" />
 		<property name="promoDAO" ref="promoDAO" />
 		<property name="emailUtil" ref="emailUtil" />
+		<property name="httpHost" ref="httpHost" />
 	</bean>
 	<bean id="messageManagement" class="com.lasso.rest.service.impl.ImplMessageManagement">
 		<property name="accountDAO" ref="accountDAO" />
@@ -137,6 +139,7 @@
 		<property name="messageDAO" ref="messageDAO" />
 		<property name="firebaseApiKey" ref="firebaseApiKey" />
 		<property name="emailUtil" ref="emailUtil" />
+		<property name="httpHost" ref="httpHost" />
 	</bean>
 
 	<!-- Controller Layer -->

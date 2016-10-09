@@ -13,7 +13,7 @@ public class TestValidatePhone {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		PhoneParam _phoneParam = new PhoneParam("+6596369768");
+		PhoneParam _phoneParam = new PhoneParam("(+65) 9636  9768 4355");
 		System.out.println(_phoneParam.toString());
 	}
 

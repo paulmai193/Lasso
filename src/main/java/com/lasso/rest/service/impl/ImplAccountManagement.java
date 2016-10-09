@@ -64,6 +64,12 @@ public class ImplAccountManagement implements AccountManagement {
 	/** The email util. */
 	private EmailUtil	emailUtil;
 
+	private String		httpHost;
+
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
+	}
+
 	/**
 	 * Instantiates a new impl account management.
 	 */
@@ -396,7 +402,8 @@ public class ImplAccountManagement implements AccountManagement {
 
 					@Override
 					public void run() {
-						String _link = "http://domain?device_id=" + _account.getDeviceId();
+						String _link = ImplAccountManagement.this.httpHost + "?device_id="
+						        + _account.getDeviceId();
 						EmailTemplate _emailTemplate;
 						try {
 							if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
