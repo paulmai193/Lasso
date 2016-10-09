@@ -20,7 +20,7 @@ public interface AccountDAO extends HibernateSession {
 	 * @param __account the account
 	 * @return the integer
 	 */
-	public Integer createAccount(Account __account);
+	Integer createAccount(Account __account);
 
 	/**
 	 * Gets the account by email.
@@ -28,7 +28,7 @@ public interface AccountDAO extends HibernateSession {
 	 * @param __email the email
 	 * @return the account by email
 	 */
-	public Account getAccountByEmail(String __email);
+	Account getAccountByEmail(String __email);
 
 	/**
 	 * Gets the account by id.
@@ -36,7 +36,7 @@ public interface AccountDAO extends HibernateSession {
 	 * @param __id the id
 	 * @return the account by id
 	 */
-	public Account getAccountById(Integer __id);
+	Account getAccountById(Integer __id);
 
 	/**
 	 * Gets the account by otp.
@@ -44,7 +44,7 @@ public interface AccountDAO extends HibernateSession {
 	 * @param __otp the otp
 	 * @return the account by otp
 	 */
-	public Account getAccountByOtp(String __otp);
+	Account getAccountByOtp(String __otp);
 
 	/**
 	 * Gets the account by token.
@@ -52,14 +52,14 @@ public interface AccountDAO extends HibernateSession {
 	 * @param __token the token
 	 * @return the account by token
 	 */
-	public Account getAccountByToken(String __token);
+	Account getAccountByToken(String __token);
 
 	/**
 	 * Gets all accounts in DB.
 	 *
 	 * @return the all
 	 */
-	public List<Account> getAll();
+	List<Account> getAll();
 
 	/**
 	 * Update account.
@@ -67,4 +67,6 @@ public interface AccountDAO extends HibernateSession {
 	 * @param __account the account
 	 */
 	void updateAccount(Account __account);
+
+	List<Account> getAccountByDeviceId(String __pushToken);
 }

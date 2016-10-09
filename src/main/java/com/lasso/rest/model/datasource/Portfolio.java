@@ -99,8 +99,8 @@ public class Portfolio implements Serializable {
 	 * @param __title the title
 	 */
 	public Portfolio(double __amount, Date __created, int __accountId, int __categoryId,
-			int __styleId, String __image, String __info, Date __modified, byte __status,
-			String __title) {
+	        int __styleId, String __image, String __info, Date __modified, byte __status,
+	        String __title) {
 		super();
 		this.amount = __amount;
 		this.created = __created;
@@ -338,7 +338,8 @@ public class Portfolio implements Serializable {
 	public void update(EditPortfolioRequest __editPortfolioRequest) {
 		this.setAmount(__editPortfolioRequest.getAmount());
 		this.setCategoryId(__editPortfolioRequest.getIdCategory());
-		String _image = Arrays.toString(__editPortfolioRequest.getImages().toArray());
+		String _image = Arrays.toString(__editPortfolioRequest.getImages().toArray()).replace(" ",
+		        "");
 		_image = _image.substring(1, _image.length() - 1);
 		this.setImage(_image);
 		this.setInfo(__editPortfolioRequest.getInfo());
