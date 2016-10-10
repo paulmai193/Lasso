@@ -51,4 +51,6 @@ public interface JobDAO extends HibernateSession {
 	 */
 	void updateJob(Job __job);
 
+	Job getJobByAmountAndDescription(int __idUser, double __amount, String __description);
+
 }

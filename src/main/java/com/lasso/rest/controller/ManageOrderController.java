@@ -15,8 +15,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,7 @@ import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
 import com.lasso.rest.model.api.request.PaymentForOrderRequest;
 import com.lasso.rest.model.api.request.UsePromoCodeForOrder;
+import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.BriefNewJobResponse;
 import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.JobOfUserDetailResponse;
@@ -46,6 +50,9 @@ import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.UserManagement;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
@@ -108,7 +115,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public BriefNewJobResponse briefNewJob(CreateNewOrderRequest __createNewJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		__createNewJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		int _idJob = this.userManagement.createNewOrder(_user, __createNewJobRequest);
@@ -179,7 +186,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editJob(EditOrderRequest __editJobRequest)
-			throws UnirestException, IOException {
+	        throws UnirestException, IOException {
 		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
@@ -210,10 +217,10 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/list/designers")
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
-			@QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
-			@QueryParam("filter_2") double __filterBudget,
-			@QueryParam("filter_3") int __filterQuality) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
+	        @QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
+	        @QueryParam("filter_2") double __filterBudget,
+	        @QueryParam("filter_3") int __filterQuality) {
 		int _size = 8;
 		List<Integer> _listIdsStyle = new ArrayList<>();
 		String[] _s = __idsStyle.split(",");
@@ -233,12 +240,12 @@ public class ManageOrderController extends BaseController {
 
 		// Get portfolios by category and style
 		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, _size,
-				__idCategory, _listIdsStyle, __idType, _filter);
+		        __idCategory, _listIdsStyle, __idType, _filter);
 		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 
 		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
-				__index + _size);
+		        __index + _size);
 	}
 
 	/**
@@ -251,7 +258,7 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/manage/detail")
 	public JobOfUserDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-			throws javassist.NotFoundException {
+	        throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
@@ -297,7 +304,7 @@ public class ManageOrderController extends BaseController {
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
-					_prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
+			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -318,8 +325,8 @@ public class ManageOrderController extends BaseController {
 		try {
 			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
 			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
-					(PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
-					(Type) _paymentDetail[3], (Category) _paymentDetail[4]);
+			        (PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
+			        (Type) _paymentDetail[3], (Category) _paymentDetail[4]);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -338,7 +345,7 @@ public class ManageOrderController extends BaseController {
 		Object[] _datas = this.userManagement.getJobRatingDetail(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		return new RatingDetailResponse((Account) _datas[0], (AccountsRating) _datas[1],
-				_prefixAvatar);
+		        _prefixAvatar);
 	}
 
 	/**
@@ -355,6 +362,60 @@ public class ManageOrderController extends BaseController {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.applyPayment(_user, __paymentForJobRequest);
 		return this.success();
+	}
+
+	private String paypalHost;
+
+	public void setPaypalHost(String __paypalHost) {
+		this.paypalHost = __paypalHost;
+	}
+
+	@POST
+	@Path("/paypal/callback")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response receivePaypalCallback(String __paypalCallback) throws Exception {
+		Logger.getLogger(getClass()).debug(__paypalCallback);
+		// Pre: convert callback body to json object and get payment ID
+		JSONObject _jsonCallback = new JSONObject(__paypalCallback);
+		String _paymentId = _jsonCallback.getJSONObject("response").getString("id");
+		int _idJob = _jsonCallback.getInt("job_id");
+
+		// Step 1: Get access-token
+		HttpResponse<JsonNode> _authResponse = Unirest.post(this.paypalHost + "/oauth2/token")
+		        .basicAuth(
+		                "AQk0nr5BNlW91KqFN_PKkeszaxp1k0T1p35FatoTA3l0bYZtJ3xIn_sSdynRnpxksHBDoPRlASffmrkZ",
+		                "EIKQLF0bcf9uVZWxq2zlDUxNjOkCryL-hDutX8TfJ5FdzGY0_wKk2byyCrVqmWKIFCyZb2YSWNNGZiX8")
+		        .header("content-type", "application/x-www-form-urlencoded")
+		        .body("grant_type=client_credentials").asJson();
+		Logger.getLogger(getClass()).debug(_authResponse.getBody().toString());
+		if (_authResponse.getStatus() != 200) {
+			throw new Exception("Paypal callback error: Cannot authorize");
+		}
+		String _tokenType = _authResponse.getBody().getObject().getString("token_type");
+		String _accessToken = _authResponse.getBody().getObject().getString("access_token");
+
+		// Step 2: Validate payment id
+		String _validateHttpRequest = this.paypalHost + "/payments/payment/" + _paymentId;
+		Logger.getLogger(getClass()).debug(_validateHttpRequest);
+
+		HttpResponse<JsonNode> _validateResponse = Unirest.get(_validateHttpRequest)
+		        .header("content-type", "application/json")
+		        .header("authorization", _tokenType + " " + _accessToken).asJson();
+		Logger.getLogger(getClass()).debug(_validateResponse.getBody().toString());
+		if (_validateResponse.getStatus() != 200) {
+			throw new Exception("Paypal callback error: Cannot validate");
+		}
+		// JSONObject _transaction = _validateResponse.getBody().getObject()
+		// .getJSONArray("transactions").getJSONObject(0);
+		String _state = _validateResponse.getBody().getObject().getString("state");
+		if (_state.equals("approved")) {
+			Account _user = (Account) this.validateContext.getUserPrincipal();
+			this.userManagement.applyPaypal(_user.getId(), _idJob);
+			return this.success();
+		}
+		else {
+			return this.fail(new BaseResponse(true, "Payment not approve"), Status.FORBIDDEN);
+		}
 	}
 
 	/**

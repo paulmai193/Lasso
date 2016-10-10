@@ -5,6 +5,7 @@ package com.lasso.main;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
 /**
@@ -21,6 +22,7 @@ public class LassoApplication extends ResourceConfig {
 		this.register(RequestContextFilter.class);
 		this.register(JacksonFeature.class);
 		this.packages("com.lasso.rest");
+		property(ServerProperties.TRACING, "ALL");
 	}
 
 }

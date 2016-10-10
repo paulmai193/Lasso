@@ -102,6 +102,20 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 	}
 
+	@Override
+	public void applyPaypal(int __idUser, int __idJob) {
+		// TODO Auto-generated method stub
+		Job _job = this.jobDAO.getJobById(__idJob);
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		else {
+			_job.setStep(JobStepConstant.JOB_STEP_COMPLETE.getStepCode());
+			_job.setPaid((byte) 1);
+			this.jobDAO.updateJob(_job);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

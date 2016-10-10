@@ -28,7 +28,7 @@
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 
-	<servlet>
+	<!-- <servlet>
 		<servlet-name>jersey-serlvet</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
@@ -41,7 +41,38 @@
 	<servlet-mapping>
 		<servlet-name>jersey-serlvet</servlet-name>
 		<url-pattern>/*</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
+	
+	<filter>
+    	<filter-name>jersey</filter-name>
+    	<filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
+    	<init-param>
+      		<param-name>jersey.config.server.provider.packages</param-name>
+      		<param-value>com.lasso.rest</param-value>
+    	</init-param>
+    	<init-param>
+      		<param-name>jersey.config.server.provider.scanning.recursive</param-name>
+      		<param-value>true</param-value>
+    	</init-param>
+    	<init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.jackson.JacksonFeature;org.glassfish.jersey.server.ResourceConfig</param-value>
+        </init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>jersey</filter-name>
+	    <url-pattern>/account/*</url-pattern>
+	    <url-pattern>/browse/*</url-pattern>
+	    <url-pattern>/manage_order/*</url-pattern>
+	    <url-pattern>/manage_project/*</url-pattern>
+	    <url-pattern>/message/*</url-pattern>
+	    <url-pattern>/portfolio/*</url-pattern>
+	    <url-pattern>/upload/*</url-pattern>
+	    <url-pattern>/public/*</url-pattern>
+	    <url-pattern>/service_fee</url-pattern>
+	    <url-pattern>/paypal/*</url-pattern>
+	    <url-pattern>/send/*</url-pattern>
+  	</filter-mapping>
 
 	<!-- <security-constraint>
 		<display-name>exclude</display-name>

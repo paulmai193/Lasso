@@ -47,8 +47,8 @@ public class ImplJobDAO implements JobDAO {
 	@Override
 	public Job getJobOfUserById(int __idUser, int __idJob) {
 		return (Job) this.sessionFactory.getCurrentSession().createCriteria(Job.class)
-				.add(Restrictions.idEq(__idJob)).add(Restrictions.eq("accountId", __idUser))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		        .add(Restrictions.idEq(__idJob)).add(Restrictions.eq("accountId", __idUser))
+		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -60,9 +60,9 @@ public class ImplJobDAO implements JobDAO {
 	@Override
 	public List<Job> getListJobsOfUser(Integer __idUser) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Job.class)
-				.add(Restrictions.eq("accountId", __idUser))
-				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("submission"))
-				.list();
+		        .add(Restrictions.eq("accountId", __idUser))
+		        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("submission"))
+		        .list();
 	}
 
 	/*
@@ -82,6 +82,14 @@ public class ImplJobDAO implements JobDAO {
 	 */
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
+	}
+
+	@Override
+	public Job getJobByAmountAndDescription(int __idUser, double __amount, String __description) {
+		return (Job) this.sessionFactory.getCurrentSession().createCriteria(Job.class)
+		        .add(Restrictions.eq("accountId", __idUser))
+		        .add(Restrictions.eq("description", __description))
+		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*

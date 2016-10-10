@@ -56,5 +56,10 @@
 	<bean id="firebaseApiKey" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g" />
 	</bean>
+	
+	<bean id="paypalHost" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="https://api.sandbox.paypal.com/v1" />
+	</bean>
+	
 
 </beans>
