@@ -217,7 +217,7 @@ public class PublicController extends BaseController {
 	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
-		        __contactUsRequest.getPhone().getValue(), __contactUsRequest.getName(),
+		        __contactUsRequest.getPhone(), __contactUsRequest.getName(),
 		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
 	}

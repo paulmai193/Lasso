@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.variable.EmailParam;
-import com.lasso.rest.model.variable.PhoneParam;
 
 /**
  * The Class ContactUsRequest.
@@ -24,10 +23,8 @@ public class ContactUsRequest extends FeedbackRequest {
 	private String		emailString;
 
 	/** The phone. */
-	private PhoneParam	phone;
-
-	/** The phone string. */
-	private String		phoneString;
+	@JsonProperty(value = "phone")
+	private String		phone;
 
 	/**
 	 * Gets the email.
@@ -52,17 +49,8 @@ public class ContactUsRequest extends FeedbackRequest {
 	 *
 	 * @return the phone
 	 */
-	public PhoneParam getPhone() {
+	public String getPhone() {
 		return this.phone;
-	}
-
-	/**
-	 * Gets the phone string.
-	 *
-	 * @return the phoneString
-	 */
-	public String getPhoneString() {
-		return this.phoneString;
 	}
 
 	/**
@@ -89,18 +77,8 @@ public class ContactUsRequest extends FeedbackRequest {
 	 *
 	 * @param __phone the phone to set
 	 */
-	public void setPhone(PhoneParam __phone) {
+	public void setPhone(String __phone) {
 		this.phone = __phone;
-	}
-
-	/**
-	 * Sets the phone string.
-	 *
-	 * @param __phoneString the phoneString to set
-	 */
-	@JsonProperty(value = "phone")
-	public void setPhoneString(String __phoneString) {
-		this.phoneString = __phoneString;
 	}
 
 	/*
@@ -117,11 +95,8 @@ public class ContactUsRequest extends FeedbackRequest {
 		else {
 			this.email = new EmailParam(this.emailString);
 		}
-		if (this.phoneString == null) {
+		if (this.phone == null) {
 			throw new ObjectParamException("Invalid phone");
-		}
-		else {
-			this.phone = new PhoneParam(this.phoneString);
 		}
 	}
 

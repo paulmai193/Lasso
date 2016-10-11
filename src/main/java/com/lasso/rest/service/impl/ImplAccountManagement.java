@@ -100,8 +100,8 @@ public class ImplAccountManagement implements AccountManagement {
 			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyAddress());
 			__account.setCompanyName(
 			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyName());
-			__account.setCompanyTelephone(((UserChangeDetailRequest) __accountChangeDetailRequest)
-			        .getCompanyPhone().getValue());
+			__account.setCompanyTelephone(
+			        ((UserChangeDetailRequest) __accountChangeDetailRequest).getCompanyPhone());
 		}
 		__account.setCountryId(__accountChangeDetailRequest.getCountry().getId());
 		__account.setModified(new Date());

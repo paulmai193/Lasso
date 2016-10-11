@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
-import com.lasso.rest.model.variable.PhoneParam;
 
 /**
  * The Class UserChangeDetailRequest.
@@ -17,14 +16,15 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 
 	/** The company address. */
 	@JsonProperty("com_address")
-	private String		companyAddress;
+	private String	companyAddress;
 
 	/** The company name. */
 	@JsonProperty("com_name")
-	private String		companyName;
+	private String	companyName;
 
 	/** The company phone. */
-	private PhoneParam	companyPhone;
+	@JsonProperty("com_phone")
+	private String	companyPhone;
 
 	/**
 	 * Instantiates a new user change detail request.
@@ -51,12 +51,7 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 		return this.companyName;
 	}
 
-	/**
-	 * Gets the company phone.
-	 *
-	 * @return the companyPhone
-	 */
-	public PhoneParam getCompanyPhone() {
+	public String getCompanyPhone() {
 		return this.companyPhone;
 	}
 
@@ -83,14 +78,9 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 	 *
 	 * @param __companyPhone the companyPhone to set
 	 */
-	@JsonProperty("com_phone")
+
 	public void setCompanyPhone(String __companyPhone) {
-		try {
-			this.companyPhone = new PhoneParam(__companyPhone);
-		}
-		catch (Exception _ex) {
-			this.companyPhone = null;
-		}
+		this.companyPhone = __companyPhone;
 	}
 
 	/*
