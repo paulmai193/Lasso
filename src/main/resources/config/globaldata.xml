@@ -3,10 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- STORAGE PATH -->
 	<bean id="webContextStoragePath" class="java.lang.String" scope="singleton">
 		<constructor-arg type="java.lang.String"
 			value="" />
-		<!-- <constructor-arg type="java.lang.String" value="/app/webroot" /> -->
 	</bean>
 
 	<bean id="avatarStoragePath" class="java.lang.String">
@@ -45,6 +45,7 @@
 		<constructor-arg type="java.lang.String" value="/caches" />
 	</bean>
 	
+	<!-- HTTP HOST -->
 	<bean id="httpHost" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="http://lasso.voolatech.com" />
 	</bean>
@@ -53,12 +54,22 @@
 		<constructor-arg type="java.lang.String" value="http://lasso.voolatech.com/img" />
 	</bean>
 	
+	<!-- FIREBASE PUSH NOTIFICATION -->
 	<bean id="firebaseApiKey" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g" />
 	</bean>
 	
+	<!-- PAYPAL -->
 	<bean id="paypalHost" class="java.lang.String">
 		<constructor-arg type="java.lang.String" value="https://api.sandbox.paypal.com/v1" />
+	</bean>
+	
+	<bean id="paypalClientId" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="AQk0nr5BNlW91KqFN_PKkeszaxp1k0T1p35FatoTA3l0bYZtJ3xIn_sSdynRnpxksHBDoPRlASffmrkZ" />
+	</bean>
+	
+	<bean id="paypalClientSecret" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="EIKQLF0bcf9uVZWxq2zlDUxNjOkCryL-hDutX8TfJ5FdzGY0_wKk2byyCrVqmWKIFCyZb2YSWNNGZiX8" />
 	</bean>
 	
 

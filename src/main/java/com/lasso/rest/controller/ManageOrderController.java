@@ -97,6 +97,24 @@ public class ManageOrderController extends BaseController {
 	@Context
 	private SecurityContext	validateContext;
 
+	private String			paypalClientId;
+
+	private String			paypalClientSecret;
+
+	/**
+	 * @param __paypalClientId the paypalClientId to set
+	 */
+	public void setPaypalClientId(String __paypalClientId) {
+		this.paypalClientId = __paypalClientId;
+	}
+
+	/**
+	 * @param __paypalClientSecret the paypalClientSecret to set
+	 */
+	public void setPaypalClientSecret(String __paypalClientSecret) {
+		this.paypalClientSecret = __paypalClientSecret;
+	}
+
 	/**
 	 * Instantiates a new manage order controller.
 	 */
@@ -221,7 +239,6 @@ public class ManageOrderController extends BaseController {
 	        @QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
 	        @QueryParam("filter_2") double __filterBudget,
 	        @QueryParam("filter_3") int __filterQuality) {
-		int _size = 8;
 		List<Integer> _listIdsStyle = new ArrayList<>();
 		String[] _s = __idsStyle.split(",");
 		for (String _sId : _s) {
@@ -239,13 +256,13 @@ public class ManageOrderController extends BaseController {
 		Number[] _filter = { __filterRelevancy, __filterBudget, __filterQuality };
 
 		// Get portfolios by category and style
-		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, _size,
-		        __idCategory, _listIdsStyle, __idType, _filter);
+		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index,
+		        Constant.PAGE_SIZE, __idCategory, _listIdsStyle, __idType, _filter);
 		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 
 		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
-		        __index + _size);
+		        __index + Constant.PAGE_SIZE);
 	}
 
 	/**
@@ -382,9 +399,7 @@ public class ManageOrderController extends BaseController {
 
 		// Step 1: Get access-token
 		HttpResponse<JsonNode> _authResponse = Unirest.post(this.paypalHost + "/oauth2/token")
-		        .basicAuth(
-		                "AQk0nr5BNlW91KqFN_PKkeszaxp1k0T1p35FatoTA3l0bYZtJ3xIn_sSdynRnpxksHBDoPRlASffmrkZ",
-		                "EIKQLF0bcf9uVZWxq2zlDUxNjOkCryL-hDutX8TfJ5FdzGY0_wKk2byyCrVqmWKIFCyZb2YSWNNGZiX8")
+		        .basicAuth(this.paypalClientId, this.paypalClientSecret)
 		        .header("content-type", "application/x-www-form-urlencoded")
 		        .body("grant_type=client_credentials").asJson();
 		Logger.getLogger(getClass()).debug(_authResponse.getBody().toString());

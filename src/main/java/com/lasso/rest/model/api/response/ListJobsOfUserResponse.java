@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.define.JobStepConstant;
-import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Style;
@@ -104,7 +103,7 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 		__gen.writeStartArray();
 		for (Object[] _objects : __value) {
 			Job _job = (Job) _objects[0];
-			Account _designer = (Account) _objects[1];
+			String _designerName = (String) _objects[1];
 
 			@SuppressWarnings("unchecked")
 			List<Style> _styles = (List<Style>) _objects[2];
@@ -123,7 +122,7 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 					__gen.writeEndObject();
 				}
 				__gen.writeEndArray();
-				__gen.writeStringField("designer", _designer.getName());
+				__gen.writeStringField("designer", _designerName);
 				// __gen.writeNumberField("designer_id", _designer.getId());
 				__gen.writeStringField("type_title", _type.getTitle());
 				__gen.writeNumberField("type_id", _type.getId());

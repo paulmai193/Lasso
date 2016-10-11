@@ -2,7 +2,6 @@ package com.lasso.rest.model.api.response;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.apache.log4j.Logger;
 
@@ -99,7 +98,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 
 	@Override
 	public void serialize(ListMessageResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -108,42 +107,38 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 		}
 
 		__gen.writeArrayFieldStart("data");
-		__value.getMessageDatas().forEach(new Consumer<Object[]>() {
-
-			@Override
-			public void accept(Object[] __messageData) {
-				Message _message = (Message) __messageData[0];
-				Account _sender = (Account) __messageData[1];
-				Job _job = (Job) __messageData[2];
-				try {
-					__gen.writeStartObject();
-					__gen.writeNumberField("message_id", _message.getId());
-					__gen.writeStringField("message_title", _job.getDescription());
-					__gen.writeStringField("message_content", _message.getMessage());
-					__gen.writeNumberField("message_read", _message.getIsRead());
-					if (_job.getPaid().equals((byte) 0)) {
-						__gen.writeStringField("action_status", "job_confirm");
-					}
-					else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
-						__gen.writeStringField("action_status", "job_completed");
-					}
-					else {
-						__gen.writeStringField("action_status", "job_explain");
-					}
-					__gen.writeStringField("sender_name", _sender.getName());
-					if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
-						__gen.writeStringField("sender_avatar", "");
-					}
-					else {
-						__gen.writeStringField("sender_avatar",
-								__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
-					}
-					__gen.writeNumberField("job_id", _job.getId());
-					__gen.writeEndObject();
+		__value.getMessageDatas().forEach(__messageData -> {
+			Message _message = (Message) __messageData[0];
+			Account _sender = (Account) __messageData[1];
+			Job _job = (Job) __messageData[2];
+			try {
+				__gen.writeStartObject();
+				__gen.writeNumberField("message_id", _message.getId());
+				__gen.writeStringField("message_title", _job.getDescription());
+				__gen.writeStringField("message_content", _message.getMessage());
+				__gen.writeNumberField("message_read", _message.getIsRead());
+				if (_job.getPaid().equals((byte) 0)) {
+					__gen.writeStringField("action_status", "job_confirm");
 				}
-				catch (Exception _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+				else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+					__gen.writeStringField("action_status", "job_completed");
 				}
+				else {
+					__gen.writeStringField("action_status", "job_explain");
+				}
+				__gen.writeStringField("sender_name", _sender.getName());
+				if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
+					__gen.writeStringField("sender_avatar", "");
+				}
+				else {
+					__gen.writeStringField("sender_avatar",
+					        __value.getPrefixUrl() + "/Icon/" + _sender.getImage());
+				}
+				__gen.writeNumberField("job_id", _job.getId());
+				__gen.writeEndObject();
+			}
+			catch (Exception _ex) {
+				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 		});
 		__gen.writeEndArray();

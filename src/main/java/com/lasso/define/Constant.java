@@ -34,4 +34,6 @@ public class Constant {
 	/** The Constant SEND_FEEDBACK. */
 	public static final byte	SEND_FEEDBACK		= 1;
 
+	public static final byte	PAGE_SIZE			= 12;
+
 }

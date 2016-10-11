@@ -1,7 +1,6 @@
 package com.lasso.rest.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -93,13 +92,13 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-				__idJob);
+		        __idJob);
 		Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-				null, _prefixJob, _prefixPortfolio);
+		        null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 
@@ -146,9 +145,8 @@ public class MessageController extends BaseController {
 	public void sendTestMessage() throws UnirestException, IOException {
 		SendPushRequest _pushRequest = new SendPushRequest();
 		_pushRequest.setNotification(new PushNotification("Test title", "Test body"));
-		List<String> _tokens = new ArrayList<>();
-		_tokens.add("482a11e04c6306fe3a0a09b3bb79291f58457696830875895eb62dfaf5cc0342");
-		_pushRequest.setPushTokens(_tokens);
+		_pushRequest.setTo(
+		        "dRqXrnC43j0:APA91bGBc-SbGTQWFjPrvVZcjMTxU3-D4rf8ltQuTh-UVr7yTE0ioa4fVbFDI4MvxVtEzkdDBHk9IvFIouw_J0RGdL2dfiALtZvz2b3lZ1steAkHLzJDtf0W6cE7Y6e36-k11A0eufp1");
 		this.messageManagement.sendPush(_pushRequest);
 	}
 
