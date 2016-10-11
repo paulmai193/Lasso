@@ -98,7 +98,7 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 
 	@Override
 	public void serialize(List<Object[]> __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		DateFormat _dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		__gen.writeStartArray();
 		for (Object[] _objects : __value) {
@@ -145,7 +145,7 @@ class ListJobsOfUserSerializer extends JsonSerializer<List<Object[]>> {
 			}
 			catch (Exception _ex) {
 				Logger.getLogger(this.getClass()).warn("Unwanted error of job " + _job.getId(),
-				        _ex);
+						_ex);
 			}
 
 		}

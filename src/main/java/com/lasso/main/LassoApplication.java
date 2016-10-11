@@ -22,7 +22,7 @@ public class LassoApplication extends ResourceConfig {
 		this.register(RequestContextFilter.class);
 		this.register(JacksonFeature.class);
 		this.packages("com.lasso.rest");
-		property(ServerProperties.TRACING, "ALL");
+		this.property(ServerProperties.TRACING, "ALL");
 	}
 
 }

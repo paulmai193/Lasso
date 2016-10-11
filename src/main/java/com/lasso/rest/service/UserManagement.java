@@ -31,6 +31,14 @@ public interface UserManagement extends ProjectManagement {
 	void applyPayment(Account __user, PaymentForOrderRequest __paymentForJobRequest);
 
 	/**
+	 * Apply paypal.
+	 *
+	 * @param __idUser the id user
+	 * @param __idJob the id job
+	 */
+	void applyPaypal(int __idUser, int __idJob);
+
+	/**
 	 * Apply promo code for order.
 	 *
 	 * @param __user the user
@@ -45,7 +53,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @param __chooseDesignerForOrderRequest the choose designer for order request
 	 */
 	void chooseDesignerForOrder(Account __user,
-	        ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
+			ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
 
 	/**
 	 * Complete job.
@@ -72,7 +80,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	Integer createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
-	        throws UnirestException, IOException;
+			throws UnirestException, IOException;
 
 	/**
 	 * Edits the offer.
@@ -83,7 +91,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	void editOrder(Account __user, EditOrderRequest __editOrderRequest)
-	        throws UnirestException, IOException;
+			throws UnirestException, IOException;
 
 	/**
 	 * Gets the job data of user by id.
@@ -123,7 +131,7 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the list portfolios data by condition {portoflio, designer}
 	 */
 	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
-	        List<Integer> _idsStyle, int __idType, Number[] __filter);
+			List<Integer> _idsStyle, int __idType, Number[] __filter);
 
 	/**
 	 * Gets the order data by id.
@@ -141,7 +149,5 @@ public interface UserManagement extends ProjectManagement {
 	 * @return the payment detail of order
 	 */
 	Object[] getPaymentDetailOfOrder(Account __user, int __idJob);
-
-	void applyPaypal(int __idUser, int __idJob);
 
 }

@@ -77,6 +77,24 @@ public interface MessageDAO extends HibernateSession {
 	Message getRootMessageByIdJob(int __idAccount, int __idJob);
 
 	/**
+	 * Gets the root message of receiver by id job.
+	 *
+	 * @param __idAccount the id account
+	 * @param __idJob the id job
+	 * @return the root message of receiver by id job
+	 */
+	Message getRootMessageOfReceiverByIdJob(int __idAccount, int __idJob);
+
+	/**
+	 * Gets the root message of sender by id job.
+	 *
+	 * @param __idAccount the id account
+	 * @param __idJob the id job
+	 * @return the root message of sender by id job
+	 */
+	Message getRootMessageOfSenderByIdJob(int __idAccount, int __idJob);
+
+	/**
 	 * Save message.
 	 *
 	 * @param __message the message
@@ -97,9 +115,5 @@ public interface MessageDAO extends HibernateSession {
 	 * @param __message the message
 	 */
 	void updateMessage(Message __message);
-
-	Message getRootMessageOfReceiverByIdJob(int __idAccount, int __idJob);
-
-	Message getRootMessageOfSenderByIdJob(int __idAccount, int __idJob);
 
 }

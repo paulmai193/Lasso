@@ -189,7 +189,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 			this.phone = new PhoneParam(this.phoneString);
 		}
 		if (this.gender == null || (this.gender.shortValue() == Constant.GENDER_MALE
-		        && this.gender.shortValue() == Constant.GENDER_FEMALE)) {
+				&& this.gender.shortValue() == Constant.GENDER_FEMALE)) {
 			this.gender = Constant.GENDER_MALE;
 		}
 	}

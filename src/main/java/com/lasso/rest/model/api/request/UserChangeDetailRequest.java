@@ -51,6 +51,11 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 		return this.companyName;
 	}
 
+	/**
+	 * Gets the company phone.
+	 *
+	 * @return the company phone
+	 */
 	public String getCompanyPhone() {
 		return this.companyPhone;
 	}

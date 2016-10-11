@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +70,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	/** The email util. */
 	private EmailUtil			emailUtil;
 
+	/** The http host. */
+	private String				httpHost;
+
 	/** The message management. */
 	@Autowired
 	private MessageManagement	messageManagement;
@@ -76,12 +80,6 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	/** The promo DAO. */
 	@Autowired
 	private PromoDAO			promoDAO;
-
-	private String				httpHost;
-
-	public void setHttpHost(String __httpHost) {
-		this.httpHost = __httpHost;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -98,10 +96,16 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		}
 		else {
 			_job.setStep(JobStepConstant.JOB_STEP_PAY.getStepCode());
+			_job.setModified(new Date());
 			this.jobDAO.updateJob(_job);
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.service.UserManagement#applyPaypal(int, int)
+	 */
 	@Override
 	public void applyPaypal(int __idUser, int __idJob) {
 		// TODO Auto-generated method stub
@@ -713,6 +717,15 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	 */
 	public void setEmailUtil(EmailUtil __emailUtil) {
 		this.emailUtil = __emailUtil;
+	}
+
+	/**
+	 * Sets the http host.
+	 *
+	 * @param __httpHost the new http host
+	 */
+	public void setHttpHost(String __httpHost) {
+		this.httpHost = __httpHost;
 	}
 
 	/**

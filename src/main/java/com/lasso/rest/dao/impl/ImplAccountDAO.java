@@ -50,13 +50,25 @@ public class ImplAccountDAO implements AccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see com.lasso.rest.dao.AccountDAO#getAccountByDeviceId(java.lang.String)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Account> getAccountByDeviceId(String __pushToken) {
+		return this.sessionFactory.getCurrentSession().createCriteria(Account.class)
+				.add(Restrictions.eq("deviceId", __pushToken)).list();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lasso.rest.dao.AccountDAO#getAccountsByEmail(java.lang.String)
 	 */
 	@Override
 	public Account getAccountByEmail(String __email) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-		        .add(Restrictions.eq("email", __email)).add(Restrictions.eq("deleted", (byte) 0))
-		        .uniqueResult();
+				.add(Restrictions.eq("email", __email)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -76,8 +88,8 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByOtp(String __otp) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-		        .add(Restrictions.eq("otp", __otp)).add(Restrictions.eq("deleted", (byte) 0))
-		        .uniqueResult();
+				.add(Restrictions.eq("otp", __otp)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -88,8 +100,8 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByToken(String __token) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-		        .add(Restrictions.eq("appSession", __token))
-		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("appSession", __token))
+				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -100,7 +112,7 @@ public class ImplAccountDAO implements AccountDAO {
 	@SuppressWarnings("unchecked")
 	public List<Account> getAll() {
 		return this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-		        .add(Restrictions.eq("deleted", (byte) 0)).list();
+				.add(Restrictions.eq("deleted", (byte) 0)).list();
 	}
 
 	/**
@@ -120,13 +132,6 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public void updateAccount(Account __account) {
 		this.sessionFactory.getCurrentSession().update(__account);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Account> getAccountByDeviceId(String __pushToken) {
-		return this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-		        .add(Restrictions.eq("deviceId", __pushToken)).list();
 	}
 
 }

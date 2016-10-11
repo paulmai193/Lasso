@@ -22,6 +22,9 @@ public class Constant {
 	/** The Constant GENDER_MALE. */
 	public static final byte	GENDER_MALE			= 0;
 
+	/** The Constant PAGE_SIZE. */
+	public static final byte	PAGE_SIZE			= 12;
+
 	/** The Constant ROLE_DESIGNER. */
 	public static final byte	ROLE_DESIGNER		= 1;
 
@@ -33,7 +36,5 @@ public class Constant {
 
 	/** The Constant SEND_FEEDBACK. */
 	public static final byte	SEND_FEEDBACK		= 1;
-
-	public static final byte	PAGE_SIZE			= 12;
 
 }

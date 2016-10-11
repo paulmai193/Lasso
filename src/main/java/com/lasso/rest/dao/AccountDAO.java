@@ -23,6 +23,14 @@ public interface AccountDAO extends HibernateSession {
 	Integer createAccount(Account __account);
 
 	/**
+	 * Gets the account by device id.
+	 *
+	 * @param __pushToken the push token
+	 * @return the account by device id
+	 */
+	List<Account> getAccountByDeviceId(String __pushToken);
+
+	/**
 	 * Gets the account by email.
 	 *
 	 * @param __email the email
@@ -67,6 +75,4 @@ public interface AccountDAO extends HibernateSession {
 	 * @param __account the account
 	 */
 	void updateAccount(Account __account);
-
-	List<Account> getAccountByDeviceId(String __pushToken);
 }

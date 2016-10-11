@@ -12,6 +12,16 @@ import com.lasso.rest.model.datasource.Job;
 public interface JobDAO extends HibernateSession {
 
 	/**
+	 * Gets the job by amount and description.
+	 *
+	 * @param __idUser the id user
+	 * @param __amount the amount
+	 * @param __description the description
+	 * @return the job by amount and description
+	 */
+	Job getJobByAmountAndDescription(int __idUser, double __amount, String __description);
+
+	/**
 	 * Gets the job by id.
 	 *
 	 * @param __idJob the id job
@@ -50,7 +60,5 @@ public interface JobDAO extends HibernateSession {
 	 * @param __job the job
 	 */
 	void updateJob(Job __job);
-
-	Job getJobByAmountAndDescription(int __idUser, double __amount, String __description);
 
 }

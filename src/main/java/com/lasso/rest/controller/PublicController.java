@@ -3,6 +3,9 @@ package com.lasso.rest.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -66,7 +70,21 @@ public class PublicController extends BaseController {
 	}
 
 	/**
-	 * Gets the faq.
+	 * Gets the service fee.
+	 *
+	 * @return the service fee
+	 */
+	@GET
+	@Path("/service_fee")
+	@Produces(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	public GetServiceFeeResponse getServiceFee() {
+		float _fee = this.genericManagement.getServiceFee();
+		return new GetServiceFeeResponse(_fee);
+	}
+
+	/**
+	 * Gets the static page.
 	 *
 	 * @param __staticPage the static page
 	 * @return the faq
@@ -76,7 +94,7 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
-	public String getFAQ(@PathParam("static_page") String __staticPage)
+	public String getStaticPage(@PathParam("static_page") String __staticPage)
 	        throws URISyntaxException, IOException {
 		File _template = new File(
 		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
@@ -111,78 +129,20 @@ public class PublicController extends BaseController {
 
 	}
 
-	/**
-	 * Gets the service fee.
-	 *
-	 * @return the service fee
-	 */
 	@GET
-	@Path("/service_fee")
-	@Produces(MediaType.APPLICATION_JSON)
-	@AccountAuthenticate
-	public GetServiceFeeResponse getServiceFee() {
-		float _fee = this.genericManagement.getServiceFee();
-		return new GetServiceFeeResponse(_fee);
+	@Path("/public/invoice")
+	@Produces(MediaType.TEXT_HTML)
+	public String getInvoice(@QueryParam("job_id") int __idJob)
+	        throws URISyntaxException, IOException {
+		File _template = new File(
+		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		String _content = FileUtils.readFileToString(_template);
+		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+		return _content.replace("${job_id}", "" + __idJob)
+		        .replace("${date_purchase}", _dateFormat.format(new Date()))
+		        .replace("${date_invoice}", _dateFormat.format(new Date()))
+		        .replace("${job_description}", "Test invoice").replace("{job_amount}", "" + 1000);
 	}
-
-	// /**
-	// * Index.
-	// *
-	// * @param __request the request
-	// * @param __staticResource the static resource
-	// * @return the input stream
-	// */
-	// @GET
-	// @Path("/{static_resource : .+}")
-	// // @Produces(MediaType.TEXT_HTML)
-	// public InputStream index(@Context HttpServletRequest __request,
-	// @PathParam("static_resource") String __staticResource) {
-	// if (__staticResource == null || __staticResource.isEmpty()) {
-	// __staticResource = "index.jsp";
-	// }
-	// return __request.getServletContext().getResourceAsStream(__staticResource);
-	// }
-
-	/**
-	 * Receive paypal callback.
-	 *
-	 * @param __multivaluedMap the multivalued map
-	 * @throws UnirestException
-	 */
-	// @POST
-	// @Path("/paypal/callback")
-	// public void receivePaypalCallback(MultivaluedMap<String, String> __multivaluedMap) {
-	// Logger.getLogger(this.getClass()).info("INSIDE PAYPAL CALLBACK");
-	// Logger.getLogger(this.getClass())
-	// .info("******* IPN RAW (name:value) pair : " + __multivaluedMap);
-	// Map<String, String> configurationMap = PaypalCallbackConfiguration.getConfig();
-	//
-	// // Modify request body to match with IPN verify
-	// Map<String, String[]> _ipnMap = new HashMap<>();
-	// __multivaluedMap.forEach((_key, _value) -> {
-	// String[] _values = { _value.get(0) };
-	// _ipnMap.put(_key, _values);
-	// });
-	//
-	// // Verify
-	// IPNMessage ipnlistener = new IPNMessage(_ipnMap, configurationMap);
-	// boolean isIpnVerified = ipnlistener.validate();
-	// String transactionType = ipnlistener.getTransactionType();
-	// Map<String, String> map = ipnlistener.getIpnMap();
-	//
-	// JsonObject _jsonObject = new JsonObject();
-	// map.forEach((__t, __u) -> {
-	// _jsonObject.addProperty(__t, __u);
-	// });
-	//
-	// String _response = "******* IPN VERIFY (name:value) pair : " + _jsonObject.toString() + " "
-	// + "######### TransactionType : " + transactionType + " ======== IPN verified : "
-	// + isIpnVerified;
-	//
-	// Logger.getLogger(this.getClass()).info(_response);
-	//
-	//
-	// }
 
 	/**
 	 * Send feed back.

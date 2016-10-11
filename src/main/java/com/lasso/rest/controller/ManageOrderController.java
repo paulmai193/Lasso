@@ -1,7 +1,12 @@
 package com.lasso.rest.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.BadRequestException;
@@ -18,6 +23,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +31,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import com.lasso.define.Constant;
+import com.lasso.define.JobStepConstant;
 import com.lasso.rest.controller.filter.AccountAllow;
 import com.lasso.rest.controller.filter.AccountAuthenticate;
 import com.lasso.rest.model.api.request.ChooseDesignerForOrderRequest;
@@ -80,6 +87,15 @@ public class ManageOrderController extends BaseController {
 	/** The job storage path. */
 	private String			jobStoragePath;
 
+	/** The paypal client id. */
+	private String			paypalClientId;
+
+	/** The paypal client secret. */
+	private String			paypalClientSecret;
+
+	/** The paypal host. */
+	private String			paypalHost;
+
 	/** The portfolio storage path. */
 	private String			portfolioStoragePath;
 
@@ -96,24 +112,6 @@ public class ManageOrderController extends BaseController {
 	/** The validateContext. */
 	@Context
 	private SecurityContext	validateContext;
-
-	private String			paypalClientId;
-
-	private String			paypalClientSecret;
-
-	/**
-	 * @param __paypalClientId the paypalClientId to set
-	 */
-	public void setPaypalClientId(String __paypalClientId) {
-		this.paypalClientId = __paypalClientId;
-	}
-
-	/**
-	 * @param __paypalClientSecret the paypalClientSecret to set
-	 */
-	public void setPaypalClientSecret(String __paypalClientSecret) {
-		this.paypalClientSecret = __paypalClientSecret;
-	}
 
 	/**
 	 * Instantiates a new manage order controller.
@@ -266,6 +264,43 @@ public class ManageOrderController extends BaseController {
 	}
 
 	/**
+	 * Gets the invoice.
+	 *
+	 * @param __idJob the id job
+	 * @return the invoice
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@GET
+	@Path("/invoice")
+	@Produces(MediaType.TEXT_HTML)
+	public String getInvoice(@QueryParam("job_id") int __idJob)
+	        throws URISyntaxException, IOException {
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		Job _job = this.userManagement.getJobById(__idJob);
+		if (_job == null || _job.getDeleted().byteValue() == (byte) 1
+		        || !_job.getAccountId().equals(_user.getId())) {
+			throw new NotFoundException("Job not found");
+		}
+		if (_job.getStep().byteValue() != JobStepConstant.JOB_STEP_PAY.getStepCode()) {
+			throw new BadRequestException("Job not confirm payment");
+		}
+		File _template = new File(
+		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		String _content = FileUtils.readFileToString(_template);
+		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+		double _amount = _job.getBudget() + _job.getFee();
+		if (_job.getDiscount() != null) {
+			_amount -= _job.getDiscount();
+		}
+		return _content.replace("${job_id}", "" + __idJob)
+		        .replace("${date_purchase}", _dateFormat.format(_job.getModified()))
+		        .replace("${date_invoice}", _dateFormat.format(new Date()))
+		        .replace("${job_description}", _job.getDescription())
+		        .replace("{job_amount}", "" + _amount);
+	}
+
+	/**
 	 * Gets the job detail.
 	 *
 	 * @param __idJob the id job
@@ -381,17 +416,18 @@ public class ManageOrderController extends BaseController {
 		return this.success();
 	}
 
-	private String paypalHost;
-
-	public void setPaypalHost(String __paypalHost) {
-		this.paypalHost = __paypalHost;
-	}
-
+	/**
+	 * Receive paypal callback.
+	 *
+	 * @param __paypalCallback the paypal callback
+	 * @return the response
+	 * @throws Exception the exception
+	 */
 	@POST
 	@Path("/paypal/callback")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response receivePaypalCallback(String __paypalCallback) throws Exception {
-		Logger.getLogger(getClass()).debug(__paypalCallback);
+		Logger.getLogger(this.getClass()).debug(__paypalCallback);
 		// Pre: convert callback body to json object and get payment ID
 		JSONObject _jsonCallback = new JSONObject(__paypalCallback);
 		String _paymentId = _jsonCallback.getJSONObject("response").getString("id");
@@ -402,7 +438,7 @@ public class ManageOrderController extends BaseController {
 		        .basicAuth(this.paypalClientId, this.paypalClientSecret)
 		        .header("content-type", "application/x-www-form-urlencoded")
 		        .body("grant_type=client_credentials").asJson();
-		Logger.getLogger(getClass()).debug(_authResponse.getBody().toString());
+		Logger.getLogger(this.getClass()).debug(_authResponse.getBody().toString());
 		if (_authResponse.getStatus() != 200) {
 			throw new Exception("Paypal callback error: Cannot authorize");
 		}
@@ -411,12 +447,12 @@ public class ManageOrderController extends BaseController {
 
 		// Step 2: Validate payment id
 		String _validateHttpRequest = this.paypalHost + "/payments/payment/" + _paymentId;
-		Logger.getLogger(getClass()).debug(_validateHttpRequest);
+		Logger.getLogger(this.getClass()).debug(_validateHttpRequest);
 
 		HttpResponse<JsonNode> _validateResponse = Unirest.get(_validateHttpRequest)
 		        .header("content-type", "application/json")
 		        .header("authorization", _tokenType + " " + _accessToken).asJson();
-		Logger.getLogger(getClass()).debug(_validateResponse.getBody().toString());
+		Logger.getLogger(this.getClass()).debug(_validateResponse.getBody().toString());
 		if (_validateResponse.getStatus() != 200) {
 			throw new Exception("Paypal callback error: Cannot validate");
 		}
@@ -467,6 +503,33 @@ public class ManageOrderController extends BaseController {
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
 		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
+	 * Sets the paypal client id.
+	 *
+	 * @param __paypalClientId the paypalClientId to set
+	 */
+	public void setPaypalClientId(String __paypalClientId) {
+		this.paypalClientId = __paypalClientId;
+	}
+
+	/**
+	 * Sets the paypal client secret.
+	 *
+	 * @param __paypalClientSecret the paypalClientSecret to set
+	 */
+	public void setPaypalClientSecret(String __paypalClientSecret) {
+		this.paypalClientSecret = __paypalClientSecret;
+	}
+
+	/**
+	 * Sets the paypal host.
+	 *
+	 * @param __paypalHost the new paypal host
+	 */
+	public void setPaypalHost(String __paypalHost) {
+		this.paypalHost = __paypalHost;
 	}
 
 	/**
