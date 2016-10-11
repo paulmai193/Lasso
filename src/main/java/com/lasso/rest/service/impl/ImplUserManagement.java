@@ -508,18 +508,15 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		else {
 			_jobs.forEach(_job -> {
 				try {
-					String _designerName = "";
+					Account _designer = null;
 					JobsAccount _jobsAccount = ImplUserManagement.this.jobAccountDAO
 					        .getByJobId(_job.getId());
 					if (_jobsAccount != null) {
-						Account _designer = ImplUserManagement.this.accountDAO
+						_designer = ImplUserManagement.this.accountDAO
 						        .getAccountById(_jobsAccount.getAccountId());
-						if (_designer != null) {
-							_designerName = _designer.getName();
-						}
-						else {
-							return;
-						}
+					}
+					if (_designer == null) {
+						return;
 					}
 					List<Integer> _styleIds = new ArrayList<>();
 					ImplUserManagement.this.jobStyleDAO.getListJobStylesByJobId(_job.getId())
@@ -538,7 +535,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 					if (_category == null) {
 						return;
 					}
-					Object[] _data = { _job, _designerName, _styles, _type, _category };
+					Object[] _data = { _job, _designer, _styles, _type, _category };
 
 					_datas.add(_data);
 				}

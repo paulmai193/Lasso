@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lasso.define.Constant;
+import com.lasso.define.JobConfirmationConstant;
 import com.lasso.rest.dao.AccountDAO;
+import com.lasso.rest.dao.JobAccountDAO;
 import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.dao.MessageDAO;
 import com.lasso.rest.model.api.request.ReadMessageRequest;
@@ -21,6 +23,7 @@ import com.lasso.rest.model.api.request.SendMessageRequest;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.AccountSettings;
 import com.lasso.rest.model.datasource.Job;
+import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
@@ -44,17 +47,24 @@ public class ImplMessageManagement implements MessageManagement {
 
 	/** The account DAO. */
 	@Autowired
-	private AccountDAO	accountDAO;
+	private AccountDAO		accountDAO;
 
 	/** The email util. */
-	private EmailUtil	emailUtil;
+	private EmailUtil		emailUtil;
 
 	/** The firebase api key. */
-	private String		firebaseApiKey	= "AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g";
+	private String			firebaseApiKey	= "AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g";
 
 	/** The job DAO. */
 	@Autowired
-	private JobDAO		jobDAO;
+	private JobDAO			jobDAO;
+
+	@Autowired
+	private JobAccountDAO	jobAccountDAO;
+
+	public void setJobAccountDAO(JobAccountDAO __jobAccountDAO) {
+		this.jobAccountDAO = __jobAccountDAO;
+	}
 
 	/** The message DAO. */
 	@Autowired
@@ -84,30 +94,46 @@ public class ImplMessageManagement implements MessageManagement {
 
 		List<Object[]> _messageDatas = new ArrayList<>();
 		_messages.forEach(_rootMessage -> {
-			Object[] _data = { null, null, null };// {message, sender, job}
-			Message _lastMessage = ImplMessageManagement.this.messageDAO
-			        .getLastMessageOfRoot(_rootMessage);
-			_data[0] = _lastMessage == null ? _rootMessage : _lastMessage;
-			Account _sender = ImplMessageManagement.this.accountDAO
-			        .getAccountById(_rootMessage.getFromAccountId());
-			if (_sender != null) {
+			try {
+				Object[] _data = { null, null, null };// {message, sender, job}
+				Message _lastMessage = ImplMessageManagement.this.messageDAO
+				        .getLastMessageOfRoot(_rootMessage);
+				_data[0] = _lastMessage == null ? _rootMessage : _lastMessage;
+				Account _sender = ImplMessageManagement.this.accountDAO
+				        .getAccountById(_rootMessage.getFromAccountId());
 				_data[1] = _sender;
-			}
-			Job _job = ImplMessageManagement.this.jobDAO.getJobById(_rootMessage.getJobId());
-			if (_job != null) {
-				if (__account.getRole().equals(Constant.ROLE_DESIGNER)) {
-					_data[2] = _job;
-				}
-				else if (_job.getPaid().equals((byte) 1)
-				        && __account.getRole().equals(Constant.ROLE_USER)) {
-					_data[2] = _job;
+				Job _job = ImplMessageManagement.this.jobDAO.getJobById(_rootMessage.getJobId());
+				Account _designer;
+				if (_sender.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+					_designer = _sender;
 				}
 				else {
-					return;
+					_designer = ImplMessageManagement.this.accountDAO
+					        .getAccountById(_rootMessage.getToAccountId());
+				}
+				JobsAccount _jobsAccount = ImplMessageManagement.this.jobAccountDAO
+				        .getByJobAndDesignerId(_job.getId(), _designer.getId());
+				if (_job != null && _jobsAccount != null) {
+					if (__account.getRole().equals(Constant.ROLE_DESIGNER)) {
+						_data[2] = _job;
+					}
+					else if (_job.getPaid().byteValue() == (byte) 1
+					        && __account.getRole().equals(Constant.ROLE_USER)
+					        && _jobsAccount.getConfirm()
+					                .byteValue() == JobConfirmationConstant.JOB_ACCEPT.getCode()) {
+						_data[2] = _job;
+					}
+					else {
+						throw new RuntimeException();
+					}
+					_messageDatas.add(_data);
 				}
 			}
-			_messageDatas.add(_data);
+			catch (RuntimeException _ex) {
+				// Swallow this exception
+			}
 		});
+
 		return _messageDatas;
 	}
 
@@ -120,7 +146,17 @@ public class ImplMessageManagement implements MessageManagement {
 	 */
 	@Override
 	public List<Object[]> getMessagesDetailOfAccount(Account __account, int __idJob) {
-		Message _rootMessage = this.messageDAO.getRootMessageByIdJob(__account.getId(), __idJob);
+		Message _rootMessage;
+		if (__account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+			_rootMessage = this.messageDAO.getRootMessageOfReceiverByIdJob(__account.getId(),
+			        __idJob);
+		}
+		else {
+			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobId(__idJob);
+			Account _designer = this.accountDAO.getAccountById(_jobsAccount.getAccountId());
+			_rootMessage = this.messageDAO.getRootMessageOfReceiverByIdJob(_designer.getId(),
+			        __idJob);
+		}
 		Job _job = this.jobDAO.getJobById(__idJob);
 		if (_job == null) {
 			throw new NotFoundException("Job not found");

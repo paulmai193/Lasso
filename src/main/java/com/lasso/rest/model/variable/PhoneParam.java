@@ -1,5 +1,7 @@
 package com.lasso.rest.model.variable;
 
+import java.util.regex.Pattern;
+
 import com.lasso.exception.ObjectParamException;
 
 /**
@@ -26,20 +28,20 @@ public class PhoneParam extends ContactParam {
 	 */
 	@Override
 	protected String parse(String __param) throws Throwable {
-		// if (__param.isEmpty()) {
-		// this.contactType = ContactParam.CONTACT_EMPTY;
-		// return __param;
-		// }
-		// else if (Pattern.compile(ContactParam.PHONE_PATTERN).matcher(__param).matches()) {
-		// this.contactType = ContactParam.CONTACT_PHONE;
-		// return __param;
-		// }
-		// else {
-		// throw new ObjectParamException("Not phone number format: " + __param);
-		// }
+		if (__param.isEmpty()) {
+			this.contactType = ContactParam.CONTACT_EMPTY;
+			return __param;
+		}
+		else if (Pattern.compile(ContactParam.PHONE_PATTERN).matcher(__param).matches()) {
+			this.contactType = ContactParam.CONTACT_PHONE;
+			return __param;
+		}
+		else {
+			throw new ObjectParamException("Not phone number format: " + __param);
+		}
 
 		// TODO for testing
-		this.contactType = ContactParam.CONTACT_PHONE;
-		return __param;
+		// this.contactType = ContactParam.CONTACT_PHONE;
+		// return __param;
 	}
 }

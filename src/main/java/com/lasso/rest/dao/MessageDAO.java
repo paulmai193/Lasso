@@ -98,4 +98,8 @@ public interface MessageDAO extends HibernateSession {
 	 */
 	void updateMessage(Message __message);
 
+	Message getRootMessageOfReceiverByIdJob(int __idAccount, int __idJob);
+
+	Message getRootMessageOfSenderByIdJob(int __idAccount, int __idJob);
+
 }
