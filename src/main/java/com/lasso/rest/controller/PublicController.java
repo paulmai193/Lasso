@@ -15,7 +15,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -132,16 +131,15 @@ public class PublicController extends BaseController {
 	@GET
 	@Path("/public/invoice")
 	@Produces(MediaType.TEXT_HTML)
-	public String getInvoice(@QueryParam("job_id") int __idJob)
-	        throws URISyntaxException, IOException {
+	public String getInvoice() throws URISyntaxException, IOException {
 		File _template = new File(
 		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-		return _content.replace("${job_id}", "" + __idJob)
+		return _content.replace("${job_id}", "TEST 101")
 		        .replace("${date_purchase}", _dateFormat.format(new Date()))
 		        .replace("${date_invoice}", _dateFormat.format(new Date()))
-		        .replace("${job_description}", "Test invoice").replace("{job_amount}", "" + 1000);
+		        .replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
 	}
 
 	/**

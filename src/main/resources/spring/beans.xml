@@ -194,6 +194,8 @@
 		<property name="typeStoragePath" ref="typeStoragePath" />
 		<property name="httpHost" ref="httpImageHost" />
 		<property name="paypalHost" ref="paypalHost" />
+		<property name="paypalClientId" ref="paypalClientId" />
+		<property name="paypalClientSecret" ref="paypalClientSecret" />
 	</bean>
 	<bean id="manageProjectController" class="com.lasso.rest.controller.ManageProjectController"
 		lazy-init="false">

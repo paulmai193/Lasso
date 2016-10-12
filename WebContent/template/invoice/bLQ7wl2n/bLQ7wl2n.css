@@ -22,3 +22,9 @@
 
 .fmt-5{font-style:normal;font-weight:normal;font-family:Arial_Unicode_MS_Type1_0,Arial Unicode MS,serif;color:#000000;font-size:4.6442pt;}
 
+@media screen and (max-width: 1020px) {
+	div {
+		float: none;
+   		width: auto !important;
+	}
+}

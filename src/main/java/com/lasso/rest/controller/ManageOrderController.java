@@ -297,7 +297,7 @@ public class ManageOrderController extends BaseController {
 		        .replace("${date_purchase}", _dateFormat.format(_job.getModified()))
 		        .replace("${date_invoice}", _dateFormat.format(new Date()))
 		        .replace("${job_description}", _job.getDescription())
-		        .replace("{job_amount}", "" + _amount);
+		        .replace("${job_amount}", "" + _amount);
 	}
 
 	/**
