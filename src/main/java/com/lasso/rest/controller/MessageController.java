@@ -137,16 +137,16 @@ public class MessageController extends BaseController {
 	/**
 	 * Send test message.
 	 *
+	 * @param _token the token
 	 * @throws UnirestException the unirest exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/send/test")
-	public void sendTestMessage() throws UnirestException, IOException {
+	public void sendTestMessage(String _token) throws UnirestException, IOException {
 		SendPushRequest _pushRequest = new SendPushRequest();
 		_pushRequest.setNotification(new PushNotification("Test title", "Test body"));
-		_pushRequest.setTo(
-				"dRqXrnC43j0:APA91bGBc-SbGTQWFjPrvVZcjMTxU3-D4rf8ltQuTh-UVr7yTE0ioa4fVbFDI4MvxVtEzkdDBHk9IvFIouw_J0RGdL2dfiALtZvz2b3lZ1steAkHLzJDtf0W6cE7Y6e36-k11A0eufp1");
+		_pushRequest.setTo(_token);
 		this.messageManagement.sendPush(_pushRequest);
 	}
 

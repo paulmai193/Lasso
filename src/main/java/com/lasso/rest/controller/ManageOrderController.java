@@ -44,6 +44,7 @@ import com.lasso.rest.model.api.request.UsePromoCodeForOrder;
 import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.api.response.BriefNewJobResponse;
 import com.lasso.rest.model.api.response.GetOrderResponse;
+import com.lasso.rest.model.api.response.InvoiceResponse;
 import com.lasso.rest.model.api.response.JobOfUserDetailResponse;
 import com.lasso.rest.model.api.response.ListDesignersResponse;
 import com.lasso.rest.model.api.response.ListJobsOfUserResponse;
@@ -298,6 +299,44 @@ public class ManageOrderController extends BaseController {
 		        .replace("${date_invoice}", _dateFormat.format(new Date()))
 		        .replace("${job_description}", _job.getDescription())
 		        .replace("${job_amount}", "" + _amount);
+	}
+
+	/**
+	 * Gets the invoice for ios.
+	 *
+	 * @param __idJob the id job
+	 * @return the invoice for ios
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@GET
+	@Path("/invoice/ios")
+	@Produces(MediaType.APPLICATION_JSON)
+	public InvoiceResponse getInvoiceForIos(@QueryParam("job_id") int __idJob)
+	        throws URISyntaxException, IOException {
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		Job _job = this.userManagement.getJobById(__idJob);
+		if (_job == null || _job.getDeleted().byteValue() == (byte) 1
+		        || !_job.getAccountId().equals(_user.getId())) {
+			throw new NotFoundException("Job not found");
+		}
+		if (_job.getStep().byteValue() != JobStepConstant.JOB_STEP_PAY.getStepCode()) {
+			throw new BadRequestException("Job not confirm payment");
+		}
+		File _template = new File(
+		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		String _content = FileUtils.readFileToString(_template);
+		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+		double _amount = _job.getBudget() + _job.getFee();
+		if (_job.getDiscount() != null) {
+			_amount -= _job.getDiscount();
+		}
+		_content = _content.replace("${job_id}", "" + __idJob)
+		        .replace("${date_purchase}", _dateFormat.format(_job.getModified()))
+		        .replace("${date_invoice}", _dateFormat.format(new Date()))
+		        .replace("${job_description}", _job.getDescription())
+		        .replace("${job_amount}", "" + _amount);
+		return new InvoiceResponse(_content);
 	}
 
 	/**

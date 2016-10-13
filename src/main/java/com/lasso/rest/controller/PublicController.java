@@ -69,6 +69,27 @@ public class PublicController extends BaseController {
 	}
 
 	/**
+	 * Gets the invoice.
+	 *
+	 * @return the invoice
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	@GET
+	@Path("/public/invoice")
+	@Produces(MediaType.TEXT_HTML)
+	public String getInvoice() throws URISyntaxException, IOException {
+		File _template = new File(
+				this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		String _content = FileUtils.readFileToString(_template);
+		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+		return _content.replace("${job_id}", "TEST 101")
+				.replace("${date_purchase}", _dateFormat.format(new Date()))
+				.replace("${date_invoice}", _dateFormat.format(new Date()))
+				.replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
+	}
+
+	/**
 	 * Gets the service fee.
 	 *
 	 * @return the service fee
@@ -94,9 +115,9 @@ public class PublicController extends BaseController {
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
 	public String getStaticPage(@PathParam("static_page") String __staticPage)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		File _template = new File(
-		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+				this.getClass().getClassLoader().getResource("staticpage.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
@@ -128,20 +149,6 @@ public class PublicController extends BaseController {
 
 	}
 
-	@GET
-	@Path("/public/invoice")
-	@Produces(MediaType.TEXT_HTML)
-	public String getInvoice() throws URISyntaxException, IOException {
-		File _template = new File(
-		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
-		String _content = FileUtils.readFileToString(_template);
-		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-		return _content.replace("${job_id}", "TEST 101")
-		        .replace("${date_purchase}", _dateFormat.format(new Date()))
-		        .replace("${date_invoice}", _dateFormat.format(new Date()))
-		        .replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
-	}
-
 	/**
 	 * Send feed back.
 	 *
@@ -157,8 +164,8 @@ public class PublicController extends BaseController {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
-		        __feedbackRequest.getName(), __feedbackRequest.getMessage(),
-		        Constant.SEND_FEEDBACK);
+				__feedbackRequest.getName(), __feedbackRequest.getMessage(),
+				Constant.SEND_FEEDBACK);
 		return this.success();
 	}
 
@@ -175,8 +182,8 @@ public class PublicController extends BaseController {
 	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
-		        __contactUsRequest.getPhone(), __contactUsRequest.getName(),
-		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+				__contactUsRequest.getPhone(), __contactUsRequest.getName(),
+				__contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
 	}
 

@@ -56,7 +56,7 @@
 	
 	<!-- FIREBASE PUSH NOTIFICATION -->
 	<bean id="firebaseApiKey" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g" />
+		<constructor-arg type="java.lang.String" value="AIzaSyA4dEJ5zI7dcEjnBSfsJkkmrIvmiY9N3nQ" />
 	</bean>
 	
 	<!-- PAYPAL -->

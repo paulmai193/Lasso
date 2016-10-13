@@ -121,7 +121,7 @@ public class LoginRequest extends BaseRequest {
 			throw new ObjectParamException("Invalid push token");
 		}
 		else {
-			Logger.getLogger(getClass()).debug("PUSH TOKEN: " + this.pushToken);
+			Logger.getLogger(this.getClass()).debug("PUSH TOKEN: " + this.pushToken);
 		}
 	}
 

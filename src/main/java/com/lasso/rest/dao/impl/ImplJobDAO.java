@@ -74,8 +74,7 @@ public class ImplJobDAO implements JobDAO {
 	public List<Job> getListJobsOfUser(Integer __idUser) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Job.class)
 				.add(Restrictions.eq("accountId", __idUser))
-				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("submission"))
-				.list();
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
 	}
 
 	/*
