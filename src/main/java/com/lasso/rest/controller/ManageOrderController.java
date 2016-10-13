@@ -132,7 +132,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/new")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public BriefNewJobResponse briefNewJob(CreateNewOrderRequest __createNewJobRequest)
-	        throws UnirestException, IOException {
+			throws UnirestException, IOException {
 		__createNewJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		int _idJob = this.userManagement.createNewOrder(_user, __createNewJobRequest);
@@ -203,7 +203,7 @@ public class ManageOrderController extends BaseController {
 	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editJob(EditOrderRequest __editJobRequest)
-	        throws UnirestException, IOException {
+			throws UnirestException, IOException {
 		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
@@ -234,10 +234,10 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/list/designers")
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
-	        @QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
-	        @QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
-	        @QueryParam("filter_2") double __filterBudget,
-	        @QueryParam("filter_3") int __filterQuality) {
+			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
+			@QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
+			@QueryParam("filter_2") double __filterBudget,
+			@QueryParam("filter_3") int __filterQuality) {
 		List<Integer> _listIdsStyle = new ArrayList<>();
 		String[] _s = __idsStyle.split(",");
 		for (String _sId : _s) {
@@ -256,12 +256,12 @@ public class ManageOrderController extends BaseController {
 
 		// Get portfolios by category and style
 		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index,
-		        Constant.PAGE_SIZE, __idCategory, _listIdsStyle, __idType, _filter);
+				Constant.PAGE_SIZE, __idCategory, _listIdsStyle, __idType, _filter);
 		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 
 		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
-		        __index + Constant.PAGE_SIZE);
+				__index + Constant.PAGE_SIZE);
 	}
 
 	/**
@@ -276,18 +276,18 @@ public class ManageOrderController extends BaseController {
 	@Path("/invoice")
 	@Produces(MediaType.TEXT_HTML)
 	public String getInvoice(@QueryParam("job_id") int __idJob)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		Job _job = this.userManagement.getJobById(__idJob);
 		if (_job == null || _job.getDeleted().byteValue() == (byte) 1
-		        || !_job.getAccountId().equals(_user.getId())) {
+				|| !_job.getAccountId().equals(_user.getId())) {
 			throw new NotFoundException("Job not found");
 		}
 		if (_job.getStep().byteValue() != JobStepConstant.JOB_STEP_PAY.getStepCode()) {
 			throw new BadRequestException("Job not confirm payment");
 		}
 		File _template = new File(
-		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+				this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
 		double _amount = _job.getBudget() + _job.getFee();
@@ -295,10 +295,10 @@ public class ManageOrderController extends BaseController {
 			_amount -= _job.getDiscount();
 		}
 		return _content.replace("${job_id}", "" + __idJob)
-		        .replace("${date_purchase}", _dateFormat.format(_job.getModified()))
-		        .replace("${date_invoice}", _dateFormat.format(new Date()))
-		        .replace("${job_description}", _job.getDescription())
-		        .replace("${job_amount}", "" + _amount);
+				.replace("${date_purchase}", _dateFormat.format(_job.getModified()))
+				.replace("${date_invoice}", _dateFormat.format(new Date()))
+				.replace("${job_description}", _job.getDescription())
+				.replace("${job_amount}", "" + _amount);
 	}
 
 	/**
@@ -313,18 +313,18 @@ public class ManageOrderController extends BaseController {
 	@Path("/invoice/ios")
 	@Produces(MediaType.APPLICATION_JSON)
 	public InvoiceResponse getInvoiceForIos(@QueryParam("job_id") int __idJob)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		Job _job = this.userManagement.getJobById(__idJob);
 		if (_job == null || _job.getDeleted().byteValue() == (byte) 1
-		        || !_job.getAccountId().equals(_user.getId())) {
+				|| !_job.getAccountId().equals(_user.getId())) {
 			throw new NotFoundException("Job not found");
 		}
 		if (_job.getStep().byteValue() != JobStepConstant.JOB_STEP_PAY.getStepCode()) {
 			throw new BadRequestException("Job not confirm payment");
 		}
 		File _template = new File(
-		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+				this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
 		double _amount = _job.getBudget() + _job.getFee();
@@ -332,10 +332,10 @@ public class ManageOrderController extends BaseController {
 			_amount -= _job.getDiscount();
 		}
 		_content = _content.replace("${job_id}", "" + __idJob)
-		        .replace("${date_purchase}", _dateFormat.format(_job.getModified()))
-		        .replace("${date_invoice}", _dateFormat.format(new Date()))
-		        .replace("${job_description}", _job.getDescription())
-		        .replace("${job_amount}", "" + _amount);
+				.replace("${date_purchase}", _dateFormat.format(_job.getModified()))
+				.replace("${date_invoice}", _dateFormat.format(new Date()))
+				.replace("${job_description}", _job.getDescription())
+				.replace("${job_amount}", "" + _amount);
 		return new InvoiceResponse(_content);
 	}
 
@@ -349,7 +349,7 @@ public class ManageOrderController extends BaseController {
 	@GET
 	@Path("/manage/detail")
 	public JobOfUserDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
-	        throws javassist.NotFoundException {
+			throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
@@ -395,7 +395,7 @@ public class ManageOrderController extends BaseController {
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
-			        _prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
+					_prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -416,8 +416,8 @@ public class ManageOrderController extends BaseController {
 		try {
 			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
 			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
-			        (PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
-			        (Type) _paymentDetail[3], (Category) _paymentDetail[4]);
+					(PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
+					(Type) _paymentDetail[3], (Category) _paymentDetail[4]);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
@@ -436,7 +436,7 @@ public class ManageOrderController extends BaseController {
 		Object[] _datas = this.userManagement.getJobRatingDetail(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		return new RatingDetailResponse((Account) _datas[0], (AccountsRating) _datas[1],
-		        _prefixAvatar);
+				_prefixAvatar);
 	}
 
 	/**
@@ -474,9 +474,9 @@ public class ManageOrderController extends BaseController {
 
 		// Step 1: Get access-token
 		HttpResponse<JsonNode> _authResponse = Unirest.post(this.paypalHost + "/oauth2/token")
-		        .basicAuth(this.paypalClientId, this.paypalClientSecret)
-		        .header("content-type", "application/x-www-form-urlencoded")
-		        .body("grant_type=client_credentials").asJson();
+				.basicAuth(this.paypalClientId, this.paypalClientSecret)
+				.header("content-type", "application/x-www-form-urlencoded")
+				.body("grant_type=client_credentials").asJson();
 		Logger.getLogger(this.getClass()).debug(_authResponse.getBody().toString());
 		if (_authResponse.getStatus() != 200) {
 			throw new Exception("Paypal callback error: Cannot authorize");
@@ -489,8 +489,8 @@ public class ManageOrderController extends BaseController {
 		Logger.getLogger(this.getClass()).debug(_validateHttpRequest);
 
 		HttpResponse<JsonNode> _validateResponse = Unirest.get(_validateHttpRequest)
-		        .header("content-type", "application/json")
-		        .header("authorization", _tokenType + " " + _accessToken).asJson();
+				.header("content-type", "application/json")
+				.header("authorization", _tokenType + " " + _accessToken).asJson();
 		Logger.getLogger(this.getClass()).debug(_validateResponse.getBody().toString());
 		if (_validateResponse.getStatus() != 200) {
 			throw new Exception("Paypal callback error: Cannot validate");
