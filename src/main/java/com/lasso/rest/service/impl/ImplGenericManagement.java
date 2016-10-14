@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.rest.dao.ConfigurationDAO;
@@ -105,7 +105,7 @@ public class ImplGenericManagement implements GenericManagement {
 	public Map<String, String> loadConfig() {
 		Map<String, String> _mapConfig = new HashMap<>();
 		this.configurationDAO.loadConfig()
-		.forEach(_c -> _mapConfig.put(_c.getName(), _c.getValue()));
+		        .forEach(_c -> _mapConfig.put(_c.getName(), _c.getValue()));
 		return _mapConfig;
 	}
 
@@ -118,9 +118,9 @@ public class ImplGenericManagement implements GenericManagement {
 	public String loadWebContextStoragePath(String __app_session) throws UnirestException {
 		if (this.webContextStoragePath == null || this.webContextStoragePath.isEmpty()) {
 			HttpResponse<String> _response = Unirest.post("http://lasso.voolatech.com/image_path")
-					.header("cache-control", "no-cache")
-					.header("content-type", "application/x-www-form-urlencoded")
-					.body("app_session=" + __app_session).asString();
+			        .header("cache-control", "no-cache")
+			        .header("content-type", "application/x-www-form-urlencoded")
+			        .body("app_session=" + __app_session).asString();
 			this.webContextStoragePath = _response.getBody();
 		}
 
@@ -135,7 +135,7 @@ public class ImplGenericManagement implements GenericManagement {
 	 */
 	@Override
 	public void saveContact(String __email, String __phone, String __name, String __message,
-			byte __type) {
+	        byte __type) {
 		Contact _contact = new Contact(__email, __message, __name, __phone, __type);
 		this.contactDAO.save(_contact);
 	}

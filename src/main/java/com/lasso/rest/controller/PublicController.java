@@ -201,9 +201,8 @@ public class PublicController extends BaseController {
 	        FileNotFoundException, IOException, URISyntaxException, MessagingException {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
-		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
-		        __feedbackRequest.getName(), __feedbackRequest.getMessage(),
-		        Constant.SEND_FEEDBACK);
+		this.genericManagement.saveContact(_account.getEmail(), null, __feedbackRequest.getName(),
+		        __feedbackRequest.getMessage(), Constant.SEND_FEEDBACK);
 		EmailTemplate _emailTemplate;
 		if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
 			_emailTemplate = new DesignerThanksEmail(_account.getName());
