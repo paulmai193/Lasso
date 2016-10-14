@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.variable;
 
 import java.util.regex.Pattern;

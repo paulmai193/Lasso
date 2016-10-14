@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.define;
 
 import java.util.HashMap;

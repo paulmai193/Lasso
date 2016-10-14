@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.service.impl;
 
 import java.io.File;
@@ -345,13 +348,13 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 						// Resize into 3 other size
 						File _icon = new File(_webContextStoragePath + this.jobStoragePath
 								+ "/Icon/" + _tempFileName);
-						this.uploadImageManagement.resizeImage(_tempFile, _icon, 120, 184);
+						this.uploadImageManagement.resizeImage(_tempFile, _icon, 35, 64);
 						File _small = new File(_webContextStoragePath + this.jobStoragePath
 								+ "/Small/" + _tempFileName);
-						this.uploadImageManagement.resizeImage(_tempFile, _small, 182, 280);
+						this.uploadImageManagement.resizeImage(_tempFile, _small, 70, 128);
 						File _retina = new File(_webContextStoragePath + this.jobStoragePath
 								+ "/Retina/" + _tempFileName);
-						this.uploadImageManagement.resizeImage(_tempFile, _retina, 364, 560);
+						this.uploadImageManagement.resizeImage(_tempFile, _retina, 140, 256);
 					}
 					catch (IOException _ex) {
 						Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);

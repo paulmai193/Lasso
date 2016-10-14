@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.dao.impl;
 
 import org.hibernate.SessionFactory;

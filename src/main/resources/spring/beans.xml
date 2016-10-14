@@ -164,6 +164,7 @@
 	<bean id="publicController" class="com.lasso.rest.controller.PublicController"
 		lazy-init="false">
 		<property name="genericManagement" ref="genericManagement" />
+		<property name="emailUtil" ref="emailUtil" />
 	</bean>
 	<bean id="portfolioController" class="com.lasso.rest.controller.PortfolioController"
 		lazy-init="false">

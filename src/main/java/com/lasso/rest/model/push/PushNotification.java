@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.push;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

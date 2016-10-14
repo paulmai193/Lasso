@@ -1,6 +1,10 @@
+/*
+ * 
+ */
 package com.lasso.rest.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
@@ -8,6 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -33,6 +40,10 @@ import com.lasso.rest.model.api.response.GetServiceFeeResponse;
 import com.lasso.rest.model.api.response.ListCountriesResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.GenericManagement;
+import com.lasso.template.DesignerThanksEmail;
+import com.lasso.template.EmailTemplate;
+import com.lasso.template.UserThanksEmail;
+import com.lasso.util.EmailUtil;
 
 /**
  * The Class PublicController.
@@ -43,6 +54,9 @@ import com.lasso.rest.service.GenericManagement;
 @Path("/")
 @Lazy(false)
 public class PublicController extends BaseController {
+
+	/** The email util. */
+	private EmailUtil			emailUtil;
 
 	/** The generic management. */
 	@Autowired
@@ -80,13 +94,13 @@ public class PublicController extends BaseController {
 	@Produces(MediaType.TEXT_HTML)
 	public String getInvoice() throws URISyntaxException, IOException {
 		File _template = new File(
-				this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
 		return _content.replace("${job_id}", "TEST 101")
-				.replace("${date_purchase}", _dateFormat.format(new Date()))
-				.replace("${date_invoice}", _dateFormat.format(new Date()))
-				.replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
+		        .replace("${date_purchase}", _dateFormat.format(new Date()))
+		        .replace("${date_invoice}", _dateFormat.format(new Date()))
+		        .replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
 	}
 
 	/**
@@ -115,9 +129,9 @@ public class PublicController extends BaseController {
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
 	public String getStaticPage(@PathParam("static_page") String __staticPage)
-			throws URISyntaxException, IOException {
+	        throws URISyntaxException, IOException {
 		File _template = new File(
-				this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
@@ -150,27 +164,7 @@ public class PublicController extends BaseController {
 	}
 
 	/**
-	 * Send feed back.
-	 *
-	 * @param __feedbackRequest the feedback request
-	 * @return the response
-	 */
-	@POST
-	@Path("/send/feedback")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	@AccountAuthenticate
-	public Response sendFeedBack(FeedbackRequest __feedbackRequest) {
-		__feedbackRequest.validate();
-		Account _account = (Account) this.validateContext.getUserPrincipal();
-		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
-				__feedbackRequest.getName(), __feedbackRequest.getMessage(),
-				Constant.SEND_FEEDBACK);
-		return this.success();
-	}
-
-	/**
-	 * Send feed contact us.
+	 * Send contact us.
 	 *
 	 * @param __contactUsRequest the contact us request
 	 * @return the response
@@ -179,12 +173,56 @@ public class PublicController extends BaseController {
 	@Path("/send/contactus")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response sendFeedContactUs(ContactUsRequest __contactUsRequest) {
+	public Response sendContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
-				__contactUsRequest.getPhone(), __contactUsRequest.getName(),
-				__contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+		        __contactUsRequest.getPhone(), __contactUsRequest.getName(),
+		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
+	}
+
+	/**
+	 * Send feed back.
+	 *
+	 * @param __feedbackRequest the feedback request
+	 * @return the response
+	 * @throws AddressException the address exception
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws MessagingException the messaging exception
+	 */
+	@POST
+	@Path("/send/feedback")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@AccountAuthenticate
+	public Response sendFeedBack(FeedbackRequest __feedbackRequest) throws AddressException,
+	        FileNotFoundException, IOException, URISyntaxException, MessagingException {
+		__feedbackRequest.validate();
+		Account _account = (Account) this.validateContext.getUserPrincipal();
+		this.genericManagement.saveContact(_account.getEmail(), _account.getHandphoneNumber(),
+		        __feedbackRequest.getName(), __feedbackRequest.getMessage(),
+		        Constant.SEND_FEEDBACK);
+		EmailTemplate _emailTemplate;
+		if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+			_emailTemplate = new DesignerThanksEmail(_account.getName());
+		}
+		else {
+			_emailTemplate = new UserThanksEmail(_account.getName());
+		}
+		this.emailUtil.sendEmailByTemplate(_account.getEmail(), "Thank you for feedback",
+		        _emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
+		return this.success();
+	}
+
+	/**
+	 * Sets the email util.
+	 *
+	 * @param __emailUtil the new email util
+	 */
+	public void setEmailUtil(EmailUtil __emailUtil) {
+		this.emailUtil = __emailUtil;
 	}
 
 	/**

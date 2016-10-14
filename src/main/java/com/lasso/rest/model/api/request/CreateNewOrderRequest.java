@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.api.request;
 
 import java.net.URL;

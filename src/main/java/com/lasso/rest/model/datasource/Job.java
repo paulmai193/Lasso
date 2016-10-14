@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
@@ -137,12 +140,14 @@ public class Job implements Serializable {
 		this.furtherInformation = __newJobRequest.getFurther();
 		this.categoryId = __newJobRequest.getIdCategory();
 		this.created = this.modified = new Date();
-		this.stage = 0;
+		this.stage = this.deleted = 0;
+		this.status = 1;
 		this.step = __newJobRequest.getStep();
 		this.typeId = __newJobRequest.getIdType();
 		this.latestSubmission = __newJobRequest.getLastSubmission();
 		this.objective = __newJobRequest.getObjective();
-		String _reference = Arrays.toString(__newJobRequest.getReference().toArray());
+		String _reference = Arrays.toString(__newJobRequest.getReference().toArray()).replace(" ",
+				"");
 		this.reference = _reference.substring(1, _reference.length() - 1);
 		this.submission = __newJobRequest.getSubmission();
 	}

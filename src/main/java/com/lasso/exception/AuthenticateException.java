@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.exception;
 
 import javax.ws.rs.WebApplicationException;

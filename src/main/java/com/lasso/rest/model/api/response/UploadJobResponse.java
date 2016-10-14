@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.api.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

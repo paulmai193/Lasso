@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.controller.errorhandler;
 
 import javax.ws.rs.ForbiddenException;

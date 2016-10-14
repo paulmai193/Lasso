@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.api.request;
 
 import com.lasso.exception.ObjectParamException;

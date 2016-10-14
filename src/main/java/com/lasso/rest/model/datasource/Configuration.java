@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.lasso.rest.model.datasource;
 
 import java.io.Serializable;
