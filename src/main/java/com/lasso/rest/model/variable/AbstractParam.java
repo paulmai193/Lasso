@@ -5,7 +5,6 @@ package com.lasso.rest.model.variable;
 
 import com.lasso.exception.ObjectParamException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractParam.
  *

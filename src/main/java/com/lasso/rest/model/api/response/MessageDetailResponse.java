@@ -25,7 +25,6 @@ import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MessageDetailResponse.
  *
@@ -115,7 +114,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 	@Override
 	public void serialize(MessageDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -141,7 +140,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 		__gen.writeArrayFieldStart("messages");
 		__value.getMessageDatas().forEach(_data -> this.serializeMessages(__gen, _data,
-				__value.getOrderDetail().getPrefixAvatar()));
+		        __value.getOrderDetail().getPrefixAvatar()));
 		__gen.writeEndArray();
 
 		__gen.writeEndObject();
@@ -172,6 +171,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 	private void serializeJob(JsonGenerator __gen, MessageDetailResponse __value) {
 		GetOrderResponse _orderDetail = __value.getOrderDetail();
 		Job _job = (Job) _orderDetail.getData()[0];
+		Account _user = (Account) __value.getMessageDatas().get(0)[1];
 
 		@SuppressWarnings("unchecked")
 		List<Style> _styles = (List<Style>) _orderDetail.getData()[2];
@@ -201,7 +201,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			__gen.writeStringField("objective", _job.getObjective());
 			__gen.writeStringField("asset_url", _job.getAssetsUrl());
 			__gen.writeStringField("further_information",
-					_job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
+			        _job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
 			__gen.writeArrayFieldStart("images");
 			if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
 				for (String _referenceImage : _job.getReference().trim().split(",")) {
@@ -211,6 +211,13 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 				}
 			}
 			__gen.writeEndArray();
+			if (_user.getImage().trim().isEmpty()) {
+				__gen.writeStringField("avatar", "");
+			}
+			else {
+				__gen.writeStringField("avatar", __value.getOrderDetail().getPrefixAvatar()
+				        + "/Icon/" + _user.getImage().trim());
+			}
 		}
 		catch (IOException _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
@@ -218,7 +225,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 	}
 
 	private void serializeMessages(JsonGenerator __gen, Object[] __messageData,
-			String __prefixJobUrl) {
+	        String __prefixUrl) {
 		try {
 			Message _message = (Message) __messageData[0];
 			Account _sender = (Account) __messageData[1];
@@ -232,7 +239,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			}
 			else {
 				__gen.writeStringField("sender_avatar",
-						__prefixJobUrl + "/Icon/" + _sender.getImage());
+				        __prefixUrl + "/Icon/" + _sender.getImage().trim());
 			}
 			DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
 			__gen.writeStringField("message_time", _dateFormat.format(_message.getCreated()));

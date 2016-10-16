@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.lasso.rest.model.datasource.Banner;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface BannerDAO.
  *

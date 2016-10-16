@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AccountSettings.
  *
@@ -25,9 +24,9 @@ public class AccountSettings {
 	 */
 	public static AccountSettings createDefault() {
 		Settings _emailSettings = new Settings(Settings.SETTING_ON, Settings.SETTING_ON,
-				Settings.SETTING_ON, Settings.SETTING_ON);
+		        Settings.SETTING_ON, Settings.SETTING_ON);
 		Settings _appSettings = new Settings(Settings.SETTING_ON, Settings.SETTING_ON,
-				Settings.SETTING_ON, Settings.SETTING_ON);
+		        Settings.SETTING_ON, Settings.SETTING_ON);
 		return new AccountSettings(_emailSettings, _appSettings);
 	}
 

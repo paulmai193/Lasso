@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.datasource.Settings;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SettingsRequest.
  *
@@ -57,9 +56,9 @@ public class SettingsRequest extends BaseRequest {
 			throw new ObjectParamException("Invalid settings app");
 		}
 		else if (this.appSettings.getMessages() == null
-				|| this.appSettings.getNews_promotions() == null
-				|| this.appSettings.getOffer() == null
-				|| this.appSettings.getStatus_update() == null) {
+		        || this.appSettings.getNews_promotions() == null
+		        || this.appSettings.getOffer() == null
+		        || this.appSettings.getStatus_update() == null) {
 			throw new ObjectParamException("Invalid settings app");
 		}
 
@@ -67,9 +66,9 @@ public class SettingsRequest extends BaseRequest {
 			throw new ObjectParamException("Invalid settings email");
 		}
 		else if (this.emailSettings.getMessages() == null
-				|| this.emailSettings.getNews_promotions() == null
-				|| this.emailSettings.getOffer() == null
-				|| this.emailSettings.getStatus_update() == null) {
+		        || this.emailSettings.getNews_promotions() == null
+		        || this.emailSettings.getOffer() == null
+		        || this.emailSettings.getStatus_update() == null) {
 			throw new ObjectParamException("Invalid settings email");
 		}
 	}

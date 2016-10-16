@@ -5,7 +5,6 @@ package com.lasso.rest.dao;
 
 import com.lasso.rest.model.datasource.AccountsRating;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface AccountRatingDAO.
  *

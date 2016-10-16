@@ -21,7 +21,6 @@ import com.lasso.define.JobStepConstant;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Style;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class JobOfUserDetailResponse.
  *
@@ -105,7 +104,7 @@ class JobOfDesignerDetailSerializer extends JsonSerializer<Object[]> {
 
 	@Override
 	public void serialize(Object[] __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	        throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		Job _job = (Job) __value[0];
 		String _designer = (String) __value[1];

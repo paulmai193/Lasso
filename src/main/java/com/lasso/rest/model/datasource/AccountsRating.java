@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the accounts_ratings database table.
  *
@@ -82,7 +81,7 @@ public class AccountsRating implements Serializable {
 	 *        the quality
 	 */
 	public AccountsRating(int __designerId, int __jobId, int __communication, int __experience,
-			int __quality) {
+	        int __quality) {
 		super();
 		this.accountId = __designerId;
 		this.communication = __communication;

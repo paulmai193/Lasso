@@ -13,7 +13,6 @@ import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.model.variable.PhoneParam;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AccountChangeDetailRequest.
  *
@@ -200,7 +199,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 			this.phone = new PhoneParam(this.phoneString);
 		}
 		if (this.gender == null || (this.gender.shortValue() == Constant.GENDER_MALE
-				&& this.gender.shortValue() == Constant.GENDER_FEMALE)) {
+		        && this.gender.shortValue() == Constant.GENDER_FEMALE)) {
 			this.gender = Constant.GENDER_MALE;
 		}
 	}

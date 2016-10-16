@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Settings.
  *
@@ -62,7 +61,7 @@ public class Settings {
 	 *        the news promotions
 	 */
 	public Settings(String __messages, String __offer, String __status_pdate,
-			String __news_promotions) {
+	        String __news_promotions) {
 		super();
 		this.messages = __messages;
 		this.offer = __offer;

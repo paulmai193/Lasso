@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.rest.model.datasource.AccountSettings;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SettingsResponse.
  *

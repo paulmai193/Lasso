@@ -26,7 +26,6 @@ import com.lasso.exception.AuthenticateException;
 import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.datasource.Account;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AccountAllowFilter.
  *
@@ -62,21 +61,21 @@ public class AccountAllowFilter implements ContainerRequestFilter {
 
 		try {
 			Account _authenticatedAccount = (Account) __requestContext.getSecurityContext()
-					.getUserPrincipal();
+			        .getUserPrincipal();
 			if (methodStatus.isEmpty()) {
 				this.checkPermissions(classStatus, _authenticatedAccount.getStatus(), classRoles,
-						_authenticatedAccount.getRole());
+				        _authenticatedAccount.getRole());
 			}
 			else {
 				this.checkPermissions(methodStatus, _authenticatedAccount.getStatus(), methodRoles,
-						_authenticatedAccount.getRole());
+				        _authenticatedAccount.getRole());
 			}
 		}
 		catch (AuthenticateException _e) {
 			AccountAllowFilter.LOGGER.warn(_e.getMessage());
 			BaseResponse _errorResponse = new BaseResponse(true, _e.getMessage());
 			__requestContext.abortWith(
-					Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
+			        Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
 		}
 
 	}
@@ -96,19 +95,19 @@ public class AccountAllowFilter implements ContainerRequestFilter {
 	 *         the authenticate exception
 	 */
 	private void checkPermissions(List<String> __allowedStatus, Byte __statusMustCheck,
-			List<String> __allowedRoles, Byte __roleMustCheck) throws AuthenticateException {
+	        List<String> __allowedRoles, Byte __roleMustCheck) throws AuthenticateException {
 		if (__allowedStatus.contains(__statusMustCheck.toString())) {
 			if (__allowedRoles.contains(__roleMustCheck.toString())) {
 				return;
 			}
 			else {
 				throw new AuthenticateException("User's role not allow to access",
-						Status.FORBIDDEN);
+				        Status.FORBIDDEN);
 			}
 		}
 		else {
 			throw new AuthenticateException("User's current status not allow to access",
-					Status.FORBIDDEN);
+			        Status.FORBIDDEN);
 		}
 	}
 
