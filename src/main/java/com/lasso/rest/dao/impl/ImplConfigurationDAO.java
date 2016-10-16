@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.ConfigurationDAO;
 import com.lasso.rest.model.datasource.Configuration;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplConfigurationDAO.
  *
@@ -44,8 +45,10 @@ public class ImplConfigurationDAO implements ConfigurationDAO {
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}

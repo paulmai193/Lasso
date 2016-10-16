@@ -24,6 +24,7 @@ import com.lasso.rest.model.api.response.BaseResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.service.AccountManagement;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class AccountAuthenticateFilter.
  *
@@ -35,11 +36,11 @@ import com.lasso.rest.service.AccountManagement;
 public class AccountAuthenticateFilter implements ContainerRequestFilter {
 
 	/** The Constant LOGGER. */
-	private static final Logger	LOGGER	= Logger.getLogger(AccountAuthenticateFilter.class);
+	private static final Logger LOGGER = Logger.getLogger(AccountAuthenticateFilter.class);
 
 	/** The account management. */
 	@Autowired
-	private AccountManagement	accountManagement;
+	private AccountManagement accountManagement;
 
 	/**
 	 * Instantiates a new account authenticate filter.
@@ -50,18 +51,18 @@ public class AccountAuthenticateFilter implements ContainerRequestFilter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see javax.ws.rs.container.ContainerRequestFilter#filter(javax.ws.rs.container.
-	 * ContainerRequestContext)
+	 * @see javax.ws.rs.container.ContainerRequestFilter#filter(javax.ws.rs.
+	 * container. ContainerRequestContext)
 	 */
 	@Override
 	public void filter(ContainerRequestContext __requestContext) throws IOException {
 		// Get the HTTP Authorization header from the request
 		String _authorizationHeader = __requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-		// Check if the HTTP Authorization header is present and formatted correctly
+		// Check if the HTTP Authorization header is present and formatted
+		// correctly
 		if (_authorizationHeader == null || !_authorizationHeader.startsWith("Lasso-Token ")) {
-			throw new AuthenticateException("Authorization header must be provided",
-					Status.UNAUTHORIZED);
+			throw new AuthenticateException("Authorization header must be provided", Status.UNAUTHORIZED);
 		}
 
 		String _token = _authorizationHeader.substring("Lasso-Token".length()).trim();
@@ -89,25 +90,23 @@ public class AccountAuthenticateFilter implements ContainerRequestFilter {
 				public boolean isUserInRole(String __role) {
 					if (_verifiedAccount.getRole() == Byte.parseByte(__role)) {
 						return true;
-					}
-					else {
+					} else {
 						return false;
 					}
 				}
 			});
-		}
-		catch (AuthenticateException _e) {
+		} catch (AuthenticateException _e) {
 			AccountAuthenticateFilter.LOGGER.warn(_e.getMessage());
 			BaseResponse _errorResponse = new BaseResponse(true, _e.getMessage());
-			__requestContext.abortWith(
-					Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
+			__requestContext.abortWith(Response.status(_e.getResponse().getStatus()).entity(_errorResponse).build());
 		}
 	}
 
 	/**
 	 * Sets the account management.
 	 *
-	 * @param __accountManagement the new account management
+	 * @param __accountManagement
+	 *            the new account management
 	 */
 	public void setAccountManagement(AccountManagement __accountManagement) {
 		this.accountManagement = __accountManagement;

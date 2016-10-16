@@ -25,6 +25,7 @@ import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MessageDetailResponse.
  *
@@ -35,15 +36,16 @@ import com.lasso.rest.model.datasource.Type;
 public class MessageDetailResponse extends BaseResponse {
 
 	/** The message datas. */
-	private List<Object[]>		messageDatas;
+	private List<Object[]> messageDatas;
 
 	/** The order detail. */
-	private GetOrderResponse	orderDetail;
+	private GetOrderResponse orderDetail;
 
 	/**
 	 * Instantiates a new message detail response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public MessageDetailResponse(boolean __error) {
 		super(__error);
@@ -52,8 +54,10 @@ public class MessageDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new message detail response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public MessageDetailResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -62,9 +66,12 @@ public class MessageDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new message detail response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public MessageDetailResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -73,8 +80,10 @@ public class MessageDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new message detail response.
 	 *
-	 * @param __orderDetail the order detail
-	 * @param __messageDatas the message datas
+	 * @param __orderDetail
+	 *            the order detail
+	 * @param __messageDatas
+	 *            the message datas
 	 */
 	public MessageDetailResponse(GetOrderResponse __orderDetail, List<Object[]> __messageDatas) {
 		super();
@@ -105,8 +114,8 @@ public class MessageDetailResponse extends BaseResponse {
 class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 	@Override
-	public void serialize(MessageDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(MessageDetailResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -118,11 +127,9 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		Job _job = (Job) __value.getOrderDetail().getData()[0];
 		if (_job.getPaid().equals((byte) 0)) {
 			__gen.writeStringField("action_status", "job_confirm");
-		}
-		else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+		} else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
 			__gen.writeStringField("action_status", "job_completed");
-		}
-		else {
+		} else {
 			__gen.writeStringField("action_status", "job_explain");
 		}
 
@@ -131,8 +138,8 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		__gen.writeEndObject();
 
 		__gen.writeArrayFieldStart("messages");
-		__value.getMessageDatas().forEach(_data -> this.serializeMessages(__gen, _data,
-				__value.getOrderDetail().getPrefixAvatar()));
+		__value.getMessageDatas()
+				.forEach(_data -> this.serializeMessages(__gen, _data, __value.getOrderDetail().getPrefixAvatar()));
 		__gen.writeEndArray();
 
 		__gen.writeEndObject();
@@ -146,15 +153,13 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 				__gen.writeStringField("retina", "");
-			}
-			else {
+			} else {
 				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
 				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
 				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
 				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
 			}
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 
@@ -178,8 +183,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 					__gen.writeStartObject();
 					__gen.writeStringField("title", _style.getTitle());
 					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
+				} catch (IOException _ex) {
 					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 
@@ -202,14 +206,12 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 				}
 			}
 			__gen.writeEndArray();
-		}
-		catch (IOException _ex) {
+		} catch (IOException _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}
 
-	private void serializeMessages(JsonGenerator __gen, Object[] __messageData,
-			String __prefixJobUrl) {
+	private void serializeMessages(JsonGenerator __gen, Object[] __messageData, String __prefixJobUrl) {
 		try {
 			Message _message = (Message) __messageData[0];
 			Account _sender = (Account) __messageData[1];
@@ -220,16 +222,13 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			__gen.writeStringField("sender_name", _sender.getName());
 			if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
 				__gen.writeStringField("sender_avatar", "");
-			}
-			else {
-				__gen.writeStringField("sender_avatar",
-						__prefixJobUrl + "/Icon/" + _sender.getImage());
+			} else {
+				__gen.writeStringField("sender_avatar", __prefixJobUrl + "/Icon/" + _sender.getImage());
 			}
 			DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
 			__gen.writeStringField("message_time", _dateFormat.format(_message.getCreated()));
 			__gen.writeEndObject();
-		}
-		catch (IOException _ex) {
+		} catch (IOException _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}

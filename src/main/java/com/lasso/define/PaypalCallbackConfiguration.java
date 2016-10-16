@@ -6,6 +6,7 @@ package com.lasso.define;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PaypalCallbackConfiguration.
  *
@@ -13,7 +14,8 @@ import java.util.Map;
  */
 public class PaypalCallbackConfiguration {
 
-	// Creates a configuration map containing credentials and other required configuration
+	// Creates a configuration map containing credentials and other required
+	// configuration
 	/**
 	 * Gets the acct and config.
 	 *
@@ -27,8 +29,7 @@ public class PaypalCallbackConfiguration {
 		// Account Credential
 		configMap.put("acct1.UserName", "logia193-facilitator_api1.gmail.com");
 		configMap.put("acct1.Password", "Y3VTR4R9528PVYZ2");
-		configMap.put("acct1.Signature",
-				"AFcWxV21C7fd0v3bYYYRCpSSRl31AiKB0ODaH0pnqv1zx88xOzFoCzyJ");
+		configMap.put("acct1.Signature", "AFcWxV21C7fd0v3bYYYRCpSSRl31AiKB0ODaH0pnqv1zx88xOzFoCzyJ");
 		// Subject is optional, only required in case of third party permission
 		// configMap.put("acct1.Subject", "");
 
@@ -50,10 +51,12 @@ public class PaypalCallbackConfiguration {
 	public static final Map<String, String> getConfig() {
 		Map<String, String> configMap = new HashMap<>();
 
-		// Endpoints are varied depending on whether sandbox OR live is chosen for mode
+		// Endpoints are varied depending on whether sandbox OR live is chosen
+		// for mode
 		configMap.put("mode", "sandbox");
 
-		// These values are defaulted in SDK. If you want to override default values, uncomment it
+		// These values are defaulted in SDK. If you want to override default
+		// values, uncomment it
 		// and add your value.
 		// configMap.put("http.ConnectionTimeOut", "5000");
 		// configMap.put("http.Retry", "2");

@@ -6,6 +6,7 @@ package com.lasso.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ResourceExistException.
  *
@@ -26,7 +27,8 @@ public class ResourceExistException extends WebApplicationException {
 	/**
 	 * Instantiates a new resource exist exception.
 	 *
-	 * @param __message the message
+	 * @param __message
+	 *            the message
 	 */
 	public ResourceExistException(String __message) {
 		super(__message, Status.CONFLICT);

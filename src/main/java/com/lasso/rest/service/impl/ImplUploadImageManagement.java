@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.lasso.rest.service.UploadImageManagement;
 import com.lasso.util.EncryptionUtil;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplUploadImageManagement.
  *
@@ -34,27 +35,26 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#addWatermark(java.io.File, java.io.File,
-	 * javax.imageio.stream.ImageOutputStream)
+	 * @see
+	 * com.lasso.rest.service.UploadImageManagement#addWatermark(java.io.File,
+	 * java.io.File, javax.imageio.stream.ImageOutputStream)
 	 */
 	@Override
-	public void addWatermark(File __sourceImageFile, File __watermarkImageFile,
-			File __destinationImageFile) throws IOException {
-		Logger.getLogger(this.getClass())
-		.debug("Add watermark for image: " + __destinationImageFile.getAbsolutePath());
+	public void addWatermark(File __sourceImageFile, File __watermarkImageFile, File __destinationImageFile)
+			throws IOException {
+		Logger.getLogger(this.getClass()).debug("Add watermark for image: " + __destinationImageFile.getAbsolutePath());
 		File _resizeWatermark = File.createTempFile("temp", null);
 		try {
 			BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 			BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
-			this.resizeImage(__watermarkImageFile, _resizeWatermark,
-					_watermarkImage.getHeight() / 2, _watermarkImage.getWidth() / 2);
+			this.resizeImage(__watermarkImageFile, _resizeWatermark, _watermarkImage.getHeight() / 2,
+					_watermarkImage.getWidth() / 2);
 
 			BufferedImage _resizeWatermarkImage = ImageIO.read(_resizeWatermark);
 
 			// initializes necessary graphic properties
 			Graphics2D _g2d = (Graphics2D) _sourceImage.getGraphics();
-			AlphaComposite _alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-					1.0f);
+			AlphaComposite _alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
 			_g2d.setComposite(_alphaChannel);
 
 			// calculates the coordinate where the image is painted
@@ -65,22 +65,34 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			_g2d.drawImage(_resizeWatermarkImage, _topLeftX, _topLeftY, null);
 
 			String _imageName = __sourceImageFile.getName();
-			String _fileExtension = _imageName.substring(_imageName.lastIndexOf(".") + 1,
-					_imageName.length());
+			String _fileExtension = _imageName.substring(_imageName.lastIndexOf(".") + 1, _imageName.length());
 			ImageIO.write(_sourceImage, _fileExtension, __destinationImageFile);
 			this.changeOwner(__destinationImageFile);
 
 			_g2d.dispose();
-		}
-		finally {
+		} finally {
 			_resizeWatermark.delete();
 		}
+	}
+
+	/**
+	 * Change owner.
+	 *
+	 * @param __file
+	 *            the file
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	private void changeOwner(File __file) throws IOException {
+		__file.setExecutable(true, false);
+		__file.setReadable(true, false);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#copyImage(java.io.File, java.io.File)
+	 * @see com.lasso.rest.service.UploadImageManagement#copyImage(java.io.File,
+	 * java.io.File)
 	 */
 	@Override
 	public void copyImage(File __sourceFile, File __destinationFile) throws IOException {
@@ -91,25 +103,26 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#generateImageName(java.lang.String)
+	 * @see
+	 * com.lasso.rest.service.UploadImageManagement#generateImageName(java.lang.
+	 * String)
 	 */
 	@Override
 	public String generateImageName(String __extension) {
-		return EncryptionUtil.uniqid("", false)
-				+ new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "." + __extension;
+		return EncryptionUtil.uniqid("", false) + new SimpleDateFormat("ddMMyyyyhhmmss").format(new Date()) + "."
+				+ __extension;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File,
-	 * java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File,
+	 * java.io.File, java.lang.Integer)
 	 */
 	@Override
-	public void resizeImage(File __sourceFile, File __destinationFile, Integer __newSize)
-			throws IOException {
-		Logger.getLogger(this.getClass())
-		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+	public void resizeImage(File __sourceFile, File __destinationFile, Integer __newSize) throws IOException {
+		Logger.getLogger(this.getClass()).debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -119,8 +132,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			if (sbi != null) {
 				try {
 					dbi = Scalr.resize(sbi, __newSize);
-				}
-				finally {
+				} finally {
 					sbi.flush();
 				}
 			}
@@ -133,14 +145,14 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File, java.io.File,
-	 * java.lang.Integer, java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.service.UploadImageManagement#resizeImage(java.io.File,
+	 * java.io.File, java.lang.Integer, java.lang.Integer)
 	 */
 	@Override
-	public void resizeImage(File __sourceFile, File __destinationFile, Integer __height,
-			Integer __width) throws IOException {
-		Logger.getLogger(this.getClass())
-		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+	public void resizeImage(File __sourceFile, File __destinationFile, Integer __height, Integer __width)
+			throws IOException {
+		Logger.getLogger(this.getClass()).debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		if (__sourceFile.isFile()) {
 			Image image = ImageIO.read(__sourceFile);
 			BufferedImage sbi = (BufferedImage) image;
@@ -149,8 +161,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			if (sbi != null) {
 				try {
 					dbi = Scalr.resize(sbi, __width, __height);
-				}
-				finally {
+				} finally {
 					sbi.flush();
 				}
 
@@ -164,30 +175,18 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.UploadImageManagement#saveFile(java.io.InputStream, java.io.File,
-	 * java.lang.String)
+	 * @see com.lasso.rest.service.UploadImageManagement#saveFile(java.io.
+	 * InputStream, java.io.File, java.lang.String)
 	 */
 	@Override
 	public void saveFile(InputStream __fileStream, File __destinationFile, String __extension)
 			throws IOException, IllegalArgumentException {
-		Logger.getLogger(this.getClass())
-		.debug("Destination path of image: " + __destinationFile.getAbsolutePath());
+		Logger.getLogger(this.getClass()).debug("Destination path of image: " + __destinationFile.getAbsolutePath());
 		BufferedImage _buffered = ImageIO.read(__fileStream);
 		if (_buffered == null) {
 			throw new IllegalArgumentException("File not image");
 		}
 		ImageIO.write(_buffered, __extension, __destinationFile);
 		this.changeOwner(__destinationFile);
-	}
-
-	/**
-	 * Change owner.
-	 *
-	 * @param __file the file
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 */
-	private void changeOwner(File __file) throws IOException {
-		__file.setExecutable(true, false);
-		__file.setReadable(true, false);
 	}
 }

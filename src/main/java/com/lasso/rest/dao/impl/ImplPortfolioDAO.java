@@ -19,6 +19,7 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Project;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplPortfolioDAO.
  *
@@ -35,7 +36,8 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.dao.PortfolioDAO#createPortfolio(com.lasso.rest.model.datasource.Portfolio)
+	 * com.lasso.rest.dao.PortfolioDAO#createPortfolio(com.lasso.rest.model.
+	 * datasource.Portfolio)
 	 */
 	@Override
 	public Integer createPortfolio(Portfolio __portfolio) {
@@ -46,16 +48,15 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.dao.PortfolioDAO#getAllPortfoliosOfAccount(com.lasso.rest.model.datasource.
-	 * Account)
+	 * com.lasso.rest.dao.PortfolioDAO#getAllPortfoliosOfAccount(com.lasso.rest.
+	 * model.datasource. Account)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Portfolio> getAllPortfoliosOfAccount(Account __account) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("accountId", __account.getId()))
-				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-				.addOrder(Order.asc("title"));
+				.add(Restrictions.eq("accountId", __account.getId())).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("title"));
 		return _criteria.list();
 	}
 
@@ -73,41 +74,41 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.PortfolioDAO#getPortfolioByProject(com.lasso.rest.model.datasource.
-	 * Project)
+	 * @see
+	 * com.lasso.rest.dao.PortfolioDAO#getPortfolioByProject(com.lasso.rest.
+	 * model.datasource. Project)
 	 */
 	@Override
 	public Portfolio getPortfolioByProject(Project __project) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("id", __project.getPortfolioId()))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("id", __project.getPortfolioId())).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.PortfolioDAO#getPortfolioOfAccount(com.lasso.rest.model.datasource.
-	 * Account, java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.dao.PortfolioDAO#getPortfolioOfAccount(com.lasso.rest.
+	 * model.datasource. Account, java.lang.Integer)
 	 */
 	@Override
 	public Portfolio getPortfolioOfAccount(Account __account, Integer __idPortfolio) {
 		return (Portfolio) this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("id", __idPortfolio))
-				.add(Restrictions.eq("accountId", __account.getId()))
+				.add(Restrictions.eq("id", __idPortfolio)).add(Restrictions.eq("accountId", __account.getId()))
 				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.PortfolioDAO#searchPortfolios(int, int, int, java.util.List,
-	 * java.util.List, java.lang.Integer)
+	 * @see com.lasso.rest.dao.PortfolioDAO#searchPortfolios(int, int, int,
+	 * java.util.List, java.util.List, java.lang.Integer)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-			List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes,
-			double __budgetCompare) {
+	public List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory, List<Integer> __idsStyle,
+			List<PortfolioType> __portfolioTypes, double __budgetCompare) {
 		List<Integer> _portfolioIds = new ArrayList<>();
 		__portfolioTypes.forEach(_pt -> _portfolioIds.add(_pt.getPortfolioId()));
 		if (_portfolioIds.isEmpty() || __idsStyle.isEmpty()) {
@@ -115,19 +116,14 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 		}
 
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Portfolio.class)
-				.add(Restrictions.eq("categoryId", __idCategory))
-				.add(Restrictions.in("styleId", __idsStyle))
+				.add(Restrictions.eq("categoryId", __idCategory)).add(Restrictions.in("styleId", __idsStyle))
 				.add(Restrictions.in("id", _portfolioIds)).add(Restrictions.eq("status", (byte) 1))
 				.add(Restrictions.eq("deleted", (byte) 0));
 		if (__budgetCompare > 0) {
-			_criteria.add(Restrictions.gt("amount", __budgetCompare))
-			.addOrder(Order.desc("amount"));
-		}
-		else if (__budgetCompare < 0) {
-			_criteria.add(Restrictions.le("amount", __budgetCompare * -1D))
-			.addOrder(Order.asc("amount"));
-		}
-		else {
+			_criteria.add(Restrictions.gt("amount", __budgetCompare)).addOrder(Order.desc("amount"));
+		} else if (__budgetCompare < 0) {
+			_criteria.add(Restrictions.le("amount", __budgetCompare * -1D)).addOrder(Order.asc("amount"));
+		} else {
 			_criteria.addOrder(Order.asc("amount"));
 		}
 
@@ -141,8 +137,10 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}
@@ -151,7 +149,8 @@ public class ImplPortfolioDAO implements PortfolioDAO {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.dao.PortfolioDAO#updatePortfolio(com.lasso.rest.model.datasource.Portfolio)
+	 * com.lasso.rest.dao.PortfolioDAO#updatePortfolio(com.lasso.rest.model.
+	 * datasource.Portfolio)
 	 */
 	@Override
 	public void updatePortfolio(Portfolio __portfolio) {

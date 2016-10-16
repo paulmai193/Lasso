@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Category;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CategoryResponse.
  *
@@ -25,16 +26,17 @@ import com.lasso.rest.model.datasource.Category;
 public class CategoryResponse extends BaseResponse {
 
 	/** The category. */
-	private Category	category;
+	private Category category;
 
 	/** The prefix url. */
 	@JsonIgnore
-	private String		prefixUrl;
+	private String prefixUrl;
 
 	/**
 	 * Instantiates a new category response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public CategoryResponse(boolean __error) {
 		super(__error);
@@ -43,8 +45,10 @@ public class CategoryResponse extends BaseResponse {
 	/**
 	 * Instantiates a new category response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public CategoryResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -53,9 +57,12 @@ public class CategoryResponse extends BaseResponse {
 	/**
 	 * Instantiates a new category response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public CategoryResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -64,8 +71,10 @@ public class CategoryResponse extends BaseResponse {
 	/**
 	 * Instantiates a new category response.
 	 *
-	 * @param __prefixUrl the prefix url
-	 * @param __category the category
+	 * @param __prefixUrl
+	 *            the prefix url
+	 * @param __category
+	 *            the category
 	 */
 	public CategoryResponse(String __prefixUrl, Category __category) {
 		super();
@@ -96,8 +105,8 @@ public class CategoryResponse extends BaseResponse {
 class CategorySerializer extends JsonSerializer<CategoryResponse> {
 
 	@Override
-	public void serialize(CategoryResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(CategoryResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -114,16 +123,12 @@ class CategorySerializer extends JsonSerializer<CategoryResponse> {
 			__gen.writeStringField("small", "");
 			__gen.writeStringField("icon", "");
 			__gen.writeStringField("retina", "");
-		}
-		else {
+		} else {
 			__gen.writeStringField("original",
 					__value.getPrefixUrl() + "/Original/" + __value.getCategory().getImage());
-			__gen.writeStringField("small",
-					__value.getPrefixUrl() + "/Small/" + __value.getCategory().getImage());
-			__gen.writeStringField("icon",
-					__value.getPrefixUrl() + "/Icon/" + __value.getCategory().getImage());
-			__gen.writeStringField("retina",
-					__value.getPrefixUrl() + "/Retina/" + __value.getCategory().getImage());
+			__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/" + __value.getCategory().getImage());
+			__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/" + __value.getCategory().getImage());
+			__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/" + __value.getCategory().getImage());
 		}
 		__gen.writeEndObject();
 

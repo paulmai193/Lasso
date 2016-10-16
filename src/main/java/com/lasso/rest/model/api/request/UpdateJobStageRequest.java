@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.define.JobStageConstant;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ConfirmOrderRequest.
  *
@@ -24,14 +25,14 @@ import com.lasso.exception.ObjectParamException;
 public class UpdateJobStageRequest extends BaseRequest {
 
 	/** The delivery date. */
-	private Date	deliveryDate;
+	private Date deliveryDate;
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer	idJob;
+	private Integer idJob;
 
 	/** The stage. */
-	private Byte	stage;
+	private Byte stage;
 
 	/**
 	 * Instantiates a new confirm order request.
@@ -69,15 +70,15 @@ public class UpdateJobStageRequest extends BaseRequest {
 	/**
 	 * Sets the delivery date.
 	 *
-	 * @param __deliveryDate the new delivery date
+	 * @param __deliveryDate
+	 *            the new delivery date
 	 */
 	@JsonProperty("delivery_date")
 	public void setDeliveryDate(String __deliveryDate) {
 		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			this.deliveryDate = _dateFormat.parse(__deliveryDate);
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			this.deliveryDate = null;
 		}
 	}
@@ -85,7 +86,8 @@ public class UpdateJobStageRequest extends BaseRequest {
 	/**
 	 * Sets the stage.
 	 *
-	 * @param __stage the new stage
+	 * @param __stage
+	 *            the new stage
 	 */
 	@JsonProperty("job_stage")
 	public void setStage(Byte __stage) {

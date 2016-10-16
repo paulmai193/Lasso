@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PhoneParam.
  *
@@ -17,8 +18,10 @@ public class PhoneParam extends ContactParam {
 	/**
 	 * Instantiates a new phone param.
 	 *
-	 * @param __param the param
-	 * @throws ObjectParamException the object param exception
+	 * @param __param
+	 *            the param
+	 * @throws ObjectParamException
+	 *             the object param exception
 	 */
 	public PhoneParam(String __param) throws ObjectParamException {
 		super(__param);
@@ -34,12 +37,10 @@ public class PhoneParam extends ContactParam {
 		if (__param.isEmpty()) {
 			this.contactType = ContactParam.CONTACT_EMPTY;
 			return __param;
-		}
-		else if (Pattern.compile(ContactParam.PHONE_PATTERN).matcher(__param).matches()) {
+		} else if (Pattern.compile(ContactParam.PHONE_PATTERN).matcher(__param).matches()) {
 			this.contactType = ContactParam.CONTACT_PHONE;
 			return __param;
-		}
-		else {
+		} else {
 			throw new ObjectParamException("Not phone number format: " + __param);
 		}
 

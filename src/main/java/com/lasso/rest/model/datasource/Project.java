@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the projects database table.
  *
@@ -30,52 +31,52 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Project implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/** The account id. */
 	@Column(name = "account_id")
-	private Integer				accountId;
+	private Integer accountId;
 
 	/** The category id. */
 	@Column(name = "category_id")
-	private Integer				categoryId;
+	private Integer categoryId;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
+	private Date created;
 
 	/** The deleted. */
-	private Byte				deleted;
+	private Byte deleted;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
+	private Integer id;
 
 	/** The image. */
-	private String				image;
+	private String image;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				modified;
+	private Date modified;
 
 	/** The portfolio id. */
 	@Column(name = "portfolio_id")
-	private Integer				portfolioId;
+	private Integer portfolioId;
 
 	/** The status. */
-	private Byte				status;
+	private Byte status;
 
 	/** The style id. */
 	@Column(name = "style_id")
-	private Integer				styleId;
+	private Integer styleId;
 
 	/** The title. */
-	private String				title;
+	private String title;
 
 	/** The type id. */
 	@Column(name = "type_id")
-	private Integer				typeId;
+	private Integer typeId;
 
 	/**
 	 * Instantiates a new project.
@@ -194,7 +195,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the account id.
 	 *
-	 * @param accountId the new account id
+	 * @param accountId
+	 *            the new account id
 	 */
 	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
@@ -203,7 +205,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the category id.
 	 *
-	 * @param categoryId the new category id
+	 * @param categoryId
+	 *            the new category id
 	 */
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
@@ -212,7 +215,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the created.
 	 *
-	 * @param created the new created
+	 * @param created
+	 *            the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -221,7 +225,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the deleted.
 	 *
-	 * @param deleted the new deleted
+	 * @param deleted
+	 *            the new deleted
 	 */
 	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
@@ -230,7 +235,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -239,7 +245,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the image.
 	 *
-	 * @param image the new image
+	 * @param image
+	 *            the new image
 	 */
 	public void setImage(String image) {
 		this.image = image;
@@ -248,7 +255,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the modified.
 	 *
-	 * @param modified the new modified
+	 * @param modified
+	 *            the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -257,7 +265,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the portfolio id.
 	 *
-	 * @param portfolioId the new portfolio id
+	 * @param portfolioId
+	 *            the new portfolio id
 	 */
 	public void setPortfolioId(Integer portfolioId) {
 		this.portfolioId = portfolioId;
@@ -266,7 +275,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(Byte status) {
 		this.status = status;
@@ -275,7 +285,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the style id.
 	 *
-	 * @param styleId the new style id
+	 * @param styleId
+	 *            the new style id
 	 */
 	public void setStyleId(Integer styleId) {
 		this.styleId = styleId;
@@ -284,7 +295,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the title.
 	 *
-	 * @param title the new title
+	 * @param title
+	 *            the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -293,7 +305,8 @@ public class Project implements Serializable {
 	/**
 	 * Sets the type id.
 	 *
-	 * @param typeId the new type id
+	 * @param typeId
+	 *            the new type id
 	 */
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;

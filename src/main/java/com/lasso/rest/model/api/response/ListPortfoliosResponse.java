@@ -18,107 +18,12 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
-/**
- * The Class ListPortfoliosResponse.
- *
- * @author Paul Mai
- */
-@JsonInclude(value = Include.NON_NULL)
-@JsonSerialize(using = ListPortfolioSerializer.class)
-public class ListPortfoliosResponse extends BaseResponse {
-
-	/** The datas. {portfolio, category, style} */
-	private List<Object[]>	datas;
-
-	/** The prefix url. */
-	private String			prefixUrl;
-
-	/**
-	 * Instantiates a new list portfolios response.
-	 *
-	 * @param __error the error
-	 */
-	public ListPortfoliosResponse(boolean __error) {
-		super(__error);
-	}
-
-	/**
-	 * Instantiates a new list portfolios response.
-	 *
-	 * @param __error the error
-	 * @param __message the message
-	 */
-	public ListPortfoliosResponse(boolean __error, String __message) {
-		super(__error, __message);
-	}
-
-	/**
-	 * Instantiates a new list portfolios response.
-	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
-	 */
-	public ListPortfoliosResponse(boolean __error, String __message, String __detail) {
-		super(__error, __message, __detail);
-	}
-
-	/**
-	 * Instantiates a new list portfolios response.
-	 *
-	 * @param __datas the datas
-	 * @param __prefixUrl the prefix url
-	 */
-	public ListPortfoliosResponse(List<Object[]> __datas, String __prefixUrl) {
-		super();
-		this.datas = __datas;
-		this.prefixUrl = __prefixUrl;
-	}
-
-	/**
-	 * Gets the datas.
-	 *
-	 * @return the datas {portfolio, category, style}
-	 */
-	public List<Object[]> getDatas() {
-		return this.datas;
-	}
-
-	/**
-	 * Gets the prefix url.
-	 *
-	 * @return the prefixUrl
-	 */
-	public String getPrefixUrl() {
-		return this.prefixUrl;
-	}
-
-	/**
-	 * Sets the datas.
-	 *
-	 * @param __datas the datas to set {portfolio, category, style}
-	 */
-	public void setDatas(List<Object[]> __datas) {
-		this.datas = __datas;
-	}
-
-	/**
-	 * Sets the prefix url.
-	 *
-	 * @param __prefixUrl the prefixUrl to set
-	 */
-	public void setPrefixUrl(String __prefixUrl) {
-		this.prefixUrl = __prefixUrl;
-	}
-
-}
-
 class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void serialize(ListPortfoliosResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(ListPortfoliosResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -148,15 +53,11 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 						__gen.writeStartObject();
 						__gen.writeStringField("original",
 								__value.getPrefixUrl() + "/Original/" + _portfolioImage.trim());
-						__gen.writeStringField("small",
-								__value.getPrefixUrl() + "/Small/" + _portfolioImage.trim());
-						__gen.writeStringField("icon",
-								__value.getPrefixUrl() + "/Icon/" + _portfolioImage.trim());
-						__gen.writeStringField("retina",
-								__value.getPrefixUrl() + "/Retina/" + _portfolioImage.trim());
+						__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/" + _portfolioImage.trim());
+						__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/" + _portfolioImage.trim());
+						__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/" + _portfolioImage.trim());
 						__gen.writeEndObject();
-					}
-					else {
+					} else {
 						__gen.writeStartObject();
 						__gen.writeStringField("original", "");
 						__gen.writeStringField("small", "");
@@ -173,6 +74,112 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 		__gen.writeEndArray();
 
 		__gen.writeEndObject();
+	}
+
+}
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ListPortfoliosResponse.
+ *
+ * @author Paul Mai
+ */
+@JsonInclude(value = Include.NON_NULL)
+@JsonSerialize(using = ListPortfolioSerializer.class)
+public class ListPortfoliosResponse extends BaseResponse {
+
+	/** The datas. {portfolio, category, style} */
+	private List<Object[]> datas;
+
+	/** The prefix url. */
+	private String prefixUrl;
+
+	/**
+	 * Instantiates a new list portfolios response.
+	 *
+	 * @param __error
+	 *            the error
+	 */
+	public ListPortfoliosResponse(boolean __error) {
+		super(__error);
+	}
+
+	/**
+	 * Instantiates a new list portfolios response.
+	 *
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 */
+	public ListPortfoliosResponse(boolean __error, String __message) {
+		super(__error, __message);
+	}
+
+	/**
+	 * Instantiates a new list portfolios response.
+	 *
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
+	 */
+	public ListPortfoliosResponse(boolean __error, String __message, String __detail) {
+		super(__error, __message, __detail);
+	}
+
+	/**
+	 * Instantiates a new list portfolios response.
+	 *
+	 * @param __datas
+	 *            the datas
+	 * @param __prefixUrl
+	 *            the prefix url
+	 */
+	public ListPortfoliosResponse(List<Object[]> __datas, String __prefixUrl) {
+		super();
+		this.datas = __datas;
+		this.prefixUrl = __prefixUrl;
+	}
+
+	/**
+	 * Gets the datas.
+	 *
+	 * @return the datas {portfolio, category, style}
+	 */
+	public List<Object[]> getDatas() {
+		return this.datas;
+	}
+
+	/**
+	 * Gets the prefix url.
+	 *
+	 * @return the prefixUrl
+	 */
+	public String getPrefixUrl() {
+		return this.prefixUrl;
+	}
+
+	/**
+	 * Sets the datas.
+	 *
+	 * @param __datas
+	 *            the datas to set {portfolio, category, style}
+	 */
+	public void setDatas(List<Object[]> __datas) {
+		this.datas = __datas;
+	}
+
+	/**
+	 * Sets the prefix url.
+	 *
+	 * @param __prefixUrl
+	 *            the prefixUrl to set
+	 */
+	public void setPrefixUrl(String __prefixUrl) {
+		this.prefixUrl = __prefixUrl;
 	}
 
 }

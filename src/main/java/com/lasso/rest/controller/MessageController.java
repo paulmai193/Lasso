@@ -35,6 +35,7 @@ import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class MessageController.
  *
@@ -48,28 +49,28 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class MessageController extends BaseController {
 
 	/** The avatar storage path. */
-	private String				avatarStoragePath;
+	private String avatarStoragePath;
 
 	/** The http host. */
-	private String				httpHost;
+	private String httpHost;
 
 	/** The job storage path. */
-	private String				jobStoragePath;
+	private String jobStoragePath;
 
 	/** The message management. */
 	@Autowired
-	private MessageManagement	messageManagement;
+	private MessageManagement messageManagement;
 
 	/** The portfolio storage path. */
-	private String				portfolioStoragePath;
+	private String portfolioStoragePath;
 
 	/** The user management. */
 	@Autowired
-	private UserManagement		userManagement;
+	private UserManagement userManagement;
 
 	/** The validate context. */
 	@Context
-	private SecurityContext		validateContext;
+	private SecurityContext validateContext;
 
 	/**
 	 * Gets the list message.
@@ -87,28 +88,29 @@ public class MessageController extends BaseController {
 	/**
 	 * Gets the message detail.
 	 *
-	 * @param __idJob the id message
+	 * @param __idJob
+	 *            the id message
 	 * @return the message detail
 	 */
 	@GET
 	@Path("/detail")
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
-		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-				__idJob);
+		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account, __idJob);
 		Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
-		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-				null, _prefixJob, _prefixPortfolio);
+		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null, null, _prefixJob,
+				_prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 
 	/**
 	 * Read message.
 	 *
-	 * @param __readMessageRequest the read message request
+	 * @param __readMessageRequest
+	 *            the read message request
 	 * @return the response
 	 */
 	@POST
@@ -124,7 +126,8 @@ public class MessageController extends BaseController {
 	/**
 	 * Send message.
 	 *
-	 * @param __sendMessageRequest the send message request
+	 * @param __sendMessageRequest
+	 *            the send message request
 	 * @return the response
 	 */
 	@POST
@@ -140,9 +143,12 @@ public class MessageController extends BaseController {
 	/**
 	 * Send test message.
 	 *
-	 * @param _token the token
-	 * @throws UnirestException the unirest exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param _token
+	 *            the token
+	 * @throws UnirestException
+	 *             the unirest exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/send/test")
@@ -156,7 +162,8 @@ public class MessageController extends BaseController {
 	/**
 	 * Sets the avatar storage path.
 	 *
-	 * @param __avatarStoragePath the new avatar storage path
+	 * @param __avatarStoragePath
+	 *            the new avatar storage path
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
@@ -165,7 +172,8 @@ public class MessageController extends BaseController {
 	/**
 	 * Sets the http host.
 	 *
-	 * @param __httpHost the new http host
+	 * @param __httpHost
+	 *            the new http host
 	 */
 	public void setHttpHost(String __httpHost) {
 		this.httpHost = __httpHost;
@@ -174,7 +182,8 @@ public class MessageController extends BaseController {
 	/**
 	 * Sets the job storage path.
 	 *
-	 * @param __jobStoragePath the new job storage path
+	 * @param __jobStoragePath
+	 *            the new job storage path
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
 		this.jobStoragePath = __jobStoragePath;
@@ -183,7 +192,8 @@ public class MessageController extends BaseController {
 	/**
 	 * Sets the message management.
 	 *
-	 * @param __messageManagement the new message management
+	 * @param __messageManagement
+	 *            the new message management
 	 */
 	public void setMessageManagement(MessageManagement __messageManagement) {
 		this.messageManagement = __messageManagement;
@@ -192,7 +202,8 @@ public class MessageController extends BaseController {
 	/**
 	 * Sets the portfolio storage path.
 	 *
-	 * @param __portfolioStoragePath the new portfolio storage path
+	 * @param __portfolioStoragePath
+	 *            the new portfolio storage path
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;
@@ -201,7 +212,8 @@ public class MessageController extends BaseController {
 	/**
 	 * Sets the user management.
 	 *
-	 * @param __userManagement the new user management
+	 * @param __userManagement
+	 *            the new user management
 	 */
 	public void setUserManagement(UserManagement __userManagement) {
 		this.userManagement = __userManagement;

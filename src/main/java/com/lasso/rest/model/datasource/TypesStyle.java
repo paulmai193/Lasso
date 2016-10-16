@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the types_styles database table.
  *
@@ -30,28 +31,28 @@ import org.hibernate.annotations.DynamicUpdate;
 public class TypesStyle implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
+	private Date created;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
+	private Integer id;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				modified;
+	private Date modified;
 
 	/** The style id. */
 	@Column(name = "style_id")
-	private Integer				styleId;
+	private Integer styleId;
 
 	/** The type id. */
 	@Column(name = "type_id")
-	private Integer				typeId;
+	private Integer typeId;
 
 	/**
 	 * Instantiates a new types style.
@@ -107,7 +108,8 @@ public class TypesStyle implements Serializable {
 	/**
 	 * Sets the created.
 	 *
-	 * @param created the new created
+	 * @param created
+	 *            the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -116,7 +118,8 @@ public class TypesStyle implements Serializable {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -125,7 +128,8 @@ public class TypesStyle implements Serializable {
 	/**
 	 * Sets the modified.
 	 *
-	 * @param modified the new modified
+	 * @param modified
+	 *            the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -134,7 +138,8 @@ public class TypesStyle implements Serializable {
 	/**
 	 * Sets the style id.
 	 *
-	 * @param styleId the new style id
+	 * @param styleId
+	 *            the new style id
 	 */
 	public void setStyleId(Integer styleId) {
 		this.styleId = styleId;
@@ -143,7 +148,8 @@ public class TypesStyle implements Serializable {
 	/**
 	 * Sets the type id.
 	 *
-	 * @param typeId the new type id
+	 * @param typeId
+	 *            the new type id
 	 */
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;

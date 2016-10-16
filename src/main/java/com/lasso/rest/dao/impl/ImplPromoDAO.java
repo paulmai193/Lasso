@@ -12,6 +12,7 @@ import com.lasso.rest.dao.PromoDAO;
 import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.PromoHistory;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplPromoDAO.
  *
@@ -32,8 +33,7 @@ public class ImplPromoDAO implements PromoDAO {
 	@Override
 	public PromoCode getPromoCodeByCode(String __promoCode) {
 		return (PromoCode) this.sessionFactory.getCurrentSession().createCriteria(PromoCode.class)
-				.add(Restrictions.eq("code", __promoCode)).add(Restrictions.eq("deleted", (byte) 0))
-				.uniqueResult();
+				.add(Restrictions.eq("code", __promoCode)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -53,16 +53,15 @@ public class ImplPromoDAO implements PromoDAO {
 	 */
 	@Override
 	public PromoHistory getPromoHistroyByJobId(int __idJob) {
-		return (PromoHistory) this.sessionFactory.getCurrentSession()
-				.createCriteria(PromoHistory.class).add(Restrictions.eq("job_id", __idJob))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		return (PromoHistory) this.sessionFactory.getCurrentSession().createCriteria(PromoHistory.class)
+				.add(Restrictions.eq("job_id", __idJob)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.lasso.rest.dao.PromoDAO#savePromoHistory(com.lasso.rest.model.datasource.PromoHistory)
+	 * @see com.lasso.rest.dao.PromoDAO#savePromoHistory(com.lasso.rest.model.
+	 * datasource.PromoHistory)
 	 */
 	@Override
 	public void savePromoHistory(PromoHistory __promoHistory) {
@@ -72,7 +71,8 @@ public class ImplPromoDAO implements PromoDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.SessionFactory)
+	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.
+	 * SessionFactory)
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

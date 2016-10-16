@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class DesignerThanksEmail.
  *
@@ -20,17 +21,20 @@ import org.apache.commons.lang3.StringUtils;
 public class DesignerThanksEmail implements EmailTemplate {
 
 	/** The first name. */
-	private String	firstName;
+	private String firstName;
 
 	/** The template. */
-	private File	template;
+	private File template;
 
 	/**
 	 * Instantiates a new designer thanks email.
 	 *
-	 * @param __firstName the first name
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __firstName
+	 *            the first name
+	 * @throws URISyntaxException
+	 *             the URI syntax exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public DesignerThanksEmail(String __firstName) throws URISyntaxException, IOException {
 		super();
@@ -82,8 +86,8 @@ public class DesignerThanksEmail implements EmailTemplate {
 	 */
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
-		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/designer-thanks-you").toURI());
+		this.template = new File(
+				this.getClass().getClassLoader().getResource("/email-template/designer-thanks-you").toURI());
 	}
 
 }

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.variable.EmailParam;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ForgotPasswordRequest.
  *
@@ -20,10 +21,10 @@ import com.lasso.rest.model.variable.EmailParam;
 public class ForgetPasswordRequest extends BaseRequest {
 
 	/** The email. */
-	private EmailParam	email;
+	private EmailParam email;
 
 	/** The email string. */
-	private String		emailString;
+	private String emailString;
 
 	/**
 	 * Instantiates a new forgot password request.
@@ -43,7 +44,8 @@ public class ForgetPasswordRequest extends BaseRequest {
 	/**
 	 * Sets the email.
 	 *
-	 * @param __email the new email
+	 * @param __email
+	 *            the new email
 	 */
 	public void setEmail(EmailParam __email) {
 		this.email = __email;
@@ -52,7 +54,8 @@ public class ForgetPasswordRequest extends BaseRequest {
 	/**
 	 * Sets the email string.
 	 *
-	 * @param __emailString the new email string
+	 * @param __emailString
+	 *            the new email string
 	 */
 	@JsonProperty("email")
 	public void setEmailString(String __emailString) {
@@ -68,8 +71,7 @@ public class ForgetPasswordRequest extends BaseRequest {
 	public void validate() throws ObjectParamException {
 		if (this.emailString == null) {
 			throw new ObjectParamException("Invalid email");
-		}
-		else {
+		} else {
 			this.email = new EmailParam(this.emailString);
 		}
 	}

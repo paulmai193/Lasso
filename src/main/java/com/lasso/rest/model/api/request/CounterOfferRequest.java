@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ConfirmOrderRequest.
  *
@@ -20,11 +21,11 @@ public class CounterOfferRequest extends BaseRequest {
 
 	/** The amount. */
 	@JsonProperty("amount")
-	private Double	amount;
+	private Double amount;
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer	idJob;
+	private Integer idJob;
 
 	/**
 	 * Instantiates a new confirm order request.

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.rest.model.datasource.AccountSettings;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class SettingsResponse.
  *
@@ -23,7 +24,8 @@ public class SettingsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new settings response.
 	 *
-	 * @param __settings the settings
+	 * @param __settings
+	 *            the settings
 	 */
 	public SettingsResponse(AccountSettings __settings) {
 		super();
@@ -33,7 +35,8 @@ public class SettingsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new settings response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public SettingsResponse(boolean __error) {
 		super(__error);
@@ -42,8 +45,10 @@ public class SettingsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new settings response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public SettingsResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -52,9 +57,12 @@ public class SettingsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new settings response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public SettingsResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the contacts database table.
  *
@@ -25,45 +26,45 @@ import javax.persistence.TemporalType;
 public class Contact implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/** The address. */
-	private String				address;
+	private String address;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
+	private Date created;
 
 	/** The deleted. */
-	private byte				deleted;
+	private byte deleted;
 
 	/** The email. */
-	private String				email;
+	private String email;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int					id;
+	private int id;
 
 	/** The message. */
 	@Lob
-	private String				message;
+	private String message;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				modified;
+	private Date modified;
 
 	/** The name. */
-	private String				name;
+	private String name;
 
 	/** The phone. */
-	private String				phone;
+	private String phone;
 
 	/** The status. */
-	private byte				status;
+	private byte status;
 
 	/** The type. */
-	private byte				type;
+	private byte type;
 
 	/**
 	 * Instantiates a new contact.
@@ -74,11 +75,16 @@ public class Contact implements Serializable {
 	/**
 	 * Instantiates a new contact.
 	 *
-	 * @param __email the email
-	 * @param __message the message
-	 * @param __name the name
-	 * @param __phone the phone
-	 * @param __type the type
+	 * @param __email
+	 *            the email
+	 * @param __message
+	 *            the message
+	 * @param __name
+	 *            the name
+	 * @param __phone
+	 *            the phone
+	 * @param __type
+	 *            the type
 	 */
 	public Contact(String __email, String __message, String __name, String __phone, byte __type) {
 		super();
@@ -194,7 +200,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the address.
 	 *
-	 * @param address the new address
+	 * @param address
+	 *            the new address
 	 */
 	public void setAddress(String address) {
 		this.address = address;
@@ -203,7 +210,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the created.
 	 *
-	 * @param created the new created
+	 * @param created
+	 *            the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -212,7 +220,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the deleted.
 	 *
-	 * @param deleted the new deleted
+	 * @param deleted
+	 *            the new deleted
 	 */
 	public void setDeleted(byte deleted) {
 		this.deleted = deleted;
@@ -221,7 +230,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the email.
 	 *
-	 * @param email the new email
+	 * @param email
+	 *            the new email
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -230,7 +240,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -239,7 +250,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the message.
 	 *
-	 * @param message the new message
+	 * @param message
+	 *            the new message
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -248,7 +260,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the modified.
 	 *
-	 * @param modified the new modified
+	 * @param modified
+	 *            the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -257,7 +270,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -266,7 +280,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the phone.
 	 *
-	 * @param phone the new phone
+	 * @param phone
+	 *            the new phone
 	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
@@ -275,7 +290,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(byte status) {
 		this.status = status;
@@ -284,7 +300,8 @@ public class Contact implements Serializable {
 	/**
 	 * Sets the type.
 	 *
-	 * @param type the new type
+	 * @param type
+	 *            the new type
 	 */
 	public void setType(byte type) {
 		this.type = type;

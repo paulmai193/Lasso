@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.lasso.rest.model.datasource.Banner;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface BannerDAO.
  *
@@ -17,7 +18,8 @@ public interface BannerDAO extends HibernateSession {
 	/**
 	 * Gets the list banner.
 	 *
-	 * @param __type the type
+	 * @param __type
+	 *            the type
 	 * @return the list banner
 	 */
 	List<Banner> getListBanner(short __type);

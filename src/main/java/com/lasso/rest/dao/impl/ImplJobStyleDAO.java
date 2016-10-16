@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.JobStyleDAO;
 import com.lasso.rest.model.datasource.JobsStyle;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplJobStyleDAO.
  *
@@ -46,12 +47,13 @@ public class ImplJobStyleDAO implements JobStyleDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobStyleDAO#removeJobStyleByJobId(java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.dao.JobStyleDAO#removeJobStyleByJobId(java.lang.Integer)
 	 */
 	@Override
 	public void removeJobStyleByJobId(Integer __idJob) {
 		this.sessionFactory.getCurrentSession().createQuery("delete JobsStyle where jobId = :id")
-		.setInteger("id", __idJob).executeUpdate();
+				.setInteger("id", __idJob).executeUpdate();
 	}
 
 	/*
@@ -67,7 +69,8 @@ public class ImplJobStyleDAO implements JobStyleDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.SessionFactory)
+	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.
+	 * SessionFactory)
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

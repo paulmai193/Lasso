@@ -3,6 +3,7 @@
  */
 package com.lasso.define;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Enum JobStageConstant.
  *
@@ -28,7 +29,8 @@ public enum JobStageConstant {
 	/**
 	 * Gets the by code.
 	 *
-	 * @param __code the code
+	 * @param __code
+	 *            the code
 	 * @return the by code
 	 */
 	public static JobStageConstant getByCode(byte __code) {
@@ -41,16 +43,18 @@ public enum JobStageConstant {
 	}
 
 	/** The stage code. */
-	private byte	code;
+	private byte code;
 
 	/** The stage name. */
-	private String	name;
+	private String name;
 
 	/**
 	 * Instantiates a new job stage constant.
 	 *
-	 * @param __stageCode the stage code
-	 * @param __stageName the stage name
+	 * @param __stageCode
+	 *            the stage code
+	 * @param __stageName
+	 *            the stage name
 	 */
 	private JobStageConstant(byte __stageCode, String __stageName) {
 		this.code = __stageCode;

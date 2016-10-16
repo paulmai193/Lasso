@@ -12,6 +12,7 @@ import org.glassfish.jersey.server.ParamException;
 
 import com.lasso.rest.model.api.response.BaseResponse;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ParamErrorHanlder.
  *
@@ -37,10 +38,8 @@ public class ParamErrorHanlder implements ExceptionMapper<ParamException> {
 	@Override
 	public Response toResponse(ParamException __exception) {
 		ParamErrorHanlder.LOGGER.warn(__exception.getMessage(), __exception);
-		BaseResponse _errorResponse = new BaseResponse(true, "Bad request",
-				__exception.getCause().getMessage());
-		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse)
-				.build();
+		BaseResponse _errorResponse = new BaseResponse(true, "Bad request", __exception.getCause().getMessage());
+		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse).build();
 	}
 
 }

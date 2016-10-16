@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Project;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ListProjectsResponse.
  *
@@ -27,24 +28,25 @@ import com.lasso.rest.model.datasource.Project;
 public class ListProjectsResponse extends BaseResponse {
 
 	/** The datas. {Project, designer avatar name} */
-	private List<Object[]>	datas;
+	private List<Object[]> datas;
 
 	/** The next index. */
-	private int				nextIndex;
+	private int nextIndex;
 
 	/** The prefix avatar url. */
-	private String			prefixAvatarUrl;
+	private String prefixAvatarUrl;
 
 	/** The prefix project url. */
-	private String			prefixProjectUrl;
+	private String prefixProjectUrl;
 
 	/** The suggests. */
-	private List<Object[]>	suggests;
+	private List<Object[]> suggests;
 
 	/**
 	 * Instantiates a new list projects response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public ListProjectsResponse(boolean __error) {
 		super(__error);
@@ -53,8 +55,10 @@ public class ListProjectsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list projects response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public ListProjectsResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -63,9 +67,12 @@ public class ListProjectsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list projects response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public ListProjectsResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -74,14 +81,19 @@ public class ListProjectsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list projects response.
 	 *
-	 * @param __nextIndex the next index
-	 * @param __prefixProjectUrl the prefix project url
-	 * @param __prefixAvatarUrl the prefix avatar url
-	 * @param __datas the datas
-	 * @param __suggests the suggests
+	 * @param __nextIndex
+	 *            the next index
+	 * @param __prefixProjectUrl
+	 *            the prefix project url
+	 * @param __prefixAvatarUrl
+	 *            the prefix avatar url
+	 * @param __datas
+	 *            the datas
+	 * @param __suggests
+	 *            the suggests
 	 */
-	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl,
-			String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
+	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl, String __prefixAvatarUrl,
+			List<Object[]> __datas, List<Object[]> __suggests) {
 		super();
 		this.nextIndex = __nextIndex;
 		this.prefixProjectUrl = __prefixProjectUrl;
@@ -140,8 +152,8 @@ public class ListProjectsResponse extends BaseResponse {
 class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
-	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(ListProjectsResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -153,11 +165,9 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 		__value.getDatas().forEach(_data -> {
 			try {
 				__gen.writeStartObject();
-				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-						__value.getPrefixProjectUrl());
+				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(), __value.getPrefixProjectUrl());
 				__gen.writeEndObject();
-			}
-			catch (IOException _ex) {
+			} catch (IOException _ex) {
 				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 
@@ -167,11 +177,9 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 		__value.getSuggests().forEach(_data -> {
 			try {
 				__gen.writeStartObject();
-				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-						__value.getPrefixProjectUrl());
+				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(), __value.getPrefixProjectUrl());
 				__gen.writeEndObject();
-			}
-			catch (IOException _ex) {
+			} catch (IOException _ex) {
 				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 
@@ -192,27 +200,21 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 				__gen.writeStringField("retina", "");
-			}
-			else {
+			} else {
 				__gen.writeStringField("original",
 						__prefixProjectUrl + "/Original/" + ((Project) __data[0]).getImage());
-				__gen.writeStringField("small",
-						__prefixProjectUrl + "/Small/" + ((Project) __data[0]).getImage());
-				__gen.writeStringField("icon",
-						__prefixProjectUrl + "/Icon/" + ((Project) __data[0]).getImage());
-				__gen.writeStringField("retina",
-						__prefixProjectUrl + "/Retina/" + ((Project) __data[0]).getImage());
+				__gen.writeStringField("small", __prefixProjectUrl + "/Small/" + ((Project) __data[0]).getImage());
+				__gen.writeStringField("icon", __prefixProjectUrl + "/Icon/" + ((Project) __data[0]).getImage());
+				__gen.writeStringField("retina", __prefixProjectUrl + "/Retina/" + ((Project) __data[0]).getImage());
 			}
 			__gen.writeEndObject();
 
 			if (((String) __data[1]).isEmpty()) {
 				__gen.writeStringField("designer_avatar", "");
-			}
-			else {
+			} else {
 				__gen.writeStringField("designer_avatar", __prefixAvatarUrl + "/Icon/" + __data[1]);
 			}
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}

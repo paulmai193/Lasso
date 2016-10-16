@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class AccountSettings.
  *
@@ -23,20 +24,20 @@ public class AccountSettings {
 	 * @return the account settings
 	 */
 	public static AccountSettings createDefault() {
-		Settings _emailSettings = new Settings(Settings.SETTING_ON, Settings.SETTING_ON,
-				Settings.SETTING_ON, Settings.SETTING_ON);
-		Settings _appSettings = new Settings(Settings.SETTING_ON, Settings.SETTING_ON,
-				Settings.SETTING_ON, Settings.SETTING_ON);
+		Settings _emailSettings = new Settings(Settings.SETTING_ON, Settings.SETTING_ON, Settings.SETTING_ON,
+				Settings.SETTING_ON);
+		Settings _appSettings = new Settings(Settings.SETTING_ON, Settings.SETTING_ON, Settings.SETTING_ON,
+				Settings.SETTING_ON);
 		return new AccountSettings(_emailSettings, _appSettings);
 	}
 
 	/** The app settings. */
 	@JsonProperty("app")
-	private Settings	appSettings;
+	private Settings appSettings;
 
 	/** The email settings. */
 	@JsonProperty("email")
-	private Settings	emailSettings;
+	private Settings emailSettings;
 
 	/**
 	 * Instantiates a new account settings.
@@ -47,8 +48,10 @@ public class AccountSettings {
 	/**
 	 * Instantiates a new account settings.
 	 *
-	 * @param __emailSettings the email settings
-	 * @param __appSettings the app settings
+	 * @param __emailSettings
+	 *            the email settings
+	 * @param __appSettings
+	 *            the app settings
 	 */
 	public AccountSettings(Settings __emailSettings, Settings __appSettings) {
 		super();
@@ -77,7 +80,8 @@ public class AccountSettings {
 	/**
 	 * Sets the app settings.
 	 *
-	 * @param __appSettings the appSettings to set
+	 * @param __appSettings
+	 *            the appSettings to set
 	 */
 	public void setAppSettings(Settings __appSettings) {
 		this.appSettings = __appSettings;
@@ -86,7 +90,8 @@ public class AccountSettings {
 	/**
 	 * Sets the email settings.
 	 *
-	 * @param __emailSettings the emailSettings to set
+	 * @param __emailSettings
+	 *            the emailSettings to set
 	 */
 	public void setEmailSettings(Settings __emailSettings) {
 		this.emailSettings = __emailSettings;

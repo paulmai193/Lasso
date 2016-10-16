@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.define.Constant;
 import com.lasso.exception.ObjectParamException;
-import com.lasso.rest.model.variable.PhoneParam;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class UserRegisterRequest.
  *
@@ -21,18 +21,15 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 
 	/** The company address. */
 	@JsonProperty("com_address")
-	private String		companyAddress;
+	private String companyAddress;
 
 	/** The company name. */
 	@JsonProperty("com_name")
-	private String		companyName;
+	private String companyName;
 
 	/** The company phone. */
-	private PhoneParam	companyPhone;
-
-	/** The company phone string. */
 	@JsonProperty("com_phone")
-	private String		companyPhoneString;
+	private String companyPhone;
 
 	/**
 	 * Instantiates a new user register request.
@@ -64,14 +61,15 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	 *
 	 * @return the company phone
 	 */
-	public PhoneParam getCompanyPhone() {
-		return this.companyPhone;
+	public String getCompanyPhone() {
+		return companyPhone;
 	}
 
 	/**
 	 * Sets the company address.
 	 *
-	 * @param __companyAddress the new company address
+	 * @param __companyAddress
+	 *            the new company address
 	 */
 	public void setCompanyAddress(String __companyAddress) {
 		this.companyAddress = __companyAddress;
@@ -80,7 +78,8 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	/**
 	 * Sets the company name.
 	 *
-	 * @param __companyName the new company name
+	 * @param __companyName
+	 *            the new company name
 	 */
 	public void setCompanyName(String __companyName) {
 		this.companyName = __companyName;
@@ -89,25 +88,18 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	/**
 	 * Sets the company phone.
 	 *
-	 * @param __companyPhone the new company phone
+	 * @param companyPhone
+	 *            the new company phone
 	 */
-	public void setCompanyPhone(PhoneParam __companyPhone) {
-		this.companyPhone = __companyPhone;
-	}
-
-	/**
-	 * Sets the company phone string.
-	 *
-	 * @param __companyPhoneString the new company phone string
-	 */
-	public void setCompanyPhoneString(String __companyPhoneString) {
-		this.companyPhoneString = __companyPhoneString;
+	public void setCompanyPhone(String companyPhone) {
+		this.companyPhone = companyPhone;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.model.api.request.AccountRegisterRequest#checkNotNull()
+	 * @see
+	 * com.lasso.rest.model.api.request.AccountRegisterRequest#checkNotNull()
 	 */
 	@Override
 	public void validate() throws ObjectParamException {
@@ -118,11 +110,8 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 		if (this.companyName == null) {
 			throw new ObjectParamException("Invalid company name");
 		}
-		if (this.companyPhoneString == null) {
+		if (this.companyPhone == null) {
 			throw new ObjectParamException("Invalid company phone number");
-		}
-		else {
-			this.companyPhone = new PhoneParam(this.companyPhoneString);
 		}
 	}
 }

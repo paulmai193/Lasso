@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.AccountsRating;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class EditOrderRequest.
  *
@@ -27,13 +28,13 @@ import com.lasso.rest.model.datasource.AccountsRating;
 public class RatingDetailResponse extends BaseResponse {
 
 	/** The id designer. */
-	private Account			designer;
+	private Account designer;
 
 	/** The prefix avatar. */
-	private String			prefixAvatar;
+	private String prefixAvatar;
 
 	/** The rating. */
-	private AccountsRating	rating;
+	private AccountsRating rating;
 
 	/**
 	 * Instantiates a new edits the job request.
@@ -44,12 +45,14 @@ public class RatingDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new rating detail response.
 	 *
-	 * @param __designer the designer
-	 * @param __rating the rating
-	 * @param __prefixAvatar the prefix avatar
+	 * @param __designer
+	 *            the designer
+	 * @param __rating
+	 *            the rating
+	 * @param __prefixAvatar
+	 *            the prefix avatar
 	 */
-	public RatingDetailResponse(Account __designer, AccountsRating __rating,
-			String __prefixAvatar) {
+	public RatingDetailResponse(Account __designer, AccountsRating __rating, String __prefixAvatar) {
 		super();
 		this.designer = __designer;
 		this.rating = __rating;
@@ -88,8 +91,8 @@ public class RatingDetailResponse extends BaseResponse {
 class RatingDetailSerializer extends JsonSerializer<RatingDetailResponse> {
 
 	@Override
-	public void serialize(RatingDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(RatingDetailResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -109,13 +112,11 @@ class RatingDetailSerializer extends JsonSerializer<RatingDetailResponse> {
 		try {
 			__gen.writeNumberField("designer_id", __designer.getId());
 			__gen.writeStringField("designer_name", __designer.getName());
-			__gen.writeNumberField("designer_reward",
-					__designer.getRewards() == 0 ? 1 : __designer.getRewards());
+			__gen.writeNumberField("designer_reward", __designer.getRewards() == 0 ? 1 : __designer.getRewards());
 			__gen.writeObjectFieldStart("designer_avatar");
 			this.serializeImage(__gen, __prefixAvatar, __designer.getImage());
 			__gen.writeEndObject();
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}
@@ -127,15 +128,13 @@ class RatingDetailSerializer extends JsonSerializer<RatingDetailResponse> {
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 				__gen.writeStringField("retina", "");
-			}
-			else {
+			} else {
 				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
 				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
 				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
 				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
 			}
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 
@@ -147,14 +146,12 @@ class RatingDetailSerializer extends JsonSerializer<RatingDetailResponse> {
 				__gen.writeNumberField("rating_communication", 0);
 				__gen.writeNumberField("rating_experience", 0);
 				__gen.writeNumberField("rating_quality", 0);
-			}
-			else {
+			} else {
 				__gen.writeNumberField("rating_communication", __rating.getCommunication());
 				__gen.writeNumberField("rating_experience", __rating.getExperience());
 				__gen.writeNumberField("rating_quality", __rating.getQuality());
 			}
-		}
-		catch (IOException _ex) {
+		} catch (IOException _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}

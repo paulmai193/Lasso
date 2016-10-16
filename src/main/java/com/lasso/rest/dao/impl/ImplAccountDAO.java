@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.model.datasource.Account;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplAccountDAO.
  *
@@ -34,14 +35,15 @@ public class ImplAccountDAO implements AccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.AccountDAO#createAccount(com.lasso.rest.model.datasource.Account)
+	 * @see com.lasso.rest.dao.AccountDAO#createAccount(com.lasso.rest.model.
+	 * datasource.Account)
 	 */
+	@Override
 	public Integer createAccount(Account __account) {
 		if (__account.getId() != null) {
 			this.sessionFactory.getCurrentSession().update(__account);
 			return __account.getId();
-		}
-		else {
+		} else {
 			return (Integer) this.sessionFactory.getCurrentSession().save(__account);
 		}
 
@@ -67,8 +69,7 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByEmail(String __email) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-				.add(Restrictions.eq("email", __email)).add(Restrictions.eq("deleted", (byte) 0))
-				.uniqueResult();
+				.add(Restrictions.eq("email", __email)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -76,6 +77,7 @@ public class ImplAccountDAO implements AccountDAO {
 	 * 
 	 * @see com.lasso.rest.dao.AccountDAO#getAccountById(java.lang.Integer)
 	 */
+	@Override
 	public Account getAccountById(Integer __id) {
 		return this.sessionFactory.getCurrentSession().get(Account.class, __id);
 	}
@@ -88,8 +90,7 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByOtp(String __otp) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-				.add(Restrictions.eq("otp", __otp)).add(Restrictions.eq("deleted", (byte) 0))
-				.uniqueResult();
+				.add(Restrictions.eq("otp", __otp)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -100,8 +101,7 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByToken(String __token) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-				.add(Restrictions.eq("appSession", __token))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("appSession", __token)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -109,6 +109,7 @@ public class ImplAccountDAO implements AccountDAO {
 	 * 
 	 * @see com.lasso.rest.dao.AccountDAO#getAll()
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<Account> getAll() {
 		return this.sessionFactory.getCurrentSession().createCriteria(Account.class)
@@ -118,8 +119,10 @@ public class ImplAccountDAO implements AccountDAO {
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}
@@ -127,7 +130,8 @@ public class ImplAccountDAO implements AccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.AccountDAO#updateAccount(com.lasso.rest.model.datasource.Account)
+	 * @see com.lasso.rest.dao.AccountDAO#updateAccount(com.lasso.rest.model.
+	 * datasource.Account)
 	 */
 	@Override
 	public void updateAccount(Account __account) {

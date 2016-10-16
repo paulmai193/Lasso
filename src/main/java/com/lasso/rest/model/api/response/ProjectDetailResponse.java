@@ -18,6 +18,7 @@ import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Project;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ProjectDetailResponse.
  *
@@ -28,27 +29,28 @@ import com.lasso.rest.model.datasource.Project;
 public class ProjectDetailResponse extends BaseResponse {
 
 	/** The category. */
-	private Category	category;
+	private Category category;
 
 	/** The designer. */
-	private Account		designer;
+	private Account designer;
 
 	/** The portfolio. */
-	private Portfolio	portfolio;
+	private Portfolio portfolio;
 
 	/** The prefix avatar url. */
-	private String		prefixAvatarUrl;
+	private String prefixAvatarUrl;
 
 	/** The prefix portfolio url. */
-	private String		prefixPortfolioUrl;
+	private String prefixPortfolioUrl;
 
 	/** The categories. */
-	private Project		project;
+	private Project project;
 
 	/**
 	 * Instantiates a new project response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public ProjectDetailResponse(boolean __error) {
 		super(__error);
@@ -57,8 +59,10 @@ public class ProjectDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new project response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public ProjectDetailResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -67,9 +71,12 @@ public class ProjectDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new project response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public ProjectDetailResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -78,15 +85,21 @@ public class ProjectDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new project detail response.
 	 *
-	 * @param __prefixPortfolioUrl the prefix portfolio url
-	 * @param __prefixAvatarUrl the prefix avatar url
-	 * @param __project the project
-	 * @param __portfolio the portfolio
-	 * @param __designer the designer
-	 * @param __category the category
+	 * @param __prefixPortfolioUrl
+	 *            the prefix portfolio url
+	 * @param __prefixAvatarUrl
+	 *            the prefix avatar url
+	 * @param __project
+	 *            the project
+	 * @param __portfolio
+	 *            the portfolio
+	 * @param __designer
+	 *            the designer
+	 * @param __category
+	 *            the category
 	 */
-	public ProjectDetailResponse(String __prefixPortfolioUrl, String __prefixAvatarUrl,
-			Project __project, Portfolio __portfolio, Account __designer, Category __category) {
+	public ProjectDetailResponse(String __prefixPortfolioUrl, String __prefixAvatarUrl, Project __project,
+			Portfolio __portfolio, Account __designer, Category __category) {
 		super();
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
 		this.prefixAvatarUrl = __prefixAvatarUrl;
@@ -154,8 +167,8 @@ public class ProjectDetailResponse extends BaseResponse {
 class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 
 	@Override
-	public void serialize(ProjectDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(ProjectDetailResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -169,13 +182,12 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 		__gen.writeStringField("portfolio_info", __value.getPortfolio().getInfo());
 		__gen.writeStringField("category_title", __value.getCategory().getTitle());
 		__gen.writeNumberField("reward", __value.getDesigner().getRewards());
-		__gen.writeStringField("publish", "Published "
-				+ new SimpleDateFormat("dd MMM").format(__value.getProject().getCreated()) + ".");
+		__gen.writeStringField("publish",
+				"Published " + new SimpleDateFormat("dd MMM").format(__value.getProject().getCreated()) + ".");
 
 		if (__value.getDesigner().getImage().isEmpty()) {
 			__gen.writeStringField("designer_avatar", "");
-		}
-		else {
+		} else {
 			__gen.writeStringField("designer_avatar",
 					__value.getPrefixAvatarUrl() + "/Small/" + __value.getDesigner().getImage());
 		}
@@ -186,11 +198,9 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 					__gen.writeStartObject();
 					__gen.writeStringField("original",
 							__value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
-					__gen.writeStringField("small",
-							__value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage);
+					__gen.writeStringField("small", __value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage);
 					__gen.writeEndObject();
-				}
-				else {
+				} else {
 					__gen.writeStartObject();
 					__gen.writeStringField("original", "");
 					__gen.writeStringField("small", "");

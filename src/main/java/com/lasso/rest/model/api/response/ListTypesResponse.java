@@ -18,6 +18,61 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Type;
 
+class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
+
+	@Override
+	public void serialize(ListTypesResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
+		__gen.writeStartObject();
+		__gen.writeObjectField("error", __value.isError());
+		if (__value.isError()) {
+			__gen.writeObjectField("detail", __value.getDetail());
+			__gen.writeObjectField("message", __value.getMessage());
+		}
+		__gen.writeArrayFieldStart("data");
+		__value.getDatas().forEach(new Consumer<Type>() {
+
+			@Override
+			public void accept(Type __type) {
+				try {
+					__gen.writeStartObject();
+					__gen.writeNumberField("type_id", __type.getId());
+					__gen.writeStringField("type_title", __type.getTitle());
+					__gen.writeObjectFieldStart("image");
+					ListTypeSerializer.this.serializeImage(__gen, __value.getPrefixUrl(), __type.getImage());
+					__gen.writeEndObject();
+					__gen.writeEndObject();
+				} catch (IOException _ex) {
+					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+				}
+
+			}
+		});
+		__gen.writeEndArray();
+		__gen.writeEndObject();
+	}
+
+	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
+		try {
+			if (imageName == null || imageName.trim().isEmpty()) {
+				__gen.writeStringField("original", "");
+				__gen.writeStringField("small", "");
+				__gen.writeStringField("icon", "");
+				__gen.writeStringField("retina", "");
+			} else {
+				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
+				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
+				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
+				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
+			}
+		} catch (Exception _ex) {
+			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+		}
+
+	}
+}
+
+// TODO: Auto-generated Javadoc
 /**
  * The Class ListTypesResponse.
  *
@@ -28,15 +83,16 @@ import com.lasso.rest.model.datasource.Type;
 public class ListTypesResponse extends BaseResponse {
 
 	/** The datas. */
-	private List<Type>	datas;
+	private List<Type> datas;
 
 	/** The prefix url. */
-	private String		prefixUrl;
+	private String prefixUrl;
 
 	/**
 	 * Instantiates a new list types response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public ListTypesResponse(boolean __error) {
 		super(__error);
@@ -45,8 +101,10 @@ public class ListTypesResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list types response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public ListTypesResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -55,9 +113,12 @@ public class ListTypesResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list types response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public ListTypesResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -66,8 +127,10 @@ public class ListTypesResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list types response.
 	 *
-	 * @param __datas the datas
-	 * @param __prefixUrl the prefix url
+	 * @param __datas
+	 *            the datas
+	 * @param __prefixUrl
+	 *            the prefix url
 	 */
 	public ListTypesResponse(List<Type> __datas, String __prefixUrl) {
 		super();
@@ -93,62 +156,4 @@ public class ListTypesResponse extends BaseResponse {
 		return this.prefixUrl;
 	}
 
-}
-
-class ListTypeSerializer extends JsonSerializer<ListTypesResponse> {
-
-	@Override
-	public void serialize(ListTypesResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
-		__gen.writeStartObject();
-		__gen.writeObjectField("error", __value.isError());
-		if (__value.isError()) {
-			__gen.writeObjectField("detail", __value.getDetail());
-			__gen.writeObjectField("message", __value.getMessage());
-		}
-		__gen.writeArrayFieldStart("data");
-		__value.getDatas().forEach(new Consumer<Type>() {
-
-			@Override
-			public void accept(Type __type) {
-				try {
-					__gen.writeStartObject();
-					__gen.writeNumberField("type_id", __type.getId());
-					__gen.writeStringField("type_title", __type.getTitle());
-					__gen.writeObjectFieldStart("image");
-					ListTypeSerializer.this.serializeImage(__gen, __value.getPrefixUrl(),
-							__type.getImage());
-					__gen.writeEndObject();
-					__gen.writeEndObject();
-				}
-				catch (IOException _ex) {
-					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-				}
-
-			}
-		});
-		__gen.writeEndArray();
-		__gen.writeEndObject();
-	}
-
-	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
-		try {
-			if (imageName == null || imageName.trim().isEmpty()) {
-				__gen.writeStringField("original", "");
-				__gen.writeStringField("small", "");
-				__gen.writeStringField("icon", "");
-				__gen.writeStringField("retina", "");
-			}
-			else {
-				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
-				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
-				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
-				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
-			}
-		}
-		catch (Exception _ex) {
-			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
-		}
-
-	}
 }

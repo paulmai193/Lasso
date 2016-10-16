@@ -35,6 +35,7 @@ import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.DesignerManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplDesignerManagement.
  *
@@ -50,34 +51,27 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.DesignerManagement#confirmOffer(com.lasso.rest.model.datasource.
-	 * Account, com.lasso.rest.model.api.request.ConfirmOfferRequest)
+	 * @see
+	 * com.lasso.rest.service.DesignerManagement#confirmOffer(com.lasso.rest.
+	 * model.datasource. Account,
+	 * com.lasso.rest.model.api.request.ConfirmOfferRequest)
 	 */
 	@Override
 	public void confirmOffer(Account __designer, ConfirmOfferRequest __confirmOfferRequest) {
 		Job _job = this.jobDAO.getJobById(__confirmOfferRequest.getIdJob());
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
-		}
-		else {
-			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(),
-					__designer.getId());
+		} else {
+			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(), __designer.getId());
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Offer for found");
-			}
-			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT
-					.getCode()) {
+			} else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT.getCode()) {
 				throw new ForbiddenException("Offer was accepted");
-			}
-			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM
-					.getCode()) {
+			} else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM.getCode()) {
 				throw new ForbiddenException("Offer was confirmed");
-			}
-			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_REJECT
-					.getCode()) {
+			} else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_REJECT.getCode()) {
 				throw new ForbiddenException("Offer was rejected");
-			}
-			else {
+			} else {
 				_jobsAccount.setConfirm(__confirmOfferRequest.getStatus());
 				_jobsAccount.setModified(new Date());
 				this.jobAccountDAO.update(_jobsAccount);
@@ -88,34 +82,27 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.DesignerManagement#counterOffer(com.lasso.rest.model.datasource.
-	 * Account, com.lasso.rest.model.api.request.CounterOfferRequest)
+	 * @see
+	 * com.lasso.rest.service.DesignerManagement#counterOffer(com.lasso.rest.
+	 * model.datasource. Account,
+	 * com.lasso.rest.model.api.request.CounterOfferRequest)
 	 */
 	@Override
 	public void counterOffer(Account __designer, CounterOfferRequest __counterOfferRequest) {
 		Job _job = this.jobDAO.getJobById(__counterOfferRequest.getIdJob());
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
-		}
-		else {
-			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(),
-					__designer.getId());
+		} else {
+			JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(_job.getId(), __designer.getId());
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Offer for found");
-			}
-			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT
-					.getCode()) {
+			} else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT.getCode()) {
 				throw new ForbiddenException("Offer was accepted");
-			}
-			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM
-					.getCode()) {
+			} else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_CONFIRM.getCode()) {
 				throw new ForbiddenException("Offer was confirmed");
-			}
-			else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_REJECT
-					.getCode()) {
+			} else if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_REJECT.getCode()) {
 				throw new ForbiddenException("Offer was rejected");
-			}
-			else {
+			} else {
 				_jobsAccount.setCounter(__counterOfferRequest.getAmount());
 				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_CONFIRM.getCode());
 				_jobsAccount.setModified(new Date());
@@ -128,71 +115,62 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.service.DesignerManagement#createPortfolio(com.lasso.rest.model.datasource.
-	 * Account, com.lasso.rest.model.api.request.CreatePortfolioRequest)
+	 * com.lasso.rest.service.DesignerManagement#createPortfolio(com.lasso.rest.
+	 * model.datasource. Account,
+	 * com.lasso.rest.model.api.request.CreatePortfolioRequest)
 	 */
 	@Override
 	public void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
 			throws IOException, UnirestException {
-		String _webContextStoragePath = this.genericManagement
-				.loadWebContextStoragePath(__desiger.getAppSession());
+		String _webContextStoragePath = this.genericManagement.loadWebContextStoragePath(__desiger.getAppSession());
 		try {
-			Category _category = this.categoryDAO
-					.getCategoryById(__createPortfolioRequest.getIdCategory());
+			Category _category = this.categoryDAO.getCategoryById(__createPortfolioRequest.getIdCategory());
 			Style _style = this.styleDAO.getById(__createPortfolioRequest.getIdStyle());
 			if (_category == null || _category.getDeleted().equals((byte) 1)) {
 				throw new NotFoundException("Category not found");
-			}
-			else if (_style == null || _style.getDeleted().equals((byte) 1)) {
+			} else if (_style == null || _style.getDeleted().equals((byte) 1)) {
 				throw new NotFoundException("Style not found");
 			}
 
-			String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray())
-					.replace(" ", "");
+			String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray()).replace(" ", "");
 			_image = _image.substring(1, _image.length() - 1);
-			Portfolio _portfolio = new Portfolio(__createPortfolioRequest.getAmount(), new Date(),
-					__desiger.getId(), __createPortfolioRequest.getIdCategory(),
-					__createPortfolioRequest.getIdStyle(), _image,
-					__createPortfolioRequest.getInfo(), new Date(), (byte) 1,
-					__createPortfolioRequest.getTitle());
+			Portfolio _portfolio = new Portfolio(__createPortfolioRequest.getAmount(), new Date(), __desiger.getId(),
+					__createPortfolioRequest.getIdCategory(), __createPortfolioRequest.getIdStyle(), _image,
+					__createPortfolioRequest.getInfo(), new Date(), (byte) 1, __createPortfolioRequest.getTitle());
 			int _id = this.portfolioDAO.createPortfolio(_portfolio);
 			for (int _idType : __createPortfolioRequest.getIdTypes()) {
 				Type _type = this.typeDAO.getTypeById(_idType);
 				if (_type != null && _type.getDeleted().equals((byte) 0)) {
-					PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id,
-							_idType);
+					PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), _id, _idType);
 					this.portfolioTypeDAO.createPortfolioType(_portfolioType);
 				}
 			}
 
-			// Copy portfolio images from temporary directory to resource directory
+			// Copy portfolio images from temporary directory to resource
+			// directory
 			for (String _tempFileName : __createPortfolioRequest.getImages()) {
-				File _tempFile = new File(
-						_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+				File _tempFile = new File(_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
 					// Move original file
-					this.uploadImageManagement.copyImage(_tempFile, new File(
-							_webContextStoragePath + this.portfolioStoragePath + "/Original/"));
+					this.uploadImageManagement.copyImage(_tempFile,
+							new File(_webContextStoragePath + this.portfolioStoragePath + "/Original/"));
 
 					// Resize into 3 other size
-					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Icon/" + _tempFileName);
+					File _icon = new File(
+							_webContextStoragePath + this.portfolioStoragePath + "/Icon/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120, 184);
-					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Small/" + _tempFileName);
+					File _small = new File(
+							_webContextStoragePath + this.portfolioStoragePath + "/Small/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _small, 182, 280);
-					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Retina/" + _tempFileName);
+					File _retina = new File(
+							_webContextStoragePath + this.portfolioStoragePath + "/Retina/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364, 560);
-				}
-				else {
-					Logger.getLogger(this.getClass())
-					.warn("Portfolio temporary file not exist. Check this path: "
-							+ _tempFile.getAbsolutePath());
+				} else {
+					Logger.getLogger(this.getClass()).warn(
+							"Portfolio temporary file not exist. Check this path: " + _tempFile.getAbsolutePath());
 				}
 			}
-		}
-		finally {
+		} finally {
 			// Remove temporary directory which were older than 2 days
 			this.removeOldTemporaryFiles(_webContextStoragePath);
 		}
@@ -202,8 +180,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.service.DesignerManagement#deletePortfolio(com.lasso.rest.model.datasource.
-	 * Portfolio)
+	 * com.lasso.rest.service.DesignerManagement#deletePortfolio(com.lasso.rest.
+	 * model.datasource. Portfolio)
 	 */
 	@Override
 	public void deletePortfolio(Portfolio __portfolio) {
@@ -219,14 +197,15 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.DesignerManagement#editPortfolio(com.lasso.rest.model.datasource.
-	 * Portfolio, com.lasso.rest.model.api.request.EditPortfolioRequest)
+	 * @see
+	 * com.lasso.rest.service.DesignerManagement#editPortfolio(com.lasso.rest.
+	 * model.datasource. Portfolio,
+	 * com.lasso.rest.model.api.request.EditPortfolioRequest)
 	 */
 	@Override
-	public void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
-		String _webContextStoragePath = this.genericManagement
-				.loadWebContextStoragePath(__desiger.getAppSession());
+	public void editPortfolio(Account __desiger, Portfolio __portfolio, EditPortfolioRequest __editPortfolioRequest)
+			throws IOException, UnirestException {
+		String _webContextStoragePath = this.genericManagement.loadWebContextStoragePath(__desiger.getAppSession());
 		try {
 			__portfolio.update(__editPortfolioRequest);
 			this.portfolioDAO.updatePortfolio(__portfolio);
@@ -236,40 +215,35 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 
 			// Insert new portfolio type
 			for (int _idType : __editPortfolioRequest.getIdTypes()) {
-				PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(),
-						__portfolio.getId(), _idType);
+				PortfolioType _portfolioType = new PortfolioType(new Date(), new Date(), __portfolio.getId(), _idType);
 				this.portfolioTypeDAO.createPortfolioType(_portfolioType);
 			}
 
-			// Copy portfolio images from temporary directory to resource directory
+			// Copy portfolio images from temporary directory to resource
+			// directory
 			for (String _tempFileName : __editPortfolioRequest.getImages()) {
-				File _tempFile = new File(
-						_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
+				File _tempFile = new File(_webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
 					// Move original file
-					FileUtils.copyFileToDirectory(_tempFile, new File(
-							_webContextStoragePath + this.portfolioStoragePath + "/Original/"),
-							false);
+					FileUtils.copyFileToDirectory(_tempFile,
+							new File(_webContextStoragePath + this.portfolioStoragePath + "/Original/"), false);
 
 					// Resize into 3 other size
-					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Icon/" + _tempFileName);
+					File _icon = new File(
+							_webContextStoragePath + this.portfolioStoragePath + "/Icon/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120, 184);
-					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Small/" + _tempFileName);
+					File _small = new File(
+							_webContextStoragePath + this.portfolioStoragePath + "/Small/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _small, 182, 280);
-					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
-							+ "/Retina/" + _tempFileName);
+					File _retina = new File(
+							_webContextStoragePath + this.portfolioStoragePath + "/Retina/" + _tempFileName);
 					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364, 560);
-				}
-				else {
-					Logger.getLogger(this.getClass())
-					.warn("Portfolio temporary file not exist. Check this path: "
-							+ _tempFile.getAbsolutePath());
+				} else {
+					Logger.getLogger(this.getClass()).warn(
+							"Portfolio temporary file not exist. Check this path: " + _tempFile.getAbsolutePath());
 				}
 			}
-		}
-		finally {
+		} finally {
 			// Remove temporary directory which were older than 2 days
 			this.removeOldTemporaryFiles(_webContextStoragePath);
 		}
@@ -279,8 +253,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.service.DesignerManagement#getAllPortfolios(com.lasso.rest.model.datasource.
-	 * Account)
+	 * com.lasso.rest.service.DesignerManagement#getAllPortfolios(com.lasso.rest
+	 * .model.datasource. Account)
 	 */
 	@Override
 	public List<Portfolio> getAllPortfolios(Account __account) {
@@ -290,24 +264,22 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.DesignerManagement#getJobDataOfDesignerById(com.lasso.rest.model.
-	 * datasource.Account, int)
+	 * @see
+	 * com.lasso.rest.service.DesignerManagement#getJobDataOfDesignerById(com.
+	 * lasso.rest.model. datasource.Account, int)
 	 */
 	@Override
 	public Object[] getJobDataOfDesignerById(Account __designer, int __idJob) {
-		JobsAccount _jobsAccount = this.jobAccountDAO.getAcceptByJobAndDesignerId(__idJob,
-				__designer.getId());
+		JobsAccount _jobsAccount = this.jobAccountDAO.getAcceptByJobAndDesignerId(__idJob, __designer.getId());
 		if (_jobsAccount == null) {
 			throw new NotFoundException("Job not found");
-		}
-		else {
+		} else {
 			String _userName = "";
 			Job _job = this.jobDAO.getJobById(_jobsAccount.getJobId());
-			_userName = _job == null ? ""
-					: this.accountDAO.getAccountById(_job.getAccountId()).getName();
+			_userName = _job == null ? "" : this.accountDAO.getAccountById(_job.getAccountId()).getName();
 			List<Integer> _styleIds = new ArrayList<>();
 			this.jobStyleDAO.getListJobStylesByJobId(_job.getId())
-			.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+					.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 			List<Style> _styles = this.styleDAO.getListByByListIds(_styleIds);
 
 			Type _type = this.typeDAO.getTypeById(_job.getTypeId());
@@ -321,40 +293,32 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.service.DesignerManagement#getListJobsDataOfDesigner(com.lasso.rest.model.
-	 * datasource.Account)
+	 * com.lasso.rest.service.DesignerManagement#getListJobsDataOfDesigner(com.
+	 * lasso.rest.model. datasource.Account)
 	 */
 	@Override
 	public List<Object[]> getListJobsDataOfDesigner(Account __designer) {
 		List<Object[]> _datas = new ArrayList<>();
-		List<JobsAccount> _jobsAccounts = this.jobAccountDAO
-				.getListJobsAccountOfDesigner(__designer.getId());
+		List<JobsAccount> _jobsAccounts = this.jobAccountDAO.getListJobsAccountOfDesigner(__designer.getId());
 		if (_jobsAccounts.isEmpty()) {
 			return new ArrayList<>();
-		}
-		else {
+		} else {
 			_jobsAccounts.forEach(_jobAccount -> {
 				try {
-					if (_jobAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT
-							.getCode()) {
+					if (_jobAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_ACCEPT.getCode()) {
 						String _userName = "";
-						Job _job = ImplDesignerManagement.this.jobDAO
-								.getJobById(_jobAccount.getJobId());
+						Job _job = ImplDesignerManagement.this.jobDAO.getJobById(_jobAccount.getJobId());
 						if (_job.getPaid().equals((byte) 0)) {
 							return;
-						}
-						else {
+						} else {
 							_userName = _job == null ? ""
-									: ImplDesignerManagement.this.accountDAO
-									.getAccountById(_job.getAccountId()).getName();
+									: ImplDesignerManagement.this.accountDAO.getAccountById(_job.getAccountId())
+											.getName();
 							List<Integer> _styleIds = new ArrayList<>();
-							ImplDesignerManagement.this.jobStyleDAO
-							.getListJobStylesByJobId(_job.getId())
-							.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
-							List<Style> _styles = ImplDesignerManagement.this.styleDAO
-									.getListByByListIds(_styleIds);
-							Type _type = ImplDesignerManagement.this.typeDAO
-									.getTypeById(_job.getTypeId());
+							ImplDesignerManagement.this.jobStyleDAO.getListJobStylesByJobId(_job.getId())
+									.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+							List<Style> _styles = ImplDesignerManagement.this.styleDAO.getListByByListIds(_styleIds);
+							Type _type = ImplDesignerManagement.this.typeDAO.getTypeById(_job.getTypeId());
 							Category _category = ImplDesignerManagement.this.categoryDAO
 									.getCategoryById(_job.getCategoryId());
 							Object[] _data = { _job, _userName, _styles, _type, _category };
@@ -362,8 +326,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 							_datas.add(_data);
 						}
 					}
-				}
-				catch (Exception _ex) {
+				} catch (Exception _ex) {
 					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			});
@@ -376,8 +339,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.service.DesignerManagement#getOfferDataById(com.lasso.rest.model.datasource.
-	 * Account, int)
+	 * com.lasso.rest.service.DesignerManagement#getOfferDataById(com.lasso.rest
+	 * .model.datasource. Account, int)
 	 */
 	@Override
 	public Object[] getOfferDataById(Account __designer, int __idJob) {
@@ -390,8 +353,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			throw new NotFoundException("User send offer not found");
 		}
 		List<Integer> _styleIds = new ArrayList<>();
-		this.jobStyleDAO.getListJobStylesByJobId(__idJob)
-		.forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+		this.jobStyleDAO.getListJobStylesByJobId(__idJob).forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 		List<Style> _styles = this.styleDAO.getListByByListIds(_styleIds);
 		if (_styleIds.isEmpty()) {
 			throw new NotFoundException("Styles not found");
@@ -404,8 +366,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		if (_category == null) {
 			throw new NotFoundException("Category not found");
 		}
-		JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(__idJob,
-				__designer.getId());
+		JobsAccount _jobsAccount = this.jobAccountDAO.getByJobAndDesignerId(__idJob, __designer.getId());
 		if (_jobsAccount == null) {
 			throw new NotFoundException("Offer not found");
 		}
@@ -416,8 +377,9 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.DesignerManagement#getPortfolio(com.lasso.rest.model.datasource.
-	 * Account, java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.service.DesignerManagement#getPortfolio(com.lasso.rest.
+	 * model.datasource. Account, java.lang.Integer)
 	 */
 	@Override
 	public Portfolio getPortfolio(Account __account, Integer __id) {
@@ -427,7 +389,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/**
 	 * Sets the portfolio storage path.
 	 *
-	 * @param __portfolioStoragePath the new portfolio storage path
+	 * @param __portfolioStoragePath
+	 *            the new portfolio storage path
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;
@@ -436,32 +399,27 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.service.DesignerManagement#updateStage(com.lasso.rest.model.datasource.
-	 * Account, com.lasso.rest.model.api.request.UpdateJobStageRequest)
+	 * @see
+	 * com.lasso.rest.service.DesignerManagement#updateStage(com.lasso.rest.
+	 * model.datasource. Account,
+	 * com.lasso.rest.model.api.request.UpdateJobStageRequest)
 	 */
 	@Override
 	public void updateStage(Account __designer, UpdateJobStageRequest __updateJobStageRequest) {
 		Job _job = this.jobDAO.getJobById(__updateJobStageRequest.getIdJob());
 		if (_job == null) {
 			throw new NotFoundException("Job not found");
-		}
-		else if (_job.getCompleted().equals((byte) 1)) {
+		} else if (_job.getCompleted().equals((byte) 1)) {
 			throw new ForbiddenException("Job was completed");
-		}
-		else if (_job.getPaid().equals((byte) 0)) {
+		} else if (_job.getPaid().equals((byte) 0)) {
 			throw new ForbiddenException("Job not paid");
-		}
-		else {
-			JobsAccount _jobsAccount = this.jobAccountDAO.getAcceptByJobAndDesignerId(_job.getId(),
-					__designer.getId());
+		} else {
+			JobsAccount _jobsAccount = this.jobAccountDAO.getAcceptByJobAndDesignerId(_job.getId(), __designer.getId());
 			if (_jobsAccount == null) {
 				throw new NotFoundException("Designer not have this job");
-			}
-			else if (_jobsAccount.getConfirm().byteValue() != JobConfirmationConstant.JOB_ACCEPT
-					.getCode()) {
+			} else if (_jobsAccount.getConfirm().byteValue() != JobConfirmationConstant.JOB_ACCEPT.getCode()) {
 				throw new ForbiddenException("Job not accepted by user");
-			}
-			else {
+			} else {
 				_job.setStage(__updateJobStageRequest.getStage());
 				_job.setStageDate(__updateJobStageRequest.getDeliveryDate());
 				_job.setModified(new Date());

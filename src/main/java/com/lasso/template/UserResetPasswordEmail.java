@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class UserResetPasswordEmail.
  *
@@ -20,24 +21,27 @@ import org.apache.commons.lang3.StringUtils;
 public class UserResetPasswordEmail implements EmailTemplate {
 
 	/** The first name. */
-	private String	firstName;
+	private String firstName;
 
 	/** The activate link. */
-	private String	resetLink;
+	private String resetLink;
 
 	/** The template. */
-	private File	template;
+	private File template;
 
 	/**
 	 * Instantiates a new user reset password email.
 	 *
-	 * @param __firstName the first name
-	 * @param __resetLink the reset link
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __firstName
+	 *            the first name
+	 * @param __resetLink
+	 *            the reset link
+	 * @throws URISyntaxException
+	 *             the URI syntax exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
-	public UserResetPasswordEmail(String __firstName, String __resetLink)
-			throws URISyntaxException, IOException {
+	public UserResetPasswordEmail(String __firstName, String __resetLink) throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.resetLink = __resetLink;
@@ -69,10 +73,8 @@ public class UserResetPasswordEmail implements EmailTemplate {
 	public Map<String, File> getTemplate() {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
-		_mapTemplate.put("img_01_user_forgot.jpg",
-				new File(this.template, "img_01_user_forgot.jpg"));
-		_mapTemplate.put("title_1_user_forgot.jpg",
-				new File(this.template, "title_1_user_forgot.jpg"));
+		_mapTemplate.put("img_01_user_forgot.jpg", new File(this.template, "img_01_user_forgot.jpg"));
+		_mapTemplate.put("title_1_user_forgot.jpg", new File(this.template, "title_1_user_forgot.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
@@ -91,8 +93,8 @@ public class UserResetPasswordEmail implements EmailTemplate {
 	 */
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
-		this.template = new File(this.getClass().getClassLoader()
-				.getResource("/email-template/user-forgot-pass").toURI());
+		this.template = new File(
+				this.getClass().getClassLoader().getResource("/email-template/user-forgot-pass").toURI());
 	}
 
 }

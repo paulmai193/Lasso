@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ResetPasswordRequest.
  *

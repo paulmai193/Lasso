@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.model.datasource.Job;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplJobDAO.
  *
@@ -35,14 +36,14 @@ public class ImplJobDAO implements JobDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobDAO#getJobByAmountAndDescription(int, double, java.lang.String)
+	 * @see com.lasso.rest.dao.JobDAO#getJobByAmountAndDescription(int, double,
+	 * java.lang.String)
 	 */
 	@Override
 	public Job getJobByAmountAndDescription(int __idUser, double __amount, String __description) {
 		return (Job) this.sessionFactory.getCurrentSession().createCriteria(Job.class)
-		        .add(Restrictions.eq("accountId", __idUser))
-		        .add(Restrictions.eq("description", __description))
-		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("accountId", __idUser)).add(Restrictions.eq("description", __description))
+				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -58,13 +59,14 @@ public class ImplJobDAO implements JobDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobDAO#getOfUserById(com.lasso.rest.model.datasource.Account, int)
+	 * @see
+	 * com.lasso.rest.dao.JobDAO#getOfUserById(com.lasso.rest.model.datasource.
+	 * Account, int)
 	 */
 	@Override
 	public Job getJobOfUserById(int __idUser, int __idJob) {
-		return (Job) this.sessionFactory.getCurrentSession().createCriteria(Job.class)
-		        .add(Restrictions.idEq(__idJob)).add(Restrictions.eq("accountId", __idUser))
-		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		return (Job) this.sessionFactory.getCurrentSession().createCriteria(Job.class).add(Restrictions.idEq(__idJob))
+				.add(Restrictions.eq("accountId", __idUser)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -76,15 +78,15 @@ public class ImplJobDAO implements JobDAO {
 	@Override
 	public List<Job> getListJobsOfUser(Integer __idUser) {
 		return this.sessionFactory.getCurrentSession().createCriteria(Job.class)
-		        .add(Restrictions.eq("accountId", __idUser))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.desc("created")).list();
+				.add(Restrictions.eq("accountId", __idUser)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.desc("created")).list();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobDAO#saveJob(com.lasso.rest.model.datasource.Job)
+	 * @see
+	 * com.lasso.rest.dao.JobDAO#saveJob(com.lasso.rest.model.datasource.Job)
 	 */
 	@Override
 	public Integer saveJob(Job __job) {
@@ -94,8 +96,10 @@ public class ImplJobDAO implements JobDAO {
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}
@@ -103,7 +107,8 @@ public class ImplJobDAO implements JobDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobDAO#updateJob(com.lasso.rest.model.datasource.Job)
+	 * @see
+	 * com.lasso.rest.dao.JobDAO#updateJob(com.lasso.rest.model.datasource.Job)
 	 */
 	@Override
 	public void updateJob(Job __job) {

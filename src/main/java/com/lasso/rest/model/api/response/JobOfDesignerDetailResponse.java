@@ -21,6 +21,7 @@ import com.lasso.define.JobStepConstant;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Style;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class JobOfUserDetailResponse.
  *
@@ -37,7 +38,8 @@ public class JobOfDesignerDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new job detail response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public JobOfDesignerDetailResponse(boolean __error) {
 		super(__error);
@@ -46,8 +48,10 @@ public class JobOfDesignerDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new job detail response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public JobOfDesignerDetailResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -56,9 +60,12 @@ public class JobOfDesignerDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new job detail response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public JobOfDesignerDetailResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -67,7 +74,8 @@ public class JobOfDesignerDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new job detail response.
 	 *
-	 * @param __data the data
+	 * @param __data
+	 *            the data
 	 */
 	public JobOfDesignerDetailResponse(Object[] __data) {
 		this.data = __data;
@@ -85,7 +93,8 @@ public class JobOfDesignerDetailResponse extends BaseResponse {
 	/**
 	 * Sets the data.
 	 *
-	 * @param __data the new data
+	 * @param __data
+	 *            the new data
 	 */
 	public void setData(Object[] __data) {
 		this.data = __data;
@@ -128,12 +137,10 @@ class JobOfDesignerDetailSerializer extends JsonSerializer<Object[]> {
 		String _status;
 		if (_job.getPaid().equals((byte) 0)) {
 			_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
-		}
-		else {
+		} else {
 			if (_job.getCompleted().equals((byte) 0)) {
 				_status = "In Progress";
-			}
-			else {
+			} else {
 				_status = "Completed";
 			}
 		}

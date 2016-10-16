@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class UserThanksEmail.
  *
@@ -20,17 +21,20 @@ import org.apache.commons.lang3.StringUtils;
 public class UserThanksEmail implements EmailTemplate {
 
 	/** The first name. */
-	private String	firstName;
+	private String firstName;
 
 	/** The template. */
-	private File	template;
+	private File template;
 
 	/**
 	 * Instantiates a new user thanks email.
 	 *
-	 * @param __firstName the first name
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __firstName
+	 *            the first name
+	 * @throws URISyntaxException
+	 *             the URI syntax exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public UserThanksEmail(String __firstName) throws URISyntaxException, IOException {
 		super();
@@ -63,10 +67,8 @@ public class UserThanksEmail implements EmailTemplate {
 	public Map<String, File> getTemplate() {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
-		_mapTemplate.put("img_01_user_thanks.jpg",
-		        new File(this.template, "img_01_user_thanks.jpg"));
-		_mapTemplate.put("title_1_user_thanks.jpg",
-		        new File(this.template, "title_1_user_thanks.jpg"));
+		_mapTemplate.put("img_01_user_thanks.jpg", new File(this.template, "img_01_user_thanks.jpg"));
+		_mapTemplate.put("title_1_user_thanks.jpg", new File(this.template, "title_1_user_thanks.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
@@ -85,8 +87,8 @@ public class UserThanksEmail implements EmailTemplate {
 	 */
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
-		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/user-thanks-you").toURI());
+		this.template = new File(
+				this.getClass().getClassLoader().getResource("/email-template/user-thanks-you").toURI());
 	}
 
 }

@@ -26,6 +26,7 @@ import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class GetOrderResponse.
  *
@@ -36,21 +37,22 @@ import com.lasso.rest.model.datasource.Type;
 public class GetOfferResponse extends BaseResponse {
 
 	/** The data. */
-	private Object[]	data;
+	private Object[] data;
 
 	/** The prefix avatar. */
-	private String		prefixAvatar;
+	private String prefixAvatar;
 
 	/** The prefix category. */
-	private String		prefixCategory;
+	private String prefixCategory;
 
 	/** The prefix job. */
-	private String		prefixJob;
+	private String prefixJob;
 
 	/**
 	 * Instantiates a new gets the order response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public GetOfferResponse(boolean __error) {
 		super(__error);
@@ -59,8 +61,10 @@ public class GetOfferResponse extends BaseResponse {
 	/**
 	 * Instantiates a new gets the order response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public GetOfferResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -69,9 +73,12 @@ public class GetOfferResponse extends BaseResponse {
 	/**
 	 * Instantiates a new gets the order response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public GetOfferResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -80,13 +87,16 @@ public class GetOfferResponse extends BaseResponse {
 	/**
 	 * Instantiates a new gets the order response.
 	 *
-	 * @param __data the data
-	 * @param __prefixAvatar the prefix avatar
-	 * @param __prefixCategory the prefix category
-	 * @param __prefixJob the prefix job
+	 * @param __data
+	 *            the data
+	 * @param __prefixAvatar
+	 *            the prefix avatar
+	 * @param __prefixCategory
+	 *            the prefix category
+	 * @param __prefixJob
+	 *            the prefix job
 	 */
-	public GetOfferResponse(Object[] __data, String __prefixAvatar, String __prefixCategory,
-			String __prefixJob) {
+	public GetOfferResponse(Object[] __data, String __prefixAvatar, String __prefixCategory, String __prefixJob) {
 		super();
 		this.data = __data;
 		this.prefixAvatar = __prefixAvatar;
@@ -136,8 +146,8 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void serialize(GetOfferResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(GetOfferResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -174,8 +184,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 				__gen.writeNumberField("style_id", _style.getId());
 				__gen.writeStringField("title", _style.getTitle());
 				__gen.writeEndObject();
-			}
-			catch (IOException _ex) {
+			} catch (IOException _ex) {
 				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 
@@ -206,18 +215,14 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeStringField("further_information", _job.getFurtherInformation());
 		String _status;
 		if (_job.getPaid().byteValue() == (byte) 0) {
-			if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_UN_CONFIRM
-					.getCode()) {
+			if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_UN_CONFIRM.getCode()) {
 				_status = "job_confirm";
-			}
-			else {
+			} else {
 				_status = "job_wait_accept";
 			}
-		}
-		else if (_job.getStage().byteValue() == JobStageConstant.JOB_STAGE_COMPLETED.getCode()) {
+		} else if (_job.getStage().byteValue() == JobStageConstant.JOB_STAGE_COMPLETED.getCode()) {
 			_status = "job_completed";
-		}
-		else {
+		} else {
 			_status = "job_explain";
 		}
 		__gen.writeStringField("status", _status);
@@ -232,13 +237,11 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		try {
 			__gen.writeNumberField("account_id", __account.getId());
 			__gen.writeStringField("account_name", __account.getName());
-			__gen.writeNumberField("account_reward",
-					__account.getRewards() == 0 ? 1 : __account.getRewards());
+			__gen.writeNumberField("account_reward", __account.getRewards() == 0 ? 1 : __account.getRewards());
 			__gen.writeObjectFieldStart("avatar");
 			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
 			__gen.writeEndObject();
-		}
-		catch (IOException _ex) {
+		} catch (IOException _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}
@@ -250,15 +253,13 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 				__gen.writeStringField("retina", "");
-			}
-			else {
+			} else {
 				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());
 				__gen.writeStringField("small", __prefixUrl + "/Small/" + imageName.trim());
 				__gen.writeStringField("icon", __prefixUrl + "/Icon/" + imageName.trim());
 				__gen.writeStringField("retina", __prefixUrl + "/Retina/" + imageName.trim());
 			}
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 

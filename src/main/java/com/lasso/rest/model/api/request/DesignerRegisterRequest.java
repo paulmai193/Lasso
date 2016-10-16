@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.define.Constant;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class DesignerRegisterRequest.
  *
@@ -20,11 +21,11 @@ public class DesignerRegisterRequest extends AccountRegisterRequest {
 
 	/** The alternative contact. */
 	@JsonProperty("alt_contact")
-	private String	alternativeContact;
+	private String alternativeContact;
 
 	/** The payment. */
 	@JsonProperty(value = "payment")
-	private Byte	payment;
+	private Byte payment;
 
 	/**
 	 * Instantiates a new designer register request.
@@ -54,7 +55,8 @@ public class DesignerRegisterRequest extends AccountRegisterRequest {
 	/**
 	 * Sets the alternative contact.
 	 *
-	 * @param __alternativeContact the new alternative contact
+	 * @param __alternativeContact
+	 *            the new alternative contact
 	 */
 	public void setAlternativeContact(String __alternativeContact) {
 		this.alternativeContact = __alternativeContact;
@@ -63,7 +65,8 @@ public class DesignerRegisterRequest extends AccountRegisterRequest {
 	/**
 	 * Sets the payment.
 	 *
-	 * @param __payment the new payment
+	 * @param __payment
+	 *            the new payment
 	 */
 	public void setPayment(Byte __payment) {
 		this.payment = __payment;
@@ -72,7 +75,8 @@ public class DesignerRegisterRequest extends AccountRegisterRequest {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.model.api.request.AccountRegisterRequest#checkNotNull()
+	 * @see
+	 * com.lasso.rest.model.api.request.AccountRegisterRequest#checkNotNull()
 	 */
 	@Override
 	public void validate() throws ObjectParamException {

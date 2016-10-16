@@ -6,6 +6,7 @@ package com.lasso.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class AuthenticateException.
  *
@@ -19,8 +20,10 @@ public class AuthenticateException extends WebApplicationException {
 	/**
 	 * Instantiates a new authenticate exception.
 	 *
-	 * @param __message the message
-	 * @param __status the status
+	 * @param __message
+	 *            the message
+	 * @param __status
+	 *            the status
 	 */
 	public AuthenticateException(String __message, Status __status) {
 		super(__message, __status);

@@ -11,6 +11,7 @@ import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.variable.EmailParam;
 import com.lasso.rest.model.variable.PhoneParam;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class AccountRegisterRequest.
  *
@@ -22,47 +23,48 @@ public class AccountRegisterRequest extends BaseRequest {
 
 	/** The country code. */
 	@JsonProperty(value = "country_code")
-	private String		countryCode;
+	private String countryCode;
 
 	/** The email. */
-	private EmailParam	email;
+	private EmailParam email;
 
 	/** The email string. */
-	private String		emailString;
+	private String emailString;
 
 	/** The gender. */
 	@JsonProperty(value = "gender")
-	private Short		gender;
+	private Short gender;
 
 	/** The name. */
 	@JsonProperty(value = "name")
-	private String		name;
+	private String name;
 
 	/** The password. */
 	@JsonProperty(value = "password")
-	private String		password;
+	private String password;
 
 	/** The phone. */
-	private PhoneParam	phone;
+	private PhoneParam phone;
 
 	/** The phone string. */
-	private String		phoneString;
+	private String phoneString;
 
 	/** The push token. */
 	@JsonProperty("push_token")
-	private String		pushToken;
+	private String pushToken;
 
 	/** The value. */
-	private Byte		role;
+	private Byte role;
 
 	/** The subscribe. */
 	@JsonProperty(value = "subscribe")
-	private Boolean		subscribe;
+	private Boolean subscribe;
 
 	/**
 	 * Instantiates a new account register request.
 	 *
-	 * @param __role the value
+	 * @param __role
+	 *            the value
 	 */
 	public AccountRegisterRequest(Byte __role) {
 		this.role = __role;
@@ -152,7 +154,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the country code.
 	 *
-	 * @param __countryCode the new country code
+	 * @param __countryCode
+	 *            the new country code
 	 */
 	public void setCountryCode(String __countryCode) {
 		this.countryCode = __countryCode;
@@ -161,7 +164,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the email.
 	 *
-	 * @param __email the new email
+	 * @param __email
+	 *            the new email
 	 */
 	public void setEmail(EmailParam __email) {
 		this.email = __email;
@@ -170,7 +174,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the email string.
 	 *
-	 * @param __emailString the new email string
+	 * @param __emailString
+	 *            the new email string
 	 */
 	@JsonProperty(value = "email")
 	public void setEmailString(String __emailString) {
@@ -180,7 +185,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the gender.
 	 *
-	 * @param __gender the new gender
+	 * @param __gender
+	 *            the new gender
 	 */
 	public void setGender(Short __gender) {
 		this.gender = __gender;
@@ -189,7 +195,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the name.
 	 *
-	 * @param __name the new name
+	 * @param __name
+	 *            the new name
 	 */
 	public void setName(String __name) {
 		this.name = __name;
@@ -198,7 +205,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the password.
 	 *
-	 * @param __password the new password
+	 * @param __password
+	 *            the new password
 	 */
 	public void setPassword(String __password) {
 		this.password = __password;
@@ -207,7 +215,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the phone.
 	 *
-	 * @param __phone the new phone
+	 * @param __phone
+	 *            the new phone
 	 */
 	public void setPhone(PhoneParam __phone) {
 		this.phone = __phone;
@@ -216,7 +225,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the phone string.
 	 *
-	 * @param __phoneString the new phone string
+	 * @param __phoneString
+	 *            the new phone string
 	 */
 	@JsonProperty(value = "phone")
 	public void setPhoneString(String __phoneString) {
@@ -226,7 +236,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the push token.
 	 *
-	 * @param __pushToken the new push token
+	 * @param __pushToken
+	 *            the new push token
 	 */
 	public void setPushToken(String __pushToken) {
 		this.pushToken = __pushToken;
@@ -235,7 +246,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the value.
 	 *
-	 * @param __role the new value
+	 * @param __role
+	 *            the new value
 	 */
 	public void setRole(Byte __role) {
 		this.role = __role;
@@ -244,7 +256,8 @@ public class AccountRegisterRequest extends BaseRequest {
 	/**
 	 * Sets the subscribe.
 	 *
-	 * @param __subscribe the new subscribe
+	 * @param __subscribe
+	 *            the new subscribe
 	 */
 	public void setSubscribe(Boolean __subscribe) {
 		this.subscribe = __subscribe;
@@ -262,8 +275,7 @@ public class AccountRegisterRequest extends BaseRequest {
 		}
 		if (this.emailString == null || this.emailString.isEmpty()) {
 			throw new ObjectParamException("Invalid email");
-		}
-		else {
+		} else {
 			this.email = new EmailParam(this.emailString);
 		}
 		if (this.name == null || this.name.isEmpty()) {
@@ -274,8 +286,7 @@ public class AccountRegisterRequest extends BaseRequest {
 		}
 		if (this.phoneString == null || this.phoneString.isEmpty()) {
 			throw new ObjectParamException("Invalid phone");
-		}
-		else {
+		} else {
 			this.phone = new PhoneParam(this.phoneString);
 		}
 		if (this.pushToken == null) {

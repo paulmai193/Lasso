@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the messages database table.
  *
@@ -31,57 +32,57 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Message implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
+	private Date created;
 
 	/** The deleted. */
-	private Byte				deleted;
+	private Byte deleted;
 
 	/** The from account id. */
 	@Column(name = "from_account_id")
-	private Integer				fromAccountId;
+	private Integer fromAccountId;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
+	private Integer id;
 
 	/** The is read. */
 	@Column(name = "is_read")
-	private Byte				isRead;
+	private Byte isRead;
 
 	/** The job id. */
 	@Column(name = "job_id")
-	private Integer				jobId;
+	private Integer jobId;
 
 	/** The message. */
 	@Lob
-	private String				message;
+	private String message;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				modified;
+	private Date modified;
 
 	/** The parent id. */
 	@Column(name = "parent_id")
-	private Integer				parentId;
+	private Integer parentId;
 
 	/** The status. */
-	private Byte				status;
+	private Byte status;
 
 	/** The title. */
-	private String				title;
+	private String title;
 
 	/** The to account id. */
 	@Column(name = "to_account_id")
-	private Integer				toAccountId;
+	private Integer toAccountId;
 
 	/** The user id. */
 	@Column(name = "user_id")
-	private Integer				userId;
+	private Integer userId;
 
 	/**
 	 * Instantiates a new message.
@@ -92,15 +93,21 @@ public class Message implements Serializable {
 	/**
 	 * Instantiates a new message.
 	 *
-	 * @param __fromAccountId the from account id
-	 * @param __jobId the job id
-	 * @param __message the message
-	 * @param __parentId the parent id
-	 * @param __title the title
-	 * @param __toAccountId the to account id
+	 * @param __fromAccountId
+	 *            the from account id
+	 * @param __jobId
+	 *            the job id
+	 * @param __message
+	 *            the message
+	 * @param __parentId
+	 *            the parent id
+	 * @param __title
+	 *            the title
+	 * @param __toAccountId
+	 *            the to account id
 	 */
-	public Message(Integer __fromAccountId, Integer __jobId, String __message, Integer __parentId,
-			String __title, Integer __toAccountId) {
+	public Message(Integer __fromAccountId, Integer __jobId, String __message, Integer __parentId, String __title,
+			Integer __toAccountId) {
 		super();
 		this.created = this.modified = new Date();
 		this.fromAccountId = __fromAccountId;
@@ -115,14 +122,18 @@ public class Message implements Serializable {
 	/**
 	 * Instantiates a new message.
 	 *
-	 * @param __fromAccountId the from account id
-	 * @param __jobId the job id
-	 * @param __message the message
-	 * @param __title the title
-	 * @param __toAccountId the to account id
+	 * @param __fromAccountId
+	 *            the from account id
+	 * @param __jobId
+	 *            the job id
+	 * @param __message
+	 *            the message
+	 * @param __title
+	 *            the title
+	 * @param __toAccountId
+	 *            the to account id
 	 */
-	public Message(Integer __fromAccountId, Integer __jobId, String __message, String __title,
-			Integer __toAccountId) {
+	public Message(Integer __fromAccountId, Integer __jobId, String __message, String __title, Integer __toAccountId) {
 		this(__fromAccountId, __jobId, __message, 0, __title, __toAccountId);
 	}
 
@@ -246,7 +257,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the created.
 	 *
-	 * @param created the new created
+	 * @param created
+	 *            the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -255,7 +267,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the deleted.
 	 *
-	 * @param deleted the new deleted
+	 * @param deleted
+	 *            the new deleted
 	 */
 	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
@@ -264,7 +277,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the from account id.
 	 *
-	 * @param fromAccountId the new from account id
+	 * @param fromAccountId
+	 *            the new from account id
 	 */
 	public void setFromAccountId(Integer fromAccountId) {
 		this.fromAccountId = fromAccountId;
@@ -273,7 +287,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -282,7 +297,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the checks if is read.
 	 *
-	 * @param isRead the new checks if is read
+	 * @param isRead
+	 *            the new checks if is read
 	 */
 	public void setIsRead(Byte isRead) {
 		this.isRead = isRead;
@@ -291,7 +307,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the job id.
 	 *
-	 * @param jobId the new job id
+	 * @param jobId
+	 *            the new job id
 	 */
 	public void setJobId(Integer jobId) {
 		this.jobId = jobId;
@@ -300,7 +317,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the message.
 	 *
-	 * @param message the new message
+	 * @param message
+	 *            the new message
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -309,7 +327,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the modified.
 	 *
-	 * @param modified the new modified
+	 * @param modified
+	 *            the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -318,7 +337,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the parent id.
 	 *
-	 * @param parentId the new parent id
+	 * @param parentId
+	 *            the new parent id
 	 */
 	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
@@ -327,7 +347,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(Byte status) {
 		this.status = status;
@@ -336,7 +357,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the title.
 	 *
-	 * @param title the new title
+	 * @param title
+	 *            the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -345,7 +367,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the to account id.
 	 *
-	 * @param toAccountId the new to account id
+	 * @param toAccountId
+	 *            the new to account id
 	 */
 	public void setToAccountId(Integer toAccountId) {
 		this.toAccountId = toAccountId;
@@ -354,7 +377,8 @@ public class Message implements Serializable {
 	/**
 	 * Sets the user id.
 	 *
-	 * @param userId the new user id
+	 * @param userId
+	 *            the new user id
 	 */
 	public void setUserId(Integer userId) {
 		this.userId = userId;

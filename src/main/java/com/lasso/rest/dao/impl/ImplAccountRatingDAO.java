@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.AccountRatingDAO;
 import com.lasso.rest.model.datasource.AccountsRating;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplAccountRatingDAO.
  *
@@ -30,16 +31,15 @@ public class ImplAccountRatingDAO implements AccountRatingDAO {
 	 */
 	@Override
 	public AccountsRating getByAccountAndJob(int __idAccount, int __idJob) {
-		return (AccountsRating) this.sessionFactory.getCurrentSession()
-				.createCriteria(AccountsRating.class).add(Restrictions.eq("accountId", __idAccount))
-				.add(Restrictions.eq("jobId", __idJob)).uniqueResult();
+		return (AccountsRating) this.sessionFactory.getCurrentSession().createCriteria(AccountsRating.class)
+				.add(Restrictions.eq("accountId", __idAccount)).add(Restrictions.eq("jobId", __idJob)).uniqueResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.AccountRatingDAO#saveRating(com.lasso.rest.model.datasource.
-	 * AccountsRating)
+	 * @see com.lasso.rest.dao.AccountRatingDAO#saveRating(com.lasso.rest.model.
+	 * datasource. AccountsRating)
 	 */
 	@Override
 	public void saveRating(AccountsRating __accountsRating) {
@@ -49,7 +49,8 @@ public class ImplAccountRatingDAO implements AccountRatingDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.SessionFactory)
+	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.
+	 * SessionFactory)
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

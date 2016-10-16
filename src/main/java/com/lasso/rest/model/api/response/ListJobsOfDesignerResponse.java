@@ -22,6 +22,7 @@ import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ListJobsOfDesignerResponse.
  *
@@ -38,7 +39,8 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list jobs response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public ListJobsOfDesignerResponse(boolean __error) {
 		super(__error);
@@ -47,8 +49,10 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list jobs response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public ListJobsOfDesignerResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -57,9 +61,12 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list jobs response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public ListJobsOfDesignerResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -68,7 +75,8 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list jobs response.
 	 *
-	 * @param __datas the datas
+	 * @param __datas
+	 *            the datas
 	 */
 	public ListJobsOfDesignerResponse(List<Object[]> __datas) {
 		super();
@@ -87,7 +95,8 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 	/**
 	 * Sets the datas.
 	 *
-	 * @param __datas the datas to set
+	 * @param __datas
+	 *            the datas to set
 	 */
 	public void setDatas(List<Object[]> __datas) {
 		this.datas = __datas;
@@ -98,8 +107,8 @@ public class ListJobsOfDesignerResponse extends BaseResponse {
 class ListJobsOfDesignerSerializer extends JsonSerializer<List<Object[]>> {
 
 	@Override
-	public void serialize(List<Object[]> __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(List<Object[]> __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		DateFormat _dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		__gen.writeStartArray();
 		for (Object[] _objects : __value) {
@@ -130,12 +139,10 @@ class ListJobsOfDesignerSerializer extends JsonSerializer<List<Object[]>> {
 			String _status;
 			if (_job.getPaid().equals((byte) 0)) {
 				_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
-			}
-			else {
+			} else {
 				if (_job.getCompleted().equals((byte) 0)) {
 					_status = "In Progress";
-				}
-				else {
+				} else {
 					_status = "Completed";
 				}
 			}

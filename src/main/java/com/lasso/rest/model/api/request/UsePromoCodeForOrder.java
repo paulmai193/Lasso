@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class UsePromoCodeForOrder.
  *
@@ -20,11 +21,11 @@ public class UsePromoCodeForOrder extends BaseRequest {
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer	idJob;
+	private Integer idJob;
 
 	/** The promo code. */
 	@JsonProperty("promo_code")
-	private String	promoCode;
+	private String promoCode;
 
 	/**
 	 * Instantiates a new use promo code for order.

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ChangePasswordRequest.
  *
@@ -20,11 +21,11 @@ public class ChangePasswordRequest extends BaseRequest {
 
 	/** The new password. */
 	@JsonProperty("new_password")
-	private String	newPassword;
+	private String newPassword;
 
 	/** The old password. */
 	@JsonProperty("old_password")
-	private String	oldPassword;
+	private String oldPassword;
 
 	/**
 	 * Instantiates a new change password request.
@@ -53,7 +54,8 @@ public class ChangePasswordRequest extends BaseRequest {
 	/**
 	 * Sets the new password.
 	 *
-	 * @param __newPassword the new new password
+	 * @param __newPassword
+	 *            the new new password
 	 */
 	public void setNewPassword(String __newPassword) {
 		this.newPassword = __newPassword;
@@ -62,7 +64,8 @@ public class ChangePasswordRequest extends BaseRequest {
 	/**
 	 * Sets the old password.
 	 *
-	 * @param __oldPassword the new old password
+	 * @param __oldPassword
+	 *            the new old password
 	 */
 	public void setOldPassword(String __oldPassword) {
 		this.oldPassword = __oldPassword;

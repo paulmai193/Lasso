@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.variable.EmailParam;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ContactUsRequest.
  *
@@ -20,14 +21,14 @@ import com.lasso.rest.model.variable.EmailParam;
 public class ContactUsRequest extends FeedbackRequest {
 
 	/** The email. */
-	private EmailParam	email;
+	private EmailParam email;
 
 	/** The email string. */
-	private String		emailString;
+	private String emailString;
 
 	/** The phone. */
 	@JsonProperty(value = "phone")
-	private String		phone;
+	private String phone;
 
 	/**
 	 * Gets the email.
@@ -59,7 +60,8 @@ public class ContactUsRequest extends FeedbackRequest {
 	/**
 	 * Sets the email.
 	 *
-	 * @param __email the email to set
+	 * @param __email
+	 *            the email to set
 	 */
 	public void setEmail(EmailParam __email) {
 		this.email = __email;
@@ -68,7 +70,8 @@ public class ContactUsRequest extends FeedbackRequest {
 	/**
 	 * Sets the email string.
 	 *
-	 * @param __emailString the emailString to set
+	 * @param __emailString
+	 *            the emailString to set
 	 */
 	@JsonProperty(value = "email")
 	public void setEmailString(String __emailString) {
@@ -78,7 +81,8 @@ public class ContactUsRequest extends FeedbackRequest {
 	/**
 	 * Sets the phone.
 	 *
-	 * @param __phone the phone to set
+	 * @param __phone
+	 *            the phone to set
 	 */
 	public void setPhone(String __phone) {
 		this.phone = __phone;
@@ -94,8 +98,7 @@ public class ContactUsRequest extends FeedbackRequest {
 		super.validate();
 		if (this.emailString == null) {
 			throw new ObjectParamException("Invalid email");
-		}
-		else {
+		} else {
 			this.email = new EmailParam(this.emailString);
 		}
 		if (this.phone == null) {

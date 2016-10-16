@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the jobs_styles database table.
  *
@@ -27,28 +28,28 @@ import javax.persistence.TemporalType;
 public class JobsStyle implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
+	private Date created;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int					id;
+	private int id;
 
 	/** The job id. */
 	@Column(name = "job_id")
-	private int					jobId;
+	private int jobId;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				modified;
+	private Date modified;
 
 	/** The style id. */
 	@Column(name = "style_id")
-	private int					styleId;
+	private int styleId;
 
 	/**
 	 * Instantiates a new jobs style.
@@ -59,8 +60,10 @@ public class JobsStyle implements Serializable {
 	/**
 	 * Instantiates a new jobs style.
 	 *
-	 * @param __jobId the job id
-	 * @param __styleId the style id
+	 * @param __jobId
+	 *            the job id
+	 * @param __styleId
+	 *            the style id
 	 */
 	public JobsStyle(int __jobId, int __styleId) {
 		super();
@@ -117,7 +120,8 @@ public class JobsStyle implements Serializable {
 	/**
 	 * Sets the created.
 	 *
-	 * @param created the new created
+	 * @param created
+	 *            the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -126,7 +130,8 @@ public class JobsStyle implements Serializable {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -135,7 +140,8 @@ public class JobsStyle implements Serializable {
 	/**
 	 * Sets the job id.
 	 *
-	 * @param jobId the new job id
+	 * @param jobId
+	 *            the new job id
 	 */
 	public void setJobId(int jobId) {
 		this.jobId = jobId;
@@ -144,7 +150,8 @@ public class JobsStyle implements Serializable {
 	/**
 	 * Sets the modified.
 	 *
-	 * @param modified the new modified
+	 * @param modified
+	 *            the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -153,7 +160,8 @@ public class JobsStyle implements Serializable {
 	/**
 	 * Sets the style id.
 	 *
-	 * @param styleId the new style id
+	 * @param styleId
+	 *            the new style id
 	 */
 	public void setStyleId(int styleId) {
 		this.styleId = styleId;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.BannerDAO;
 import com.lasso.rest.model.datasource.Banner;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplBannerDAO.
  *
@@ -39,15 +40,15 @@ public class ImplBannerDAO implements BannerDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Banner> getListBanner(short __type) {
-		return this.sessionFactory.getCurrentSession().createCriteria(Banner.class)
-				.add(Restrictions.eq("type", __type)).add(Restrictions.eq("status", (byte) 1))
-				.add(Restrictions.eq("deleted", (byte) 0)).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(Banner.class).add(Restrictions.eq("type", __type))
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0)).list();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.SessionFactory)
+	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.
+	 * SessionFactory)
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

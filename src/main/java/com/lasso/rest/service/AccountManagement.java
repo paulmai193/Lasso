@@ -20,6 +20,7 @@ import com.lasso.rest.model.api.response.LoginResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Country;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface AccountManagement.
  *
@@ -30,27 +31,34 @@ public interface AccountManagement {
 	/**
 	 * Change account detail.
 	 *
-	 * @param __account the account
-	 * @param __accountChangeDetailRequest the account change detail request
+	 * @param __account
+	 *            the account
+	 * @param __accountChangeDetailRequest
+	 *            the account change detail request
 	 */
-	void changeAccountDetail(Account __account,
-			AccountChangeDetailRequest __accountChangeDetailRequest);
+	void changeAccountDetail(Account __account, AccountChangeDetailRequest __accountChangeDetailRequest);
 
 	/**
 	 * Change avatar.
 	 *
-	 * @param __account the account
-	 * @param __avatarName the avatar name
-	 * @throws IllegalArgumentException the illegal argument exception
+	 * @param __account
+	 *            the account
+	 * @param __avatarName
+	 *            the avatar name
+	 * @throws IllegalArgumentException
+	 *             the illegal argument exception
 	 */
 	void changeAvatar(Account __account, String __avatarName);
 
 	/**
 	 * Change password.
 	 *
-	 * @param __oldPassword the old password, required match with current password
-	 * @param __newPassword the new password wanna change
-	 * @param __account the account
+	 * @param __oldPassword
+	 *            the old password, required match with current password
+	 * @param __newPassword
+	 *            the new password wanna change
+	 * @param __account
+	 *            the account
 	 * @return true, if successful
 	 */
 	boolean changePassword(String __oldPassword, String __newPassword, Account __account);
@@ -58,14 +66,17 @@ public interface AccountManagement {
 	/**
 	 * Forgot password.
 	 *
-	 * @param __email the email
+	 * @param __email
+	 *            the email
 	 * @return the query string to verify reset password request
-	 * @throws NotFoundException the not found exception
-	 * @throws AddressException the address exception
-	 * @throws MessagingException the messaging exception
+	 * @throws NotFoundException
+	 *             the not found exception
+	 * @throws AddressException
+	 *             the address exception
+	 * @throws MessagingException
+	 *             the messaging exception
 	 */
-	String forgotPassword(String __email)
-			throws NotFoundException, AddressException, MessagingException;
+	String forgotPassword(String __email) throws NotFoundException, AddressException, MessagingException;
 
 	/**
 	 * Gets the all accounts.
@@ -77,27 +88,33 @@ public interface AccountManagement {
 	/**
 	 * User login by email and password.
 	 *
-	 * @param __email the email
-	 * @param __password the password
-	 * @param __pushToken the push token
-	 * @param __prefixAvatarUrl the prefix avatar url
+	 * @param __email
+	 *            the email
+	 * @param __password
+	 *            the password
+	 * @param __pushToken
+	 *            the push token
+	 * @param __prefixAvatarUrl
+	 *            the prefix avatar url
 	 * @return the login response
 	 */
-	LoginResponse login(String __email, String __password, String __pushToken,
-			String __prefixAvatarUrl);
+	LoginResponse login(String __email, String __password, String __pushToken, String __prefixAvatarUrl);
 
 	/**
 	 * User Logout.
 	 *
-	 * @param __account the account
+	 * @param __account
+	 *            the account
 	 */
 	void logout(Account __account);
 
 	/**
 	 * Register user account.
 	 *
-	 * @param __registerAccount the register account
-	 * @param __country the country
+	 * @param __registerAccount
+	 *            the register account
+	 * @param __country
+	 *            the country
 	 * @return the query string to activate registed account
 	 */
 	String registerUserAccount(AccountRegisterRequest __registerAccount, Country __country);
@@ -105,7 +122,8 @@ public interface AccountManagement {
 	/**
 	 * Resend activate.
 	 *
-	 * @param __account the account
+	 * @param __account
+	 *            the account
 	 * @return the string
 	 */
 	String resendActivate(Account __account);
@@ -113,22 +131,32 @@ public interface AccountManagement {
 	/**
 	 * Reset password.
 	 *
-	 * @param __account the account will reset password
-	 * @param __password the new password
+	 * @param __account
+	 *            the account will reset password
+	 * @param __password
+	 *            the new password
 	 */
 	void resetPassword(Account __account, String __password);
 
 	/**
 	 * Send activation email.
 	 *
-	 * @param __email the email
-	 * @param __refLink the reference link
-	 * @param __role the role: "designer" or "user"
-	 * @param __firstName the first name
-	 * @throws AddressException the address exception
-	 * @throws MessagingException the messaging exception
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __email
+	 *            the email
+	 * @param __refLink
+	 *            the reference link
+	 * @param __role
+	 *            the role: "designer" or "user"
+	 * @param __firstName
+	 *            the first name
+	 * @throws AddressException
+	 *             the address exception
+	 * @throws MessagingException
+	 *             the messaging exception
+	 * @throws URISyntaxException
+	 *             the URI syntax exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	void sendActivationEmail(String __email, String __refLink, String __role, String __firstName)
 			throws AddressException, MessagingException, URISyntaxException, IOException;
@@ -136,14 +164,22 @@ public interface AccountManagement {
 	/**
 	 * Send reset password email.
 	 *
-	 * @param __email the email
-	 * @param __refLink the reference link
-	 * @param __role the role: "designer" or "user"
-	 * @param __firstName the first name
-	 * @throws AddressException the address exception
-	 * @throws MessagingException the messaging exception
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __email
+	 *            the email
+	 * @param __refLink
+	 *            the reference link
+	 * @param __role
+	 *            the role: "designer" or "user"
+	 * @param __firstName
+	 *            the first name
+	 * @throws AddressException
+	 *             the address exception
+	 * @throws MessagingException
+	 *             the messaging exception
+	 * @throws URISyntaxException
+	 *             the URI syntax exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	void sendResetPasswordEmail(String __email, String __refLink, String __role, String __firstName)
 			throws AddressException, MessagingException, URISyntaxException, IOException;
@@ -151,11 +187,16 @@ public interface AccountManagement {
 	/**
 	 * Settings.
 	 *
-	 * @param __account the account
-	 * @param __settingsRequest the settings request
-	 * @throws JsonParseException the json parse exception
-	 * @throws JsonMappingException the json mapping exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __account
+	 *            the account
+	 * @param __settingsRequest
+	 *            the settings request
+	 * @throws JsonParseException
+	 *             the json parse exception
+	 * @throws JsonMappingException
+	 *             the json mapping exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	void settings(Account __account, SettingsRequest __settingsRequest)
 			throws JsonParseException, JsonMappingException, IOException;
@@ -163,7 +204,8 @@ public interface AccountManagement {
 	/**
 	 * Validate the token to verify secured account.
 	 *
-	 * @param __token the token
+	 * @param __token
+	 *            the token
 	 * @return the verified account
 	 */
 	Account validateAccountToken(String __token);
@@ -171,13 +213,16 @@ public interface AccountManagement {
 	/**
 	 * Verify account.
 	 *
-	 * @param __type the verify type
-	 * @param __otp the otp
-	 * @param __pushToken the push token
-	 * @param __prefixAvatarUrl the prefix avatar url
+	 * @param __type
+	 *            the verify type
+	 * @param __otp
+	 *            the otp
+	 * @param __pushToken
+	 *            the push token
+	 * @param __prefixAvatarUrl
+	 *            the prefix avatar url
 	 * @return the login response
 	 */
-	LoginResponse verifyAccount(String __type, String __otp, String __pushToken,
-			String __prefixAvatarUrl);
+	LoginResponse verifyAccount(String __type, String __otp, String __pushToken, String __prefixAvatarUrl);
 
 }

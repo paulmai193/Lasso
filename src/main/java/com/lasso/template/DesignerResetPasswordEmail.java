@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class DesignerResetPasswordEmail.
  *
@@ -20,24 +21,27 @@ import org.apache.commons.lang3.StringUtils;
 public class DesignerResetPasswordEmail implements EmailTemplate {
 
 	/** The first name. */
-	private String	firstName;
+	private String firstName;
 
 	/** The activate link. */
-	private String	resetLink;
+	private String resetLink;
 
 	/** The template. */
-	private File	template;
+	private File template;
 
 	/**
 	 * Instantiates a new designer reset password email.
 	 *
-	 * @param __firstName the first name
-	 * @param __resetLink the reset link
-	 * @throws URISyntaxException the URI syntax exception
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param __firstName
+	 *            the first name
+	 * @param __resetLink
+	 *            the reset link
+	 * @throws URISyntaxException
+	 *             the URI syntax exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
-	public DesignerResetPasswordEmail(String __firstName, String __resetLink)
-			throws URISyntaxException, IOException {
+	public DesignerResetPasswordEmail(String __firstName, String __resetLink) throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.resetLink = __resetLink;
@@ -88,8 +92,8 @@ public class DesignerResetPasswordEmail implements EmailTemplate {
 	 */
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
-		this.template = new File(this.getClass().getClassLoader()
-				.getResource("/email-template/designer-forgot-pass").toURI());
+		this.template = new File(
+				this.getClass().getClassLoader().getResource("/email-template/designer-forgot-pass").toURI());
 	}
 
 }

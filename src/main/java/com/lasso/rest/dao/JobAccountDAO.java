@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.lasso.rest.model.datasource.JobsAccount;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface JobAccountDAO.
  *
@@ -17,8 +18,10 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Gets the accept by job and designer id.
 	 *
-	 * @param __idJob the id job
-	 * @param __idDesigner the id designer
+	 * @param __idJob
+	 *            the id job
+	 * @param __idDesigner
+	 *            the id designer
 	 * @return the accept by job and designer id
 	 */
 	JobsAccount getAcceptByJobAndDesignerId(Integer __idJob, Integer __idDesigner);
@@ -26,8 +29,10 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Gets the by job and designer id.
 	 *
-	 * @param __idJob the id job
-	 * @param __idDesigner the id designer
+	 * @param __idJob
+	 *            the id job
+	 * @param __idDesigner
+	 *            the id designer
 	 * @return the by job and designer id
 	 */
 	JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner);
@@ -35,7 +40,8 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Gets the by job id.
 	 *
-	 * @param __idJob the id job
+	 * @param __idJob
+	 *            the id job
 	 * @return the by job id
 	 */
 	JobsAccount getByJobId(int __idJob);
@@ -43,7 +49,8 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Gets the by offer id.
 	 *
-	 * @param __idJob the id job
+	 * @param __idJob
+	 *            the id job
 	 * @return the by offer id
 	 */
 	List<JobsAccount> getByOfferId(int __idJob);
@@ -51,8 +58,10 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Gets the by job and designer id.
 	 *
-	 * @param __idJob the id job
-	 * @param __idDesigner the id designer
+	 * @param __idJob
+	 *            the id job
+	 * @param __idDesigner
+	 *            the id designer
 	 * @return the by job and designer id
 	 */
 	JobsAccount getConfirmByJobAndDesignerId(Integer __idJob, Integer __idDesigner);
@@ -60,7 +69,8 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Gets the list jobs account of designer.
 	 *
-	 * @param __idDesigner the id designer
+	 * @param __idDesigner
+	 *            the id designer
 	 * @return the list jobs account of designer
 	 */
 	List<JobsAccount> getListJobsAccountOfDesigner(Integer __idDesigner);
@@ -68,8 +78,10 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Gets the un confirm by job and designer id.
 	 *
-	 * @param __idJob the id job
-	 * @param __idDesigner the id designer
+	 * @param __idJob
+	 *            the id job
+	 * @param __idDesigner
+	 *            the id designer
 	 * @return the un confirm by job and designer id
 	 */
 	JobsAccount getUnConfirmByJobAndDesignerId(Integer __idJob, Integer __idDesigner);
@@ -77,21 +89,24 @@ public interface JobAccountDAO extends HibernateSession {
 	/**
 	 * Save job account.
 	 *
-	 * @param __jobsAccount the jobs account
+	 * @param __jobsAccount
+	 *            the jobs account
 	 */
 	void saveJobAccount(JobsAccount __jobsAccount);
 
 	/**
 	 * Save job accounts.
 	 *
-	 * @param __jobsAccounts the jobs accounts
+	 * @param __jobsAccounts
+	 *            the jobs accounts
 	 */
 	void saveJobAccounts(List<JobsAccount> __jobsAccounts);
 
 	/**
 	 * Update.
 	 *
-	 * @param __jobsAccount the jobs account
+	 * @param __jobsAccount
+	 *            the jobs account
 	 */
 	void update(JobsAccount __jobsAccount);
 

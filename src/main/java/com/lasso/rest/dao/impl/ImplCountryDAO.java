@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.CountryDAO;
 import com.lasso.rest.model.datasource.Country;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplCountryDAO.
  *
@@ -56,15 +57,17 @@ public class ImplCountryDAO implements CountryDAO {
 			_criteria.add(Restrictions.eq("code", __code));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		.addOrder(Order.asc("sort")).addOrder(Order.asc("name"));
+				.addOrder(Order.asc("sort")).addOrder(Order.asc("name"));
 		return _criteria.list();
 	}
 
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}

@@ -23,6 +23,7 @@ import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class OrderPaymentDetailResponse.
  *
@@ -33,24 +34,25 @@ import com.lasso.rest.model.datasource.Type;
 public class OrderPaymentDetailResponse extends BaseResponse {
 
 	/** The category. */
-	private Category	category;
+	private Category category;
 
 	/** The job. */
-	private Job			job;
+	private Job job;
 
 	/** The promo code. */
-	private PromoCode	promoCode;
+	private PromoCode promoCode;
 
 	/** The types. */
-	private List<Style>	styles;
+	private List<Style> styles;
 
 	/** The style. */
-	private Type		type;
+	private Type type;
 
 	/**
 	 * Instantiates a new order payment detail response.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public OrderPaymentDetailResponse(boolean __error) {
 		super(__error);
@@ -59,8 +61,10 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new order payment detail response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public OrderPaymentDetailResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -69,9 +73,12 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new order payment detail response.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public OrderPaymentDetailResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -80,14 +87,19 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 	/**
 	 * Instantiates a new order payment detail response.
 	 *
-	 * @param __job the job
-	 * @param __promoCode the promo code
-	 * @param __styles the styles
-	 * @param __type the type
-	 * @param __category the category
+	 * @param __job
+	 *            the job
+	 * @param __promoCode
+	 *            the promo code
+	 * @param __styles
+	 *            the styles
+	 * @param __type
+	 *            the type
+	 * @param __category
+	 *            the category
 	 */
-	public OrderPaymentDetailResponse(Job __job, PromoCode __promoCode, List<Style> __styles,
-			Type __type, Category __category) {
+	public OrderPaymentDetailResponse(Job __job, PromoCode __promoCode, List<Style> __styles, Type __type,
+			Category __category) {
 		super();
 		this.job = __job;
 		this.promoCode = __promoCode;
@@ -145,8 +157,8 @@ public class OrderPaymentDetailResponse extends BaseResponse {
 class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResponse> {
 
 	@Override
-	public void serialize(OrderPaymentDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(OrderPaymentDetailResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -154,8 +166,7 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 			__gen.writeObjectField("message", __value.getMessage());
 		}
 		__gen.writeObjectFieldStart("data");
-		this.serializeOrder(__gen, __value.getJob(), __value.getStyles(), __value.getType(),
-				__value.getCategory());
+		this.serializeOrder(__gen, __value.getJob(), __value.getStyles(), __value.getType(), __value.getCategory());
 		this.serializePayment(__gen, __value.getJob(), __value.getPromoCode());
 		__gen.writeEndObject();
 		__gen.writeEndObject();
@@ -168,22 +179,19 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 			__gen.writeNumberField("job_amount", __job.getBudget() + __job.getFee());
 			DateFormat _dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			__gen.writeStringField("submission", _dateFormat.format(__job.getSubmission()));
-			__gen.writeStringField("last_submission",
-					_dateFormat.format(__job.getLatestSubmission()));
+			__gen.writeStringField("last_submission", _dateFormat.format(__job.getLatestSubmission()));
 			__gen.writeStringField("type_title", __type.getTitle());
 			__gen.writeArrayFieldStart("style_titles");
 			__styles.forEach(_style -> {
 				try {
 					__gen.writeString(_style.getTitle());
-				}
-				catch (Exception _ex) {
+				} catch (Exception _ex) {
 					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			});
 			__gen.writeEndArray();
 			__gen.writeStringField("category_title", __category.getTitle());
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}
@@ -195,13 +203,11 @@ class OrderPaymentDetailSerializer extends JsonSerializer<OrderPaymentDetailResp
 			if (__promoCode != null) {
 				__gen.writeStringField("promo_code", __promoCode.getCode());
 				__gen.writeNumberField("promo_value", __promoCode.getDiscount());
-			}
-			else {
+			} else {
 				__gen.writeStringField("promo_code", "");
 				__gen.writeNumberField("promo_value", 0);
 			}
-		}
-		catch (Exception _ex) {
+		} catch (Exception _ex) {
 			Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 		}
 	}

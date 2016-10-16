@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class SendMessageRequest.
  *
@@ -20,11 +21,11 @@ public class SendMessageRequest extends BaseRequest {
 
 	/** The id root. */
 	@JsonProperty("root_id")
-	private Integer	idRoot;
+	private Integer idRoot;
 
 	/** The message. */
 	@JsonProperty("message")
-	private String	message;
+	private String message;
 
 	/**
 	 * Instantiates a new send message request.

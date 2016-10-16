@@ -15,6 +15,7 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface DesignerManagement.
  *
@@ -25,26 +26,34 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Confirm offer.
 	 *
-	 * @param __designer the designer
-	 * @param __counterOfferRequest the counter offer request
+	 * @param __designer
+	 *            the designer
+	 * @param __counterOfferRequest
+	 *            the counter offer request
 	 */
 	void confirmOffer(Account __designer, ConfirmOfferRequest __counterOfferRequest);
 
 	/**
 	 * Counter offer.
 	 *
-	 * @param __designer the designer
-	 * @param __counterOfferRequest the counter offer request
+	 * @param __designer
+	 *            the designer
+	 * @param __counterOfferRequest
+	 *            the counter offer request
 	 */
 	void counterOffer(Account __designer, CounterOfferRequest __counterOfferRequest);
 
 	/**
 	 * Creates the portfolio.
 	 *
-	 * @param __desiger the desiger
-	 * @param __createPortfolioRequest the create portfolio request
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws UnirestException the unirest exception
+	 * @param __desiger
+	 *            the desiger
+	 * @param __createPortfolioRequest
+	 *            the create portfolio request
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws UnirestException
+	 *             the unirest exception
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
 			throws IOException, UnirestException;
@@ -52,26 +61,33 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Delete portfolio.
 	 *
-	 * @param __portfolio the portfolio
+	 * @param __portfolio
+	 *            the portfolio
 	 */
 	void deletePortfolio(Portfolio __portfolio);
 
 	/**
 	 * Edits the portfolio.
 	 *
-	 * @param __desiger the desiger
-	 * @param __portfolio the portfolio
-	 * @param __editPortfolioRequest the edit portfolio request
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws UnirestException the unirest exception
+	 * @param __desiger
+	 *            the desiger
+	 * @param __portfolio
+	 *            the portfolio
+	 * @param __editPortfolioRequest
+	 *            the edit portfolio request
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws UnirestException
+	 *             the unirest exception
 	 */
-	void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
+	void editPortfolio(Account __desiger, Portfolio __portfolio, EditPortfolioRequest __editPortfolioRequest)
+			throws IOException, UnirestException;
 
 	/**
 	 * Gets the all portfolios.
 	 *
-	 * @param __account the account
+	 * @param __account
+	 *            the account
 	 * @return the all portfolios
 	 */
 	List<Portfolio> getAllPortfolios(Account __account);
@@ -79,8 +95,10 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Gets the job data of designer by id.
 	 *
-	 * @param __designer the designer
-	 * @param __idJob the id job
+	 * @param __designer
+	 *            the designer
+	 * @param __idJob
+	 *            the id job
 	 * @return the job data of designer by id
 	 */
 	Object[] getJobDataOfDesignerById(Account __designer, int __idJob);
@@ -88,7 +106,8 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Gets the list jobs data of designer.
 	 *
-	 * @param __designer the designer
+	 * @param __designer
+	 *            the designer
 	 * @return the list jobs data of designer
 	 */
 	List<Object[]> getListJobsDataOfDesigner(Account __designer);
@@ -96,8 +115,10 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Gets the offer data by id.
 	 *
-	 * @param __designer the designer
-	 * @param __idJob the id job
+	 * @param __designer
+	 *            the designer
+	 * @param __idJob
+	 *            the id job
 	 * @return the offer data by id
 	 */
 	Object[] getOfferDataById(Account __designer, int __idJob);
@@ -105,8 +126,10 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Gets the portfolio.
 	 *
-	 * @param __account the account
-	 * @param __id the id
+	 * @param __account
+	 *            the account
+	 * @param __id
+	 *            the id
 	 * @return the portfolio
 	 */
 	Portfolio getPortfolio(Account __account, Integer __id);
@@ -114,8 +137,10 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Update stage.
 	 *
-	 * @param __designer the designer
-	 * @param __updateJobStageRequest the update job stage request
+	 * @param __designer
+	 *            the designer
+	 * @param __updateJobStageRequest
+	 *            the update job stage request
 	 */
 	void updateStage(Account __designer, UpdateJobStageRequest __updateJobStageRequest);
 

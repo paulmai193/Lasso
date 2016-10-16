@@ -17,6 +17,7 @@ import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.datasource.TypesStyle;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplTypeStyleDAO.
  *
@@ -38,7 +39,8 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.TypeStyleDAO#getTypesStylesByStyles(java.util.List)
+	 * @see
+	 * com.lasso.rest.dao.TypeStyleDAO#getTypesStylesByStyles(java.util.List)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -51,15 +53,16 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 		for (Style _style : __styles) {
 			_pks.add(_style.getId());
 		}
-		Criteria _criteria = this.sessionFactory.getCurrentSession()
-				.createCriteria(TypesStyle.class).add(Restrictions.in("styleId", _pks));
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(TypesStyle.class)
+				.add(Restrictions.in("styleId", _pks));
 		return _criteria.list();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.TypeStyleDAO#getTypesStylesByTypes(java.util.List)
+	 * @see
+	 * com.lasso.rest.dao.TypeStyleDAO#getTypesStylesByTypes(java.util.List)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -72,16 +75,18 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 		for (Type _type : __types) {
 			_pks.add(_type.getId());
 		}
-		Criteria _criteria = this.sessionFactory.getCurrentSession()
-				.createCriteria(TypesStyle.class).add(Restrictions.in("typeId", _pks));
+		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(TypesStyle.class)
+				.add(Restrictions.in("typeId", _pks));
 		return _criteria.list();
 	}
 
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}

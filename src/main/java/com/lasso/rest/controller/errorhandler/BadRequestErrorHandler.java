@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.lasso.rest.model.api.response.BaseResponse;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class BadRequestErrorHandler.
  *
@@ -39,8 +40,7 @@ public class BadRequestErrorHandler implements ExceptionMapper<BadRequestExcepti
 		BadRequestErrorHandler.LOGGER.warn(__exception.getMessage(), __exception);
 		BaseResponse _errorResponse = new BaseResponse(true, __exception.getMessage(),
 				__exception.getCause() == null ? null : __exception.getCause().getMessage());
-		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse)
-				.build();
+		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse).build();
 	}
 
 }

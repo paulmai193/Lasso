@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class InvoiceResponse.
  *
@@ -22,7 +23,8 @@ public class InvoiceResponse extends BaseResponse {
 	/**
 	 * Instantiates a new invoice response.
 	 *
-	 * @param __content the content
+	 * @param __content
+	 *            the content
 	 */
 	public InvoiceResponse(String __content) {
 		super();

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class EditOrderRequest.
  *
@@ -28,33 +29,33 @@ public class EditOrderRequest extends BaseRequest {
 
 	/** The asset url. */
 	@JsonProperty("asset_url")
-	private String			assetUrl;
+	private String assetUrl;
 
 	/** The description. */
 	@JsonProperty("job_description")
-	private String			description;
+	private String description;
 
 	/** The further. */
 	@JsonProperty("further_information")
-	private String			further;
+	private String further;
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer			idJob;
+	private Integer idJob;
 
 	/** The last submission. */
-	private Date			lastSubmission;
+	private Date lastSubmission;
 
 	/** The objective. */
 	@JsonProperty("objective")
-	private String			objective;
+	private String objective;
 
 	/** The reference. */
 	@JsonProperty("reference")
-	private List<String>	reference;
+	private List<String> reference;
 
 	/** The submission. */
-	private Date			submission;
+	private Date submission;
 
 	/**
 	 * Instantiates a new edits the job request.
@@ -137,15 +138,15 @@ public class EditOrderRequest extends BaseRequest {
 	/**
 	 * Sets the last submission.
 	 *
-	 * @param __lastSubmission the lastSubmission to set
+	 * @param __lastSubmission
+	 *            the lastSubmission to set
 	 */
 	@JsonProperty("last_submission")
 	public void setLastSubmission(String __lastSubmission) {
 		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			this.lastSubmission = _dateFormat.parse(__lastSubmission);
-		}
-		catch (ParseException ex) {
+		} catch (ParseException ex) {
 			this.lastSubmission = null;
 		}
 	}
@@ -153,15 +154,15 @@ public class EditOrderRequest extends BaseRequest {
 	/**
 	 * Sets the submission.
 	 *
-	 * @param __submission the submission to set
+	 * @param __submission
+	 *            the submission to set
 	 */
 	@JsonProperty("submission")
 	public void setSubmission(String __submission) {
 		DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			this.submission = _dateFormat.parse(__submission);
-		}
-		catch (ParseException ex) {
+		} catch (ParseException ex) {
 			this.submission = null;
 		}
 	}
@@ -194,12 +195,10 @@ public class EditOrderRequest extends BaseRequest {
 		}
 		if (this.assetUrl == null) {
 			throw new ObjectParamException("Invalid assets");
-		}
-		else if (!this.assetUrl.trim().isEmpty()) {
+		} else if (!this.assetUrl.trim().isEmpty()) {
 			try {
 				new URL(this.assetUrl);
-			}
-			catch (Exception _ex) {
+			} catch (Exception _ex) {
 				throw new ObjectParamException("Invalid assets", _ex);
 			}
 		}

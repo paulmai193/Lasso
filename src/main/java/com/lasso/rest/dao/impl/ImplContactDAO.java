@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.ContactDAO;
 import com.lasso.rest.model.datasource.Contact;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplContactDAO.
  *
@@ -23,7 +24,8 @@ public class ImplContactDAO implements ContactDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.ContactDAO#save(com.lasso.rest.model.datasource.Contact)
+	 * @see com.lasso.rest.dao.ContactDAO#save(com.lasso.rest.model.datasource.
+	 * Contact)
 	 */
 	@Override
 	public void save(Contact __contact) {
@@ -33,7 +35,8 @@ public class ImplContactDAO implements ContactDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.SessionFactory)
+	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.
+	 * SessionFactory)
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

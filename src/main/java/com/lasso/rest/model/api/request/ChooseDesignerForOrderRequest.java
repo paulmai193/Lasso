@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ChooseDesignerForOrderRequest.
  *
@@ -22,11 +23,11 @@ public class ChooseDesignerForOrderRequest extends BaseRequest {
 
 	/** The designer ids. */
 	@JsonProperty("designer_id")
-	private Set<Integer>	designerIds;
+	private Set<Integer> designerIds;
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer			idJob;
+	private Integer idJob;
 
 	/**
 	 * Instantiates a new choose designer for order request.

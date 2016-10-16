@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.ProjectDAO;
 import com.lasso.rest.model.datasource.Project;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplProjectDAO.
  *
@@ -49,8 +50,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	public List<Project> getRamdom(int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		.add(Restrictions.sqlRestriction("1=1 order by rand()")).setFirstResult(0)
-		.setMaxResults(__limit);
+				.add(Restrictions.sqlRestriction("1=1 order by rand()")).setFirstResult(0).setMaxResults(__limit);
 
 		return _criteria.list();
 	}
@@ -58,23 +58,21 @@ public class ImplProjectDAO implements ProjectDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.ProjectDAO#searchProjects(java.lang.Integer, java.lang.String, int,
-	 * int)
+	 * @see com.lasso.rest.dao.ProjectDAO#searchProjects(java.lang.Integer,
+	 * java.lang.String, int, int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset,
-			int __limit) {
+	public List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset, int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
-		}
-		else if (__idStyle != null) {
+		} else if (__idStyle != null) {
 			_criteria.add(Restrictions.eq("styleId", __idStyle));
 
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		.addOrder(Order.asc("title"));
+				.addOrder(Order.asc("title"));
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}
@@ -84,8 +82,10 @@ public class ImplProjectDAO implements ProjectDAO {
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}

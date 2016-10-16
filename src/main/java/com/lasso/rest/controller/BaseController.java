@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.lasso.rest.model.api.response.BaseResponse;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class BaseController.
  *
@@ -24,8 +25,10 @@ public class BaseController {
 	/**
 	 * Fail.
 	 *
-	 * @param __response the response
-	 * @param __status the status
+	 * @param __response
+	 *            the response
+	 * @param __status
+	 *            the status
 	 * @return the response
 	 */
 	public Response fail(BaseResponse __response, Status __status) {
@@ -44,7 +47,8 @@ public class BaseController {
 	/**
 	 * Success.
 	 *
-	 * @param __response the response
+	 * @param __response
+	 *            the response
 	 * @return the response
 	 */
 	public Response success(BaseResponse __response) {

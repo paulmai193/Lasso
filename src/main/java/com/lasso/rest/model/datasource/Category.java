@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the categories database table.
  *
@@ -29,35 +30,35 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Category implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				created;
+	private Date created;
 
 	/** The deleted. */
-	private Byte				deleted;
+	private Byte deleted;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer				id;
+	private Integer id;
 
 	/** The image. */
-	private String				image;
+	private String image;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				modified;
+	private Date modified;
 
 	/** The sort. */
-	private Integer				sort;
+	private Integer sort;
 
 	/** The status. */
-	private Byte				status;
+	private Byte status;
 
 	/** The title. */
-	private String				title;
+	private String title;
 
 	/**
 	 * Instantiates a new category.
@@ -140,7 +141,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the created.
 	 *
-	 * @param created the new created
+	 * @param created
+	 *            the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -149,7 +151,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the deleted.
 	 *
-	 * @param deleted the new deleted
+	 * @param deleted
+	 *            the new deleted
 	 */
 	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
@@ -158,7 +161,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -167,7 +171,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the image.
 	 *
-	 * @param image the new image
+	 * @param image
+	 *            the new image
 	 */
 	public void setImage(String image) {
 		this.image = image;
@@ -176,7 +181,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the modified.
 	 *
-	 * @param modified the new modified
+	 * @param modified
+	 *            the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -185,7 +191,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the sort.
 	 *
-	 * @param sort the new sort
+	 * @param sort
+	 *            the new sort
 	 */
 	public void setSort(Integer sort) {
 		this.sort = sort;
@@ -194,7 +201,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the status.
 	 *
-	 * @param status the new status
+	 * @param status
+	 *            the new status
 	 */
 	public void setStatus(Byte status) {
 		this.status = status;
@@ -203,7 +211,8 @@ public class Category implements Serializable {
 	/**
 	 * Sets the title.
 	 *
-	 * @param title the new title
+	 * @param title
+	 *            the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;

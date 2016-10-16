@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Banner;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ListBannerReponse.
  *
@@ -25,15 +26,16 @@ import com.lasso.rest.model.datasource.Banner;
 public class ListBannerReponse extends BaseResponse {
 
 	/** The banners. */
-	private List<Banner>	banners;
+	private List<Banner> banners;
 
 	/** The prefix url. */
-	private String			prefixUrl;
+	private String prefixUrl;
 
 	/**
 	 * Instantiates a new list banner reponse.
 	 *
-	 * @param __error the error
+	 * @param __error
+	 *            the error
 	 */
 	public ListBannerReponse(boolean __error) {
 		super(__error);
@@ -42,8 +44,10 @@ public class ListBannerReponse extends BaseResponse {
 	/**
 	 * Instantiates a new list banner reponse.
 	 *
-	 * @param __error the error
-	 * @param __message the message
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
 	 */
 	public ListBannerReponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -52,9 +56,12 @@ public class ListBannerReponse extends BaseResponse {
 	/**
 	 * Instantiates a new list banner reponse.
 	 *
-	 * @param __error the error
-	 * @param __message the message
-	 * @param __detail the detail
+	 * @param __error
+	 *            the error
+	 * @param __message
+	 *            the message
+	 * @param __detail
+	 *            the detail
 	 */
 	public ListBannerReponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -63,8 +70,10 @@ public class ListBannerReponse extends BaseResponse {
 	/**
 	 * Instantiates a new list banner reponse.
 	 *
-	 * @param __banners the banners
-	 * @param __prefixUrl the prefix url
+	 * @param __banners
+	 *            the banners
+	 * @param __prefixUrl
+	 *            the prefix url
 	 */
 	public ListBannerReponse(List<Banner> __banners, String __prefixUrl) {
 		super();
@@ -93,7 +102,8 @@ public class ListBannerReponse extends BaseResponse {
 	/**
 	 * Sets the banners.
 	 *
-	 * @param __banners the new banners
+	 * @param __banners
+	 *            the new banners
 	 */
 	public void setBanners(List<Banner> __banners) {
 		this.banners = __banners;
@@ -102,7 +112,8 @@ public class ListBannerReponse extends BaseResponse {
 	/**
 	 * Sets the prefix url.
 	 *
-	 * @param __prefixUrl the new prefix url
+	 * @param __prefixUrl
+	 *            the new prefix url
 	 */
 	public void setPrefixUrl(String __prefixUrl) {
 		this.prefixUrl = __prefixUrl;
@@ -113,8 +124,8 @@ public class ListBannerReponse extends BaseResponse {
 class ListBannerSerializer extends JsonSerializer<ListBannerReponse> {
 
 	@Override
-	public void serialize(ListBannerReponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	public void serialize(ListBannerReponse __value, JsonGenerator __gen, SerializerProvider __serializers)
+			throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -124,14 +135,10 @@ class ListBannerSerializer extends JsonSerializer<ListBannerReponse> {
 		__gen.writeArrayFieldStart("data");
 		for (Banner _banner : __value.getBanners()) {
 			__gen.writeStartObject();
-			__gen.writeStringField("original",
-					__value.getPrefixUrl() + "/Original/" + _banner.getImage().trim());
-			__gen.writeStringField("small",
-					__value.getPrefixUrl() + "/Small/" + _banner.getImage().trim());
-			__gen.writeStringField("icon",
-					__value.getPrefixUrl() + "/Icon/" + _banner.getImage().trim());
-			__gen.writeStringField("retina",
-					__value.getPrefixUrl() + "/Retina/" + _banner.getImage().trim());
+			__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/" + _banner.getImage().trim());
+			__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/" + _banner.getImage().trim());
+			__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/" + _banner.getImage().trim());
+			__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/" + _banner.getImage().trim());
 			__gen.writeEndObject();
 		}
 		__gen.writeEndArray();

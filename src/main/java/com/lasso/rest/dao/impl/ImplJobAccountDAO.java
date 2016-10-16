@@ -15,6 +15,7 @@ import com.lasso.define.JobConfirmationConstant;
 import com.lasso.rest.dao.JobAccountDAO;
 import com.lasso.rest.model.datasource.JobsAccount;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplJobAccountDAO.
  *
@@ -36,29 +37,28 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobAccountDAO#getAcceptByJobAndDesignerId(java.lang.Integer,
-	 * java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#getAcceptByJobAndDesignerId(java.lang.
+	 * Integer, java.lang.Integer)
 	 */
 	@Override
 	public JobsAccount getAcceptByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-				.add(Restrictions.eq("accountId", __idDesigner))
-				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
-				.uniqueResult();
+		return (JobsAccount) this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode())).uniqueResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobAccountDAO#getByJobAndDesignerId(java.lang.Integer,
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#getByJobAndDesignerId(java.lang.Integer,
 	 * java.lang.Integer)
 	 */
 	@Override
 	public JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-				.add(Restrictions.eq("accountId", __idDesigner)).uniqueResult();
+		return (JobsAccount) this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("accountId", __idDesigner)).uniqueResult();
 	}
 
 	/*
@@ -68,11 +68,9 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	 */
 	@Override
 	public JobsAccount getByJobId(int __idJob) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-				.add(Restrictions.eq("deleted", (byte) 0))
-				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode()))
-				.uniqueResult();
+		return (JobsAccount) this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode())).uniqueResult();
 	}
 
 	/*
@@ -84,29 +82,29 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	@Override
 	public List<JobsAccount> getByOfferId(int __idJob) {
 		return this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
-				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0))
-				.list();
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("deleted", (byte) 0)).list();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobAccountDAO#getByJobAndDesignerId(java.lang.Integer,
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#getByJobAndDesignerId(java.lang.Integer,
 	 * java.lang.Integer)
 	 */
 	@Override
 	public JobsAccount getConfirmByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-				.add(Restrictions.eq("accountId", __idDesigner))
-				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
-				.uniqueResult();
+		return (JobsAccount) this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode())).uniqueResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobAccountDAO#getListJobsAccountOfDesigner(java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#getListJobsAccountOfDesigner(java.lang.
+	 * Integer)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -120,22 +118,23 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobAccountDAO#getUnConfirmByJobAndDesignerId(java.lang.Integer,
-	 * java.lang.Integer)
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#getUnConfirmByJobAndDesignerId(java.lang
+	 * .Integer, java.lang.Integer)
 	 */
+	@Override
 	public JobsAccount getUnConfirmByJobAndDesignerId(Integer __idJob, Integer __idDesigner) {
-		return (JobsAccount) this.sessionFactory.getCurrentSession()
-				.createCriteria(JobsAccount.class).add(Restrictions.eq("jobId", __idJob))
-				.add(Restrictions.eq("accountId", __idDesigner))
-				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_UN_CONFIRM.getCode()))
-				.uniqueResult();
+		return (JobsAccount) this.sessionFactory.getCurrentSession().createCriteria(JobsAccount.class)
+				.add(Restrictions.eq("jobId", __idJob)).add(Restrictions.eq("accountId", __idDesigner))
+				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_UN_CONFIRM.getCode())).uniqueResult();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.lasso.rest.dao.JobAccountDAO#saveJobAccount(com.lasso.rest.model.datasource.JobsAccount)
+	 * com.lasso.rest.dao.JobAccountDAO#saveJobAccount(com.lasso.rest.model.
+	 * datasource.JobsAccount)
 	 */
 	@Override
 	public void saveJobAccount(JobsAccount __jobsAccount) {
@@ -155,7 +154,8 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.SessionFactory)
+	 * @see com.lasso.rest.dao.HibernateSession#setSessionFactory(org.hibernate.
+	 * SessionFactory)
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
@@ -165,7 +165,9 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.JobAccountDAO#update(com.lasso.rest.model.datasource.JobsAccount)
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#update(com.lasso.rest.model.datasource.
+	 * JobsAccount)
 	 */
 	@Override
 	public void update(JobsAccount __jobsAccount) {

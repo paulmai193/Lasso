@@ -5,6 +5,7 @@ package com.lasso.rest.model.api.request;
 
 import com.lasso.exception.ObjectParamException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class BaseRequest.
  *
@@ -21,7 +22,8 @@ public abstract class BaseRequest {
 	/**
 	 * Validate request object.
 	 *
-	 * @throws ObjectParamException the object param exception
+	 * @throws ObjectParamException
+	 *             the object param exception
 	 */
 	public abstract void validate() throws ObjectParamException;
 }

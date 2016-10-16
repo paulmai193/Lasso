@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.CategoryDAO;
 import com.lasso.rest.model.datasource.Category;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ImplCategoryDAO.
  *
@@ -37,7 +38,8 @@ public class ImplCategoryDAO implements CategoryDAO {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.lasso.rest.dao.CategoryDAO#getCategories(int, int, java.lang.String)
+	 * @see com.lasso.rest.dao.CategoryDAO#getCategories(int, int,
+	 * java.lang.String)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -47,7 +49,7 @@ public class ImplCategoryDAO implements CategoryDAO {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		.addOrder(Order.asc("sort"));
+				.addOrder(Order.asc("sort"));
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}
@@ -69,8 +71,10 @@ public class ImplCategoryDAO implements CategoryDAO {
 	/**
 	 * Sets the session factory.
 	 *
-	 * @param __sessionFactory the new session factory
+	 * @param __sessionFactory
+	 *            the new session factory
 	 */
+	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {
 		this.sessionFactory = __sessionFactory;
 	}
