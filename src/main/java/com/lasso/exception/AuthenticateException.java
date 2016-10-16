@@ -21,9 +21,9 @@ public class AuthenticateException extends WebApplicationException {
 	 * Instantiates a new authenticate exception.
 	 *
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __status
-	 *            the status
+	 *        the status
 	 */
 	public AuthenticateException(String __message, Status __status) {
 		super(__message, __status);

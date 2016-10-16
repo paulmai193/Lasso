@@ -49,46 +49,46 @@ import com.lasso.rest.service.ProjectManagement;
 public class BrowseController extends BaseController {
 
 	/** The avatar storage path. */
-	private String avatarStoragePath;
+	private String				avatarStoragePath;
 
 	/** The category storage path. */
-	private String bannerStoragePath;
+	private String				bannerStoragePath;
 
 	/** The category storage path. */
-	private String categoryStoragePath;
+	private String				categoryStoragePath;
 
 	/** The http host. */
-	private String httpHost;
+	private String				httpHost;
 
 	/** The portfolio storage path. */
-	private String portfolioStoragePath;
+	private String				portfolioStoragePath;
 
 	/** The project management. */
 	@Autowired
-	private ProjectManagement projectManagement;
+	private ProjectManagement	projectManagement;
 
 	/** The project storage path. */
-	private String projectStoragePath;
+	private String				projectStoragePath;
 
 	/** The request. */
 	@Context
-	private HttpServletRequest request;
+	private HttpServletRequest	request;
 
 	/** The style storage path. */
-	private String styleStoragePath;
+	private String				styleStoragePath;
 
 	/** The type storage path. */
-	private String typeStoragePath;
+	private String				typeStoragePath;
 
 	/** The validateContext. */
 	@Context
-	private SecurityContext validateContext;
+	private SecurityContext		validateContext;
 
 	/**
 	 * Gets the banners.
 	 *
 	 * @param __type
-	 *            the type
+	 *        the type
 	 * @return the banners
 	 */
 	@GET
@@ -103,7 +103,7 @@ public class BrowseController extends BaseController {
 	 * Gets the categories.
 	 *
 	 * @param __index
-	 *            the index
+	 *        the index
 	 * @return the categories
 	 */
 	@GET
@@ -111,8 +111,8 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index) {
-		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index, Constant.PAGE_SIZE,
-				null);
+		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
+				Constant.PAGE_SIZE, null);
 		String _prefixUrl = this.httpHost + this.categoryStoragePath;
 		return new ListCategoriesResponse(_prefixUrl, _categories, __index + Constant.PAGE_SIZE);
 	}
@@ -121,7 +121,7 @@ public class BrowseController extends BaseController {
 	 * Gets the category detail.
 	 *
 	 * @param __idCategory
-	 *            the id category
+	 *        the id category
 	 * @return the category by id
 	 */
 	@GET
@@ -133,7 +133,8 @@ public class BrowseController extends BaseController {
 		Category _category = this.projectManagement.getCategoryById(__idCategory);
 		if (_category == null) {
 			throw new NotFoundException("Category not found");
-		} else {
+		}
+		else {
 			return new CategoryResponse(_prefixUrl, _category);
 		}
 	}
@@ -142,11 +143,11 @@ public class BrowseController extends BaseController {
 	 * Gets the list projects by sub category.
 	 *
 	 * @param __index
-	 *            the index
+	 *        the index
 	 * @param __idStyle
-	 *            the id style
+	 *        the id style
 	 * @param __keyword
-	 *            the keyword
+	 *        the keyword
 	 * @return the list projects by sub category
 	 */
 	@GET
@@ -157,19 +158,19 @@ public class BrowseController extends BaseController {
 			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		String _prefixProjectUrl = this.httpHost + this.projectStoragePath;
-		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index, Constant.PAGE_SIZE,
-				__keyword, _prefixProjectUrl, _prefixAvatarUrl);
+		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index,
+				Constant.PAGE_SIZE, __keyword, _prefixProjectUrl, _prefixAvatarUrl);
 	}
 
 	/**
 	 * Gets the sub categories.
 	 *
 	 * @param __index
-	 *            the index
+	 *        the index
 	 * @param __idCategory
-	 *            the id category
+	 *        the id category
 	 * @param __idTypes
-	 *            the id types
+	 *        the id types
 	 * @return the sub categories
 	 */
 	@GET
@@ -183,12 +184,13 @@ public class BrowseController extends BaseController {
 		for (String _string : _strings) {
 			try {
 				_idTypes.add(Integer.parseInt(_string));
-			} catch (Exception _ex) {
+			}
+			catch (Exception _ex) {
 				// Swallow this exception
 			}
 		}
-		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory, _idTypes, __index,
-				Constant.PAGE_SIZE, null);
+		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
+				_idTypes, __index, Constant.PAGE_SIZE, null);
 		String _prefixUrl = this.httpHost + this.styleStoragePath;
 		return new ListSubCategoriesResponse(_prefixUrl, _styles, __index + Constant.PAGE_SIZE);
 	}
@@ -197,9 +199,9 @@ public class BrowseController extends BaseController {
 	 * Gets the list types by catogory.
 	 *
 	 * @param __idCategory
-	 *            the id category
+	 *        the id category
 	 * @param __idStyle
-	 *            the id style
+	 *        the id style
 	 * @return the list types by catogory
 	 */
 	@GET
@@ -208,7 +210,8 @@ public class BrowseController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListTypesResponse getListTypes(@QueryParam("category_id") int __idCategory,
 			@QueryParam("style_id") Integer __idStyle) {
-		List<Type> _types = this.projectManagement.getListTypesByIdCategoryAndStyle(__idCategory, __idStyle);
+		List<Type> _types = this.projectManagement.getListTypesByIdCategoryAndStyle(__idCategory,
+				__idStyle);
 		String _prefixTypetUrl = this.httpHost + this.typeStoragePath;
 		return new ListTypesResponse(_types, _prefixTypetUrl);
 	}
@@ -217,7 +220,7 @@ public class BrowseController extends BaseController {
 	 * Gets the project detail.
 	 *
 	 * @param __idProject
-	 *            the id project
+	 *        the id project
 	 * @return the project detail
 	 */
 	@GET
@@ -227,14 +230,15 @@ public class BrowseController extends BaseController {
 	public ProjectDetailResponse getProjectDetail(@QueryParam("id") int __idProject) {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
-		return this.projectManagement.getProjectDetailById(__idProject, _prefixPortforlioUrl, _prefixAvatarUrl);
+		return this.projectManagement.getProjectDetailById(__idProject, _prefixPortforlioUrl,
+				_prefixAvatarUrl);
 	}
 
 	/**
 	 * Sets the avatar storage path.
 	 *
 	 * @param __avatarStoragePath
-	 *            the new avatar storage path
+	 *        the new avatar storage path
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
@@ -244,7 +248,7 @@ public class BrowseController extends BaseController {
 	 * Sets the banner storage path.
 	 *
 	 * @param __bannerStoragePath
-	 *            the new banner storage path
+	 *        the new banner storage path
 	 */
 	public void setBannerStoragePath(String __bannerStoragePath) {
 		this.bannerStoragePath = __bannerStoragePath;
@@ -254,7 +258,7 @@ public class BrowseController extends BaseController {
 	 * Sets the category storage path.
 	 *
 	 * @param __categoryStoragePath
-	 *            the new category storage path
+	 *        the new category storage path
 	 */
 	public void setCategoryStoragePath(String __categoryStoragePath) {
 		this.categoryStoragePath = __categoryStoragePath;
@@ -264,7 +268,7 @@ public class BrowseController extends BaseController {
 	 * Sets the http host.
 	 *
 	 * @param __httpHost
-	 *            the new http host
+	 *        the new http host
 	 */
 	public void setHttpHost(String __httpHost) {
 		this.httpHost = __httpHost;
@@ -274,7 +278,7 @@ public class BrowseController extends BaseController {
 	 * Sets the portfolio storage path.
 	 *
 	 * @param __portfolioStoragePath
-	 *            the new portfolio storage path
+	 *        the new portfolio storage path
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;
@@ -284,7 +288,7 @@ public class BrowseController extends BaseController {
 	 * Sets the project management.
 	 *
 	 * @param __projectManagement
-	 *            the new project management
+	 *        the new project management
 	 */
 	public void setProjectManagement(ProjectManagement __projectManagement) {
 		this.projectManagement = __projectManagement;
@@ -294,7 +298,7 @@ public class BrowseController extends BaseController {
 	 * Sets the project storage path.
 	 *
 	 * @param __projectStoragePath
-	 *            the new project storage path
+	 *        the new project storage path
 	 */
 	public void setProjectStoragePath(String __projectStoragePath) {
 		this.projectStoragePath = __projectStoragePath;
@@ -304,7 +308,7 @@ public class BrowseController extends BaseController {
 	 * Sets the style storage path.
 	 *
 	 * @param __styleStoragePath
-	 *            the new style storage path
+	 *        the new style storage path
 	 */
 	public void setStyleStoragePath(String __styleStoragePath) {
 		this.styleStoragePath = __styleStoragePath;
@@ -314,7 +318,7 @@ public class BrowseController extends BaseController {
 	 * Sets the type storage path.
 	 *
 	 * @param __typeStoragePath
-	 *            the new type storage path
+	 *        the new type storage path
 	 */
 	public void setTypeStoragePath(String __typeStoragePath) {
 		this.typeStoragePath = __typeStoragePath;

@@ -19,10 +19,10 @@ import com.lasso.exception.ObjectParamException;
 public class FeedbackRequest extends BaseRequest {
 
 	/** The message. */
-	protected String message;
+	protected String	message;
 
 	/** The name. */
-	protected String name;
+	protected String	name;
 
 	/**
 	 * Gets the message.
@@ -46,7 +46,7 @@ public class FeedbackRequest extends BaseRequest {
 	 * Sets the message.
 	 *
 	 * @param __message
-	 *            the message to set
+	 *        the message to set
 	 */
 	public void setMessage(String __message) {
 		this.message = __message;
@@ -56,7 +56,7 @@ public class FeedbackRequest extends BaseRequest {
 	 * Sets the name.
 	 *
 	 * @param __name
-	 *            the name to set
+	 *        the name to set
 	 */
 	public void setName(String __name) {
 		this.name = __name;

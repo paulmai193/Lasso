@@ -16,25 +16,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Country;
 
-class CountriesSerializer extends JsonSerializer<List<Country>> {
-
-	@Override
-	public void serialize(List<Country> __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
-		__gen.writeStartArray();
-		for (Country _country : __value) {
-			__gen.writeStartObject();
-			__gen.writeNumberField("country_id", _country.getId());
-			__gen.writeStringField("country_code", _country.getCode());
-			__gen.writeStringField("country_name", _country.getName());
-			__gen.writeNumberField("phone_code", _country.getPhoneCode());
-			__gen.writeEndObject();
-		}
-		__gen.writeEndArray();
-	}
-
-}
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class ListCountriesResponse.
@@ -53,7 +34,7 @@ public class ListCountriesResponse extends BaseResponse {
 	 * Instantiates a new list countries response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public ListCountriesResponse(boolean __error) {
 		super(__error);
@@ -63,9 +44,9 @@ public class ListCountriesResponse extends BaseResponse {
 	 * Instantiates a new list countries response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public ListCountriesResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -75,11 +56,11 @@ public class ListCountriesResponse extends BaseResponse {
 	 * Instantiates a new list countries response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public ListCountriesResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -89,7 +70,7 @@ public class ListCountriesResponse extends BaseResponse {
 	 * Instantiates a new list countries response.
 	 *
 	 * @param __countries
-	 *            the countries
+	 *        the countries
 	 */
 	public ListCountriesResponse(List<Country> __countries) {
 		this.countries = __countries;
@@ -108,9 +89,28 @@ public class ListCountriesResponse extends BaseResponse {
 	 * Sets the countries.
 	 *
 	 * @param __countries
-	 *            the countries to set
+	 *        the countries to set
 	 */
 	public void setCountries(List<Country> __countries) {
 		this.countries = __countries;
 	}
+}
+
+class CountriesSerializer extends JsonSerializer<List<Country>> {
+
+	@Override
+	public void serialize(List<Country> __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+		__gen.writeStartArray();
+		for (Country _country : __value) {
+			__gen.writeStartObject();
+			__gen.writeNumberField("country_id", _country.getId());
+			__gen.writeStringField("country_code", _country.getCode());
+			__gen.writeStringField("country_name", _country.getName());
+			__gen.writeNumberField("phone_code", _country.getPhoneCode());
+			__gen.writeEndObject();
+		}
+		__gen.writeEndArray();
+	}
+
 }

@@ -40,8 +40,9 @@ public class ImplBannerDAO implements BannerDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Banner> getListBanner(short __type) {
-		return this.sessionFactory.getCurrentSession().createCriteria(Banner.class).add(Restrictions.eq("type", __type))
-				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0)).list();
+		return this.sessionFactory.getCurrentSession().createCriteria(Banner.class)
+				.add(Restrictions.eq("type", __type)).add(Restrictions.eq("status", (byte) 1))
+				.add(Restrictions.eq("deleted", (byte) 0)).list();
 	}
 
 	/*

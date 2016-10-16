@@ -24,7 +24,7 @@ public interface MessageManagement {
 	 * Gets the list messages of account.
 	 *
 	 * @param __account
-	 *            the account
+	 *        the account
 	 * @return the list messages of account
 	 */
 	List<Object[]> getListMessagesOfAccount(Account __account);
@@ -33,9 +33,9 @@ public interface MessageManagement {
 	 * Gets the messages detail of account.
 	 *
 	 * @param __account
-	 *            the account
+	 *        the account
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the messages detail of account
 	 */
 	List<Object[]> getMessagesDetailOfAccount(Account __account, int __idJob);
@@ -44,9 +44,9 @@ public interface MessageManagement {
 	 * Read message.
 	 *
 	 * @param __sender
-	 *            the sender
+	 *        the sender
 	 * @param __readMessageRequest
-	 *            the read message request
+	 *        the read message request
 	 */
 	void readMessage(Account __sender, ReadMessageRequest __readMessageRequest);
 
@@ -54,9 +54,9 @@ public interface MessageManagement {
 	 * Send message.
 	 *
 	 * @param __sender
-	 *            the sender
+	 *        the sender
 	 * @param __sendMessageRequest
-	 *            the send message request
+	 *        the send message request
 	 */
 	void sendMessage(Account __sender, SendMessageRequest __sendMessageRequest);
 
@@ -64,11 +64,11 @@ public interface MessageManagement {
 	 * Send push.
 	 *
 	 * @param __pushRequest
-	 *            the push request
+	 *        the push request
 	 * @throws UnirestException
-	 *             the unirest exception
+	 *         the unirest exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException;
 

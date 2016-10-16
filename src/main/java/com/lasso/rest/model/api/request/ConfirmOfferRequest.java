@@ -21,10 +21,10 @@ public class ConfirmOfferRequest extends BaseRequest {
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer idJob;
+	private Integer	idJob;
 
 	/** The status. */
-	private Byte status;
+	private Byte	status;
 
 	/**
 	 * Instantiates a new confirm order request.
@@ -54,7 +54,7 @@ public class ConfirmOfferRequest extends BaseRequest {
 	 * Sets the status.
 	 *
 	 * @param __status
-	 *            the new status
+	 *        the new status
 	 */
 	@JsonProperty("confirm_status")
 	public void setStatus(Integer __status) {

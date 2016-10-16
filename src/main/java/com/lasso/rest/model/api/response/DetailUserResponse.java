@@ -24,23 +24,23 @@ import com.lasso.rest.model.datasource.Country;
 public class DetailUserResponse extends BaseResponse implements DetailAccountResponse {
 
 	/** The account. */
-	private Account account;
+	private Account	account;
 
 	/** The country. */
-	private Country country;
+	private Country	country;
 
 	/** The prefix url. */
-	private String prefixUrl;
+	private String	prefixUrl;
 
 	/**
 	 * Instantiates a new detail user response.
 	 *
 	 * @param __account
-	 *            the account
+	 *        the account
 	 * @param __country
-	 *            the country
+	 *        the country
 	 * @param __prefixUrl
-	 *            the prefix url
+	 *        the prefix url
 	 */
 	public DetailUserResponse(Account __account, Country __country, String __prefixUrl) {
 		super();
@@ -53,7 +53,7 @@ public class DetailUserResponse extends BaseResponse implements DetailAccountRes
 	 * Instantiates a new user detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public DetailUserResponse(boolean __error) {
 		super(__error);
@@ -63,9 +63,9 @@ public class DetailUserResponse extends BaseResponse implements DetailAccountRes
 	 * Instantiates a new user detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public DetailUserResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -75,11 +75,11 @@ public class DetailUserResponse extends BaseResponse implements DetailAccountRes
 	 * Instantiates a new user detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public DetailUserResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -117,8 +117,8 @@ public class DetailUserResponse extends BaseResponse implements DetailAccountRes
 class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 
 	@Override
-	public void serialize(DetailUserResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	public void serialize(DetailUserResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -132,7 +132,8 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		__gen.writeStringField("phone", __value.getAccount().getHandphoneNumber());
 		__gen.writeNumberField("reward", __value.getAccount().getRewards());
 		__gen.writeStringField("status",
-				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate" : "activate");
+				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+						: "activate");
 
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage() == null || __value.getAccount().getImage().isEmpty()) {
@@ -140,11 +141,16 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 			__gen.writeStringField("small", "");
 			__gen.writeStringField("icon", "");
 			__gen.writeStringField("retina", "");
-		} else {
-			__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
-			__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
-			__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
-			__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
+		}
+		else {
+			__gen.writeStringField("original",
+					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+			__gen.writeStringField("small",
+					__value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
+			__gen.writeStringField("icon",
+					__value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
+			__gen.writeStringField("retina",
+					__value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 

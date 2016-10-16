@@ -20,15 +20,15 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 
 	/** The account info. */
 	@JsonProperty("info")
-	private String accountInfo;
+	private String	accountInfo;
 
 	/** The alternative contact. */
 	@JsonProperty("alt_contact")
-	private String alternativeContact;
+	private String	alternativeContact;
 
 	/** The payment. */
 	@JsonProperty(value = "payment")
-	private Byte payment;
+	private Byte	payment;
 
 	/**
 	 * Instantiates a new designer change detail request.
@@ -68,7 +68,7 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 	 * Sets the account info.
 	 *
 	 * @param __accountInfo
-	 *            the accountInfo to set
+	 *        the accountInfo to set
 	 */
 	public void setAccountInfo(String __accountInfo) {
 		this.accountInfo = __accountInfo;
@@ -78,7 +78,7 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 	 * Sets the alternative contact.
 	 *
 	 * @param __alternativeContact
-	 *            the alternativeContact to set
+	 *        the alternativeContact to set
 	 */
 	public void setAlternativeContact(String __alternativeContact) {
 		this.alternativeContact = __alternativeContact;
@@ -88,7 +88,7 @@ public class DesignerChangeDetailRequest extends AccountChangeDetailRequest {
 	 * Sets the payment.
 	 *
 	 * @param __payment
-	 *            the payment to set
+	 *        the payment to set
 	 */
 	public void setPayment(Byte __payment) {
 		this.payment = __payment;

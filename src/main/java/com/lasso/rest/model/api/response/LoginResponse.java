@@ -26,23 +26,23 @@ import com.lasso.rest.model.datasource.Account;
 public class LoginResponse extends BaseResponse {
 
 	/** The account. */
-	private Account account;
+	private Account	account;
 
 	/** The prefix url. */
-	private String prefixUrl;
+	private String	prefixUrl;
 
 	/** The token. */
-	private String token;
+	private String	token;
 
 	/**
 	 * Instantiates a new login response.
 	 *
 	 * @param __token
-	 *            the token
+	 *        the token
 	 * @param __account
-	 *            the account
+	 *        the account
 	 * @param __prefixUrl
-	 *            the prefix url
+	 *        the prefix url
 	 */
 	public LoginResponse(String __token, Account __account, String __prefixUrl) {
 		super();
@@ -82,7 +82,7 @@ public class LoginResponse extends BaseResponse {
 	 * Sets the account.
 	 *
 	 * @param __account
-	 *            the account to set
+	 *        the account to set
 	 */
 	public void setAccount(Account __account) {
 		this.account = __account;
@@ -92,7 +92,7 @@ public class LoginResponse extends BaseResponse {
 	 * Sets the prefix url.
 	 *
 	 * @param __prefixUrl
-	 *            the prefixUrl to set
+	 *        the prefixUrl to set
 	 */
 	public void setPrefixUrl(String __prefixUrl) {
 		this.prefixUrl = __prefixUrl;
@@ -102,7 +102,7 @@ public class LoginResponse extends BaseResponse {
 	 * Sets the token.
 	 *
 	 * @param __token
-	 *            the token to set
+	 *        the token to set
 	 */
 	public void setToken(String __token) {
 		this.token = __token;
@@ -113,8 +113,8 @@ public class LoginResponse extends BaseResponse {
 class LoginSerializer extends JsonSerializer<LoginResponse> {
 
 	@Override
-	public void serialize(LoginResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	public void serialize(LoginResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -122,9 +122,11 @@ class LoginSerializer extends JsonSerializer<LoginResponse> {
 			__gen.writeObjectField("detail", __value.getDetail());
 			__gen.writeObjectField("message", __value.getMessage());
 		}
-		__gen.writeStringField("role", __value.getAccount().getRole() == Constant.ROLE_DESIGNER ? "designer" : "user");
+		__gen.writeStringField("role",
+				__value.getAccount().getRole() == Constant.ROLE_DESIGNER ? "designer" : "user");
 		__gen.writeStringField("status",
-				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate" : "activate");
+				__value.getAccount().getStatus() == Constant.ACC_NOT_ACTIVATE ? "in_activate"
+						: "activate");
 		__gen.writeNumberField("id", __value.getAccount().getId());
 		__gen.writeStringField("name", __value.getAccount().getName());
 		__gen.writeNumberField("reward",
@@ -135,11 +137,16 @@ class LoginSerializer extends JsonSerializer<LoginResponse> {
 			__gen.writeStringField("small", "");
 			__gen.writeStringField("icon", "");
 			__gen.writeStringField("retina", "");
-		} else {
-			__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
-			__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
-			__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
-			__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
+		}
+		else {
+			__gen.writeStringField("original",
+					__value.getPrefixUrl() + "/Original/" + __value.getAccount().getImage());
+			__gen.writeStringField("small",
+					__value.getPrefixUrl() + "/Small/" + __value.getAccount().getImage());
+			__gen.writeStringField("icon",
+					__value.getPrefixUrl() + "/Icon/" + __value.getAccount().getImage());
+			__gen.writeStringField("retina",
+					__value.getPrefixUrl() + "/Retina/" + __value.getAccount().getImage());
 		}
 		__gen.writeEndObject();
 		__gen.writeStringField("token", __value.getToken());

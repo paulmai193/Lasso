@@ -21,9 +21,9 @@ public interface EmailTemplate {
 	 *
 	 * @return the content
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	String getContent() throws URISyntaxException, IOException;
 
@@ -38,9 +38,9 @@ public interface EmailTemplate {
 	 * Load template.
 	 *
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	void loadTemplate() throws URISyntaxException, IOException;
 }

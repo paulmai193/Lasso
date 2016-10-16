@@ -16,7 +16,7 @@ public class TestValidatePhone {
 	 * The main method.
 	 *
 	 * @param args
-	 *            the arguments
+	 *        the arguments
 	 */
 	public static void main(String[] args) {
 		PhoneParam _phoneParam = new PhoneParam("(+65) 9636  9768 4355");

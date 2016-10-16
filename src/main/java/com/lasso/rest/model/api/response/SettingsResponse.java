@@ -25,7 +25,7 @@ public class SettingsResponse extends BaseResponse {
 	 * Instantiates a new settings response.
 	 *
 	 * @param __settings
-	 *            the settings
+	 *        the settings
 	 */
 	public SettingsResponse(AccountSettings __settings) {
 		super();
@@ -36,7 +36,7 @@ public class SettingsResponse extends BaseResponse {
 	 * Instantiates a new settings response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public SettingsResponse(boolean __error) {
 		super(__error);
@@ -46,9 +46,9 @@ public class SettingsResponse extends BaseResponse {
 	 * Instantiates a new settings response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public SettingsResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -58,11 +58,11 @@ public class SettingsResponse extends BaseResponse {
 	 * Instantiates a new settings response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public SettingsResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);

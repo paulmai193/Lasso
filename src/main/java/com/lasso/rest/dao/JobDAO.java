@@ -19,11 +19,11 @@ public interface JobDAO extends HibernateSession {
 	 * Gets the job by amount and description.
 	 *
 	 * @param __idUser
-	 *            the id user
+	 *        the id user
 	 * @param __amount
-	 *            the amount
+	 *        the amount
 	 * @param __description
-	 *            the description
+	 *        the description
 	 * @return the job by amount and description
 	 */
 	Job getJobByAmountAndDescription(int __idUser, double __amount, String __description);
@@ -32,7 +32,7 @@ public interface JobDAO extends HibernateSession {
 	 * Gets the job by id.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the job by id
 	 */
 	Job getJobById(int __idJob);
@@ -41,9 +41,9 @@ public interface JobDAO extends HibernateSession {
 	 * Gets the job of user by id.
 	 *
 	 * @param __idUser
-	 *            the id user
+	 *        the id user
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the of user by id
 	 */
 	Job getJobOfUserById(int __idUser, int __idJob);
@@ -52,7 +52,7 @@ public interface JobDAO extends HibernateSession {
 	 * Gets the list jobs of user.
 	 *
 	 * @param __idUser
-	 *            the id user
+	 *        the id user
 	 * @return the of user
 	 */
 	List<Job> getListJobsOfUser(Integer __idUser);
@@ -61,7 +61,7 @@ public interface JobDAO extends HibernateSession {
 	 * Save job.
 	 *
 	 * @param __job
-	 *            the job
+	 *        the job
 	 * @return the job Id
 	 */
 	Integer saveJob(Job __job);
@@ -70,7 +70,7 @@ public interface JobDAO extends HibernateSession {
 	 * Update job.
 	 *
 	 * @param __job
-	 *            the job
+	 *        the job
 	 */
 	void updateJob(Job __job);
 

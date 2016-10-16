@@ -21,11 +21,11 @@ public class ConfirmOrderRequest extends BaseRequest {
 
 	/** The id designer. */
 	@JsonProperty("designer_id")
-	private Integer idDesigner;
+	private Integer	idDesigner;
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer idJob;
+	private Integer	idJob;
 
 	/**
 	 * Instantiates a new confirm order request.

@@ -53,8 +53,8 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 		for (Style _style : __styles) {
 			_pks.add(_style.getId());
 		}
-		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(TypesStyle.class)
-				.add(Restrictions.in("styleId", _pks));
+		Criteria _criteria = this.sessionFactory.getCurrentSession()
+				.createCriteria(TypesStyle.class).add(Restrictions.in("styleId", _pks));
 		return _criteria.list();
 	}
 
@@ -75,8 +75,8 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 		for (Type _type : __types) {
 			_pks.add(_type.getId());
 		}
-		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(TypesStyle.class)
-				.add(Restrictions.in("typeId", _pks));
+		Criteria _criteria = this.sessionFactory.getCurrentSession()
+				.createCriteria(TypesStyle.class).add(Restrictions.in("typeId", _pks));
 		return _criteria.list();
 	}
 
@@ -84,7 +84,7 @@ public class ImplTypeStyleDAO implements TypeStyleDAO {
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

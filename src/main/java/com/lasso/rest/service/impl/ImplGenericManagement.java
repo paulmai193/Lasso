@@ -33,17 +33,17 @@ public class ImplGenericManagement implements GenericManagement {
 
 	/** The configuration DAO. */
 	@Autowired
-	private ConfigurationDAO configurationDAO;
+	private ConfigurationDAO	configurationDAO;
 	/** The contact DAO. */
 	@Autowired
-	private ContactDAO contactDAO;
+	private ContactDAO			contactDAO;
 
 	/** The country DAO. */
 	@Autowired
-	private CountryDAO countryDAO;
+	private CountryDAO			countryDAO;
 
 	/** The web context storage path. */
-	private String webContextStoragePath;
+	private String				webContextStoragePath;
 
 	/**
 	 * Instantiates a new impl generic management.
@@ -84,7 +84,8 @@ public class ImplGenericManagement implements GenericManagement {
 		List<Country> _ids = this.countryDAO.getCountryIdsByCode(__countryCode);
 		if (_ids.size() == 0 || _ids.size() > 1) {
 			return null;
-		} else {
+		}
+		else {
 			return _ids.get(0);
 		}
 	}
@@ -107,7 +108,8 @@ public class ImplGenericManagement implements GenericManagement {
 	@Override
 	public Map<String, String> loadConfig() {
 		Map<String, String> _mapConfig = new HashMap<>();
-		this.configurationDAO.loadConfig().forEach(_c -> _mapConfig.put(_c.getName(), _c.getValue()));
+		this.configurationDAO.loadConfig()
+		.forEach(_c -> _mapConfig.put(_c.getName(), _c.getValue()));
 		return _mapConfig;
 	}
 
@@ -122,7 +124,8 @@ public class ImplGenericManagement implements GenericManagement {
 	public String loadWebContextStoragePath(String __app_session) throws UnirestException {
 		if (this.webContextStoragePath == null || this.webContextStoragePath.isEmpty()) {
 			HttpResponse<String> _response = Unirest.post("http://lasso.voolatech.com/image_path")
-					.header("cache-control", "no-cache").header("content-type", "application/x-www-form-urlencoded")
+					.header("cache-control", "no-cache")
+					.header("content-type", "application/x-www-form-urlencoded")
 					.body("app_session=" + __app_session).asString();
 			this.webContextStoragePath = _response.getBody();
 		}
@@ -138,7 +141,8 @@ public class ImplGenericManagement implements GenericManagement {
 	 * java.lang.String, java.lang.String, java.lang.String, byte)
 	 */
 	@Override
-	public void saveContact(String __email, String __phone, String __name, String __message, byte __type) {
+	public void saveContact(String __email, String __phone, String __name, String __message,
+			byte __type) {
 		Contact _contact = new Contact(__email, __message, __name, __phone, __type);
 		this.contactDAO.save(_contact);
 	}
@@ -147,7 +151,7 @@ public class ImplGenericManagement implements GenericManagement {
 	 * Sets the configuration DAO.
 	 *
 	 * @param __configurationDAO
-	 *            the new configuration DAO
+	 *        the new configuration DAO
 	 */
 	public void setConfigurationDAO(ConfigurationDAO __configurationDAO) {
 		this.configurationDAO = __configurationDAO;
@@ -157,7 +161,7 @@ public class ImplGenericManagement implements GenericManagement {
 	 * Sets the contact DAO.
 	 *
 	 * @param __contactDAO
-	 *            the new contact DAO
+	 *        the new contact DAO
 	 */
 	public void setContactDAO(ContactDAO __contactDAO) {
 		this.contactDAO = __contactDAO;
@@ -167,7 +171,7 @@ public class ImplGenericManagement implements GenericManagement {
 	 * Sets the country DAO.
 	 *
 	 * @param __countryDAO
-	 *            the new country DAO
+	 *        the new country DAO
 	 */
 	public void setCountryDAO(CountryDAO __countryDAO) {
 		this.countryDAO = __countryDAO;
@@ -177,7 +181,7 @@ public class ImplGenericManagement implements GenericManagement {
 	 * Sets the web context storage path.
 	 *
 	 * @param __webContextStoragePath
-	 *            the new web context storage path
+	 *        the new web context storage path
 	 */
 	public void setWebContextStoragePath(String __webContextStoragePath) {
 		this.webContextStoragePath = __webContextStoragePath;

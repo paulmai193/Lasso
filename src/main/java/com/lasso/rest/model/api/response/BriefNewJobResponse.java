@@ -24,7 +24,7 @@ public class BriefNewJobResponse extends BaseResponse {
 	 * Instantiates a new brief new job response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public BriefNewJobResponse(boolean __error) {
 		super(__error);
@@ -34,9 +34,9 @@ public class BriefNewJobResponse extends BaseResponse {
 	 * Instantiates a new brief new job response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public BriefNewJobResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -46,11 +46,11 @@ public class BriefNewJobResponse extends BaseResponse {
 	 * Instantiates a new brief new job response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public BriefNewJobResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -60,7 +60,7 @@ public class BriefNewJobResponse extends BaseResponse {
 	 * Instantiates a new brief new job response.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 */
 	public BriefNewJobResponse(int __idJob) {
 		super();

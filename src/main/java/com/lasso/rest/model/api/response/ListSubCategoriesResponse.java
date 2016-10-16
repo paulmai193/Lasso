@@ -26,19 +26,19 @@ import com.lasso.rest.model.datasource.Style;
 public class ListSubCategoriesResponse extends BaseResponse {
 
 	/** The next page. */
-	private int nextPage;
+	private int			nextPage;
 
 	/** The prefix url. */
-	private String prefixUrl;
+	private String		prefixUrl;
 
 	/** The styles. */
-	private List<Style> styles;
+	private List<Style>	styles;
 
 	/**
 	 * Instantiates a new list sub catories response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public ListSubCategoriesResponse(boolean __error) {
 		super(__error);
@@ -48,9 +48,9 @@ public class ListSubCategoriesResponse extends BaseResponse {
 	 * Instantiates a new list sub catories response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public ListSubCategoriesResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -60,11 +60,11 @@ public class ListSubCategoriesResponse extends BaseResponse {
 	 * Instantiates a new list sub catories response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public ListSubCategoriesResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -74,11 +74,11 @@ public class ListSubCategoriesResponse extends BaseResponse {
 	 * Instantiates a new list sub catories response.
 	 *
 	 * @param __prefixUrl
-	 *            the prefix url
+	 *        the prefix url
 	 * @param __styles
-	 *            the styles
+	 *        the styles
 	 * @param __nextPage
-	 *            the next page
+	 *        the next page
 	 */
 	public ListSubCategoriesResponse(String __prefixUrl, List<Style> __styles, int __nextPage) {
 		super();
@@ -119,8 +119,8 @@ public class ListSubCategoriesResponse extends BaseResponse {
 class ListSubCategoriesSerializer extends JsonSerializer<ListSubCategoriesResponse> {
 
 	@Override
-	public void serialize(ListSubCategoriesResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	public void serialize(ListSubCategoriesResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -139,11 +139,16 @@ class ListSubCategoriesSerializer extends JsonSerializer<ListSubCategoriesRespon
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 				__gen.writeStringField("retina", "");
-			} else {
-				__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/" + _style.getImage());
-				__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/" + _style.getImage());
-				__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/" + _style.getImage());
-				__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/" + _style.getImage());
+			}
+			else {
+				__gen.writeStringField("original",
+						__value.getPrefixUrl() + "/Original/" + _style.getImage());
+				__gen.writeStringField("small",
+						__value.getPrefixUrl() + "/Small/" + _style.getImage());
+				__gen.writeStringField("icon",
+						__value.getPrefixUrl() + "/Icon/" + _style.getImage());
+				__gen.writeStringField("retina",
+						__value.getPrefixUrl() + "/Retina/" + _style.getImage());
 			}
 			__gen.writeEndObject();
 			__gen.writeEndObject();

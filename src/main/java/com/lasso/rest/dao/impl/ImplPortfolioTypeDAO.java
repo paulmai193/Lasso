@@ -69,15 +69,16 @@ public class ImplPortfolioTypeDAO implements PortfolioTypeDAO {
 	 */
 	@Override
 	public void removeByPortfolioId(int __idPortfolio) {
-		this.sessionFactory.getCurrentSession().createQuery("delete PortfolioType where portfolioId = :id")
-				.setInteger("id", __idPortfolio).executeUpdate();
+		this.sessionFactory.getCurrentSession()
+		.createQuery("delete PortfolioType where portfolioId = :id")
+		.setInteger("id", __idPortfolio).executeUpdate();
 	}
 
 	/**
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

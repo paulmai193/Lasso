@@ -20,15 +20,15 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 
 	/** The company address. */
 	@JsonProperty("com_address")
-	private String companyAddress;
+	private String	companyAddress;
 
 	/** The company name. */
 	@JsonProperty("com_name")
-	private String companyName;
+	private String	companyName;
 
 	/** The company phone. */
 	@JsonProperty("com_phone")
-	private String companyPhone;
+	private String	companyPhone;
 
 	/**
 	 * Instantiates a new user change detail request.
@@ -68,7 +68,7 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 	 * Sets the company address.
 	 *
 	 * @param __companyAddress
-	 *            the companyAddress to set
+	 *        the companyAddress to set
 	 */
 	public void setCompanyAddress(String __companyAddress) {
 		this.companyAddress = __companyAddress;
@@ -78,7 +78,7 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 	 * Sets the company name.
 	 *
 	 * @param __companyName
-	 *            the companyName to set
+	 *        the companyName to set
 	 */
 	public void setCompanyName(String __companyName) {
 		this.companyName = __companyName;
@@ -88,7 +88,7 @@ public class UserChangeDetailRequest extends AccountChangeDetailRequest {
 	 * Sets the company phone.
 	 *
 	 * @param __companyPhone
-	 *            the companyPhone to set
+	 *        the companyPhone to set
 	 */
 
 	public void setCompanyPhone(String __companyPhone) {

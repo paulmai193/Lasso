@@ -19,7 +19,7 @@ public interface JobStyleDAO extends HibernateSession {
 	 * Gets the list job styles by job id.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the list job styles by job id
 	 */
 	List<JobsStyle> getListJobStylesByJobId(int __idJob);
@@ -28,7 +28,7 @@ public interface JobStyleDAO extends HibernateSession {
 	 * Removes the job style by job id.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 */
 	void removeJobStyleByJobId(Integer __idJob);
 
@@ -36,7 +36,7 @@ public interface JobStyleDAO extends HibernateSession {
 	 * Save list job styles.
 	 *
 	 * @param __jobStyles
-	 *            the job styles
+	 *        the job styles
 	 */
 	void saveListJobStyles(List<JobsStyle> __jobStyles);
 

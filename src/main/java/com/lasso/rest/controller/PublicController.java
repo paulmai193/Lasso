@@ -45,7 +45,6 @@ import com.lasso.template.EmailTemplate;
 import com.lasso.template.UserThanksEmail;
 import com.lasso.util.EmailUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PublicController.
  *
@@ -57,19 +56,19 @@ import com.lasso.util.EmailUtil;
 public class PublicController extends BaseController {
 
 	/** The email util. */
-	private EmailUtil emailUtil;
+	private EmailUtil			emailUtil;
 
 	/** The generic management. */
 	@Autowired
-	private GenericManagement genericManagement;
+	private GenericManagement	genericManagement;
 
 	/** The request. */
 	@Context
-	private HttpServletRequest request;
+	private HttpServletRequest	request;
 
 	/** The validate context. */
 	@Context
-	private SecurityContext validateContext;
+	private SecurityContext		validateContext;
 
 	/**
 	 * Gets the countries.
@@ -88,20 +87,22 @@ public class PublicController extends BaseController {
 	 *
 	 * @return the invoice
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@GET
 	@Path("/public/invoice")
 	@Produces(MediaType.TEXT_HTML)
 	public String getInvoice() throws URISyntaxException, IOException {
-		File _template = new File(this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		File _template = new File(
+		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
-		return _content.replace("${job_id}", "TEST 101").replace("${date_purchase}", _dateFormat.format(new Date()))
-				.replace("${date_invoice}", _dateFormat.format(new Date()))
-				.replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
+		return _content.replace("${job_id}", "TEST 101")
+		        .replace("${date_purchase}", _dateFormat.format(new Date()))
+		        .replace("${date_invoice}", _dateFormat.format(new Date()))
+		        .replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
 	}
 
 	/**
@@ -122,44 +123,46 @@ public class PublicController extends BaseController {
 	 * Gets the static page.
 	 *
 	 * @param __staticPage
-	 *            the static page
+	 *        the static page
 	 * @return the faq
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@GET
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
-	public String getStaticPage(@PathParam("static_page") String __staticPage) throws URISyntaxException, IOException {
-		File _template = new File(this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+	public String getStaticPage(@PathParam("static_page") String __staticPage)
+	        throws URISyntaxException, IOException {
+		File _template = new File(
+		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
-		case "faq":
-			_content = _content.replace("${body}", _config.get("FAQ.content"));
-			break;
+			case "faq":
+				_content = _content.replace("${body}", _config.get("FAQ.content"));
+				break;
 
-		case "term_of_service":
-			_content = _content.replace("${body}", _config.get("Page.term_of_service"));
-			break;
+			case "term_of_service":
+				_content = _content.replace("${body}", _config.get("Page.term_of_service"));
+				break;
 
-		case "privacy":
-			_content = _content.replace("${body}", _config.get("Page.privacy"));
-			break;
+			case "privacy":
+				_content = _content.replace("${body}", _config.get("Page.privacy"));
+				break;
 
-		case "help_center":
-			_content = _content.replace("${body}", _config.get("Page.help_center"));
-			break;
+			case "help_center":
+				_content = _content.replace("${body}", _config.get("Page.help_center"));
+				break;
 
-		case "partner":
-			_content = _content.replace("${body}", _config.get("Page.partner"));
-			break;
+			case "partner":
+				_content = _content.replace("${body}", _config.get("Page.partner"));
+				break;
 
-		default:
-			_content = "";
-			break;
+			default:
+				_content = "";
+				break;
 		}
 		return _content;
 
@@ -169,7 +172,7 @@ public class PublicController extends BaseController {
 	 * Send contact us.
 	 *
 	 * @param __contactUsRequest
-	 *            the contact us request
+	 *        the contact us request
 	 * @return the response
 	 */
 	@POST
@@ -178,8 +181,9 @@ public class PublicController extends BaseController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response sendContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
-		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(), __contactUsRequest.getPhone(),
-				__contactUsRequest.getName(), __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
+		        __contactUsRequest.getPhone(), __contactUsRequest.getName(),
+		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
 	}
 
@@ -187,38 +191,39 @@ public class PublicController extends BaseController {
 	 * Send feed back.
 	 *
 	 * @param __feedbackRequest
-	 *            the feedback request
+	 *        the feedback request
 	 * @return the response
 	 * @throws AddressException
-	 *             the address exception
+	 *         the address exception
 	 * @throws FileNotFoundException
-	 *             the file not found exception
+	 *         the file not found exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws MessagingException
-	 *             the messaging exception
+	 *         the messaging exception
 	 */
 	@POST
 	@Path("/send/feedback")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
-	public Response sendFeedBack(FeedbackRequest __feedbackRequest)
-			throws AddressException, FileNotFoundException, IOException, URISyntaxException, MessagingException {
+	public Response sendFeedBack(FeedbackRequest __feedbackRequest) throws AddressException,
+	        FileNotFoundException, IOException, URISyntaxException, MessagingException {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.genericManagement.saveContact(_account.getEmail(), null, __feedbackRequest.getName(),
-				__feedbackRequest.getMessage(), Constant.SEND_FEEDBACK);
+		        __feedbackRequest.getMessage(), Constant.SEND_FEEDBACK);
 		EmailTemplate _emailTemplate;
 		if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
 			_emailTemplate = new DesignerThanksEmail(_account.getName());
-		} else {
+		}
+		else {
 			_emailTemplate = new UserThanksEmail(_account.getName());
 		}
-		this.emailUtil.sendEmailByTemplate(_account.getEmail(), "Thank you for feedback", _emailTemplate.getContent(),
-				RecipientType.TO, _emailTemplate.getTemplate());
+		this.emailUtil.sendEmailByTemplate(_account.getEmail(), "Thank you for feedback",
+		        _emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
 		return this.success();
 	}
 
@@ -226,7 +231,7 @@ public class PublicController extends BaseController {
 	 * Sets the email util.
 	 *
 	 * @param __emailUtil
-	 *            the new email util
+	 *        the new email util
 	 */
 	public void setEmailUtil(EmailUtil __emailUtil) {
 		this.emailUtil = __emailUtil;
@@ -236,7 +241,7 @@ public class PublicController extends BaseController {
 	 * Sets the generic management.
 	 *
 	 * @param __genericManagement
-	 *            the new generic management
+	 *        the new generic management
 	 */
 	public void setGenericManagement(GenericManagement __genericManagement) {
 		this.genericManagement = __genericManagement;

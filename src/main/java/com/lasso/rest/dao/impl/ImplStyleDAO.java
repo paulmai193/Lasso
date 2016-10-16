@@ -58,7 +58,8 @@ public class ImplStyleDAO implements StyleDAO {
 	public List<Style> getListByByListIds(List<Integer> __styleIds) {
 		if (__styleIds.isEmpty()) {
 			return new ArrayList<>();
-		} else {
+		}
+		else {
 			Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Style.class)
 					.add(Restrictions.in("id", __styleIds)).add(Restrictions.eq("status", (byte) 1))
 					.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("sort"));
@@ -75,8 +76,8 @@ public class ImplStyleDAO implements StyleDAO {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset, int __limit,
-			String __keyword) {
+	public List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
+			int __limit, String __keyword) {
 		if (__typesStyles.size() == 0) {
 			return new ArrayList<>();
 		}
@@ -90,7 +91,7 @@ public class ImplStyleDAO implements StyleDAO {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-				.addOrder(Order.asc("sort"));
+		.addOrder(Order.asc("sort"));
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}
@@ -101,7 +102,7 @@ public class ImplStyleDAO implements StyleDAO {
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

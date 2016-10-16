@@ -27,7 +27,7 @@ public enum JobConfirmationConstant {
 	 * Gets the by code.
 	 *
 	 * @param __code
-	 *            the code
+	 *        the code
 	 * @return the by code
 	 */
 	public static JobConfirmationConstant getByCode(byte __code) {
@@ -40,18 +40,18 @@ public enum JobConfirmationConstant {
 	}
 
 	/** The stage code. */
-	private byte code;
+	private byte	code;
 
 	/** The stage name. */
-	private String name;
+	private String	name;
 
 	/**
 	 * Instantiates a new job confirmation constant.
 	 *
 	 * @param __code
-	 *            the code
+	 *        the code
 	 * @param __name
-	 *            the name
+	 *        the name
 	 */
 	private JobConfirmationConstant(byte __code, String __name) {
 		this.code = __code;

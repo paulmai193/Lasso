@@ -22,19 +22,19 @@ public class SendPushRequest {
 
 	/** The data. */
 	@JsonProperty("data")
-	private PushData data;
+	private PushData			data;
 
 	/** The notification. */
 	@JsonProperty("notification")
-	private PushNotification notification;
+	private PushNotification	notification;
 
 	/** The push tokens. */
 	@JsonProperty("registration_ids")
-	private List<String> pushTokens;
+	private List<String>		pushTokens;
 
 	/** The to. */
 	@JsonProperty("to")
-	private String to;
+	private String				to;
 
 	/**
 	 * Instantiates a new send push request.
@@ -82,7 +82,7 @@ public class SendPushRequest {
 	 * Sets the data.
 	 *
 	 * @param __data
-	 *            the data to set
+	 *        the data to set
 	 */
 	public void setData(PushData __data) {
 		this.data = __data;
@@ -92,7 +92,7 @@ public class SendPushRequest {
 	 * Sets the notification.
 	 *
 	 * @param __notification
-	 *            the notification to set
+	 *        the notification to set
 	 */
 	public void setNotification(PushNotification __notification) {
 		this.notification = __notification;
@@ -102,7 +102,7 @@ public class SendPushRequest {
 	 * Sets the push tokens.
 	 *
 	 * @param __pushTokens
-	 *            the pushTokens to set
+	 *        the pushTokens to set
 	 */
 	public void setPushTokens(List<String> __pushTokens) {
 		this.pushTokens = __pushTokens;
@@ -113,7 +113,7 @@ public class SendPushRequest {
 	 * Sets the to.
 	 *
 	 * @param __to
-	 *            the to to set
+	 *        the to to set
 	 */
 	public void setTo(String __to) {
 		this.to = __to;

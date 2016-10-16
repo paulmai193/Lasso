@@ -31,16 +31,16 @@ import com.lasso.rest.model.datasource.Message;
 public class ListMessageResponse extends BaseResponse {
 
 	/** The message datas. */
-	private List<Object[]> messageDatas;
+	private List<Object[]>	messageDatas;
 
 	/** The prefix url. */
-	private String prefixUrl;
+	private String			prefixUrl;
 
 	/**
 	 * Instantiates a new list message response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public ListMessageResponse(boolean __error) {
 		super(__error);
@@ -50,9 +50,9 @@ public class ListMessageResponse extends BaseResponse {
 	 * Instantiates a new list message response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public ListMessageResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -62,11 +62,11 @@ public class ListMessageResponse extends BaseResponse {
 	 * Instantiates a new list message response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public ListMessageResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -76,9 +76,9 @@ public class ListMessageResponse extends BaseResponse {
 	 * Instantiates a new list message response.
 	 *
 	 * @param __messageDatas
-	 *            the message datas
+	 *        the message datas
 	 * @param __prefixUrl
-	 *            the prefix url
+	 *        the prefix url
 	 */
 	public ListMessageResponse(List<Object[]> __messageDatas, String __prefixUrl) {
 		super();
@@ -109,8 +109,8 @@ public class ListMessageResponse extends BaseResponse {
 class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 
 	@Override
-	public void serialize(ListMessageResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	public void serialize(ListMessageResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -131,20 +131,25 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 				__gen.writeNumberField("message_read", _message.getIsRead());
 				if (_job.getPaid().equals((byte) 0)) {
 					__gen.writeStringField("action_status", "job_confirm");
-				} else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+				}
+				else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
 					__gen.writeStringField("action_status", "job_completed");
-				} else {
+				}
+				else {
 					__gen.writeStringField("action_status", "job_explain");
 				}
 				__gen.writeStringField("sender_name", _sender.getName());
 				if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
 					__gen.writeStringField("sender_avatar", "");
-				} else {
-					__gen.writeStringField("sender_avatar", __value.getPrefixUrl() + "/Icon/" + _sender.getImage());
+				}
+				else {
+					__gen.writeStringField("sender_avatar",
+							__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
 				}
 				__gen.writeNumberField("job_id", _job.getId());
 				__gen.writeEndObject();
-			} catch (Exception _ex) {
+			}
+			catch (Exception _ex) {
 				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 		});

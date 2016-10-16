@@ -28,7 +28,7 @@ public enum JobStepConstant {
 	 * Gets the by code.
 	 *
 	 * @param __code
-	 *            the code
+	 *        the code
 	 * @return the by code
 	 */
 	public static JobStepConstant getByCode(byte __code) {
@@ -41,18 +41,18 @@ public enum JobStepConstant {
 	}
 
 	/** The step code. */
-	private byte stepCode;
+	private byte	stepCode;
 
 	/** The step name. */
-	private String stepName;
+	private String	stepName;
 
 	/**
 	 * Instantiates a new job step constant.
 	 *
 	 * @param __step_code
-	 *            the step code
+	 *        the step code
 	 * @param __step_name
-	 *            the step name
+	 *        the step name
 	 */
 	private JobStepConstant(byte __step_code, String __step_name) {
 		this.stepCode = __step_code;

@@ -33,7 +33,8 @@ public class ImplPromoDAO implements PromoDAO {
 	@Override
 	public PromoCode getPromoCodeByCode(String __promoCode) {
 		return (PromoCode) this.sessionFactory.getCurrentSession().createCriteria(PromoCode.class)
-				.add(Restrictions.eq("code", __promoCode)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("code", __promoCode)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -53,8 +54,9 @@ public class ImplPromoDAO implements PromoDAO {
 	 */
 	@Override
 	public PromoHistory getPromoHistroyByJobId(int __idJob) {
-		return (PromoHistory) this.sessionFactory.getCurrentSession().createCriteria(PromoHistory.class)
-				.add(Restrictions.eq("job_id", __idJob)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		return (PromoHistory) this.sessionFactory.getCurrentSession()
+				.createCriteria(PromoHistory.class).add(Restrictions.eq("job_id", __idJob))
+				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*

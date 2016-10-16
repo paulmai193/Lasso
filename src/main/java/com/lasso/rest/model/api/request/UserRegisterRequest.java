@@ -21,15 +21,15 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 
 	/** The company address. */
 	@JsonProperty("com_address")
-	private String companyAddress;
+	private String	companyAddress;
 
 	/** The company name. */
 	@JsonProperty("com_name")
-	private String companyName;
+	private String	companyName;
 
 	/** The company phone. */
 	@JsonProperty("com_phone")
-	private String companyPhone;
+	private String	companyPhone;
 
 	/**
 	 * Instantiates a new user register request.
@@ -62,14 +62,14 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	 * @return the company phone
 	 */
 	public String getCompanyPhone() {
-		return companyPhone;
+		return this.companyPhone;
 	}
 
 	/**
 	 * Sets the company address.
 	 *
 	 * @param __companyAddress
-	 *            the new company address
+	 *        the new company address
 	 */
 	public void setCompanyAddress(String __companyAddress) {
 		this.companyAddress = __companyAddress;
@@ -79,7 +79,7 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	 * Sets the company name.
 	 *
 	 * @param __companyName
-	 *            the new company name
+	 *        the new company name
 	 */
 	public void setCompanyName(String __companyName) {
 		this.companyName = __companyName;
@@ -89,7 +89,7 @@ public class UserRegisterRequest extends AccountRegisterRequest {
 	 * Sets the company phone.
 	 *
 	 * @param companyPhone
-	 *            the new company phone
+	 *        the new company phone
 	 */
 	public void setCompanyPhone(String companyPhone) {
 		this.companyPhone = companyPhone;

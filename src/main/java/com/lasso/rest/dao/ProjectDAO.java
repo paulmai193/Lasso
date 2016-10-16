@@ -19,7 +19,7 @@ public interface ProjectDAO extends HibernateSession {
 	 * Gets the project by id.
 	 *
 	 * @param __idProject
-	 *            the id project
+	 *        the id project
 	 * @return the project by id
 	 */
 	Project getProjectById(int __idProject);
@@ -28,7 +28,7 @@ public interface ProjectDAO extends HibernateSession {
 	 * Gets the ramdom project.
 	 *
 	 * @param __limit
-	 *            the limit
+	 *        the limit
 	 * @return the ramdom
 	 */
 	List<Project> getRamdom(int __limit);
@@ -37,13 +37,13 @@ public interface ProjectDAO extends HibernateSession {
 	 * Search projects.
 	 *
 	 * @param __idStyle
-	 *            the id style
+	 *        the id style
 	 * @param __keyword
-	 *            the keyword
+	 *        the keyword
 	 * @param __offset
-	 *            the offset
+	 *        the offset
 	 * @param __limit
-	 *            the limit
+	 *        the limit
 	 * @return the list
 	 */
 	List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset, int __limit);

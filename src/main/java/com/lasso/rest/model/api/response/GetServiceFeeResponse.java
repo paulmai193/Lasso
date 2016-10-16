@@ -22,7 +22,7 @@ public class GetServiceFeeResponse extends BaseResponse {
 	 * Instantiates a new gets the service fee response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public GetServiceFeeResponse(boolean __error) {
 		super(__error);
@@ -32,9 +32,9 @@ public class GetServiceFeeResponse extends BaseResponse {
 	 * Instantiates a new gets the service fee response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public GetServiceFeeResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -44,11 +44,11 @@ public class GetServiceFeeResponse extends BaseResponse {
 	 * Instantiates a new gets the service fee response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public GetServiceFeeResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -58,7 +58,7 @@ public class GetServiceFeeResponse extends BaseResponse {
 	 * Instantiates a new gets the service fee response.
 	 *
 	 * @param __fee
-	 *            the fee
+	 *        the fee
 	 */
 	public GetServiceFeeResponse(float __fee) {
 		super();

@@ -20,14 +20,14 @@ import com.lasso.exception.ObjectParamException;
 public class VerifyAccountRequest extends BaseRequest {
 
 	/** The otp. */
-	private String otp;
+	private String	otp;
 
 	/** The push token. */
 	@JsonProperty("push_token")
-	private String pushToken;
+	private String	pushToken;
 
 	/** The type. */
-	private String type;
+	private String	type;
 
 	/**
 	 * Instantiates a new verify account request.
@@ -66,7 +66,7 @@ public class VerifyAccountRequest extends BaseRequest {
 	 * Sets the otp.
 	 *
 	 * @param __otp
-	 *            the otp to set
+	 *        the otp to set
 	 */
 	public void setOtp(String __otp) {
 		this.otp = __otp;
@@ -76,7 +76,7 @@ public class VerifyAccountRequest extends BaseRequest {
 	 * Sets the push token.
 	 *
 	 * @param __pushToken
-	 *            the pushToken to set
+	 *        the pushToken to set
 	 */
 	public void setPushToken(String __pushToken) {
 		this.pushToken = __pushToken;
@@ -86,7 +86,7 @@ public class VerifyAccountRequest extends BaseRequest {
 	 * Sets the type.
 	 *
 	 * @param __type
-	 *            the type to set
+	 *        the type to set
 	 */
 	public void setType(String __type) {
 		this.type = __type;
@@ -102,7 +102,8 @@ public class VerifyAccountRequest extends BaseRequest {
 		if (this.otp == null) {
 			throw new ObjectParamException("Invalid OTP");
 		}
-		if (this.type == null || (!this.type.equalsIgnoreCase("active") && !this.type.equalsIgnoreCase("reset"))) {
+		if (this.type == null || (!this.type.equalsIgnoreCase("active")
+				&& !this.type.equalsIgnoreCase("reset"))) {
 			throw new ObjectParamException("Invalid activate type");
 		}
 		if (this.pushToken == null) {

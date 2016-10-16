@@ -26,9 +26,9 @@ public class BaseController {
 	 * Fail.
 	 *
 	 * @param __response
-	 *            the response
+	 *        the response
 	 * @param __status
-	 *            the status
+	 *        the status
 	 * @return the response
 	 */
 	public Response fail(BaseResponse __response, Status __status) {
@@ -48,7 +48,7 @@ public class BaseController {
 	 * Success.
 	 *
 	 * @param __response
-	 *            the response
+	 *        the response
 	 * @return the response
 	 */
 	public Response success(BaseResponse __response) {

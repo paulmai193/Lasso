@@ -28,35 +28,35 @@ import javax.persistence.TemporalType;
 public class PromoHistory implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	/** The account id. */
 	@Column(name = "account_id")
-	private int accountId;
+	private int					accountId;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+	private Date				created;
 
 	/** The deleted. */
-	private byte deleted;
+	private byte				deleted;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int					id;
 
 	/** The job id. */
 	@Column(name = "job_id")
-	private int jobId;
+	private int					jobId;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
+	private Date				modified;
 
 	/** The promo code id. */
 	@Column(name = "promo_code_id")
-	private int promoCodeId;
+	private int					promoCodeId;
 
 	/**
 	 * Instantiates a new promo history.
@@ -68,11 +68,11 @@ public class PromoHistory implements Serializable {
 	 * Instantiates a new promo history.
 	 *
 	 * @param __accountId
-	 *            the account id
+	 *        the account id
 	 * @param __jobId
-	 *            the job id
+	 *        the job id
 	 * @param __promoCodeId
-	 *            the promo code id
+	 *        the promo code id
 	 */
 	public PromoHistory(int __accountId, int __jobId, int __promoCodeId) {
 		super();
@@ -149,7 +149,7 @@ public class PromoHistory implements Serializable {
 	 * Sets the account id.
 	 *
 	 * @param accountId
-	 *            the new account id
+	 *        the new account id
 	 */
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
@@ -159,7 +159,7 @@ public class PromoHistory implements Serializable {
 	 * Sets the created.
 	 *
 	 * @param created
-	 *            the new created
+	 *        the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -169,7 +169,7 @@ public class PromoHistory implements Serializable {
 	 * Sets the deleted.
 	 *
 	 * @param deleted
-	 *            the new deleted
+	 *        the new deleted
 	 */
 	public void setDeleted(byte deleted) {
 		this.deleted = deleted;
@@ -179,7 +179,7 @@ public class PromoHistory implements Serializable {
 	 * Sets the id.
 	 *
 	 * @param id
-	 *            the new id
+	 *        the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -189,7 +189,7 @@ public class PromoHistory implements Serializable {
 	 * Sets the job id.
 	 *
 	 * @param jobId
-	 *            the new job id
+	 *        the new job id
 	 */
 	public void setJobId(int jobId) {
 		this.jobId = jobId;
@@ -199,7 +199,7 @@ public class PromoHistory implements Serializable {
 	 * Sets the modified.
 	 *
 	 * @param modified
-	 *            the new modified
+	 *        the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -209,7 +209,7 @@ public class PromoHistory implements Serializable {
 	 * Sets the promo code id.
 	 *
 	 * @param promoCodeId
-	 *            the new promo code id
+	 *        the new promo code id
 	 */
 	public void setPromoCodeId(int promoCodeId) {
 		this.promoCodeId = promoCodeId;

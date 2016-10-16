@@ -21,27 +21,28 @@ import org.apache.commons.lang3.StringUtils;
 public class DesignerNewMessageEmail implements EmailTemplate {
 
 	/** The first name. */
-	private String firstName;
+	private String	firstName;
 
 	/** The link. */
-	private String link;
+	private String	link;
 
 	/** The template. */
-	private File template;
+	private File	template;
 
 	/**
 	 * Instantiates a new designer activate email.
 	 *
 	 * @param __firstName
-	 *            the first name
+	 *        the first name
 	 * @param __link
-	 *            the link
+	 *        the link
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
-	public DesignerNewMessageEmail(String __firstName, String __link) throws URISyntaxException, IOException {
+	public DesignerNewMessageEmail(String __firstName, String __link)
+			throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.link = __link;
@@ -93,8 +94,8 @@ public class DesignerNewMessageEmail implements EmailTemplate {
 	 */
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
-		this.template = new File(
-				this.getClass().getClassLoader().getResource("/email-template/designer-message").toURI());
+		this.template = new File(this.getClass().getClassLoader()
+				.getResource("/email-template/designer-message").toURI());
 	}
 
 }

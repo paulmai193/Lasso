@@ -43,7 +43,8 @@ public class ImplAccountDAO implements AccountDAO {
 		if (__account.getId() != null) {
 			this.sessionFactory.getCurrentSession().update(__account);
 			return __account.getId();
-		} else {
+		}
+		else {
 			return (Integer) this.sessionFactory.getCurrentSession().save(__account);
 		}
 
@@ -69,7 +70,8 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByEmail(String __email) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-				.add(Restrictions.eq("email", __email)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("email", __email)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -90,7 +92,8 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByOtp(String __otp) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-				.add(Restrictions.eq("otp", __otp)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("otp", __otp)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -101,7 +104,8 @@ public class ImplAccountDAO implements AccountDAO {
 	@Override
 	public Account getAccountByToken(String __token) {
 		return (Account) this.sessionFactory.getCurrentSession().createCriteria(Account.class)
-				.add(Restrictions.eq("appSession", __token)).add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.add(Restrictions.eq("appSession", __token))
+				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
 	/*
@@ -120,7 +124,7 @@ public class ImplAccountDAO implements AccountDAO {
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

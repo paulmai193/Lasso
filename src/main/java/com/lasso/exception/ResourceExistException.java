@@ -28,7 +28,7 @@ public class ResourceExistException extends WebApplicationException {
 	 * Instantiates a new resource exist exception.
 	 *
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public ResourceExistException(String __message) {
 		super(__message, Status.CONFLICT);

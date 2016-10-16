@@ -69,52 +69,34 @@ public class AccountController extends BaseController {
 
 	/** The account management. */
 	@Autowired
-	private AccountManagement accountManagement;
+	private AccountManagement	accountManagement;
 
 	/** The avatar storage path. */
-	private String avatarStoragePath;
+	private String				avatarStoragePath;
 
 	/** The generic management. */
 	@Autowired
-	private GenericManagement genericManagement;
+	private GenericManagement	genericManagement;
 
 	/** The http host. */
-	private String httpHost;
+	private String				httpHost;
 
 	/** The http image host. */
-	private String httpImageHost;
+	private String				httpImageHost;
 
 	/** The request. */
 	@Context
-	private HttpServletRequest request;
+	private HttpServletRequest	request;
 
 	/** The validate context. */
 	@Context
-	private SecurityContext validateContext;
-
-	/**
-	 * Change account detail.
-	 *
-	 * @param __account
-	 *            the account
-	 * @param __accountChangeDetailRequest
-	 *            the account change detail request
-	 * @return the response
-	 */
-	private Response changeAccountDetail(Account __account, AccountChangeDetailRequest __accountChangeDetailRequest) {
-		__accountChangeDetailRequest.validate();
-		Country _country = this.genericManagement.getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
-		__accountChangeDetailRequest.setCountry(_country);
-		__accountChangeDetailRequest.checkCountryValid();
-		this.accountManagement.changeAccountDetail(__account, __accountChangeDetailRequest);
-		return this.success();
-	}
+	private SecurityContext		validateContext;
 
 	/**
 	 * Change designer detail.
 	 *
 	 * @param __designerChangeDetailRequest
-	 *            the designer change detail request
+	 *        the designer change detail request
 	 * @return the response
 	 */
 	@POST
@@ -122,7 +104,8 @@ public class AccountController extends BaseController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_DESIGNER)
-	public Response changeDetailDesigner(DesignerChangeDetailRequest __designerChangeDetailRequest) {
+	public Response changeDetailDesigner(
+			DesignerChangeDetailRequest __designerChangeDetailRequest) {
 		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
 				__designerChangeDetailRequest);
 	}
@@ -131,7 +114,7 @@ public class AccountController extends BaseController {
 	 * Change user detail.
 	 *
 	 * @param __userChangeDetailRequest
-	 *            the user change detail request
+	 *        the user change detail request
 	 * @return the response
 	 */
 	@POST
@@ -140,14 +123,15 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_USER)
 	public Response changeDetailUser(UserChangeDetailRequest __userChangeDetailRequest) {
-		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(), __userChangeDetailRequest);
+		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
+				__userChangeDetailRequest);
 	}
 
 	/**
 	 * Change password.
 	 *
 	 * @param __changePasswordRequest
-	 *            the change password request
+	 *        the change password request
 	 * @return the response
 	 */
 	@POST
@@ -161,8 +145,10 @@ public class AccountController extends BaseController {
 		if (this.accountManagement.changePassword(__changePasswordRequest.getOldPassword(),
 				__changePasswordRequest.getNewPassword(), _account)) {
 			return this.success();
-		} else {
-			return this.fail(new BaseResponse(true, "Current password not match."), Status.FORBIDDEN);
+		}
+		else {
+			return this.fail(new BaseResponse(true, "Current password not match."),
+					Status.FORBIDDEN);
 		}
 	}
 
@@ -170,14 +156,14 @@ public class AccountController extends BaseController {
 	 * Change settings.
 	 *
 	 * @param __settingsRequest
-	 *            the settings request
+	 *        the settings request
 	 * @return the response
 	 * @throws JsonParseException
-	 *             the json parse exception
+	 *         the json parse exception
 	 * @throws JsonMappingException
-	 *             the json mapping exception
+	 *         the json mapping exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/settings/update")
@@ -195,33 +181,35 @@ public class AccountController extends BaseController {
 	 * Forget password.
 	 *
 	 * @param __forgetPasswordRequest
-	 *            the forget password request
+	 *        the forget password request
 	 * @return the response
 	 * @throws NotFoundException
-	 *             the not found exception
+	 *         the not found exception
 	 * @throws AddressException
-	 *             the address exception
+	 *         the address exception
 	 * @throws MessagingException
-	 *             the messaging exception
+	 *         the messaging exception
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/forget_password")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response forgetPassword(ForgetPasswordRequest __forgetPasswordRequest)
-			throws NotFoundException, AddressException, MessagingException, URISyntaxException, IOException {
+			throws NotFoundException, AddressException, MessagingException, URISyntaxException,
+			IOException {
 		__forgetPasswordRequest.validate();
-		String _refQuery = this.accountManagement.forgotPassword(__forgetPasswordRequest.getEmail().getValue());
+		String _refQuery = this.accountManagement
+				.forgotPassword(__forgetPasswordRequest.getEmail().getValue());
 		String _prefix = _refQuery.substring(0, _refQuery.indexOf("/"));
 		String _role = _prefix.substring(0, _prefix.indexOf("="));
 		String _firstName = _prefix.replace(_role + "=", "");
 		_refQuery = _refQuery.replace(_prefix, "");
 		String _refLink = this.httpHost + _refQuery;
-		this.accountManagement.sendResetPasswordEmail(__forgetPasswordRequest.getEmail().getValue(), _refLink, _role,
-				_firstName);
+		this.accountManagement.sendResetPasswordEmail(__forgetPasswordRequest.getEmail().getValue(),
+				_refLink, _role, _firstName);
 		return this.success();
 	}
 
@@ -239,9 +227,11 @@ public class AccountController extends BaseController {
 		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
 			return new DetailDesignerResponse(_account, _country, _prefixUrl);
-		} else if (_account.getRole() == Constant.ROLE_USER) {
+		}
+		else if (_account.getRole() == Constant.ROLE_USER) {
 			return new DetailUserResponse(_account, _country, _prefixUrl);
-		} else {
+		}
+		else {
 			throw new BadRequestException("This account's role not have any detail");
 		}
 	}
@@ -251,16 +241,17 @@ public class AccountController extends BaseController {
 	 *
 	 * @return the settings
 	 * @throws JsonParseException
-	 *             the json parse exception
+	 *         the json parse exception
 	 * @throws JsonMappingException
-	 *             the json mapping exception
+	 *         the json mapping exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@GET
 	@Path("/settings/detail")
 	@AccountAuthenticate
-	public SettingsResponse getSettings() throws JsonParseException, JsonMappingException, IOException {
+	public SettingsResponse getSettings()
+			throws JsonParseException, JsonMappingException, IOException {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		return new SettingsResponse(_account.getSettings());
 	}
@@ -282,7 +273,7 @@ public class AccountController extends BaseController {
 	 * Login.
 	 *
 	 * @param __loginRequest
-	 *            the login request
+	 *        the login request
 	 * @return the login response
 	 */
 	@POST
@@ -291,8 +282,8 @@ public class AccountController extends BaseController {
 	public LoginResponse login(LoginRequest __loginRequest) {
 		__loginRequest.validate();
 		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
-		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(), __loginRequest.getPassword(),
-				__loginRequest.getPushToken(), _prefixUrl);
+		return this.accountManagement.login(__loginRequest.getEmailParam().getValue(),
+				__loginRequest.getPassword(), __loginRequest.getPushToken(), _prefixUrl);
 	}
 
 	/**
@@ -312,16 +303,16 @@ public class AccountController extends BaseController {
 	 * Register designer account.
 	 *
 	 * @param __registerAccount
-	 *            the register account
+	 *        the register account
 	 * @return the login response
 	 * @throws AddressException
-	 *             the address exception
+	 *         the address exception
 	 * @throws MessagingException
-	 *             the messaging exception
+	 *         the messaging exception
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/register/designer")
@@ -332,54 +323,19 @@ public class AccountController extends BaseController {
 	}
 
 	/**
-	 * Register new account.
-	 *
-	 * @param __request
-	 *            the request
-	 * @param __registerAccount
-	 *            the register account
-	 * @param __registerType
-	 *            the register type: "designer" or "user"
-	 * @return the base response
-	 * @throws AddressException
-	 *             the address exception
-	 * @throws MessagingException
-	 *             the messaging exception
-	 * @throws URISyntaxException
-	 *             the URI syntax exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	private LoginResponse registerNewAccount(HttpServletRequest __request, AccountRegisterRequest __registerAccount,
-			String __registerType) throws AddressException, MessagingException, URISyntaxException, IOException {
-		__registerAccount.validate();
-		Country _country = this.genericManagement.getCountryIdByCode(__registerAccount.getCountryCode());
-		if (_country == null) {
-			throw new NotFoundException("Country not found");
-		}
-		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount, _country);
-		String _refLink = this.httpHost + _refQuery;
-		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(), _refLink, __registerType,
-				__registerAccount.getName());
-		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
-		return this.accountManagement.login(__registerAccount.getEmail().getValue(), __registerAccount.getPassword(),
-				__registerAccount.getPushToken(), _prefixUrl);
-	}
-
-	/**
 	 * Register user account.
 	 *
 	 * @param __registerAccount
-	 *            the register account
+	 *        the register account
 	 * @return the login response
 	 * @throws AddressException
-	 *             the address exception
+	 *         the address exception
 	 * @throws MessagingException
-	 *             the messaging exception
+	 *         the messaging exception
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/register/user")
@@ -394,18 +350,19 @@ public class AccountController extends BaseController {
 	 *
 	 * @return the response
 	 * @throws AddressException
-	 *             the address exception
+	 *         the address exception
 	 * @throws MessagingException
-	 *             the messaging exception
+	 *         the messaging exception
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/resend_activate")
 	@AccountAuthenticate
-	public Response resendActivateEmail() throws AddressException, MessagingException, URISyntaxException, IOException {
+	public Response resendActivateEmail()
+			throws AddressException, MessagingException, URISyntaxException, IOException {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		String _refQuery = this.accountManagement.resendActivate(_account);
 		String _refLink = this.httpHost + _refQuery;
@@ -413,10 +370,12 @@ public class AccountController extends BaseController {
 		String _requestType;
 		if (_account.getRole() == Constant.ROLE_DESIGNER) {
 			_requestType = "designer";
-		} else {
+		}
+		else {
 			_requestType = "user";
 		}
-		this.accountManagement.sendActivationEmail(_account.getEmail(), _refLink, _requestType, _account.getName());
+		this.accountManagement.sendActivationEmail(_account.getEmail(), _refLink, _requestType,
+				_account.getName());
 		return this.success();
 	}
 
@@ -424,14 +383,14 @@ public class AccountController extends BaseController {
 	 * Reset password.
 	 *
 	 * @param __resetPasswordRequest
-	 *            the reset password request
+	 *        the reset password request
 	 * @return the response
 	 * @throws NotFoundException
-	 *             the not found exception
+	 *         the not found exception
 	 * @throws AddressException
-	 *             the address exception
+	 *         the address exception
 	 * @throws MessagingException
-	 *             the messaging exception
+	 *         the messaging exception
 	 */
 	@POST
 	@Path("/reset_password")
@@ -449,7 +408,7 @@ public class AccountController extends BaseController {
 	 * Sets the account management.
 	 *
 	 * @param __accountManagement
-	 *            the new account management
+	 *        the new account management
 	 */
 	public void setAccountManagement(AccountManagement __accountManagement) {
 		this.accountManagement = __accountManagement;
@@ -459,7 +418,7 @@ public class AccountController extends BaseController {
 	 * Sets the avatar storage path.
 	 *
 	 * @param __avatarStoragePath
-	 *            the new avatar storage path
+	 *        the new avatar storage path
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
@@ -469,7 +428,7 @@ public class AccountController extends BaseController {
 	 * Sets the generic management.
 	 *
 	 * @param __genericManagement
-	 *            the new generic management
+	 *        the new generic management
 	 */
 	public void setGenericManagement(GenericManagement __genericManagement) {
 		this.genericManagement = __genericManagement;
@@ -479,7 +438,7 @@ public class AccountController extends BaseController {
 	 * Sets the http host.
 	 *
 	 * @param __httpHost
-	 *            the new http host
+	 *        the new http host
 	 */
 	public void setHttpHost(String __httpHost) {
 		this.httpHost = __httpHost;
@@ -489,7 +448,7 @@ public class AccountController extends BaseController {
 	 * Sets the http image host.
 	 *
 	 * @param __httpImageHost
-	 *            the new http image host
+	 *        the new http image host
 	 */
 	public void setHttpImageHost(String __httpImageHost) {
 		this.httpImageHost = __httpImageHost;
@@ -499,7 +458,7 @@ public class AccountController extends BaseController {
 	 * Verify.
 	 *
 	 * @param __verifyAccountRequest
-	 *            the verify account request
+	 *        the verify account request
 	 * @return the login response
 	 */
 	@POST
@@ -508,7 +467,64 @@ public class AccountController extends BaseController {
 	public LoginResponse verify(VerifyAccountRequest __verifyAccountRequest) {
 		__verifyAccountRequest.validate();
 		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
-		return this.accountManagement.verifyAccount(__verifyAccountRequest.getType(), __verifyAccountRequest.getOtp(),
-				__verifyAccountRequest.getPushToken(), _prefixUrl);
+		return this.accountManagement.verifyAccount(__verifyAccountRequest.getType(),
+				__verifyAccountRequest.getOtp(), __verifyAccountRequest.getPushToken(), _prefixUrl);
+	}
+
+	/**
+	 * Change account detail.
+	 *
+	 * @param __account
+	 *        the account
+	 * @param __accountChangeDetailRequest
+	 *        the account change detail request
+	 * @return the response
+	 */
+	private Response changeAccountDetail(Account __account,
+			AccountChangeDetailRequest __accountChangeDetailRequest) {
+		__accountChangeDetailRequest.validate();
+		Country _country = this.genericManagement
+				.getCountryIdByCode(__accountChangeDetailRequest.getCountryCode());
+		__accountChangeDetailRequest.setCountry(_country);
+		__accountChangeDetailRequest.checkCountryValid();
+		this.accountManagement.changeAccountDetail(__account, __accountChangeDetailRequest);
+		return this.success();
+	}
+
+	/**
+	 * Register new account.
+	 *
+	 * @param __request
+	 *        the request
+	 * @param __registerAccount
+	 *        the register account
+	 * @param __registerType
+	 *        the register type: "designer" or "user"
+	 * @return the base response
+	 * @throws AddressException
+	 *         the address exception
+	 * @throws MessagingException
+	 *         the messaging exception
+	 * @throws URISyntaxException
+	 *         the URI syntax exception
+	 * @throws IOException
+	 *         Signals that an I/O exception has occurred.
+	 */
+	private LoginResponse registerNewAccount(HttpServletRequest __request,
+			AccountRegisterRequest __registerAccount, String __registerType)
+					throws AddressException, MessagingException, URISyntaxException, IOException {
+		__registerAccount.validate();
+		Country _country = this.genericManagement
+				.getCountryIdByCode(__registerAccount.getCountryCode());
+		if (_country == null) {
+			throw new NotFoundException("Country not found");
+		}
+		String _refQuery = this.accountManagement.registerUserAccount(__registerAccount, _country);
+		String _refLink = this.httpHost + _refQuery;
+		this.accountManagement.sendActivationEmail(__registerAccount.getEmail().getValue(),
+				_refLink, __registerType, __registerAccount.getName());
+		String _prefixUrl = this.httpImageHost + this.avatarStoragePath;
+		return this.accountManagement.login(__registerAccount.getEmail().getValue(),
+				__registerAccount.getPassword(), __registerAccount.getPushToken(), _prefixUrl);
 	}
 }

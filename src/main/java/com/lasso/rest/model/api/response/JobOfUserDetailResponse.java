@@ -39,7 +39,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 * Instantiates a new job detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public JobOfUserDetailResponse(boolean __error) {
 		super(__error);
@@ -49,9 +49,9 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 * Instantiates a new job detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public JobOfUserDetailResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -61,11 +61,11 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 * Instantiates a new job detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public JobOfUserDetailResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -75,7 +75,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 * Instantiates a new job detail response.
 	 *
 	 * @param __data
-	 *            the data
+	 *        the data
 	 */
 	public JobOfUserDetailResponse(Object[] __data) {
 		this.data = __data;
@@ -94,7 +94,7 @@ public class JobOfUserDetailResponse extends BaseResponse {
 	 * Sets the data.
 	 *
 	 * @param __data
-	 *            the new data
+	 *        the new data
 	 */
 	public void setData(Object[] __data) {
 		this.data = __data;
@@ -136,10 +136,12 @@ class JobOfUserDetailSerializer extends JsonSerializer<Object[]> {
 		String _status;
 		if (_job.getPaid().equals((byte) 0)) {
 			_status = JobStepConstant.getByCode(_job.getStep()).getStepName();
-		} else {
+		}
+		else {
 			if (_job.getCompleted().equals((byte) 0)) {
 				_status = "In Progress";
-			} else {
+			}
+			else {
 				_status = "Completed";
 			}
 		}

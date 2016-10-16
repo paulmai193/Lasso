@@ -21,7 +21,7 @@ public interface TypeStyleDAO extends HibernateSession {
 	 * Gets the types styles by styles.
 	 *
 	 * @param __styles
-	 *            the styles
+	 *        the styles
 	 * @return the types styles by styles
 	 */
 	List<TypesStyle> getTypesStylesByStyles(List<Style> __styles);
@@ -30,7 +30,7 @@ public interface TypeStyleDAO extends HibernateSession {
 	 * Gets the types styles by types.
 	 *
 	 * @param __types
-	 *            the types
+	 *        the types
 	 * @return the types styles by types
 	 */
 	List<TypesStyle> getTypesStylesByTypes(List<Type> __types);

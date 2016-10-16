@@ -42,104 +42,104 @@ import com.lasso.rest.model.api.request.UserRegisterRequest;
 public final class Account implements Principal, Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	/** The account info. */
 	@Lob
 	@Column(name = "account_info")
-	private String accountInfo;
+	private String				accountInfo;
 
 	/** The alternative contact. */
 	@Column(name = "alternative_contact")
-	private String alternativeContact;
+	private String				alternativeContact;
 
 	/** The app session. */
 	@Column(name = "app_session")
-	private String appSession;
+	private String				appSession;
 
 	/** The company address. */
 	@Column(name = "company_address")
-	private String companyAddress;
+	private String				companyAddress;
 
 	/** The company name. */
 	@Column(name = "company_name")
-	private String companyName;
+	private String				companyName;
 
 	/** The company telephone. */
 	@Column(name = "company_telephone")
-	private String companyTelephone;
+	private String				companyTelephone;
 
 	/** The country id. */
 	@Column(name = "country_id")
-	private Integer countryId;
+	private Integer				countryId;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+	private Date				created;
 
 	/** The deleted. */
-	private Byte deleted;
+	private Byte				deleted;
 
 	/** The device id. */
 	@Column(name = "device_id")
-	private String deviceId;
+	private String				deviceId;
 
 	/** The email. */
-	private String email;
+	private String				email;
 
 	/** The featured. */
-	private Integer featured;
+	private Integer				featured;
 
 	/** The gender. */
-	private Short gender;
+	private Short				gender;
 
 	/** The handphone number. */
 	@Column(name = "handphone_number")
-	private String handphoneNumber;
+	private String				handphoneNumber;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer				id;
 
 	/** The image. */
-	private String image;
+	private String				image;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
+	private Date				modified;
 
 	/** The name. */
-	private String name;
+	private String				name;
 
 	/** The otp. */
-	private String otp;
+	private String				otp;
 
 	/** The password. */
-	private String password;
+	private String				password;
 
 	/** The payment method. */
 	@Column(name = "payment_method")
-	private Byte paymentMethod;
+	private Byte				paymentMethod;
 
 	/** The recommended. */
-	private Integer recommended;
+	private Integer				recommended;
 
 	/** The rewards. */
-	private Integer rewards;
+	private Integer				rewards;
 
 	/** The role. */
-	private Byte role;
+	private Byte				role;
 
 	/** The settings. */
 	@Lob
-	private String settings;
+	private String				settings;
 
 	/** The status. */
-	private Byte status;
+	private Byte				status;
 
 	/** The subscribe. */
-	private Byte subscribe;
+	private Byte				subscribe;
 
 	/**
 	 * Instantiates a new account.
@@ -151,7 +151,7 @@ public final class Account implements Principal, Serializable {
 	 * Instantiates a new account.
 	 *
 	 * @param __accountRegister
-	 *            the account register
+	 *        the account register
 	 */
 	public Account(AccountRegisterRequest __accountRegister) {
 		this.image = "";
@@ -168,9 +168,11 @@ public final class Account implements Principal, Serializable {
 		this.gender = __accountRegister.getGender();
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
-			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister).getAlternativeContact();
+			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
+					.getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
-		} else if (__accountRegister instanceof UserRegisterRequest) {
+		}
+		else if (__accountRegister instanceof UserRegisterRequest) {
 			// User
 			this.companyAddress = ((UserRegisterRequest) __accountRegister).getCompanyAddress();
 			this.companyName = ((UserRegisterRequest) __accountRegister).getCompanyName();
@@ -401,16 +403,18 @@ public final class Account implements Principal, Serializable {
 	 *
 	 * @return the settings
 	 * @throws JsonParseException
-	 *             the json parse exception
+	 *         the json parse exception
 	 * @throws JsonMappingException
-	 *             the json mapping exception
+	 *         the json mapping exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
-	public AccountSettings getSettings() throws JsonParseException, JsonMappingException, IOException {
+	public AccountSettings getSettings()
+			throws JsonParseException, JsonMappingException, IOException {
 		if (this.settings == null) {
 			return AccountSettings.createDefault();
-		} else {
+		}
+		else {
 			ObjectMapper _mapper = new ObjectMapper();
 			return _mapper.readValue(this.settings, AccountSettings.class);
 		}
@@ -439,7 +443,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the account info.
 	 *
 	 * @param __accountInfo
-	 *            the accountInfo to set
+	 *        the accountInfo to set
 	 */
 	public void setAccountInfo(String __accountInfo) {
 		this.accountInfo = __accountInfo;
@@ -449,7 +453,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the alternative contact.
 	 *
 	 * @param __alternativeContact
-	 *            the alternativeContact to set
+	 *        the alternativeContact to set
 	 */
 	public void setAlternativeContact(String __alternativeContact) {
 		this.alternativeContact = __alternativeContact;
@@ -459,7 +463,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the app session.
 	 *
 	 * @param __appSession
-	 *            the appSession to set
+	 *        the appSession to set
 	 */
 	public void setAppSession(String __appSession) {
 		this.appSession = __appSession;
@@ -469,7 +473,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the company address.
 	 *
 	 * @param __companyAddress
-	 *            the companyAddress to set
+	 *        the companyAddress to set
 	 */
 	public void setCompanyAddress(String __companyAddress) {
 		this.companyAddress = __companyAddress;
@@ -479,7 +483,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the company name.
 	 *
 	 * @param __companyName
-	 *            the companyName to set
+	 *        the companyName to set
 	 */
 	public void setCompanyName(String __companyName) {
 		this.companyName = __companyName;
@@ -489,7 +493,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the company telephone.
 	 *
 	 * @param __companyTelephone
-	 *            the companyTelephone to set
+	 *        the companyTelephone to set
 	 */
 	public void setCompanyTelephone(String __companyTelephone) {
 		this.companyTelephone = __companyTelephone;
@@ -499,7 +503,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the country id.
 	 *
 	 * @param __countryId
-	 *            the countryId to set
+	 *        the countryId to set
 	 */
 	public void setCountryId(Integer __countryId) {
 		this.countryId = __countryId;
@@ -509,7 +513,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the created.
 	 *
 	 * @param __created
-	 *            the created to set
+	 *        the created to set
 	 */
 	public void setCreated(Date __created) {
 		this.created = __created;
@@ -519,7 +523,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the deleted.
 	 *
 	 * @param __deleted
-	 *            the deleted to set
+	 *        the deleted to set
 	 */
 	public void setDeleted(Byte __deleted) {
 		this.deleted = __deleted;
@@ -529,7 +533,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the device id.
 	 *
 	 * @param __deviceId
-	 *            the deviceId to set
+	 *        the deviceId to set
 	 */
 	public void setDeviceId(String __deviceId) {
 		this.deviceId = __deviceId;
@@ -539,7 +543,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the email.
 	 *
 	 * @param __email
-	 *            the email to set
+	 *        the email to set
 	 */
 	public void setEmail(String __email) {
 		this.email = __email;
@@ -549,7 +553,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the featured.
 	 *
 	 * @param __featured
-	 *            the featured to set
+	 *        the featured to set
 	 */
 	public void setFeatured(Integer __featured) {
 		this.featured = __featured;
@@ -559,7 +563,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the gender.
 	 *
 	 * @param __gender
-	 *            the gender to set
+	 *        the gender to set
 	 */
 	public void setGender(Short __gender) {
 		this.gender = __gender;
@@ -569,7 +573,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the handphone number.
 	 *
 	 * @param __handphoneNumber
-	 *            the handphoneNumber to set
+	 *        the handphoneNumber to set
 	 */
 	public void setHandphoneNumber(String __handphoneNumber) {
 		this.handphoneNumber = __handphoneNumber;
@@ -579,7 +583,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the id.
 	 *
 	 * @param __id
-	 *            the id to set
+	 *        the id to set
 	 */
 	public void setId(Integer __id) {
 		this.id = __id;
@@ -589,7 +593,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the image.
 	 *
 	 * @param __image
-	 *            the image to set
+	 *        the image to set
 	 */
 	public void setImage(String __image) {
 		this.image = __image;
@@ -599,7 +603,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the modified.
 	 *
 	 * @param __modified
-	 *            the modified to set
+	 *        the modified to set
 	 */
 	public void setModified(Date __modified) {
 		this.modified = __modified;
@@ -609,7 +613,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the name.
 	 *
 	 * @param __name
-	 *            the name to set
+	 *        the name to set
 	 */
 	public void setName(String __name) {
 		this.name = __name;
@@ -619,7 +623,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the otp.
 	 *
 	 * @param __otp
-	 *            the otp to set
+	 *        the otp to set
 	 */
 	public void setOtp(String __otp) {
 		this.otp = __otp;
@@ -629,7 +633,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the password.
 	 *
 	 * @param __password
-	 *            the password to set
+	 *        the password to set
 	 */
 	public void setPassword(String __password) {
 		this.password = __password;
@@ -639,7 +643,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the payment method.
 	 *
 	 * @param __paymentMethod
-	 *            the paymentMethod to set
+	 *        the paymentMethod to set
 	 */
 	public void setPaymentMethod(Byte __paymentMethod) {
 		this.paymentMethod = __paymentMethod;
@@ -649,7 +653,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the recommended.
 	 *
 	 * @param __recommended
-	 *            the recommended to set
+	 *        the recommended to set
 	 */
 	public void setRecommended(Integer __recommended) {
 		this.recommended = __recommended;
@@ -659,7 +663,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the rewards.
 	 *
 	 * @param __rewards
-	 *            the rewards to set
+	 *        the rewards to set
 	 */
 	public void setRewards(Integer __rewards) {
 		this.rewards = __rewards;
@@ -669,7 +673,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the role.
 	 *
 	 * @param __role
-	 *            the role to set
+	 *        the role to set
 	 */
 	public void setRole(Byte __role) {
 		this.role = __role;
@@ -679,13 +683,14 @@ public final class Account implements Principal, Serializable {
 	 * Sets the settings.
 	 *
 	 * @param __settings
-	 *            the new settings
+	 *        the new settings
 	 */
 	public void setSettings(AccountSettings __settings) {
 		ObjectMapper _mapper = new ObjectMapper();
 		try {
 			this.settings = _mapper.writeValueAsString(__settings);
-		} catch (JsonProcessingException ex) {
+		}
+		catch (JsonProcessingException ex) {
 			this.settings = super.toString();
 		}
 	}
@@ -694,7 +699,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the settings.
 	 *
 	 * @param __settings
-	 *            the settings to set
+	 *        the settings to set
 	 */
 	public void setSettings(String __settings) {
 		this.settings = __settings;
@@ -704,7 +709,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the status.
 	 *
 	 * @param __status
-	 *            the status to set
+	 *        the status to set
 	 */
 	public void setStatus(Byte __status) {
 		this.status = __status;
@@ -714,7 +719,7 @@ public final class Account implements Principal, Serializable {
 	 * Sets the subscribe.
 	 *
 	 * @param __subscribe
-	 *            the subscribe to set
+	 *        the subscribe to set
 	 */
 	public void setSubscribe(Byte __subscribe) {
 		this.subscribe = __subscribe;

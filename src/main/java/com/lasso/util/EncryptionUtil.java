@@ -32,28 +32,29 @@ import org.apache.log4j.Logger;
 public final class EncryptionUtil {
 
 	/** The Constant DEFAULT_PASSWORD. */
-	private static final String DEFAULT_PASSWORD = "phskyd5NjS";
+	private static final String	DEFAULT_PASSWORD	= "phskyd5NjS";
 
 	/** The Constant DIGITS_POWER. */
-	private static final int[] DIGITS_POWER
+	private static final int[]	DIGITS_POWER
 	// 0 1 2 3 4 5 6 7 8
-			= { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000 };
+	= { 1, 10, 100, 1000, 10000, 100000, 1000000,
+			10000000, 100000000 };
 
 	/** The Constant ITERATION_COUNT. */
-	private final static int ITERATION_COUNT = 31;
+	private final static int	ITERATION_COUNT		= 31;
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(EncryptionUtil.class);
+	private static final Logger	LOGGER				= Logger.getLogger(EncryptionUtil.class);
 
 	/** The Random Constant SALT. */
-	private static final byte[] SALT = { (byte) 0x24, (byte) 0x67, (byte) 0xD8, (byte) 0xF6, (byte) 0x83, (byte) 0xE4,
-			(byte) 0xBB, (byte) 0x08 };
+	private static final byte[]	SALT				= { (byte) 0x24, (byte) 0x67, (byte) 0xD8,
+			(byte) 0xF6, (byte) 0x83, (byte) 0xE4, (byte) 0xBB, (byte) 0x08 };
 
 	/**
 	 * Decode.
 	 *
 	 * @param __token
-	 *            the token
+	 *        the token
 	 * @return the string
 	 */
 	public static String decode(String __token) {
@@ -64,9 +65,9 @@ public final class EncryptionUtil {
 	 * Decode.
 	 *
 	 * @param __token
-	 *            the token
+	 *        the token
 	 * @param __password
-	 *            the password
+	 *        the password
 	 * @return the string
 	 */
 	public static String decode(String __token, String __password) {
@@ -75,7 +76,8 @@ public final class EncryptionUtil {
 		}
 		try {
 
-			String _input = __token.replace("%0A", "\n").replace("%25", "%").replace('_', '/').replace('-', '+');
+			String _input = __token.replace("%0A", "\n").replace("%25", "%").replace('_', '/')
+					.replace('-', '+');
 
 			byte[] _dec = Base64.decodeBase64(_input.getBytes());
 
@@ -84,7 +86,8 @@ public final class EncryptionUtil {
 			AlgorithmParameterSpec paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
 					EncryptionUtil.ITERATION_COUNT);
 
-			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(_keySpec);
+			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
+					.generateSecret(_keySpec);
 
 			Cipher _dcipher = Cipher.getInstance(_key.getAlgorithm());
 			_dcipher.init(Cipher.DECRYPT_MODE, _key, paramSpec);
@@ -94,7 +97,8 @@ public final class EncryptionUtil {
 			String _result = new String(_decoded);
 			return _result;
 
-		} catch (Exception _e) {
+		}
+		catch (Exception _e) {
 			EncryptionUtil.LOGGER.error(_e.getMessage(), _e);
 		}
 
@@ -105,7 +109,7 @@ public final class EncryptionUtil {
 	 * Encode.
 	 *
 	 * @param __input
-	 *            the input
+	 *        the input
 	 * @return the string
 	 */
 	public static String encode(String __input) {
@@ -117,9 +121,9 @@ public final class EncryptionUtil {
 	 * Encode.
 	 *
 	 * @param __input
-	 *            the input
+	 *        the input
 	 * @param __password
-	 *            the password
+	 *        the password
 	 * @return the string
 	 */
 	public static String encode(String __input, String __password) {
@@ -133,7 +137,8 @@ public final class EncryptionUtil {
 			AlgorithmParameterSpec _paramSpec = new PBEParameterSpec(EncryptionUtil.SALT,
 					EncryptionUtil.ITERATION_COUNT);
 
-			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(_keySpec);
+			SecretKey _key = SecretKeyFactory.getInstance("PBEWithMD5AndDES")
+					.generateSecret(_keySpec);
 
 			Cipher _ecipher = Cipher.getInstance(_key.getAlgorithm());
 			_ecipher.init(Cipher.ENCRYPT_MODE, _key, _paramSpec);
@@ -142,11 +147,13 @@ public final class EncryptionUtil {
 
 			String _res = new String(Base64.encodeBase64(_enc));
 			// escapes for url
-			_res = _res.replace('+', '-').replace('/', '_').replace("%", "%25").replace("\n", "%0A");
+			_res = _res.replace('+', '-').replace('/', '_').replace("%", "%25").replace("\n",
+					"%0A");
 
 			return _res;
 
-		} catch (Exception _e) {
+		}
+		catch (Exception _e) {
 			EncryptionUtil.LOGGER.error(_e.getMessage(), _e);
 		}
 
@@ -158,7 +165,7 @@ public final class EncryptionUtil {
 	 * Encode MD5.
 	 *
 	 * @param __s
-	 *            the s
+	 *        the s
 	 * @return the string
 	 */
 	public static String encodeMD5(final String __s) {
@@ -179,7 +186,8 @@ public final class EncryptionUtil {
 			}
 			return _hexString.toString();
 
-		} catch (NoSuchAlgorithmException _e) {
+		}
+		catch (NoSuchAlgorithmException _e) {
 			EncryptionUtil.LOGGER.error(_e.getMessage(), _e);
 		}
 
@@ -199,7 +207,7 @@ public final class EncryptionUtil {
 	 * Generate TOTP.
 	 *
 	 * @param key
-	 *            the key
+	 *        the key
 	 * @return the int
 	 */
 	public static int generateTOTP(byte[] key) {
@@ -210,9 +218,9 @@ public final class EncryptionUtil {
 	 * Generate TOTP.
 	 *
 	 * @param key
-	 *            the key
+	 *        the key
 	 * @param time
-	 *            the time
+	 *        the time
 	 * @return the int
 	 */
 	public static int generateTOTP(byte[] key, long time) {
@@ -223,11 +231,11 @@ public final class EncryptionUtil {
 	 * Generate TOTP.
 	 *
 	 * @param key
-	 *            the key
+	 *        the key
 	 * @param time
-	 *            the time
+	 *        the time
 	 * @param digits
-	 *            the digits
+	 *        the digits
 	 * @return the int
 	 */
 	public static int generateTOTP(byte[] key, long time, int digits) {
@@ -238,14 +246,14 @@ public final class EncryptionUtil {
 	 * This method generates a TOTP value for the given set of parameters.
 	 *
 	 * @param key
-	 *            : the shared secret
+	 *        : the shared secret
 	 * @param time
-	 *            : a value that reflects a time
+	 *        : a value that reflects a time
 	 * @param digits
-	 *            : number of digits to return
+	 *        : number of digits to return
 	 * @param crypto
-	 *            : the crypto function to use (HmacSHA1, HmacSHA256,
-	 *            HmacSHA512)
+	 *        : the crypto function to use (HmacSHA1, HmacSHA256,
+	 *        HmacSHA512)
 	 * @return the int
 	 * @return: digits
 	 */
@@ -267,16 +275,43 @@ public final class EncryptionUtil {
 	}
 
 	/**
+	 * * Copy of uniqid in php http://php.net/manual/fr/function.uniqid.php
+	 *
+	 * @param __prefix
+	 *        the prefix
+	 * @param __more_entropy
+	 *        the more entropy
+	 * @return the string
+	 */
+	public static String uniqid(String __prefix, boolean __more_entropy) {
+		long _time = System.currentTimeMillis();
+		String _uniqid = "";
+		if (!__more_entropy) {
+			_uniqid = String.format("%s%08x%05x", __prefix, _time / 1000, _time);
+		}
+		else {
+			SecureRandom _sec = new SecureRandom();
+			byte[] _sbuf = _sec.generateSeed(8);
+			ByteBuffer _bb = ByteBuffer.wrap(_sbuf);
+
+			_uniqid = String.format("%s%08x%05x", __prefix, _time / 1000, _time);
+			_uniqid += "." + String.format("%.8s", "" + _bb.getLong() * -1);
+		}
+
+		return _uniqid;
+	}
+
+	/**
 	 * This method uses the JCE to provide the crypto algorithm. HMAC computes a
 	 * Hashed Message Authentication Code with the crypto hash algorithm as a
 	 * parameter.
 	 *
 	 * @param crypto
-	 *            : the crypto algorithm (HmacSHA1, HmacSHA256, HmacSHA512)
+	 *        : the crypto algorithm (HmacSHA1, HmacSHA256, HmacSHA512)
 	 * @param keyBytes
-	 *            : the bytes to use for the HMAC key
+	 *        : the bytes to use for the HMAC key
 	 * @param text
-	 *            : the message or text to be authenticated
+	 *        : the message or text to be authenticated
 	 * @return the byte[]
 	 */
 
@@ -287,35 +322,10 @@ public final class EncryptionUtil {
 			SecretKeySpec macKey = new SecretKeySpec(keyBytes, "RAW");
 			hmac.init(macKey);
 			return hmac.doFinal(text);
-		} catch (GeneralSecurityException gse) {
+		}
+		catch (GeneralSecurityException gse) {
 			throw new UndeclaredThrowableException(gse);
 		}
-	}
-
-	/**
-	 * * Copy of uniqid in php http://php.net/manual/fr/function.uniqid.php
-	 *
-	 * @param __prefix
-	 *            the prefix
-	 * @param __more_entropy
-	 *            the more entropy
-	 * @return the string
-	 */
-	public static String uniqid(String __prefix, boolean __more_entropy) {
-		long _time = System.currentTimeMillis();
-		String _uniqid = "";
-		if (!__more_entropy) {
-			_uniqid = String.format("%s%08x%05x", __prefix, _time / 1000, _time);
-		} else {
-			SecureRandom _sec = new SecureRandom();
-			byte[] _sbuf = _sec.generateSeed(8);
-			ByteBuffer _bb = ByteBuffer.wrap(_sbuf);
-
-			_uniqid = String.format("%s%08x%05x", __prefix, _time / 1000, _time);
-			_uniqid += "." + String.format("%.8s", "" + _bb.getLong() * -1);
-		}
-
-		return _uniqid;
 	}
 
 	/**

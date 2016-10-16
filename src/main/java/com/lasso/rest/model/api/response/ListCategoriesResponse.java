@@ -26,19 +26,19 @@ import com.lasso.rest.model.datasource.Category;
 public class ListCategoriesResponse extends BaseResponse {
 
 	/** The categories. */
-	private List<Category> categories;
+	private List<Category>	categories;
 
 	/** The next index. */
-	private int nextIndex;
+	private int				nextIndex;
 
 	/** The prefix url. */
-	private String prefixUrl;
+	private String			prefixUrl;
 
 	/**
 	 * Instantiates a new list categories response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public ListCategoriesResponse(boolean __error) {
 		super(__error);
@@ -48,9 +48,9 @@ public class ListCategoriesResponse extends BaseResponse {
 	 * Instantiates a new list categories response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public ListCategoriesResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -60,11 +60,11 @@ public class ListCategoriesResponse extends BaseResponse {
 	 * Instantiates a new list categories response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public ListCategoriesResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -74,13 +74,14 @@ public class ListCategoriesResponse extends BaseResponse {
 	 * Instantiates a new list categories response.
 	 *
 	 * @param __prefixUrl
-	 *            the prefix url
+	 *        the prefix url
 	 * @param __categories
-	 *            the categories
+	 *        the categories
 	 * @param __nextIndex
-	 *            the next index
+	 *        the next index
 	 */
-	public ListCategoriesResponse(String __prefixUrl, List<Category> __categories, int __nextIndex) {
+	public ListCategoriesResponse(String __prefixUrl, List<Category> __categories,
+			int __nextIndex) {
 		super();
 		this.prefixUrl = __prefixUrl;
 		this.categories = __categories;
@@ -118,8 +119,8 @@ public class ListCategoriesResponse extends BaseResponse {
 class ListCategoriesSerializer extends JsonSerializer<ListCategoriesResponse> {
 
 	@Override
-	public void serialize(ListCategoriesResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	public void serialize(ListCategoriesResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -139,11 +140,16 @@ class ListCategoriesSerializer extends JsonSerializer<ListCategoriesResponse> {
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
 				__gen.writeStringField("retina", "");
-			} else {
-				__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/" + _category.getImage());
-				__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/" + _category.getImage());
-				__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/" + _category.getImage());
-				__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/" + _category.getImage());
+			}
+			else {
+				__gen.writeStringField("original",
+						__value.getPrefixUrl() + "/Original/" + _category.getImage());
+				__gen.writeStringField("small",
+						__value.getPrefixUrl() + "/Small/" + _category.getImage());
+				__gen.writeStringField("icon",
+						__value.getPrefixUrl() + "/Icon/" + _category.getImage());
+				__gen.writeStringField("retina",
+						__value.getPrefixUrl() + "/Retina/" + _category.getImage());
 			}
 			__gen.writeEndObject();
 

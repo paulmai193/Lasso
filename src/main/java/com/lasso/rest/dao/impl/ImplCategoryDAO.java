@@ -49,7 +49,7 @@ public class ImplCategoryDAO implements CategoryDAO {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-				.addOrder(Order.asc("sort"));
+		.addOrder(Order.asc("sort"));
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}
@@ -72,7 +72,7 @@ public class ImplCategoryDAO implements CategoryDAO {
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

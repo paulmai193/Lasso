@@ -24,39 +24,39 @@ import javax.persistence.Table;
 public class Configuration implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	/** The description. */
-	private String description;
+	private String				description;
 
 	/** The editable. */
-	private Byte editable;
+	private Byte				editable;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer				id;
 
 	/** The input type. */
 	@Column(name = "input_type")
-	private String inputType;
+	private String				inputType;
 
 	/** The name. */
-	private String name;
+	private String				name;
 
 	/** The params. */
 	@Lob
-	private String params;
+	private String				params;
 
 	/** The title. */
-	private String title;
+	private String				title;
 
 	/** The value. */
 	@Lob
-	private String value;
+	private String				value;
 
 	/** The weight. */
-	private Integer weight;
+	private Integer				weight;
 
 	/**
 	 * Instantiates a new configuration.
@@ -149,7 +149,7 @@ public class Configuration implements Serializable {
 	 * Sets the description.
 	 *
 	 * @param description
-	 *            the new description
+	 *        the new description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -159,7 +159,7 @@ public class Configuration implements Serializable {
 	 * Sets the editable.
 	 *
 	 * @param editable
-	 *            the new editable
+	 *        the new editable
 	 */
 	public void setEditable(Byte editable) {
 		this.editable = editable;
@@ -169,7 +169,7 @@ public class Configuration implements Serializable {
 	 * Sets the id.
 	 *
 	 * @param id
-	 *            the new id
+	 *        the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -179,7 +179,7 @@ public class Configuration implements Serializable {
 	 * Sets the input type.
 	 *
 	 * @param inputType
-	 *            the new input type
+	 *        the new input type
 	 */
 	public void setInputType(String inputType) {
 		this.inputType = inputType;
@@ -189,7 +189,7 @@ public class Configuration implements Serializable {
 	 * Sets the name.
 	 *
 	 * @param name
-	 *            the new name
+	 *        the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -199,7 +199,7 @@ public class Configuration implements Serializable {
 	 * Sets the params.
 	 *
 	 * @param params
-	 *            the new params
+	 *        the new params
 	 */
 	public void setParams(String params) {
 		this.params = params;
@@ -209,7 +209,7 @@ public class Configuration implements Serializable {
 	 * Sets the title.
 	 *
 	 * @param title
-	 *            the new title
+	 *        the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -219,7 +219,7 @@ public class Configuration implements Serializable {
 	 * Sets the value.
 	 *
 	 * @param value
-	 *            the new value
+	 *        the new value
 	 */
 	public void setValue(String value) {
 		this.value = value;
@@ -229,7 +229,7 @@ public class Configuration implements Serializable {
 	 * Sets the weight.
 	 *
 	 * @param weight
-	 *            the new weight
+	 *        the new weight
 	 */
 	public void setWeight(Integer weight) {
 		this.weight = weight;

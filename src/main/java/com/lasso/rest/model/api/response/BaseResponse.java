@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class BaseResponse {
 
 	/** The detail. */
-	private String detail;
+	private String	detail;
 
 	/** The error. */
-	private boolean error;
+	private boolean	error;
 
 	/** The message. */
-	private String message;
+	private String	message;
 
 	/**
 	 * Instantiates a new base response.
@@ -36,7 +36,7 @@ public class BaseResponse {
 	 * Instantiates a new base response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public BaseResponse(boolean __error) {
 		this(__error, "Unknown Error");
@@ -46,9 +46,9 @@ public class BaseResponse {
 	 * Instantiates a new base response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public BaseResponse(boolean __error, String __message) {
 		this(__error, __message, "");
@@ -58,11 +58,11 @@ public class BaseResponse {
 	 * Instantiates a new base response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public BaseResponse(boolean __error, String __message, String __detail) {
 		this.error = __error;
@@ -104,7 +104,7 @@ public class BaseResponse {
 	 * Sets the detail.
 	 *
 	 * @param __detail
-	 *            the new detail
+	 *        the new detail
 	 */
 	public void setDetail(String __detail) {
 		this.detail = __detail;
@@ -114,7 +114,7 @@ public class BaseResponse {
 	 * Sets the error.
 	 *
 	 * @param __error
-	 *            the new error
+	 *        the new error
 	 */
 	public void setError(boolean __error) {
 		this.error = __error;
@@ -124,7 +124,7 @@ public class BaseResponse {
 	 * Sets the message.
 	 *
 	 * @param __message
-	 *            the new message
+	 *        the new message
 	 */
 	public void setMessage(String __message) {
 		this.message = __message;

@@ -24,25 +24,25 @@ import com.lasso.rest.model.variable.PhoneParam;
 public class AccountChangeDetailRequest extends BaseRequest {
 
 	/** The country. */
-	private Country country;
+	private Country		country;
 
 	/** The country code. */
 	@JsonProperty(value = "country_code")
-	private String countryCode;
+	private String		countryCode;
 
 	/** The gender. */
 	@JsonProperty(value = "gender")
-	private Short gender;
+	private Short		gender;
 
 	/** The password. */
 	@JsonProperty("password")
-	private String password;
+	private String		password;
 
 	/** The phone. */
-	private PhoneParam phone;
+	private PhoneParam	phone;
 
 	/** The phone string. */
-	private String phoneString;
+	private String		phoneString;
 
 	/**
 	 * Instantiates a new account change detail request.
@@ -54,7 +54,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 * Check country valid.
 	 *
 	 * @throws ObjectParamException
-	 *             the object param exception
+	 *         the object param exception
 	 */
 	public void checkCountryValid() throws ObjectParamException {
 		if (this.country == null) {
@@ -111,7 +111,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 * Sets the country.
 	 *
 	 * @param __country
-	 *            the country to set
+	 *        the country to set
 	 */
 	public void setCountry(Country __country) {
 		this.country = __country;
@@ -121,7 +121,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 * Sets the country code.
 	 *
 	 * @param __countryCode
-	 *            the countryCode to set
+	 *        the countryCode to set
 	 */
 	public void setCountryCode(String __countryCode) {
 		this.countryCode = __countryCode;
@@ -131,7 +131,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 * Sets the gender.
 	 *
 	 * @param __gender
-	 *            the new gender
+	 *        the new gender
 	 */
 	public void setGender(Short __gender) {
 		this.gender = __gender;
@@ -141,7 +141,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 * Sets the password.
 	 *
 	 * @param __password
-	 *            the password to set
+	 *        the password to set
 	 */
 	public void setPassword(String __password) {
 		this.password = __password;
@@ -151,7 +151,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 * Sets the phone.
 	 *
 	 * @param __phone
-	 *            the new phone
+	 *        the new phone
 	 */
 	public void setPhone(PhoneParam __phone) {
 		this.phone = __phone;
@@ -161,7 +161,7 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	 * Sets the phone string.
 	 *
 	 * @param __phoneString
-	 *            the new phone string
+	 *        the new phone string
 	 */
 	@JsonProperty(value = "phone")
 	public void setPhoneString(String __phoneString) {
@@ -177,7 +177,8 @@ public class AccountChangeDetailRequest extends BaseRequest {
 	public String toString() {
 		try {
 			return new ObjectMapper().writeValueAsString(this);
-		} catch (JsonProcessingException ex) {
+		}
+		catch (JsonProcessingException ex) {
 			return super.toString();
 		}
 	}
@@ -194,7 +195,8 @@ public class AccountChangeDetailRequest extends BaseRequest {
 		}
 		if (this.phoneString == null || this.phoneString.isEmpty()) {
 			throw new ObjectParamException("Invalid phone");
-		} else {
+		}
+		else {
 			this.phone = new PhoneParam(this.phoneString);
 		}
 		if (this.gender == null || (this.gender.shortValue() == Constant.GENDER_MALE

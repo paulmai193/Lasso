@@ -21,27 +21,27 @@ public class Settings {
 
 	/** The Constant SETTING_OFF. */
 	@JsonIgnore
-	public static final String SETTING_OFF = "off";
+	public static final String	SETTING_OFF	= "off";
 
 	/** The Constant SETTING_ON. */
 	@JsonIgnore
-	public static final String SETTING_ON = "on";
+	public static final String	SETTING_ON	= "on";
 
 	/** The messages. */
 	@JsonProperty("messages")
-	private String messages;
+	private String				messages;
 
 	/** The news promotions. */
 	@JsonProperty("news-promotions")
-	private String news_promotions;
+	private String				news_promotions;
 
 	/** The offer. */
 	@JsonProperty("offer")
-	private String offer;
+	private String				offer;
 
 	/** The status pdate. */
 	@JsonProperty("status-update")
-	private String status_update;
+	private String				status_update;
 
 	/**
 	 * Instantiates a new settings.
@@ -53,15 +53,16 @@ public class Settings {
 	 * Instantiates a new settings.
 	 *
 	 * @param __messages
-	 *            the messages
+	 *        the messages
 	 * @param __offer
-	 *            the offer
+	 *        the offer
 	 * @param __status_pdate
-	 *            the status pdate
+	 *        the status pdate
 	 * @param __news_promotions
-	 *            the news promotions
+	 *        the news promotions
 	 */
-	public Settings(String __messages, String __offer, String __status_pdate, String __news_promotions) {
+	public Settings(String __messages, String __offer, String __status_pdate,
+			String __news_promotions) {
 		super();
 		this.messages = __messages;
 		this.offer = __offer;
@@ -109,7 +110,7 @@ public class Settings {
 	 * Sets the messages.
 	 *
 	 * @param __messages
-	 *            the messages to set
+	 *        the messages to set
 	 */
 	public void setMessages(String __messages) {
 		this.messages = __messages;
@@ -119,7 +120,7 @@ public class Settings {
 	 * Sets the news promotions.
 	 *
 	 * @param __news_promotions
-	 *            the news_promotions to set
+	 *        the news_promotions to set
 	 */
 	public void setNews_promotions(String __news_promotions) {
 		this.news_promotions = __news_promotions;
@@ -129,7 +130,7 @@ public class Settings {
 	 * Sets the offer.
 	 *
 	 * @param __offer
-	 *            the offer to set
+	 *        the offer to set
 	 */
 	public void setOffer(String __offer) {
 		this.offer = __offer;
@@ -139,7 +140,7 @@ public class Settings {
 	 * Sets the status update.
 	 *
 	 * @param __status_pdate
-	 *            the new status update
+	 *        the new status update
 	 */
 	public void setStatus_update(String __status_pdate) {
 		this.status_update = __status_pdate;

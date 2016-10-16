@@ -42,7 +42,7 @@ public class EditPortfolioRequest extends CreatePortfolioRequest {
 	 * Sets the id.
 	 *
 	 * @param __id
-	 *            the id to set
+	 *        the id to set
 	 */
 	public void setId(Integer __id) {
 		this.id = __id;

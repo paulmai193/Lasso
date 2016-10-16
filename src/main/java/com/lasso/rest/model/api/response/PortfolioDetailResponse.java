@@ -31,25 +31,25 @@ import com.lasso.rest.model.datasource.Type;
 public class PortfolioDetailResponse extends BaseResponse {
 
 	/** The category. */
-	private Category category;
+	private Category	category;
 
 	/** The portfolio. */
-	private Portfolio portfolio;
+	private Portfolio	portfolio;
 
 	/** The prefix portfolio url. */
-	private String prefixPortfolioUrl;
+	private String		prefixPortfolioUrl;
 
 	/** The style. */
-	private Style style;
+	private Style		style;
 
 	/** The types. */
-	private List<Type> types;
+	private List<Type>	types;
 
 	/**
 	 * Instantiates a new portfolio detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public PortfolioDetailResponse(boolean __error) {
 		super(__error);
@@ -59,9 +59,9 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Instantiates a new portfolio detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public PortfolioDetailResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -71,11 +71,11 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Instantiates a new portfolio detail response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public PortfolioDetailResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -85,18 +85,18 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Instantiates a new portfolio detail response.
 	 *
 	 * @param __category
-	 *            the category
+	 *        the category
 	 * @param __portfolio
-	 *            the portfolio
+	 *        the portfolio
 	 * @param __prefixPortfolioUrl
-	 *            the prefix portfolio url
+	 *        the prefix portfolio url
 	 * @param __style
-	 *            the style
+	 *        the style
 	 * @param __types
-	 *            the types
+	 *        the types
 	 */
-	public PortfolioDetailResponse(Category __category, Portfolio __portfolio, String __prefixPortfolioUrl,
-			Style __style, List<Type> __types) {
+	public PortfolioDetailResponse(Category __category, Portfolio __portfolio,
+			String __prefixPortfolioUrl, Style __style, List<Type> __types) {
 		super();
 		this.category = __category;
 		this.portfolio = __portfolio;
@@ -154,7 +154,7 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Sets the category.
 	 *
 	 * @param __category
-	 *            the category to set
+	 *        the category to set
 	 */
 	public void setCategory(Category __category) {
 		this.category = __category;
@@ -164,7 +164,7 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Sets the portfolio.
 	 *
 	 * @param __portfolio
-	 *            the portfolio to set
+	 *        the portfolio to set
 	 */
 	public void setPortfolio(Portfolio __portfolio) {
 		this.portfolio = __portfolio;
@@ -174,7 +174,7 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Sets the prefix portfolio url.
 	 *
 	 * @param __prefixPortfolioUrl
-	 *            the prefixPortfolioUrl to set
+	 *        the prefixPortfolioUrl to set
 	 */
 	public void setPrefixPortfolioUrl(String __prefixPortfolioUrl) {
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
@@ -184,7 +184,7 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Sets the style.
 	 *
 	 * @param __style
-	 *            the style to set
+	 *        the style to set
 	 */
 	public void setStyle(Style __style) {
 		this.style = __style;
@@ -194,7 +194,7 @@ public class PortfolioDetailResponse extends BaseResponse {
 	 * Sets the types.
 	 *
 	 * @param __types
-	 *            the new types
+	 *        the new types
 	 */
 	public void setTypes(List<Type> __types) {
 		this.types = __types;
@@ -205,8 +205,8 @@ public class PortfolioDetailResponse extends BaseResponse {
 class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> {
 
 	@Override
-	public void serialize(PortfolioDetailResponse __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	public void serialize(PortfolioDetailResponse __value, JsonGenerator __gen,
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -224,7 +224,8 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 				__gen.writeNumberField("type_id", _type.getId());
 				__gen.writeStringField("type_title", _type.getTitle());
 				__gen.writeEndObject();
-			} catch (Exception _ex) {
+			}
+			catch (Exception _ex) {
 				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 		});
@@ -244,15 +245,17 @@ class PortfolioDetailSerializer extends JsonSerializer<PortfolioDetailResponse> 
 			for (String _portfolioImage : __value.getPortfolio().getImage().split(",")) {
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeStartObject();
-					__gen.writeStringField("original",
-							__value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage.trim());
+					__gen.writeStringField("original", __value.getPrefixPortfolioUrl()
+							+ "/Original/" + _portfolioImage.trim());
 					__gen.writeStringField("small",
 							__value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage.trim());
-					__gen.writeStringField("icon", __value.getPrefixPortfolioUrl() + "/Icon/" + _portfolioImage.trim());
+					__gen.writeStringField("icon",
+							__value.getPrefixPortfolioUrl() + "/Icon/" + _portfolioImage.trim());
 					__gen.writeStringField("retina",
 							__value.getPrefixPortfolioUrl() + "/Retina/" + _portfolioImage.trim());
 					__gen.writeEndObject();
-				} else {
+				}
+				else {
 					__gen.writeStartObject();
 					__gen.writeStringField("original", "");
 					__gen.writeStringField("small", "");

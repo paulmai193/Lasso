@@ -22,7 +22,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 * Creates the portfolio.
 	 *
 	 * @param __portfolio
-	 *            the portfolio
+	 *        the portfolio
 	 * @return the portfolio ID
 	 */
 	Integer createPortfolio(Portfolio __portfolio);
@@ -31,7 +31,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 * Gets the all portfolios of account.
 	 *
 	 * @param __account
-	 *            the account
+	 *        the account
 	 * @return the all portfolios of account
 	 */
 	List<Portfolio> getAllPortfoliosOfAccount(Account __account);
@@ -40,7 +40,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 * Gets the portfolio by portfolio ID.
 	 *
 	 * @param __id
-	 *            the id
+	 *        the id
 	 * @return the portfolio by id
 	 */
 	Portfolio getPortfolioById(Integer __id);
@@ -49,7 +49,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 * Gets the portfolio by project.
 	 *
 	 * @param __project
-	 *            the project
+	 *        the project
 	 * @return the portfolio by project
 	 */
 	Portfolio getPortfolioByProject(Project __project);
@@ -58,9 +58,9 @@ public interface PortfolioDAO extends HibernateSession {
 	 * Gets the portfolio of account.
 	 *
 	 * @param __account
-	 *            the account
+	 *        the account
 	 * @param __idPortfolio
-	 *            the id portfolio
+	 *        the id portfolio
 	 * @return the portfolio of account
 	 */
 	Portfolio getPortfolioOfAccount(Account __account, Integer __idPortfolio);
@@ -69,28 +69,28 @@ public interface PortfolioDAO extends HibernateSession {
 	 * Search portfolios.
 	 *
 	 * @param __offset
-	 *            the offset
+	 *        the offset
 	 * @param __limit
-	 *            the limit
+	 *        the limit
 	 * @param __idCategory
-	 *            the id category
+	 *        the id category
 	 * @param __idsStyle
-	 *            the id style
+	 *        the id style
 	 * @param __portfolioTypes
-	 *            the list portfolio types
+	 *        the list portfolio types
 	 * @param __budgetCompare
-	 *            the budget compare. negative value for smaller or equal,
-	 *            positive value for bigger
+	 *        the budget compare. negative value for smaller or equal,
+	 *        positive value for bigger
 	 * @return the list portfolios by condition
 	 */
-	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory, List<Integer> __idsStyle,
-			List<PortfolioType> __portfolioTypes, double __budgetCompare);
+	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
+			List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
 
 	/**
 	 * Update portfolio.
 	 *
 	 * @param __portfolio
-	 *            the portfolio
+	 *        the portfolio
 	 */
 	void updatePortfolio(Portfolio __portfolio);
 

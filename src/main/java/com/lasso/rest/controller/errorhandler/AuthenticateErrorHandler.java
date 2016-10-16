@@ -39,7 +39,8 @@ public class AuthenticateErrorHandler implements ExceptionMapper<AuthenticateExc
 	public Response toResponse(AuthenticateException __exception) {
 		AuthenticateErrorHandler.LOGGER.warn(__exception.getMessage());
 		BaseResponse _errorResponse = new BaseResponse(true, __exception.getMessage());
-		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse).build();
+		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse)
+				.build();
 	}
 
 }

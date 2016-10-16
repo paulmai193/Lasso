@@ -24,7 +24,7 @@ public class InvoiceResponse extends BaseResponse {
 	 * Instantiates a new invoice response.
 	 *
 	 * @param __content
-	 *            the content
+	 *        the content
 	 */
 	public InvoiceResponse(String __content) {
 		super();

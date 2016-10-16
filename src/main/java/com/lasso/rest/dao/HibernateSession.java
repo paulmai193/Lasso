@@ -17,7 +17,7 @@ public interface HibernateSession {
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	void setSessionFactory(SessionFactory __sessionFactory);
 }

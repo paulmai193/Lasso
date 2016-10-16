@@ -22,11 +22,11 @@ public class SettingsRequest extends BaseRequest {
 
 	/** The app settings. */
 	@JsonProperty("app")
-	private Settings appSettings;
+	private Settings	appSettings;
 
 	/** The email settings. */
 	@JsonProperty("email")
-	private Settings emailSettings;
+	private Settings	emailSettings;
 
 	/**
 	 * Gets the app settings.
@@ -55,15 +55,21 @@ public class SettingsRequest extends BaseRequest {
 	public void validate() throws ObjectParamException {
 		if (this.appSettings == null) {
 			throw new ObjectParamException("Invalid settings app");
-		} else if (this.appSettings.getMessages() == null || this.appSettings.getNews_promotions() == null
-				|| this.appSettings.getOffer() == null || this.appSettings.getStatus_update() == null) {
+		}
+		else if (this.appSettings.getMessages() == null
+				|| this.appSettings.getNews_promotions() == null
+				|| this.appSettings.getOffer() == null
+				|| this.appSettings.getStatus_update() == null) {
 			throw new ObjectParamException("Invalid settings app");
 		}
 
 		if (this.emailSettings == null) {
 			throw new ObjectParamException("Invalid settings email");
-		} else if (this.emailSettings.getMessages() == null || this.emailSettings.getNews_promotions() == null
-				|| this.emailSettings.getOffer() == null || this.emailSettings.getStatus_update() == null) {
+		}
+		else if (this.emailSettings.getMessages() == null
+				|| this.emailSettings.getNews_promotions() == null
+				|| this.emailSettings.getOffer() == null
+				|| this.emailSettings.getStatus_update() == null) {
 			throw new ObjectParamException("Invalid settings email");
 		}
 	}

@@ -56,28 +56,28 @@ public class PortfolioController extends BaseController {
 
 	/** The designer management. */
 	@Autowired
-	private DesignerManagement designerManagement;
+	private DesignerManagement	designerManagement;
 
 	/** The http host. */
-	private String httpHost;
+	private String				httpHost;
 
 	/** The portfolio storage path. */
-	private String portfolioStoragePath;
+	private String				portfolioStoragePath;
 
 	/** The validateContext. */
 	@Context
-	private SecurityContext validateContext;
+	private SecurityContext		validateContext;
 
 	/**
 	 * Creates the portfolio.
 	 *
 	 * @param __createPortfolioRequest
-	 *            the create portfolio request
+	 *        the create portfolio request
 	 * @return the response
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 * @throws UnirestException
-	 *             the unirest exception
+	 *         the unirest exception
 	 */
 	@POST
 	@Path("/create")
@@ -94,10 +94,10 @@ public class PortfolioController extends BaseController {
 	 * Edits the portfolio.
 	 *
 	 * @param __idsPortfolio
-	 *            the ids portfolio
+	 *        the ids portfolio
 	 * @return the response
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@DELETE
 	@Path("/delete")
@@ -109,16 +109,19 @@ public class PortfolioController extends BaseController {
 			for (String _sId : _s) {
 				try {
 					int __idPortfolio = Integer.parseInt(_sId);
-					Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger, __idPortfolio);
+					Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger,
+							__idPortfolio);
 					if (_portfolio != null) {
 						this.designerManagement.deletePortfolio(_portfolio);
 					}
-				} catch (Exception _ex) {
+				}
+				catch (Exception _ex) {
 					Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 				}
 			}
 			return this.success();
-		} catch (NullPointerException _ex) {
+		}
+		catch (NullPointerException _ex) {
 			throw new NotFoundException("Portfolio not found", _ex);
 		}
 	}
@@ -127,28 +130,32 @@ public class PortfolioController extends BaseController {
 	 * Edits the portfolio.
 	 *
 	 * @param __editPortfolioRequest
-	 *            the edit portfolio request
+	 *        the edit portfolio request
 	 * @return the response
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 * @throws UnirestException
-	 *             the unirest exception
+	 *         the unirest exception
 	 */
 	@POST
 	@Path("/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editPortfolio(EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
+	public Response editPortfolio(EditPortfolioRequest __editPortfolioRequest)
+			throws IOException, UnirestException {
 		__editPortfolioRequest.validate();
 		try {
 			Account _desiger = (Account) this.validateContext.getUserPrincipal();
-			Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger, __editPortfolioRequest.getId());
+			Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger,
+					__editPortfolioRequest.getId());
 			if (_portfolio == null) {
 				throw new NotFoundException("Portfolio not found");
-			} else {
+			}
+			else {
 				this.designerManagement.editPortfolio(_desiger, _portfolio, __editPortfolioRequest);
 				return this.success();
 			}
-		} catch (NullPointerException _ex) {
+		}
+		catch (NullPointerException _ex) {
 			throw new NotFoundException("Portfolio not found", _ex);
 		}
 	}
@@ -163,10 +170,11 @@ public class PortfolioController extends BaseController {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Portfolio> _portfolios = this.designerManagement.getAllPortfolios(_account);
 		List<Object[]> _datas = new ArrayList<>(); // {portfolio, category,
-													// style, list type}
+		// style, list type}
 		for (Portfolio _portfolio : _portfolios) {
 			try {
-				Category _category = this.designerManagement.getCategoryById(_portfolio.getCategoryId());
+				Category _category = this.designerManagement
+						.getCategoryById(_portfolio.getCategoryId());
 				if (_category == null) {
 					break;
 				}
@@ -174,13 +182,15 @@ public class PortfolioController extends BaseController {
 				if (_style == null) {
 					break;
 				}
-				List<Type> _types = this.designerManagement.getListTypesByIdPortfolio(_portfolio.getId());
+				List<Type> _types = this.designerManagement
+						.getListTypesByIdPortfolio(_portfolio.getId());
 				if (_types.isEmpty()) {
 					break;
 				}
 				Object[] _data = { _portfolio, _category, _style, _types };
 				_datas.add(_data);
-			} catch (Exception _ex) {
+			}
+			catch (Exception _ex) {
 				Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
 			}
 
@@ -193,7 +203,7 @@ public class PortfolioController extends BaseController {
 	 * Gets the portfolio of account.
 	 *
 	 * @param __id
-	 *            the id
+	 *        the id
 	 * @return the portfolio of account
 	 */
 	@GET
@@ -201,22 +211,28 @@ public class PortfolioController extends BaseController {
 	public PortfolioDetailResponse getPortfolioOfAccount(@QueryParam("id") Integer __id) {
 		if (__id == null) {
 			throw new NotFoundException("Portfolio not found");
-		} else {
+		}
+		else {
 			Account _account = (Account) this.validateContext.getUserPrincipal();
 			Portfolio _portfolio = this.designerManagement.getPortfolio(_account, __id);
 			if (_portfolio == null) {
 				throw new NotFoundException("Portfolio not found");
-			} else {
+			}
+			else {
 				try {
-					Category _category = this.designerManagement.getCategoryById(_portfolio.getCategoryId());
+					Category _category = this.designerManagement
+							.getCategoryById(_portfolio.getCategoryId());
 					Style _style = this.designerManagement.getStyleById(_portfolio.getStyleId());
-					List<Type> _types = this.designerManagement.getListTypesByIdPortfolio(_portfolio.getId());
+					List<Type> _types = this.designerManagement
+							.getListTypesByIdPortfolio(_portfolio.getId());
 					if (_types.isEmpty()) {
 						throw new NotFoundException("Portfolio detail not found");
 					}
 					String _prefixUrl = this.httpHost + this.portfolioStoragePath;
-					return new PortfolioDetailResponse(_category, _portfolio, _prefixUrl, _style, _types);
-				} catch (NullPointerException _ex) {
+					return new PortfolioDetailResponse(_category, _portfolio, _prefixUrl, _style,
+							_types);
+				}
+				catch (NullPointerException _ex) {
 					throw new NotFoundException("Portfolio detail not found", _ex);
 				}
 			}
@@ -227,7 +243,7 @@ public class PortfolioController extends BaseController {
 	 * Sets the designer management.
 	 *
 	 * @param __designerManagement
-	 *            the new designer management
+	 *        the new designer management
 	 */
 	public void setDesignerManagement(DesignerManagement __designerManagement) {
 		this.designerManagement = __designerManagement;
@@ -237,7 +253,7 @@ public class PortfolioController extends BaseController {
 	 * Sets the http host.
 	 *
 	 * @param __httpHost
-	 *            the httpHost to set
+	 *        the httpHost to set
 	 */
 	public void setHttpHost(String __httpHost) {
 		this.httpHost = __httpHost;
@@ -247,7 +263,7 @@ public class PortfolioController extends BaseController {
 	 * Sets the portfolio storage path.
 	 *
 	 * @param __portfolioStoragePath
-	 *            the new portfolio storage path
+	 *        the new portfolio storage path
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;

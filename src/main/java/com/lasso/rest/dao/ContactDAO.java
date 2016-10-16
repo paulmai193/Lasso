@@ -17,7 +17,7 @@ public interface ContactDAO extends HibernateSession {
 	 * Save.
 	 *
 	 * @param __contact
-	 *            the contact
+	 *        the contact
 	 */
 	void save(Contact __contact);
 

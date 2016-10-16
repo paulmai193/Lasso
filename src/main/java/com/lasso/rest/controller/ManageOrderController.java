@@ -81,42 +81,42 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 public class ManageOrderController extends BaseController {
 
 	/** The avatar storage path. */
-	private String avatarStoragePath;
+	private String			avatarStoragePath;
 
 	/** The category storage path. */
-	private String categoryStoragePath;
+	private String			categoryStoragePath;
 
 	/** The http host. */
-	private String httpHost;
+	private String			httpHost;
 
 	/** The job storage path. */
-	private String jobStoragePath;
+	private String			jobStoragePath;
 
 	/** The paypal client id. */
-	private String paypalClientId;
+	private String			paypalClientId;
 
 	/** The paypal client secret. */
-	private String paypalClientSecret;
+	private String			paypalClientSecret;
 
 	/** The paypal host. */
-	private String paypalHost;
+	private String			paypalHost;
 
 	/** The portfolio storage path. */
-	private String portfolioStoragePath;
+	private String			portfolioStoragePath;
 
 	/** The style storage path. */
-	private String styleStoragePath;
+	private String			styleStoragePath;
 
 	/** The type storage path. */
-	private String typeStoragePath;
+	private String			typeStoragePath;
 
 	/** The user management. */
 	@Autowired
-	private UserManagement userManagement;
+	private UserManagement	userManagement;
 
 	/** The validateContext. */
 	@Context
-	private SecurityContext validateContext;
+	private SecurityContext	validateContext;
 
 	/**
 	 * Instantiates a new manage order controller.
@@ -128,12 +128,12 @@ public class ManageOrderController extends BaseController {
 	 * Brief new job.
 	 *
 	 * @param __createNewJobRequest
-	 *            the create new job request
+	 *        the create new job request
 	 * @return the response
 	 * @throws UnirestException
-	 *             the unirest exception
+	 *         the unirest exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/create/new")
@@ -150,7 +150,7 @@ public class ManageOrderController extends BaseController {
 	 * Choose designer.
 	 *
 	 * @param __chooseDesignerForJobRequest
-	 *            the choose designer for job request
+	 *        the choose designer for job request
 	 * @return the response
 	 */
 	@POST
@@ -167,7 +167,7 @@ public class ManageOrderController extends BaseController {
 	 * Complete job.
 	 *
 	 * @param __completeJobRequest
-	 *            the complete job request
+	 *        the complete job request
 	 * @return the response
 	 */
 	@POST
@@ -183,7 +183,7 @@ public class ManageOrderController extends BaseController {
 	 * Confirm order.
 	 *
 	 * @param __confirmOrderRequest
-	 *            the confirm order request
+	 *        the confirm order request
 	 * @return the response
 	 */
 	@POST
@@ -195,7 +195,8 @@ public class ManageOrderController extends BaseController {
 		try {
 			this.userManagement.confirmOrder(_user, __confirmOrderRequest);
 			return this.success();
-		} catch (NullPointerException | IllegalArgumentException _ex) {
+		}
+		catch (NullPointerException | IllegalArgumentException _ex) {
 			throw new BadRequestException(_ex.getMessage(), _ex);
 		}
 	}
@@ -204,17 +205,18 @@ public class ManageOrderController extends BaseController {
 	 * Edits the job.
 	 *
 	 * @param __editJobRequest
-	 *            the edit job request
+	 *        the edit job request
 	 * @return the response
 	 * @throws UnirestException
-	 *             the unirest exception
+	 *         the unirest exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@POST
 	@Path("/create/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response editJob(EditOrderRequest __editJobRequest) throws UnirestException, IOException {
+	public Response editJob(EditOrderRequest __editJobRequest)
+			throws UnirestException, IOException {
 		__editJobRequest.validate();
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		this.userManagement.editOrder(_user, __editJobRequest);
@@ -225,29 +227,29 @@ public class ManageOrderController extends BaseController {
 	 * Gets the designers.
 	 *
 	 * @param __index
-	 *            the index
+	 *        the index
 	 * @param __idCategory
-	 *            the id category
+	 *        the id category
 	 * @param __idsStyle
-	 *            the ids style
+	 *        the ids style
 	 * @param __idType
-	 *            the id type
+	 *        the id type
 	 * @param __filterRelevancy
-	 *            the filter relevancy.
-	 *            <li>0 for default
-	 *            <li>ID of style in __idsStyle parameter
+	 *        the filter relevancy.
+	 *        <li>0 for default
+	 *        <li>ID of style in __idsStyle parameter
 	 * @param __filterBudget
-	 *            the filter budget
-	 *            <li>0 for default
-	 *            <li>negative of budget amount for smaller than or equal the
-	 *            expectation
-	 *            <li>positive of budget amount for bigger than the expectation
+	 *        the filter budget
+	 *        <li>0 for default
+	 *        <li>negative of budget amount for smaller than or equal the
+	 *        expectation
+	 *        <li>positive of budget amount for bigger than the expectation
 	 * @param __filterQuality
-	 *            the filter quality
-	 *            <li>0 for default
-	 *            <li>1 for featured
-	 *            <li>2 for recommended
-	 *            <li>3 for popular
+	 *        the filter quality
+	 *        <li>0 for default
+	 *        <li>1 for featured
+	 *        <li>2 for recommended
+	 *        <li>3 for popular
 	 * @return the designers
 	 */
 	@GET
@@ -255,14 +257,16 @@ public class ManageOrderController extends BaseController {
 	public ListDesignersResponse getDesigners(@QueryParam("index") int __index,
 			@QueryParam("category_id") int __idCategory, @QueryParam("style_id") String __idsStyle,
 			@QueryParam("type_id") int __idType, @QueryParam("filter_1") int __filterRelevancy,
-			@QueryParam("filter_2") double __filterBudget, @QueryParam("filter_3") int __filterQuality) {
+			@QueryParam("filter_2") double __filterBudget,
+			@QueryParam("filter_3") int __filterQuality) {
 		List<Integer> _listIdsStyle = new ArrayList<>();
 		String[] _s = __idsStyle.split(",");
 		for (String _sId : _s) {
 			try {
 				int _id = Integer.parseInt(_sId);
 				_listIdsStyle.add(_id);
-			} catch (Exception _ex) {
+			}
+			catch (Exception _ex) {
 				// Swallow this exception
 			}
 		}
@@ -272,38 +276,42 @@ public class ManageOrderController extends BaseController {
 		Number[] _filter = { __filterRelevancy, __filterBudget, __filterQuality };
 
 		// Get portfolios by category and style
-		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index, Constant.PAGE_SIZE,
-				__idCategory, _listIdsStyle, __idType, _filter);
+		List<Object[]> _datas = this.userManagement.getListPortfoliosByCondition(__index,
+				Constant.PAGE_SIZE, __idCategory, _listIdsStyle, __idType, _filter);
 		String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 
-		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas, __index + Constant.PAGE_SIZE);
+		return new ListDesignersResponse(_prefixAvatarUrl, _prefixPortfolioUrl, _datas,
+				__index + Constant.PAGE_SIZE);
 	}
 
 	/**
 	 * Gets the invoice.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the invoice
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@GET
 	@Path("/invoice")
 	@Produces(MediaType.TEXT_HTML)
-	public String getInvoice(@QueryParam("job_id") int __idJob) throws URISyntaxException, IOException {
+	public String getInvoice(@QueryParam("job_id") int __idJob)
+			throws URISyntaxException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		Job _job = this.userManagement.getJobById(__idJob);
-		if (_job == null || _job.getDeleted().byteValue() == (byte) 1 || !_job.getAccountId().equals(_user.getId())) {
+		if (_job == null || _job.getDeleted().byteValue() == (byte) 1
+				|| !_job.getAccountId().equals(_user.getId())) {
 			throw new NotFoundException("Job not found");
 		}
 		if (_job.getStep().byteValue() != JobStepConstant.JOB_STEP_PAY.getStepCode()) {
 			throw new BadRequestException("Job not confirm payment");
 		}
-		File _template = new File(this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		File _template = new File(
+				this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
 		double _amount = _job.getBudget() + _job.getFee();
@@ -313,33 +321,37 @@ public class ManageOrderController extends BaseController {
 		return _content.replace("${job_id}", "" + __idJob)
 				.replace("${date_purchase}", _dateFormat.format(_job.getModified()))
 				.replace("${date_invoice}", _dateFormat.format(new Date()))
-				.replace("${job_description}", _job.getDescription()).replace("${job_amount}", "" + _amount);
+				.replace("${job_description}", _job.getDescription())
+				.replace("${job_amount}", "" + _amount);
 	}
 
 	/**
 	 * Gets the invoice for ios.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the invoice for ios
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	@GET
 	@Path("/invoice/ios")
 	@Produces(MediaType.APPLICATION_JSON)
-	public InvoiceResponse getInvoiceForIos(@QueryParam("job_id") int __idJob) throws URISyntaxException, IOException {
+	public InvoiceResponse getInvoiceForIos(@QueryParam("job_id") int __idJob)
+			throws URISyntaxException, IOException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		Job _job = this.userManagement.getJobById(__idJob);
-		if (_job == null || _job.getDeleted().byteValue() == (byte) 1 || !_job.getAccountId().equals(_user.getId())) {
+		if (_job == null || _job.getDeleted().byteValue() == (byte) 1
+				|| !_job.getAccountId().equals(_user.getId())) {
 			throw new NotFoundException("Job not found");
 		}
 		if (_job.getStep().byteValue() != JobStepConstant.JOB_STEP_PAY.getStepCode()) {
 			throw new BadRequestException("Job not confirm payment");
 		}
-		File _template = new File(this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+		File _template = new File(
+				this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
 		double _amount = _job.getBudget() + _job.getFee();
@@ -349,7 +361,8 @@ public class ManageOrderController extends BaseController {
 		_content = _content.replace("${job_id}", "" + __idJob)
 				.replace("${date_purchase}", _dateFormat.format(_job.getModified()))
 				.replace("${date_invoice}", _dateFormat.format(new Date()))
-				.replace("${job_description}", _job.getDescription()).replace("${job_amount}", "" + _amount);
+				.replace("${job_description}", _job.getDescription())
+				.replace("${job_amount}", "" + _amount);
 		return new InvoiceResponse(_content);
 	}
 
@@ -357,21 +370,23 @@ public class ManageOrderController extends BaseController {
 	 * Gets the job detail.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the job detail
 	 * @throws NotFoundException
-	 *             the not found exception
+	 *         the not found exception
 	 */
 	@GET
 	@Path("/manage/detail")
-	public JobOfUserDetailResponse getJobDetail(@QueryParam("job_id") int __idJob) throws javassist.NotFoundException {
+	public JobOfUserDetailResponse getJobDetail(@QueryParam("job_id") int __idJob)
+			throws javassist.NotFoundException {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 
 		// {job, designer_account, type, style}
 		Object[] _jobDetail = this.userManagement.getJobDataOfUserById(_user, __idJob);
 		if (_jobDetail == null) {
 			throw new NotFoundException("Data not found");
-		} else {
+		}
+		else {
 			return new JobOfUserDetailResponse(_jobDetail);
 		}
 	}
@@ -395,7 +410,7 @@ public class ManageOrderController extends BaseController {
 	 * Gets the order detail.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the order detail
 	 */
 	@GET
@@ -409,9 +424,10 @@ public class ManageOrderController extends BaseController {
 			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
 			String _prefixPortfolioUrl = this.httpHost + this.portfolioStoragePath;
-			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl, _prefixTypeUrl,
-					_prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
-		} catch (NullPointerException _ex) {
+			return new GetOrderResponse(_orderData, _prefixAvatarUrl, _prefixStyleUrl,
+					_prefixTypeUrl, _prefixCategoryUrl, _prefixJobUrl, _prefixPortfolioUrl);
+		}
+		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
 		}
 	}
@@ -420,7 +436,7 @@ public class ManageOrderController extends BaseController {
 	 * Gets the payment detail.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the payment detail
 	 */
 	@SuppressWarnings("unchecked")
@@ -430,9 +446,11 @@ public class ManageOrderController extends BaseController {
 		Account _user = (Account) this.validateContext.getUserPrincipal();
 		try {
 			Object[] _paymentDetail = this.userManagement.getPaymentDetailOfOrder(_user, __idJob);
-			return new OrderPaymentDetailResponse((Job) _paymentDetail[0], (PromoCode) _paymentDetail[1],
-					(List<Style>) _paymentDetail[2], (Type) _paymentDetail[3], (Category) _paymentDetail[4]);
-		} catch (NullPointerException _ex) {
+			return new OrderPaymentDetailResponse((Job) _paymentDetail[0],
+					(PromoCode) _paymentDetail[1], (List<Style>) _paymentDetail[2],
+					(Type) _paymentDetail[3], (Category) _paymentDetail[4]);
+		}
+		catch (NullPointerException _ex) {
 			throw new NotFoundException("Data not found", _ex);
 		}
 	}
@@ -441,7 +459,7 @@ public class ManageOrderController extends BaseController {
 	 * Gets the rating detail.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the rating detail
 	 */
 	@GET
@@ -449,14 +467,15 @@ public class ManageOrderController extends BaseController {
 	public RatingDetailResponse getRatingDetail(@QueryParam("job_id") int __idJob) {
 		Object[] _datas = this.userManagement.getJobRatingDetail(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
-		return new RatingDetailResponse((Account) _datas[0], (AccountsRating) _datas[1], _prefixAvatar);
+		return new RatingDetailResponse((Account) _datas[0], (AccountsRating) _datas[1],
+				_prefixAvatar);
 	}
 
 	/**
 	 * Pay job.
 	 *
 	 * @param __paymentForJobRequest
-	 *            the payment for job request
+	 *        the payment for job request
 	 * @return the response
 	 */
 	@POST
@@ -473,10 +492,10 @@ public class ManageOrderController extends BaseController {
 	 * Receive paypal callback.
 	 *
 	 * @param __paypalCallback
-	 *            the paypal callback
+	 *        the paypal callback
 	 * @return the response
 	 * @throws Exception
-	 *             the exception
+	 *         the exception
 	 */
 	@POST
 	@Path("/paypal/callback")
@@ -491,8 +510,8 @@ public class ManageOrderController extends BaseController {
 		// Step 1: Get access-token
 		HttpResponse<JsonNode> _authResponse = Unirest.post(this.paypalHost + "/oauth2/token")
 				.basicAuth(this.paypalClientId, this.paypalClientSecret)
-				.header("content-type", "application/x-www-form-urlencoded").body("grant_type=client_credentials")
-				.asJson();
+				.header("content-type", "application/x-www-form-urlencoded")
+				.body("grant_type=client_credentials").asJson();
 		Logger.getLogger(this.getClass()).debug(_authResponse.getBody().toString());
 		if (_authResponse.getStatus() != 200) {
 			throw new Exception("Paypal callback error: Cannot authorize");
@@ -505,8 +524,8 @@ public class ManageOrderController extends BaseController {
 		Logger.getLogger(this.getClass()).debug(_validateHttpRequest);
 
 		HttpResponse<JsonNode> _validateResponse = Unirest.get(_validateHttpRequest)
-				.header("content-type", "application/json").header("authorization", _tokenType + " " + _accessToken)
-				.asJson();
+				.header("content-type", "application/json")
+				.header("authorization", _tokenType + " " + _accessToken).asJson();
 		Logger.getLogger(this.getClass()).debug(_validateResponse.getBody().toString());
 		if (_validateResponse.getStatus() != 200) {
 			throw new Exception("Paypal callback error: Cannot validate");
@@ -518,7 +537,8 @@ public class ManageOrderController extends BaseController {
 			Account _user = (Account) this.validateContext.getUserPrincipal();
 			this.userManagement.applyPaypal(_user.getId(), _idJob);
 			return this.success();
-		} else {
+		}
+		else {
 			return this.fail(new BaseResponse(true, "Payment not approve"), Status.FORBIDDEN);
 		}
 	}
@@ -527,7 +547,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the avatar storage path.
 	 *
 	 * @param __avatarStoragePath
-	 *            the avatarStoragePath to set
+	 *        the avatarStoragePath to set
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
@@ -537,7 +557,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the category storage path.
 	 *
 	 * @param __categoryStoragePath
-	 *            the categoryStoragePath to set
+	 *        the categoryStoragePath to set
 	 */
 	public void setCategoryStoragePath(String __categoryStoragePath) {
 		this.categoryStoragePath = __categoryStoragePath;
@@ -547,7 +567,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the http host.
 	 *
 	 * @param __httpHost
-	 *            the httpHost to set
+	 *        the httpHost to set
 	 */
 	public void setHttpHost(String __httpHost) {
 		this.httpHost = __httpHost;
@@ -557,7 +577,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the job storage path.
 	 *
 	 * @param __jobStoragePath
-	 *            the jobStoragePath to set
+	 *        the jobStoragePath to set
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
 		this.jobStoragePath = __jobStoragePath;
@@ -567,7 +587,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the paypal client id.
 	 *
 	 * @param __paypalClientId
-	 *            the paypalClientId to set
+	 *        the paypalClientId to set
 	 */
 	public void setPaypalClientId(String __paypalClientId) {
 		this.paypalClientId = __paypalClientId;
@@ -577,7 +597,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the paypal client secret.
 	 *
 	 * @param __paypalClientSecret
-	 *            the paypalClientSecret to set
+	 *        the paypalClientSecret to set
 	 */
 	public void setPaypalClientSecret(String __paypalClientSecret) {
 		this.paypalClientSecret = __paypalClientSecret;
@@ -587,7 +607,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the paypal host.
 	 *
 	 * @param __paypalHost
-	 *            the new paypal host
+	 *        the new paypal host
 	 */
 	public void setPaypalHost(String __paypalHost) {
 		this.paypalHost = __paypalHost;
@@ -597,7 +617,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the portfolio storage path.
 	 *
 	 * @param __portfolioStoragePath
-	 *            the portfolioStoragePath to set
+	 *        the portfolioStoragePath to set
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;
@@ -607,7 +627,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the style storage path.
 	 *
 	 * @param __styleStoragePath
-	 *            the styleStoragePath to set
+	 *        the styleStoragePath to set
 	 */
 	public void setStyleStoragePath(String __styleStoragePath) {
 		this.styleStoragePath = __styleStoragePath;
@@ -617,7 +637,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the type storage path.
 	 *
 	 * @param __typeStoragePath
-	 *            the typeStoragePath to set
+	 *        the typeStoragePath to set
 	 */
 	public void setTypeStoragePath(String __typeStoragePath) {
 		this.typeStoragePath = __typeStoragePath;
@@ -627,7 +647,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the user management.
 	 *
 	 * @param __userManagement
-	 *            the new user management
+	 *        the new user management
 	 */
 	public void setUserManagement(UserManagement __userManagement) {
 		this.userManagement = __userManagement;
@@ -637,7 +657,7 @@ public class ManageOrderController extends BaseController {
 	 * Sets the validate context.
 	 *
 	 * @param __validateContext
-	 *            the validateContext to set
+	 *        the validateContext to set
 	 */
 	public void setValidateContext(SecurityContext __validateContext) {
 		this.validateContext = __validateContext;
@@ -647,7 +667,7 @@ public class ManageOrderController extends BaseController {
 	 * Use promocode for job.
 	 *
 	 * @param __usePromoCodeForOrder
-	 *            the use promo code for order
+	 *        the use promo code for order
 	 * @return the response
 	 */
 	@POST

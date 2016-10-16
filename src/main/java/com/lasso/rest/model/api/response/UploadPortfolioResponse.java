@@ -24,7 +24,7 @@ public class UploadPortfolioResponse extends BaseResponse {
 	 * Instantiates a new upload portfolio response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public UploadPortfolioResponse(boolean __error) {
 		super(__error);
@@ -34,9 +34,9 @@ public class UploadPortfolioResponse extends BaseResponse {
 	 * Instantiates a new upload portfolio response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public UploadPortfolioResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -46,11 +46,11 @@ public class UploadPortfolioResponse extends BaseResponse {
 	 * Instantiates a new upload portfolio response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public UploadPortfolioResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -60,7 +60,7 @@ public class UploadPortfolioResponse extends BaseResponse {
 	 * Instantiates a new upload portfolio response.
 	 *
 	 * @param __name
-	 *            the name
+	 *        the name
 	 */
 	public UploadPortfolioResponse(String __name) {
 		super();
@@ -80,7 +80,7 @@ public class UploadPortfolioResponse extends BaseResponse {
 	 * Sets the name.
 	 *
 	 * @param __name
-	 *            the name to set
+	 *        the name to set
 	 */
 	public void setName(String __name) {
 		this.name = __name;

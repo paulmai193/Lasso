@@ -21,23 +21,23 @@ public class CompleteJobRequest extends BaseRequest {
 
 	/** The communication. */
 	@JsonProperty("rating_communication")
-	private Integer communication = 0;
+	private Integer	communication	= 0;
 
 	/** The experience. */
 	@JsonProperty("rating_experience")
-	private Integer experience = 0;
+	private Integer	experience		= 0;
 
 	/** The id designer. */
 	@JsonProperty("designer_id")
-	private Integer idDesigner;
+	private Integer	idDesigner;
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer idJob;
+	private Integer	idJob;
 
 	/** The quality. */
 	@JsonProperty("rating_quality")
-	private Integer quality = 0;
+	private Integer	quality			= 0;
 
 	/**
 	 * Instantiates a new edits the job request.

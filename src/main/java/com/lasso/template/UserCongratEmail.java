@@ -21,27 +21,28 @@ import org.apache.commons.lang3.StringUtils;
 public class UserCongratEmail implements EmailTemplate {
 
 	/** The first name. */
-	private String firstName;
+	private String	firstName;
 
 	/** The link. */
-	private String link;
+	private String	link;
 
 	/** The template. */
-	private File template;
+	private File	template;
 
 	/**
 	 * Instantiates a new designer activate email.
 	 *
 	 * @param __firstName
-	 *            the first name
+	 *        the first name
 	 * @param __link
-	 *            the link
+	 *        the link
 	 * @throws URISyntaxException
-	 *             the URI syntax exception
+	 *         the URI syntax exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
-	public UserCongratEmail(String __firstName, String __link) throws URISyntaxException, IOException {
+	public UserCongratEmail(String __firstName, String __link)
+			throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.link = __link;
@@ -73,9 +74,12 @@ public class UserCongratEmail implements EmailTemplate {
 	public Map<String, File> getTemplate() {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
-		_mapTemplate.put("img_01_user_congratulation.jpg", new File(this.template, "img_01_user_congratulation.jpg"));
-		_mapTemplate.put("title_1_user_congratulation.jpg", new File(this.template, "title_1_user_congratulation.jpg"));
-		_mapTemplate.put("img_02_user_congratulation.jpg", new File(this.template, "img_02_user_congratulation.jpg"));
+		_mapTemplate.put("img_01_user_congratulation.jpg",
+				new File(this.template, "img_01_user_congratulation.jpg"));
+		_mapTemplate.put("title_1_user_congratulation.jpg",
+				new File(this.template, "title_1_user_congratulation.jpg"));
+		_mapTemplate.put("img_02_user_congratulation.jpg",
+				new File(this.template, "img_02_user_congratulation.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
@@ -93,8 +97,8 @@ public class UserCongratEmail implements EmailTemplate {
 	 */
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
-		this.template = new File(
-				this.getClass().getClassLoader().getResource("/email-template/user-congratulations").toURI());
+		this.template = new File(this.getClass().getClassLoader()
+				.getResource("/email-template/user-congratulations").toURI());
 	}
 
 }

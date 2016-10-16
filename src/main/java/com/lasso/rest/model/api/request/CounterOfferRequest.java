@@ -21,11 +21,11 @@ public class CounterOfferRequest extends BaseRequest {
 
 	/** The amount. */
 	@JsonProperty("amount")
-	private Double amount;
+	private Double	amount;
 
 	/** The id job. */
 	@JsonProperty("job_id")
-	private Integer idJob;
+	private Integer	idJob;
 
 	/**
 	 * Instantiates a new confirm order request.

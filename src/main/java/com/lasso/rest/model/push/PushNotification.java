@@ -18,18 +18,18 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class PushNotification {
 
 	/** The body. */
-	private String body;
+	private String	body;
 
 	/** The title. */
-	private String title;
+	private String	title;
 
 	/**
 	 * Instantiates a new push notification.
 	 *
 	 * @param __title
-	 *            the title
+	 *        the title
 	 * @param __body
-	 *            the body
+	 *        the body
 	 */
 	public PushNotification(String __title, String __body) {
 		super();

@@ -39,7 +39,8 @@ public class NotAuthorizedHandler implements ExceptionMapper<NotAuthorizedExcept
 	public Response toResponse(NotAuthorizedException __exception) {
 		NotAuthorizedHandler.LOGGER.warn(__exception.getMessage());
 		BaseResponse _errorResponse = new BaseResponse(true, __exception.getMessage());
-		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse).build();
+		return Response.status(__exception.getResponse().getStatus()).entity(_errorResponse)
+				.build();
 	}
 
 }

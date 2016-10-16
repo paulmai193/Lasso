@@ -46,30 +46,30 @@ import com.lasso.rest.service.DesignerManagement;
 public class ManageProjectController extends BaseController {
 
 	/** The avatar storage path. */
-	private String avatarStoragePath;
+	private String				avatarStoragePath;
 
 	/** The category storage path. */
-	private String categoryStoragePath;
+	private String				categoryStoragePath;
 
 	/** The user management. */
 	@Autowired
-	private DesignerManagement designerManagement;
+	private DesignerManagement	designerManagement;
 
 	/** The http host. */
-	private String httpHost;
+	private String				httpHost;
 
 	/** The job storage path. */
-	private String jobStoragePath;
+	private String				jobStoragePath;
 
 	/** The validateContext. */
 	@Context
-	private SecurityContext validateContext;
+	private SecurityContext		validateContext;
 
 	/**
 	 * Confirm offer.
 	 *
 	 * @param __counterOfferRequest
-	 *            the counter offer request
+	 *        the counter offer request
 	 * @return the response
 	 */
 	@POST
@@ -86,7 +86,7 @@ public class ManageProjectController extends BaseController {
 	 * Counter offer.
 	 *
 	 * @param __counterOfferRequest
-	 *            the counter offer request
+	 *        the counter offer request
 	 * @return the response
 	 */
 	@POST
@@ -103,10 +103,10 @@ public class ManageProjectController extends BaseController {
 	 * Gets the job detail.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the job detail
 	 * @throws NotFoundException
-	 *             the not found exception
+	 *         the not found exception
 	 */
 	@GET
 	@Path("/manage/detail")
@@ -118,7 +118,8 @@ public class ManageProjectController extends BaseController {
 		Object[] _jobDetail = this.designerManagement.getJobDataOfDesignerById(_designer, __idJob);
 		if (_jobDetail == null) {
 			throw new NotFoundException("Data not found");
-		} else {
+		}
+		else {
 			return new JobOfDesignerDetailResponse(_jobDetail);
 		}
 	}
@@ -142,7 +143,7 @@ public class ManageProjectController extends BaseController {
 	 * Gets the order detail.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the order detail
 	 */
 	@GET
@@ -154,8 +155,10 @@ public class ManageProjectController extends BaseController {
 			String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 			String _prefixCategoryUrl = this.httpHost + this.categoryStoragePath;
 			String _prefixJobUrl = this.httpHost + this.jobStoragePath;
-			return new GetOfferResponse(_orderData, _prefixAvatarUrl, _prefixCategoryUrl, _prefixJobUrl);
-		} catch (NullPointerException | NotFoundException _ex) {
+			return new GetOfferResponse(_orderData, _prefixAvatarUrl, _prefixCategoryUrl,
+					_prefixJobUrl);
+		}
+		catch (NullPointerException | NotFoundException _ex) {
 			throw new NotFoundException("Data not found", _ex);
 		}
 	}
@@ -164,7 +167,7 @@ public class ManageProjectController extends BaseController {
 	 * Sets the avatar storage path.
 	 *
 	 * @param __avatarStoragePath
-	 *            the avatarStoragePath to set
+	 *        the avatarStoragePath to set
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
@@ -174,7 +177,7 @@ public class ManageProjectController extends BaseController {
 	 * Sets the category storage path.
 	 *
 	 * @param __categoryStoragePath
-	 *            the categoryStoragePath to set
+	 *        the categoryStoragePath to set
 	 */
 	public void setCategoryStoragePath(String __categoryStoragePath) {
 		this.categoryStoragePath = __categoryStoragePath;
@@ -184,7 +187,7 @@ public class ManageProjectController extends BaseController {
 	 * Sets the designer management.
 	 *
 	 * @param __designerManagement
-	 *            the designerManagement to set
+	 *        the designerManagement to set
 	 */
 	public void setDesignerManagement(DesignerManagement __designerManagement) {
 		this.designerManagement = __designerManagement;
@@ -194,7 +197,7 @@ public class ManageProjectController extends BaseController {
 	 * Sets the http host.
 	 *
 	 * @param __httpHost
-	 *            the httpHost to set
+	 *        the httpHost to set
 	 */
 	public void setHttpHost(String __httpHost) {
 		this.httpHost = __httpHost;
@@ -204,7 +207,7 @@ public class ManageProjectController extends BaseController {
 	 * Sets the job storage path.
 	 *
 	 * @param __jobStoragePath
-	 *            the jobStoragePath to set
+	 *        the jobStoragePath to set
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
 		this.jobStoragePath = __jobStoragePath;
@@ -214,7 +217,7 @@ public class ManageProjectController extends BaseController {
 	 * Update stage.
 	 *
 	 * @param __updateJobStageRequest
-	 *            the update job stage request
+	 *        the update job stage request
 	 * @return the response
 	 */
 	@POST

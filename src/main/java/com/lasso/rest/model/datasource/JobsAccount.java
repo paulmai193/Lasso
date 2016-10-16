@@ -31,37 +31,37 @@ import org.hibernate.annotations.DynamicUpdate;
 public class JobsAccount implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	/** The account id. */
 	@Column(name = "account_id")
-	private Integer accountId;
+	private Integer				accountId;
 
 	/** The confirm. */
-	private Byte confirm;
+	private Byte				confirm;
 
 	/** The counter. */
-	private Double counter;
+	private Double				counter;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+	private Date				created;
 
 	/** The deleted. */
-	private Byte deleted;
+	private Byte				deleted;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer				id;
 
 	/** The job id. */
 	@Column(name = "job_id")
-	private Integer jobId;
+	private Integer				jobId;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
+	private Date				modified;
 
 	/**
 	 * Instantiates a new jobs account.
@@ -73,9 +73,9 @@ public class JobsAccount implements Serializable {
 	 * Instantiates a new jobs account.
 	 *
 	 * @param __accountId
-	 *            the account id
+	 *        the account id
 	 * @param __jobId
-	 *            the job id
+	 *        the job id
 	 */
 	public JobsAccount(Integer __accountId, Integer __jobId) {
 		super();
@@ -160,7 +160,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the account id.
 	 *
 	 * @param accountId
-	 *            the new account id
+	 *        the new account id
 	 */
 	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
@@ -170,7 +170,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the confirm.
 	 *
 	 * @param confirm
-	 *            the new confirm
+	 *        the new confirm
 	 */
 	public void setConfirm(Byte confirm) {
 		this.confirm = confirm;
@@ -180,7 +180,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the counter.
 	 *
 	 * @param counter
-	 *            the new counter
+	 *        the new counter
 	 */
 	public void setCounter(Double counter) {
 		this.counter = counter;
@@ -190,7 +190,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the created.
 	 *
 	 * @param created
-	 *            the new created
+	 *        the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -200,7 +200,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the deleted.
 	 *
 	 * @param deleted
-	 *            the new deleted
+	 *        the new deleted
 	 */
 	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
@@ -210,7 +210,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the id.
 	 *
 	 * @param id
-	 *            the new id
+	 *        the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -220,7 +220,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the job id.
 	 *
 	 * @param jobId
-	 *            the new job id
+	 *        the new job id
 	 */
 	public void setJobId(Integer jobId) {
 		this.jobId = jobId;
@@ -230,7 +230,7 @@ public class JobsAccount implements Serializable {
 	 * Sets the modified.
 	 *
 	 * @param modified
-	 *            the new modified
+	 *        the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;

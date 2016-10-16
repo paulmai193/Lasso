@@ -19,7 +19,7 @@ public interface CountryDAO extends HibernateSession {
 	 * Gets the by id.
 	 *
 	 * @param __countryId
-	 *            the country id
+	 *        the country id
 	 * @return the by id
 	 */
 	public Country getById(Integer __countryId);
@@ -28,8 +28,8 @@ public interface CountryDAO extends HibernateSession {
 	 * Gets the country ids by code.
 	 *
 	 * @param __code
-	 *            the code. If code is <strong>"all"</strong> that mean get all
-	 *            of countries were supported
+	 *        the code. If code is <strong>"all"</strong> that mean get all
+	 *        of countries were supported
 	 * @return the country ids by code
 	 */
 	public List<Country> getCountryIdsByCode(String __code);

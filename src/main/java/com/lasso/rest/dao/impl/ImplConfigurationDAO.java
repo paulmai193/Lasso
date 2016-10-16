@@ -46,7 +46,7 @@ public class ImplConfigurationDAO implements ConfigurationDAO {
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

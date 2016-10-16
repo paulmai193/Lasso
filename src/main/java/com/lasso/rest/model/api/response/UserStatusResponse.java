@@ -24,7 +24,7 @@ public class UserStatusResponse extends BaseResponse {
 	 * Instantiates a new user status response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 */
 	public UserStatusResponse(boolean __error) {
 		super(__error);
@@ -34,9 +34,9 @@ public class UserStatusResponse extends BaseResponse {
 	 * Instantiates a new user status response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 */
 	public UserStatusResponse(boolean __error, String __message) {
 		super(__error, __message);
@@ -46,11 +46,11 @@ public class UserStatusResponse extends BaseResponse {
 	 * Instantiates a new user status response.
 	 *
 	 * @param __error
-	 *            the error
+	 *        the error
 	 * @param __message
-	 *            the message
+	 *        the message
 	 * @param __detail
-	 *            the detail
+	 *        the detail
 	 */
 	public UserStatusResponse(boolean __error, String __message, String __detail) {
 		super(__error, __message, __detail);
@@ -60,7 +60,7 @@ public class UserStatusResponse extends BaseResponse {
 	 * Instantiates a new user status response.
 	 *
 	 * @param __status
-	 *            the status
+	 *        the status
 	 */
 	public UserStatusResponse(byte __status) {
 		super();

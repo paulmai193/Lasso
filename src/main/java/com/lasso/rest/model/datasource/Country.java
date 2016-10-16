@@ -31,39 +31,39 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Country implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	/** The code. */
-	private String code;
+	private String				code;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+	private Date				created;
 
 	/** The deleted. */
-	private byte deleted;
+	private byte				deleted;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int					id;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
+	private Date				modified;
 
 	/** The name. */
-	private String name;
+	private String				name;
 
 	/** The phone code. */
 	@Column(name = "phone_code")
-	private int phoneCode;
+	private int					phoneCode;
 
 	/** The sort. */
-	private int sort;
+	private int					sort;
 
 	/** The status. */
-	private byte status;
+	private byte				status;
 
 	/**
 	 * Instantiates a new country.
@@ -156,7 +156,7 @@ public class Country implements Serializable {
 	 * Sets the code.
 	 *
 	 * @param code
-	 *            the new code
+	 *        the new code
 	 */
 	public void setCode(String code) {
 		this.code = code;
@@ -166,7 +166,7 @@ public class Country implements Serializable {
 	 * Sets the created.
 	 *
 	 * @param created
-	 *            the new created
+	 *        the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -176,7 +176,7 @@ public class Country implements Serializable {
 	 * Sets the deleted.
 	 *
 	 * @param deleted
-	 *            the new deleted
+	 *        the new deleted
 	 */
 	public void setDeleted(byte deleted) {
 		this.deleted = deleted;
@@ -186,7 +186,7 @@ public class Country implements Serializable {
 	 * Sets the id.
 	 *
 	 * @param id
-	 *            the new id
+	 *        the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -196,7 +196,7 @@ public class Country implements Serializable {
 	 * Sets the modified.
 	 *
 	 * @param modified
-	 *            the new modified
+	 *        the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -206,7 +206,7 @@ public class Country implements Serializable {
 	 * Sets the name.
 	 *
 	 * @param name
-	 *            the new name
+	 *        the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -216,7 +216,7 @@ public class Country implements Serializable {
 	 * Sets the phone code.
 	 *
 	 * @param phoneCode
-	 *            the new phone code
+	 *        the new phone code
 	 */
 	public void setPhoneCode(int phoneCode) {
 		this.phoneCode = phoneCode;
@@ -226,7 +226,7 @@ public class Country implements Serializable {
 	 * Sets the sort.
 	 *
 	 * @param sort
-	 *            the new sort
+	 *        the new sort
 	 */
 	public void setSort(int sort) {
 		this.sort = sort;
@@ -236,7 +236,7 @@ public class Country implements Serializable {
 	 * Sets the status.
 	 *
 	 * @param status
-	 *            the new status
+	 *        the new status
 	 */
 	public void setStatus(byte status) {
 		this.status = status;

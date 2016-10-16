@@ -23,31 +23,31 @@ public class CreatePortfolioRequest extends BaseRequest {
 
 	/** The amount. */
 	@JsonProperty("amount")
-	private Double amount;
+	private Double			amount;
 
 	/** The id category. */
 	@JsonProperty("category_id")
-	private Integer idCategory;
+	private Integer			idCategory;
 
 	/** The id style. */
 	@JsonProperty("style_id")
-	private Integer idStyle;
+	private Integer			idStyle;
 
 	/** The id types. */
 	@JsonProperty("type_id")
-	private List<Integer> idTypes;
+	private List<Integer>	idTypes;
 
 	/** The images. */
 	@JsonProperty("image")
-	private List<String> images;
+	private List<String>	images;
 
 	/** The info. */
 	@JsonProperty("portfolio_info")
-	private String info;
+	private String			info;
 
 	/** The title. */
 	@JsonProperty("portfolio_title")
-	private String title;
+	private String			title;
 
 	/**
 	 * Instantiates a new creates the portfolio request.
@@ -122,7 +122,7 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 * Sets the amount.
 	 *
 	 * @param __amount
-	 *            the amount to set
+	 *        the amount to set
 	 */
 	public void setAmount(Double __amount) {
 		this.amount = __amount;
@@ -132,7 +132,7 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 * Sets the id category.
 	 *
 	 * @param __idCategory
-	 *            the idCategory to set
+	 *        the idCategory to set
 	 */
 	public void setIdCategory(Integer __idCategory) {
 		this.idCategory = __idCategory;
@@ -142,7 +142,7 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 * Sets the id style.
 	 *
 	 * @param __idStyle
-	 *            the idStyle to set
+	 *        the idStyle to set
 	 */
 	public void setIdStyle(Integer __idStyle) {
 		this.idStyle = __idStyle;
@@ -152,7 +152,7 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 * Sets the id types.
 	 *
 	 * @param __idTypes
-	 *            the idTypes to set
+	 *        the idTypes to set
 	 */
 	public void setIdTypes(List<Integer> __idTypes) {
 		this.idTypes = __idTypes;
@@ -162,7 +162,7 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 * Sets the images.
 	 *
 	 * @param __images
-	 *            the images to set
+	 *        the images to set
 	 */
 	public void setImages(List<String> __images) {
 		this.images = __images;
@@ -172,7 +172,7 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 * Sets the info.
 	 *
 	 * @param __info
-	 *            the info to set
+	 *        the info to set
 	 */
 	public void setInfo(String __info) {
 		this.info = __info;
@@ -182,7 +182,7 @@ public class CreatePortfolioRequest extends BaseRequest {
 	 * Sets the title.
 	 *
 	 * @param __title
-	 *            the title to set
+	 *        the title to set
 	 */
 	public void setTitle(String __title) {
 		this.title = __title;

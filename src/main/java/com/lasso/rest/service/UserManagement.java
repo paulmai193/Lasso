@@ -30,9 +30,9 @@ public interface UserManagement extends ProjectManagement {
 	 * Apply payment.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __paymentForJobRequest
-	 *            the payment for job request
+	 *        the payment for job request
 	 */
 	void applyPayment(Account __user, PaymentForOrderRequest __paymentForJobRequest);
 
@@ -40,9 +40,9 @@ public interface UserManagement extends ProjectManagement {
 	 * Apply paypal.
 	 *
 	 * @param __idUser
-	 *            the id user
+	 *        the id user
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 */
 	void applyPaypal(int __idUser, int __idJob);
 
@@ -50,9 +50,9 @@ public interface UserManagement extends ProjectManagement {
 	 * Apply promo code for order.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __usePromoCodeForOrder
-	 *            the use promo code for order
+	 *        the use promo code for order
 	 */
 	void applyPromoCodeForOrder(Account __user, UsePromoCodeForOrder __usePromoCodeForOrder);
 
@@ -60,17 +60,18 @@ public interface UserManagement extends ProjectManagement {
 	 * Choose designer for offer.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __chooseDesignerForOrderRequest
-	 *            the choose designer for order request
+	 *        the choose designer for order request
 	 */
-	void chooseDesignerForOrder(Account __user, ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
+	void chooseDesignerForOrder(Account __user,
+			ChooseDesignerForOrderRequest __chooseDesignerForOrderRequest);
 
 	/**
 	 * Complete job.
 	 *
 	 * @param __completeJobRequest
-	 *            the complete job request
+	 *        the complete job request
 	 */
 	void completeJob(CompleteJobRequest __completeJobRequest);
 
@@ -78,9 +79,9 @@ public interface UserManagement extends ProjectManagement {
 	 * Confirm order.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __confirmOrderRequest
-	 *            the confirm order request
+	 *        the confirm order request
 	 */
 	void confirmOrder(Account __user, ConfirmOrderRequest __confirmOrderRequest);
 
@@ -88,14 +89,14 @@ public interface UserManagement extends ProjectManagement {
 	 * Creates the new offer.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __createNewOrderRequest
-	 *            the create new order request
+	 *        the create new order request
 	 * @return the job ID
 	 * @throws UnirestException
-	 *             the unirest exception
+	 *         the unirest exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
 	Integer createNewOrder(Account __user, CreateNewOrderRequest __createNewOrderRequest)
 			throws UnirestException, IOException;
@@ -104,26 +105,27 @@ public interface UserManagement extends ProjectManagement {
 	 * Edits the offer.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __editOrderRequest
-	 *            the edit order request
+	 *        the edit order request
 	 * @throws UnirestException
-	 *             the unirest exception
+	 *         the unirest exception
 	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 *         Signals that an I/O exception has occurred.
 	 */
-	void editOrder(Account __user, EditOrderRequest __editOrderRequest) throws UnirestException, IOException;
+	void editOrder(Account __user, EditOrderRequest __editOrderRequest)
+			throws UnirestException, IOException;
 
 	/**
 	 * Gets the job data of user by id.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the job data of user by id
 	 * @throws NotFoundException
-	 *             the not found exception
+	 *         the not found exception
 	 */
 	Object[] getJobDataOfUserById(Account __user, int __idJob) throws NotFoundException;
 
@@ -131,7 +133,7 @@ public interface UserManagement extends ProjectManagement {
 	 * Gets the job rating detail.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the job rating detail
 	 */
 	Object[] getJobRatingDetail(int __idJob);
@@ -140,7 +142,7 @@ public interface UserManagement extends ProjectManagement {
 	 * Gets the list jobs data of user.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @return the list jobs data of user
 	 */
 	List<Object[]> getListJobsDataOfUser(Account __user);
@@ -149,27 +151,27 @@ public interface UserManagement extends ProjectManagement {
 	 * Gets the list portfolios by condition.
 	 *
 	 * @param __index
-	 *            the index
+	 *        the index
 	 * @param __size
-	 *            the size
+	 *        the size
 	 * @param __idCategory
-	 *            the id category
+	 *        the id category
 	 * @param _idsStyle
-	 *            the ids style
+	 *        the ids style
 	 * @param __idType
-	 *            the id type
+	 *        the id type
 	 * @param __filter
-	 *            the filter: relevancy - budget - quality
+	 *        the filter: relevancy - budget - quality
 	 * @return the list portfolios data by condition {portoflio, designer}
 	 */
-	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory, List<Integer> _idsStyle,
-			int __idType, Number[] __filter);
+	List<Object[]> getListPortfoliosByCondition(int __index, int __size, int __idCategory,
+			List<Integer> _idsStyle, int __idType, Number[] __filter);
 
 	/**
 	 * Gets the order data by id.
 	 *
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the order data by id
 	 */
 	Object[] getOrderDataById(int __idJob);
@@ -178,9 +180,9 @@ public interface UserManagement extends ProjectManagement {
 	 * Gets the payment detail of order.
 	 *
 	 * @param __user
-	 *            the user
+	 *        the user
 	 * @param __idJob
-	 *            the id job
+	 *        the id job
 	 * @return the payment detail of order
 	 */
 	Object[] getPaymentDetailOfOrder(Account __user, int __idJob);

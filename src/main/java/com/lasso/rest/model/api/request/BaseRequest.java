@@ -23,7 +23,7 @@ public abstract class BaseRequest {
 	 * Validate request object.
 	 *
 	 * @throws ObjectParamException
-	 *             the object param exception
+	 *         the object param exception
 	 */
 	public abstract void validate() throws ObjectParamException;
 }

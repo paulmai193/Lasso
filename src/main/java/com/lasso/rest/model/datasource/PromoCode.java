@@ -29,55 +29,55 @@ import javax.persistence.TemporalType;
 public class PromoCode implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	/** The code. */
-	private String code;
+	private String				code;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+	private Date				created;
 
 	/** The deleted. */
-	private byte deleted;
+	private byte				deleted;
 
 	/** The description. */
 	@Lob
-	private String description;
+	private String				description;
 
 	/** The discount. */
-	private double discount;
+	private double				discount;
 
 	/** The end date. */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "end_date")
-	private Date endDate;
+	private Date				endDate;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int					id;
 
 	/** The limit. */
-	private int limit;
+	private int					limit;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
+	private Date				modified;
 
 	/** The start date. */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "start_date")
-	private Date startDate;
+	private Date				startDate;
 
 	/** The status. */
-	private byte status;
+	private byte				status;
 
 	/** The title. */
-	private String title;
+	private String				title;
 
 	/** The type. */
-	private byte type;
+	private byte				type;
 
 	/**
 	 * Instantiates a new promo code.
@@ -206,7 +206,7 @@ public class PromoCode implements Serializable {
 	 * Sets the code.
 	 *
 	 * @param code
-	 *            the new code
+	 *        the new code
 	 */
 	public void setCode(String code) {
 		this.code = code;
@@ -216,7 +216,7 @@ public class PromoCode implements Serializable {
 	 * Sets the created.
 	 *
 	 * @param created
-	 *            the new created
+	 *        the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -226,7 +226,7 @@ public class PromoCode implements Serializable {
 	 * Sets the deleted.
 	 *
 	 * @param deleted
-	 *            the new deleted
+	 *        the new deleted
 	 */
 	public void setDeleted(byte deleted) {
 		this.deleted = deleted;
@@ -236,7 +236,7 @@ public class PromoCode implements Serializable {
 	 * Sets the description.
 	 *
 	 * @param description
-	 *            the new description
+	 *        the new description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -246,7 +246,7 @@ public class PromoCode implements Serializable {
 	 * Sets the discount.
 	 *
 	 * @param discount
-	 *            the new discount
+	 *        the new discount
 	 */
 	public void setDiscount(double discount) {
 		this.discount = discount;
@@ -256,7 +256,7 @@ public class PromoCode implements Serializable {
 	 * Sets the end date.
 	 *
 	 * @param endDate
-	 *            the new end date
+	 *        the new end date
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
@@ -266,7 +266,7 @@ public class PromoCode implements Serializable {
 	 * Sets the id.
 	 *
 	 * @param id
-	 *            the new id
+	 *        the new id
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -276,7 +276,7 @@ public class PromoCode implements Serializable {
 	 * Sets the limit.
 	 *
 	 * @param limit
-	 *            the new limit
+	 *        the new limit
 	 */
 	public void setLimit(int limit) {
 		this.limit = limit;
@@ -286,7 +286,7 @@ public class PromoCode implements Serializable {
 	 * Sets the modified.
 	 *
 	 * @param modified
-	 *            the new modified
+	 *        the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -296,7 +296,7 @@ public class PromoCode implements Serializable {
 	 * Sets the start date.
 	 *
 	 * @param startDate
-	 *            the new start date
+	 *        the new start date
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -306,7 +306,7 @@ public class PromoCode implements Serializable {
 	 * Sets the status.
 	 *
 	 * @param status
-	 *            the new status
+	 *        the new status
 	 */
 	public void setStatus(byte status) {
 		this.status = status;
@@ -316,7 +316,7 @@ public class PromoCode implements Serializable {
 	 * Sets the title.
 	 *
 	 * @param title
-	 *            the new title
+	 *        the new title
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -326,7 +326,7 @@ public class PromoCode implements Serializable {
 	 * Sets the type.
 	 *
 	 * @param type
-	 *            the new type
+	 *        the new type
 	 */
 	public void setType(byte type) {
 		this.type = type;

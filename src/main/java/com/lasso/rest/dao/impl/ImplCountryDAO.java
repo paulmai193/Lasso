@@ -57,7 +57,7 @@ public class ImplCountryDAO implements CountryDAO {
 			_criteria.add(Restrictions.eq("code", __code));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-				.addOrder(Order.asc("sort")).addOrder(Order.asc("name"));
+		.addOrder(Order.asc("sort")).addOrder(Order.asc("name"));
 		return _criteria.list();
 	}
 
@@ -65,7 +65,7 @@ public class ImplCountryDAO implements CountryDAO {
 	 * Sets the session factory.
 	 *
 	 * @param __sessionFactory
-	 *            the new session factory
+	 *        the new session factory
 	 */
 	@Override
 	public void setSessionFactory(SessionFactory __sessionFactory) {

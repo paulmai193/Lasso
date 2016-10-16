@@ -19,11 +19,11 @@ public interface CategoryDAO extends HibernateSession {
 	 * Gets the categories.
 	 *
 	 * @param __offset
-	 *            the offset
+	 *        the offset
 	 * @param __limit
-	 *            the limit
+	 *        the limit
 	 * @param __keyword
-	 *            the keyword
+	 *        the keyword
 	 * @return the categories
 	 */
 	List<Category> getCategories(int __offset, int __limit, String __keyword);
@@ -32,7 +32,7 @@ public interface CategoryDAO extends HibernateSession {
 	 * Gets the category by id.
 	 *
 	 * @param __idCategory
-	 *            the id category
+	 *        the id category
 	 * @return the category by id
 	 */
 	Category getCategoryById(int __idCategory);

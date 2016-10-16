@@ -31,8 +31,9 @@ public class ImplAccountRatingDAO implements AccountRatingDAO {
 	 */
 	@Override
 	public AccountsRating getByAccountAndJob(int __idAccount, int __idJob) {
-		return (AccountsRating) this.sessionFactory.getCurrentSession().createCriteria(AccountsRating.class)
-				.add(Restrictions.eq("accountId", __idAccount)).add(Restrictions.eq("jobId", __idJob)).uniqueResult();
+		return (AccountsRating) this.sessionFactory.getCurrentSession()
+				.createCriteria(AccountsRating.class).add(Restrictions.eq("accountId", __idAccount))
+				.add(Restrictions.eq("jobId", __idJob)).uniqueResult();
 	}
 
 	/*

@@ -36,92 +36,92 @@ import com.lasso.rest.model.api.request.EditOrderRequest;
 public class Job implements Serializable {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+	private static final long	serialVersionUID	= 1L;
 
 	/** The account id. */
 	@Column(name = "account_id")
-	private Integer accountId;
+	private Integer				accountId;
 
 	/** The assets url. */
 	@Column(name = "assets_url")
-	private String assetsUrl;
+	private String				assetsUrl;
 
 	/** The budget. */
-	private Double budget;
+	private Double				budget;
 
 	/** The category id. */
 	@Column(name = "category_id")
-	private Integer categoryId;
+	private Integer				categoryId;
 
 	/** The completed. */
-	private Byte completed;
+	private Byte				completed;
 
 	/** The created. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date created;
+	private Date				created;
 
 	/** The deleted. */
-	private Byte deleted;
+	private Byte				deleted;
 
 	/** The description. */
-	private String description;
+	private String				description;
 
 	/** The discount. */
-	private Double discount;
+	private Double				discount;
 
 	/** The fee. */
-	private Double fee;
+	private Double				fee;
 
 	/** The further information. */
 	@Lob
 	@Column(name = "further_information")
-	private String furtherInformation;
+	private String				furtherInformation;
 
 	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer				id;
 
 	/** The latest submission. */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "latest_submission")
-	private Date latestSubmission;
+	private Date				latestSubmission;
 
 	/** The modified. */
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date modified;
+	private Date				modified;
 
 	/** The objective. */
-	private String objective;
+	private String				objective;
 
 	/** The paid. */
-	private Byte paid;
+	private Byte				paid;
 
 	/** The reference. */
 	@Lob
-	private String reference;
+	private String				reference;
 
 	/** The stage. */
-	private Byte stage;
+	private Byte				stage;
 
 	/** The stage date. */
 	@Temporal(TemporalType.DATE)
 	@Column(name = "stage_date")
-	private Date stageDate;
+	private Date				stageDate;
 
 	/** The status. */
-	private Byte status;
+	private Byte				status;
 
 	/** The step. */
-	private Byte step;
+	private Byte				step;
 
 	/** The submission. */
 	@Temporal(TemporalType.DATE)
-	private Date submission;
+	private Date				submission;
 
 	/** The type id. */
 	@Column(name = "type_id")
-	private Integer typeId;
+	private Integer				typeId;
 
 	/**
 	 * Instantiates a new job.
@@ -133,7 +133,7 @@ public class Job implements Serializable {
 	 * Instantiates a new job.
 	 *
 	 * @param __newJobRequest
-	 *            the new job request
+	 *        the new job request
 	 */
 	public Job(CreateNewOrderRequest __newJobRequest) {
 		this.assetsUrl = __newJobRequest.getAssetUrl();
@@ -148,7 +148,8 @@ public class Job implements Serializable {
 		this.typeId = __newJobRequest.getIdType();
 		this.latestSubmission = __newJobRequest.getLastSubmission();
 		this.objective = __newJobRequest.getObjective();
-		String _reference = Arrays.toString(__newJobRequest.getReference().toArray()).replace(" ", "");
+		String _reference = Arrays.toString(__newJobRequest.getReference().toArray()).replace(" ",
+				"");
 		this.reference = _reference.substring(1, _reference.length() - 1);
 		this.submission = __newJobRequest.getSubmission();
 	}
@@ -364,7 +365,7 @@ public class Job implements Serializable {
 	 * Sets the account id.
 	 *
 	 * @param accountId
-	 *            the new account id
+	 *        the new account id
 	 */
 	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
@@ -374,7 +375,7 @@ public class Job implements Serializable {
 	 * Sets the assets url.
 	 *
 	 * @param assetsUrl
-	 *            the new assets url
+	 *        the new assets url
 	 */
 	public void setAssetsUrl(String assetsUrl) {
 		this.assetsUrl = assetsUrl;
@@ -384,7 +385,7 @@ public class Job implements Serializable {
 	 * Sets the budget.
 	 *
 	 * @param budget
-	 *            the new budget
+	 *        the new budget
 	 */
 	public void setBudget(Double budget) {
 		this.budget = budget;
@@ -394,7 +395,7 @@ public class Job implements Serializable {
 	 * Sets the category id.
 	 *
 	 * @param categoryId
-	 *            the new category id
+	 *        the new category id
 	 */
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
@@ -404,7 +405,7 @@ public class Job implements Serializable {
 	 * Sets the completed.
 	 *
 	 * @param completed
-	 *            the new completed
+	 *        the new completed
 	 */
 	public void setCompleted(Byte completed) {
 		this.completed = completed;
@@ -414,7 +415,7 @@ public class Job implements Serializable {
 	 * Sets the created.
 	 *
 	 * @param created
-	 *            the new created
+	 *        the new created
 	 */
 	public void setCreated(Date created) {
 		this.created = created;
@@ -424,7 +425,7 @@ public class Job implements Serializable {
 	 * Sets the deleted.
 	 *
 	 * @param deleted
-	 *            the new deleted
+	 *        the new deleted
 	 */
 	public void setDeleted(Byte deleted) {
 		this.deleted = deleted;
@@ -434,7 +435,7 @@ public class Job implements Serializable {
 	 * Sets the description.
 	 *
 	 * @param description
-	 *            the new description
+	 *        the new description
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -444,7 +445,7 @@ public class Job implements Serializable {
 	 * Sets the discount.
 	 *
 	 * @param discount
-	 *            the new discount
+	 *        the new discount
 	 */
 	public void setDiscount(Double discount) {
 		this.discount = discount;
@@ -454,7 +455,7 @@ public class Job implements Serializable {
 	 * Sets the fee.
 	 *
 	 * @param fee
-	 *            the new fee
+	 *        the new fee
 	 */
 	public void setFee(Double fee) {
 		this.fee = fee;
@@ -464,7 +465,7 @@ public class Job implements Serializable {
 	 * Sets the further information.
 	 *
 	 * @param furtherInformation
-	 *            the new further information
+	 *        the new further information
 	 */
 	public void setFurtherInformation(String furtherInformation) {
 		this.furtherInformation = furtherInformation;
@@ -474,7 +475,7 @@ public class Job implements Serializable {
 	 * Sets the id.
 	 *
 	 * @param id
-	 *            the new id
+	 *        the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -484,7 +485,7 @@ public class Job implements Serializable {
 	 * Sets the latest submission.
 	 *
 	 * @param latestSubmission
-	 *            the new latest submission
+	 *        the new latest submission
 	 */
 	public void setLatestSubmission(Date latestSubmission) {
 		this.latestSubmission = latestSubmission;
@@ -494,7 +495,7 @@ public class Job implements Serializable {
 	 * Sets the modified.
 	 *
 	 * @param modified
-	 *            the new modified
+	 *        the new modified
 	 */
 	public void setModified(Date modified) {
 		this.modified = modified;
@@ -504,7 +505,7 @@ public class Job implements Serializable {
 	 * Sets the objective.
 	 *
 	 * @param objective
-	 *            the new objective
+	 *        the new objective
 	 */
 	public void setObjective(String objective) {
 		this.objective = objective;
@@ -514,7 +515,7 @@ public class Job implements Serializable {
 	 * Sets the paid.
 	 *
 	 * @param paid
-	 *            the new paid
+	 *        the new paid
 	 */
 	public void setPaid(Byte paid) {
 		this.paid = paid;
@@ -524,7 +525,7 @@ public class Job implements Serializable {
 	 * Sets the reference.
 	 *
 	 * @param reference
-	 *            the new reference
+	 *        the new reference
 	 */
 	public void setReference(String reference) {
 		this.reference = reference;
@@ -534,7 +535,7 @@ public class Job implements Serializable {
 	 * Sets the stage.
 	 *
 	 * @param stage
-	 *            the new stage
+	 *        the new stage
 	 */
 	public void setStage(Byte stage) {
 		this.stage = stage;
@@ -544,7 +545,7 @@ public class Job implements Serializable {
 	 * Sets the stage date.
 	 *
 	 * @param stageDate
-	 *            the new stage date
+	 *        the new stage date
 	 */
 	public void setStageDate(Date stageDate) {
 		this.stageDate = stageDate;
@@ -554,7 +555,7 @@ public class Job implements Serializable {
 	 * Sets the status.
 	 *
 	 * @param status
-	 *            the new status
+	 *        the new status
 	 */
 	public void setStatus(Byte status) {
 		this.status = status;
@@ -564,7 +565,7 @@ public class Job implements Serializable {
 	 * Sets the step.
 	 *
 	 * @param step
-	 *            the new step
+	 *        the new step
 	 */
 	public void setStep(Byte step) {
 		this.step = step;
@@ -574,7 +575,7 @@ public class Job implements Serializable {
 	 * Sets the submission.
 	 *
 	 * @param submission
-	 *            the new submission
+	 *        the new submission
 	 */
 	public void setSubmission(Date submission) {
 		this.submission = submission;
@@ -584,7 +585,7 @@ public class Job implements Serializable {
 	 * Sets the type id.
 	 *
 	 * @param typeId
-	 *            the new type id
+	 *        the new type id
 	 */
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
@@ -594,7 +595,7 @@ public class Job implements Serializable {
 	 * Update.
 	 *
 	 * @param __editJobRequest
-	 *            the edit job request
+	 *        the edit job request
 	 */
 	public void update(EditOrderRequest __editJobRequest) {
 		this.assetsUrl = __editJobRequest.getAssetUrl();
@@ -604,7 +605,8 @@ public class Job implements Serializable {
 		this.latestSubmission = __editJobRequest.getLastSubmission();
 		this.objective = __editJobRequest.getObjective();
 		if (!__editJobRequest.getReference().isEmpty()) {
-			String _reference = Arrays.toString(__editJobRequest.getReference().toArray()).replace(" ", "");
+			String _reference = Arrays.toString(__editJobRequest.getReference().toArray())
+					.replace(" ", "");
 			this.reference = _reference.substring(1, _reference.length() - 1);
 		}
 		this.submission = __editJobRequest.getSubmission();
