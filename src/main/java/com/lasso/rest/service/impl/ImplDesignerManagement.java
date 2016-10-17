@@ -209,37 +209,27 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 			// Copy project images from 1st portfolio directory
 			// directory
 			for (String _tempFileName : __createPortfolioRequest.getImages()) {
-				File _tempFile = new File(
-				        _webContextStoragePath + this.portfolioStoragePath + "/" + _tempFileName);
-				if (_tempFile.exists()) {
-					// Copy original file
-					this.uploadImageManagement.copyImage(_tempFile, new File(
-					        _webContextStoragePath + this.projectStoragePath + "/Original/"));
+				// Copy original file
+				this.uploadImageManagement.copyImage(
+				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Original/"),
+				        new File(_webContextStoragePath + this.projectStoragePath + "/Original/"));
 
-					// Copy icon file
-					this.uploadImageManagement.copyImage(
-					        new File(_webContextStoragePath + this.portfolioStoragePath + "/Icon/"
-					                + _tempFileName),
-					        new File(_webContextStoragePath + this.projectStoragePath + "/Icon/"
-					                + _tempFileName));
-					// Copy icon file
-					this.uploadImageManagement.copyImage(
-					        new File(_webContextStoragePath + this.portfolioStoragePath + "/Small/"
-					                + _tempFileName),
-					        new File(_webContextStoragePath + this.projectStoragePath + "/Small/"
-					                + _tempFileName));
-					// Copy icon file
-					this.uploadImageManagement.copyImage(
-					        new File(_webContextStoragePath + this.portfolioStoragePath + "/Retina/"
-					                + _tempFileName),
-					        new File(_webContextStoragePath + this.projectStoragePath + "/Retina/"
-					                + _tempFileName));
-				}
-				else {
-					Logger.getLogger(this.getClass())
-					        .warn("Portfolio temporary file not exist. Check this path: "
-					                + _tempFile.getAbsolutePath());
-				}
+				// Copy icon file
+				this.uploadImageManagement.copyImage(
+				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Icon/"
+				                + _tempFileName),
+				        new File(_webContextStoragePath + this.projectStoragePath + "/Icon/"));
+				// Copy icon file
+				this.uploadImageManagement.copyImage(
+				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Small/"
+				                + _tempFileName),
+				        new File(_webContextStoragePath + this.projectStoragePath + "/Small/"));
+				// Copy icon file
+				this.uploadImageManagement.copyImage(
+				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Retina/"
+				                + _tempFileName),
+				        new File(_webContextStoragePath + this.projectStoragePath + "/Retina/"));
+				break;
 			}
 		}
 		finally {
