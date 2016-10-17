@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the configurations database table.
  *

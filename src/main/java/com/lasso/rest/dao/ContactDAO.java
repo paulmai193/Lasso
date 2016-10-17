@@ -5,7 +5,6 @@ package com.lasso.rest.dao;
 
 import com.lasso.rest.model.datasource.Contact;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ContactDAO.
  *

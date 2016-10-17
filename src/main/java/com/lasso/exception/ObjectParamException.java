@@ -6,7 +6,6 @@ package com.lasso.exception;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response.Status;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ObjectParamException.
  *

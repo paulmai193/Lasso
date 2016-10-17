@@ -17,7 +17,6 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the categories database table.
  *

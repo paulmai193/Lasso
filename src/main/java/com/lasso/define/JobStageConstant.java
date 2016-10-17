@@ -3,7 +3,6 @@
  */
 package com.lasso.define;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Enum JobStageConstant.
  *

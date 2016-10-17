@@ -8,7 +8,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LassoApplication.
  *

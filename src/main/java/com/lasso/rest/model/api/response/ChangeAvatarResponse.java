@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ChangeAvatarResponse.
  *
@@ -93,7 +92,7 @@ class AvatarLink {
 	}
 
 	public AvatarLink(String __originalAvatar, String __iconAvatar, String __smalAvatar,
-			String __retinaAvatar) {
+	        String __retinaAvatar) {
 		super();
 		this.originalAvatar = __originalAvatar;
 		this.iconAvatar = __iconAvatar;

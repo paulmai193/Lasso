@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.exception.ObjectParamException;
 import com.lasso.rest.model.variable.EmailParam;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ContactUsRequest.
  *

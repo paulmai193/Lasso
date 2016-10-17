@@ -5,7 +5,6 @@ package com.lasso.rest.model.api.request;
 
 import com.lasso.exception.ObjectParamException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BaseRequest.
  *

@@ -12,7 +12,6 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DesignerActivateEmail.
  *
@@ -42,7 +41,7 @@ public class DesignerCongratEmail implements EmailTemplate {
 	 *         Signals that an I/O exception has occurred.
 	 */
 	public DesignerCongratEmail(String __firstName, String __link)
-			throws URISyntaxException, IOException {
+	        throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.link = __link;
@@ -75,11 +74,11 @@ public class DesignerCongratEmail implements EmailTemplate {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_designer.jpg", new File(this.template, "logo_designer.jpg"));
 		_mapTemplate.put("img_01_congratulation.jpg",
-				new File(this.template, "img_01_congratulation.jpg"));
+		        new File(this.template, "img_01_congratulation.jpg"));
 		_mapTemplate.put("title_1_congratulation.jpg",
-				new File(this.template, "title_1_congratulation.jpg"));
+		        new File(this.template, "title_1_congratulation.jpg"));
 		_mapTemplate.put("img_02_congratulation.jpg",
-				new File(this.template, "img_02_congratulation.jpg"));
+		        new File(this.template, "img_02_congratulation.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
@@ -98,7 +97,7 @@ public class DesignerCongratEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-				.getResource("/email-template/designer-congratulations").toURI());
+		        .getResource("/email-template/designer-congratulations").toURI());
 	}
 
 }

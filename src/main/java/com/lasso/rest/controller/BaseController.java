@@ -8,7 +8,6 @@ import javax.ws.rs.core.Response.Status;
 
 import com.lasso.rest.model.api.response.BaseResponse;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BaseController.
  *
