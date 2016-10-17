@@ -19,7 +19,6 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Project;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ImplPortfolioDAO.
  *

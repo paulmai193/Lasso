@@ -40,7 +40,6 @@ import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.DesignerManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PortfolioController.
  *

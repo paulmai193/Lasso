@@ -41,7 +41,7 @@ public class DesignerNewOfferEmail implements EmailTemplate {
 	 *         Signals that an I/O exception has occurred.
 	 */
 	public DesignerNewOfferEmail(String __firstName, String __link)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.link = __link;
@@ -94,7 +94,7 @@ public class DesignerNewOfferEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/designer-offer").toURI());
+				.getResource("/email-template/designer-offer").toURI());
 	}
 
 }

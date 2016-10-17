@@ -84,6 +84,23 @@ public class Project implements Serializable {
 	}
 
 	/**
+	 * Instantiates a new project.
+	 *
+	 * @param __portfolio the portfolio
+	 */
+	public Project(Portfolio __portfolio) {
+		this.accountId = __portfolio.getAccountId();
+		this.categoryId = __portfolio.getCategoryId();
+		this.created = this.modified = new Date();
+		this.deleted = 0;
+		this.image = __portfolio.getImage().substring(0, __portfolio.getImage().indexOf(","));
+		this.portfolioId = __portfolio.getId();
+		this.status = 1;
+		this.styleId = __portfolio.getStyleId();
+		this.title = __portfolio.getTitle();
+	}
+
+	/**
 	 * Gets the account id.
 	 *
 	 * @return the account id

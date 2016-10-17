@@ -96,13 +96,13 @@ public class PublicController extends BaseController {
 	@Produces(MediaType.TEXT_HTML)
 	public String getInvoice() throws URISyntaxException, IOException {
 		File _template = new File(
-		        this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
+				this.getClass().getClassLoader().getResource("invoice/invoice.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		DateFormat _dateFormat = new SimpleDateFormat("dd MMMM yyyy");
 		return _content.replace("${job_id}", "TEST 101")
-		        .replace("${date_purchase}", _dateFormat.format(new Date()))
-		        .replace("${date_invoice}", _dateFormat.format(new Date()))
-		        .replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
+				.replace("${date_purchase}", _dateFormat.format(new Date()))
+				.replace("${date_invoice}", _dateFormat.format(new Date()))
+				.replace("${job_description}", "Test invoice").replace("${job_amount}", "" + 1000);
 	}
 
 	/**
@@ -134,9 +134,9 @@ public class PublicController extends BaseController {
 	@Path("/public/page/{static_page}")
 	@Produces(MediaType.TEXT_HTML)
 	public String getStaticPage(@PathParam("static_page") String __staticPage)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		File _template = new File(
-		        this.getClass().getClassLoader().getResource("staticpage.html").toURI());
+				this.getClass().getClassLoader().getResource("staticpage.html").toURI());
 		String _content = FileUtils.readFileToString(_template);
 		Map<String, String> _config = this.genericManagement.loadConfig();
 		switch (__staticPage) {
@@ -182,8 +182,8 @@ public class PublicController extends BaseController {
 	public Response sendContactUs(ContactUsRequest __contactUsRequest) {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
-		        __contactUsRequest.getPhone(), __contactUsRequest.getName(),
-		        __contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+				__contactUsRequest.getPhone(), __contactUsRequest.getName(),
+				__contactUsRequest.getMessage(), Constant.SEND_CONTACT);
 		return this.success();
 	}
 
@@ -210,11 +210,11 @@ public class PublicController extends BaseController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@AccountAuthenticate
 	public Response sendFeedBack(FeedbackRequest __feedbackRequest) throws AddressException,
-	        FileNotFoundException, IOException, URISyntaxException, MessagingException {
+	FileNotFoundException, IOException, URISyntaxException, MessagingException {
 		__feedbackRequest.validate();
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		this.genericManagement.saveContact(_account.getEmail(), null, __feedbackRequest.getName(),
-		        __feedbackRequest.getMessage(), Constant.SEND_FEEDBACK);
+				__feedbackRequest.getMessage(), Constant.SEND_FEEDBACK);
 		EmailTemplate _emailTemplate;
 		if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
 			_emailTemplate = new DesignerThanksEmail(_account.getName());
@@ -223,7 +223,7 @@ public class PublicController extends BaseController {
 			_emailTemplate = new UserThanksEmail(_account.getName());
 		}
 		this.emailUtil.sendEmailByTemplate(_account.getEmail(), "Thank you for feedback",
-		        _emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
+				_emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
 		return this.success();
 	}
 

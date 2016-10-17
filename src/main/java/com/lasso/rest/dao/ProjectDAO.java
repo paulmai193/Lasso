@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.lasso.rest.model.datasource.Project;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ProjectDAO.
  *
@@ -25,6 +24,14 @@ public interface ProjectDAO extends HibernateSession {
 	Project getProjectById(int __idProject);
 
 	/**
+	 * Gets the project by id portfolio.
+	 *
+	 * @param __idPortfolio the id portfolio
+	 * @return the project by id portfolio
+	 */
+	Project getProjectByIdPortfolio(Integer __idPortfolio);
+
+	/**
 	 * Gets the ramdom project.
 	 *
 	 * @param __limit
@@ -32,6 +39,13 @@ public interface ProjectDAO extends HibernateSession {
 	 * @return the ramdom
 	 */
 	List<Project> getRamdom(int __limit);
+
+	/**
+	 * Save project.
+	 *
+	 * @param __project the project
+	 */
+	void saveProject(Project __project);
 
 	/**
 	 * Search projects.
@@ -47,5 +61,12 @@ public interface ProjectDAO extends HibernateSession {
 	 * @return the list
 	 */
 	List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset, int __limit);
+
+	/**
+	 * Update project.
+	 *
+	 * @param __project the project
+	 */
+	void updateProject(Project __project);
 
 }

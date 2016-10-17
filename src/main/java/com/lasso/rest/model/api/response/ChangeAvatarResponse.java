@@ -92,7 +92,7 @@ class AvatarLink {
 	}
 
 	public AvatarLink(String __originalAvatar, String __iconAvatar, String __smalAvatar,
-	        String __retinaAvatar) {
+			String __retinaAvatar) {
 		super();
 		this.originalAvatar = __originalAvatar;
 		this.iconAvatar = __iconAvatar;

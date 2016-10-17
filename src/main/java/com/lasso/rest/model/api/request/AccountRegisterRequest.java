@@ -300,7 +300,7 @@ public class AccountRegisterRequest extends BaseRequest {
 			throw new ObjectParamException("Invalid subcribe value");
 		}
 		if (this.gender == null || (this.gender.shortValue() == Constant.GENDER_MALE
-		        && this.gender.shortValue() == Constant.GENDER_FEMALE)) {
+				&& this.gender.shortValue() == Constant.GENDER_FEMALE)) {
 			this.gender = Constant.GENDER_MALE;
 		}
 	}

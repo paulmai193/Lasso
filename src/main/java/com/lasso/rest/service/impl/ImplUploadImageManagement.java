@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import com.lasso.rest.service.UploadImageManagement;
 import com.lasso.util.EncryptionUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ImplUploadImageManagement.
  *

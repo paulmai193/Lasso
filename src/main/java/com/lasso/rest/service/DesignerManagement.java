@@ -55,7 +55,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 *         the unirest exception
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-	        throws IOException, UnirestException;
+			throws IOException, UnirestException;
 
 	/**
 	 * Delete portfolio.
@@ -80,7 +80,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 *         the unirest exception
 	 */
 	void editPortfolio(Account __desiger, Portfolio __portfolio,
-	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
+			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
 
 	/**
 	 * Gets the all portfolios.
