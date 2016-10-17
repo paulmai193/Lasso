@@ -48,7 +48,7 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			BufferedImage _sourceImage = ImageIO.read(__sourceImageFile);
 			BufferedImage _watermarkImage = ImageIO.read(__watermarkImageFile);
 			this.resizeImage(__watermarkImageFile, _resizeWatermark,
-			        _watermarkImage.getHeight() / 2, _watermarkImage.getWidth() / 2);
+			        (_watermarkImage.getHeight() >> 1), (_watermarkImage.getWidth() >> 1));
 
 			BufferedImage _resizeWatermarkImage = ImageIO.read(_resizeWatermark);
 
@@ -59,8 +59,8 @@ public class ImplUploadImageManagement implements UploadImageManagement {
 			_g2d.setComposite(_alphaChannel);
 
 			// calculates the coordinate where the image is painted
-			int _topLeftX = (_sourceImage.getWidth() - _resizeWatermarkImage.getWidth()) / 2;
-			int _topLeftY = (_sourceImage.getHeight() - _resizeWatermarkImage.getHeight()) / 2;
+			int _topLeftX = (_sourceImage.getWidth() - (_resizeWatermarkImage.getWidth()) >> 1);
+			int _topLeftY = (_sourceImage.getHeight() - (_resizeWatermarkImage.getHeight()) >> 1);
 
 			// paints the image watermark
 			_g2d.drawImage(_resizeWatermarkImage, _topLeftX, _topLeftY, null);

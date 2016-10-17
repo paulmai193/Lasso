@@ -198,7 +198,13 @@ public class CreateNewOrderRequest extends BaseRequest {
 			this.lastSubmission = _dateFormat.parse(__lastSubmission);
 		}
 		catch (ParseException ex) {
-			this.lastSubmission = null;
+			_dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			try {
+				this.lastSubmission = _dateFormat.parse(__lastSubmission);
+			}
+			catch (Exception _ex) {
+				this.lastSubmission = null;
+			}
 		}
 	}
 
@@ -215,7 +221,13 @@ public class CreateNewOrderRequest extends BaseRequest {
 			this.submission = _dateFormat.parse(__submission);
 		}
 		catch (ParseException ex) {
-			this.submission = null;
+			_dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+			try {
+				this.submission = _dateFormat.parse(__submission);
+			}
+			catch (Exception _ex) {
+				this.submission = null;
+			}
 		}
 	}
 

@@ -6,7 +6,6 @@ package com.lasso.rest.model.api.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GetServiceFeeResponse.
  *

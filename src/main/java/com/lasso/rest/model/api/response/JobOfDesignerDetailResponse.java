@@ -104,7 +104,7 @@ class JobOfDesignerDetailSerializer extends JsonSerializer<Object[]> {
 
 	@Override
 	public void serialize(Object[] __value, JsonGenerator __gen, SerializerProvider __serializers)
-			throws IOException, JsonProcessingException {
+	        throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		Job _job = (Job) __value[0];
 		String _designer = (String) __value[1];
@@ -124,7 +124,7 @@ class JobOfDesignerDetailSerializer extends JsonSerializer<Object[]> {
 		__gen.writeEndArray();
 		__gen.writeStringField("user", _designer);
 		__gen.writeStringField("type_title", _typeTitle);
-		DateFormat _fullDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat _fullDateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		__gen.writeStringField("date_due", _fullDateFormat.format(_job.getLatestSubmission()));
 		__gen.writeStringField("date_brief", _fullDateFormat.format(_job.getSubmission()));
 		if (_job.getStageDate() == null) {
