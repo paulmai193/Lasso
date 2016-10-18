@@ -36,7 +36,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	@Override
 	public Project getProjectById(int __idProject) {
 		return (Project) this.sessionFactory.getCurrentSession().createCriteria(Project.class)
-		        .add(Restrictions.idEq(__idProject)).uniqueResult();
+				.add(Restrictions.idEq(__idProject)).uniqueResult();
 	}
 
 	/*
@@ -47,9 +47,9 @@ public class ImplProjectDAO implements ProjectDAO {
 	@Override
 	public Project getProjectByIdPortfolio(Integer __idPortfolio) {
 		return (Project) this.sessionFactory.getCurrentSession().createCriteria(Project.class)
-		        .add(Restrictions.eq("portfolioId", __idPortfolio))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .uniqueResult();
+				.add(Restrictions.eq("portfolioId", __idPortfolio))
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -62,8 +62,8 @@ public class ImplProjectDAO implements ProjectDAO {
 	public List<Project> getRamdom(int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .add(Restrictions.sqlRestriction("1=1 order by rand()")).setFirstResult(0)
-		        .setMaxResults(__limit);
+		.add(Restrictions.sqlRestriction("1=1 order by rand()")).setFirstResult(0)
+		.setMaxResults(__limit);
 
 		return _criteria.list();
 	}
@@ -87,7 +87,7 @@ public class ImplProjectDAO implements ProjectDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Project> searchProjects(Integer __idStyle, String __keyword, int __offset,
-	        int __limit) {
+			int __limit) {
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Project.class);
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
@@ -97,7 +97,7 @@ public class ImplProjectDAO implements ProjectDAO {
 
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .addOrder(Order.asc("title"));
+		.addOrder(Order.asc("title"));
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}

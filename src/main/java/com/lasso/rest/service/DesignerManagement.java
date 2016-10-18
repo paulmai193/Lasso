@@ -46,15 +46,11 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Creates the portfolio.
 	 *
-	 * @param __desiger
-	 *        the desiger
-	 * @param __createPortfolioRequest
-	 *        the create portfolio request
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
-	 * @throws UnirestException
-	 *         the unirest exception
-	 * @throws URISyntaxException 
+	 * @param __desiger the desiger
+	 * @param __createPortfolioRequest the create portfolio request
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
+	 * @throws URISyntaxException the URI syntax exception
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
 			throws IOException, UnirestException, URISyntaxException;
@@ -70,20 +66,16 @@ public interface DesignerManagement extends ProjectManagement {
 	/**
 	 * Edits the portfolio.
 	 *
-	 * @param __desiger
-	 *        the desiger
-	 * @param __portfolio
-	 *        the portfolio
-	 * @param __editPortfolioRequest
-	 *        the edit portfolio request
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
-	 * @throws UnirestException
-	 *         the unirest exception
-	 * @throws URISyntaxException 
+	 * @param __desiger the desiger
+	 * @param __portfolio the portfolio
+	 * @param __editPortfolioRequest the edit portfolio request
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
+	 * @throws URISyntaxException the URI syntax exception
 	 */
 	void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException, URISyntaxException;
+			EditPortfolioRequest __editPortfolioRequest)
+					throws IOException, UnirestException, URISyntaxException;
 
 	/**
 	 * Gets the all portfolios.

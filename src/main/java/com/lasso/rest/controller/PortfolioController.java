@@ -71,14 +71,11 @@ public class PortfolioController extends BaseController {
 	/**
 	 * Creates the portfolio.
 	 *
-	 * @param __createPortfolioRequest
-	 *        the create portfolio request
+	 * @param __createPortfolioRequest the create portfolio request
 	 * @return the response
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
-	 * @throws UnirestException
-	 *         the unirest exception
-	 * @throws URISyntaxException 
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
+	 * @throws URISyntaxException the URI syntax exception
 	 */
 	@POST
 	@Path("/create")
@@ -130,14 +127,11 @@ public class PortfolioController extends BaseController {
 	/**
 	 * Edits the portfolio.
 	 *
-	 * @param __editPortfolioRequest
-	 *        the edit portfolio request
+	 * @param __editPortfolioRequest the edit portfolio request
 	 * @return the response
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
-	 * @throws UnirestException
-	 *         the unirest exception
-	 * @throws URISyntaxException 
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws UnirestException the unirest exception
+	 * @throws URISyntaxException the URI syntax exception
 	 */
 	@POST
 	@Path("/edit")

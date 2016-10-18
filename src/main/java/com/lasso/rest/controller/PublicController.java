@@ -171,13 +171,12 @@ public class PublicController extends BaseController {
 	/**
 	 * Send contact us.
 	 *
-	 * @param __contactUsRequest
-	 *        the contact us request
+	 * @param __contactUsRequest the contact us request
 	 * @return the response
-	 * @throws IOException
-	 * @throws URISyntaxException
-	 * @throws MessagingException
-	 * @throws AddressException
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws AddressException the address exception
+	 * @throws MessagingException the messaging exception
 	 */
 	@POST
 	@Path("/send/contactus")
