@@ -5,6 +5,7 @@ package com.lasso.rest.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -142,7 +143,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-	        throws IOException, UnirestException {
+	        throws IOException, UnirestException, URISyntaxException {
 		String _webContextStoragePath = this.genericManagement
 		        .loadWebContextStoragePath(__desiger.getAppSession());
 		try {
@@ -180,9 +181,18 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				File _tempFile = new File(
 				        _webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
-					// Copy original file
-					this.uploadImageManagement.copyImage(_tempFile, new File(
-					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"));
+//					// Copy original file
+//					this.uploadImageManagement.copyImage(_tempFile, new File(
+//					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"));
+					
+					// Add wartermark to original image
+					File _original = new File(
+					        _webContextStoragePath + this.portfolioStoragePath + "/Original/" + _tempFileName );
+					File _wartermark = new File(
+							this.getClass().getClassLoader().getResource("watermark.png").toURI());
+					Logger.getLogger(this.getClass())
+					.debug("Watermark full path: " + _wartermark.getAbsolutePath());
+					this.uploadImageManagement.addWatermark(_tempFile, _wartermark, _original);
 
 					// Resize into 3 other size
 					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
@@ -274,7 +284,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 	 */
 	@Override
 	public void editPortfolio(Account __desiger, Portfolio __portfolio,
-	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException {
+	        EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException, URISyntaxException {
 		String _webContextStoragePath = this.genericManagement
 		        .loadWebContextStoragePath(__desiger.getAppSession());
 		try {
@@ -297,10 +307,19 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				File _tempFile = new File(
 				        _webContextStoragePath + this.temporaryStoragePath + "/" + _tempFileName);
 				if (_tempFile.exists()) {
-					// Move original file
-					FileUtils.copyFileToDirectory(_tempFile, new File(
-					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"),
-					        false);
+//					// Move original file
+//					FileUtils.copyFileToDirectory(_tempFile, new File(
+//					        _webContextStoragePath + this.portfolioStoragePath + "/Original/"),
+//					        false);
+					
+					// Add wartermark to original image
+					File _original = new File(
+					        _webContextStoragePath + this.portfolioStoragePath + "/Original/" + _tempFileName );
+					File _wartermark = new File(
+							this.getClass().getClassLoader().getResource("watermark.png").toURI());
+					Logger.getLogger(this.getClass())
+					.debug("Watermark full path: " + _wartermark.getAbsolutePath());
+					this.uploadImageManagement.addWatermark(_tempFile, _wartermark, _original);
 
 					// Resize into 3 other size
 					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath

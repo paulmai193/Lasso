@@ -4,6 +4,7 @@
 package com.lasso.rest.service;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import com.lasso.rest.model.api.request.ConfirmOfferRequest;
@@ -53,9 +54,10 @@ public interface DesignerManagement extends ProjectManagement {
 	 *         Signals that an I/O exception has occurred.
 	 * @throws UnirestException
 	 *         the unirest exception
+	 * @throws URISyntaxException 
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException, UnirestException;
+			throws IOException, UnirestException, URISyntaxException;
 
 	/**
 	 * Delete portfolio.
@@ -78,9 +80,10 @@ public interface DesignerManagement extends ProjectManagement {
 	 *         Signals that an I/O exception has occurred.
 	 * @throws UnirestException
 	 *         the unirest exception
+	 * @throws URISyntaxException 
 	 */
 	void editPortfolio(Account __desiger, Portfolio __portfolio,
-			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException;
+			EditPortfolioRequest __editPortfolioRequest) throws IOException, UnirestException, URISyntaxException;
 
 	/**
 	 * Gets the all portfolios.

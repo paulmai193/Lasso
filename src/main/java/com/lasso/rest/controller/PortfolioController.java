@@ -4,6 +4,7 @@
 package com.lasso.rest.controller;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,12 +78,13 @@ public class PortfolioController extends BaseController {
 	 *         Signals that an I/O exception has occurred.
 	 * @throws UnirestException
 	 *         the unirest exception
+	 * @throws URISyntaxException 
 	 */
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createPortfolio(CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException, UnirestException {
+			throws IOException, UnirestException, URISyntaxException {
 		__createPortfolioRequest.validate();
 		Account _desiger = (Account) this.validateContext.getUserPrincipal();
 		this.designerManagement.createPortfolio(_desiger, __createPortfolioRequest);
@@ -135,12 +137,13 @@ public class PortfolioController extends BaseController {
 	 *         Signals that an I/O exception has occurred.
 	 * @throws UnirestException
 	 *         the unirest exception
+	 * @throws URISyntaxException 
 	 */
 	@POST
 	@Path("/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editPortfolio(EditPortfolioRequest __editPortfolioRequest)
-			throws IOException, UnirestException {
+			throws IOException, UnirestException, URISyntaxException {
 		__editPortfolioRequest.validate();
 		try {
 			Account _desiger = (Account) this.validateContext.getUserPrincipal();

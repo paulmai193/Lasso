@@ -47,7 +47,6 @@ import com.lasso.rest.service.GenericManagement;
 import com.lasso.rest.service.UploadImageManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UploadController.
  *
@@ -325,12 +324,12 @@ public class UploadController extends BaseController implements Feature {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _tempFile, _fileExtension);
 
-			// Add wartermark
-			File _wartermark = new File(
-					this.getClass().getClassLoader().getResource("watermark.png").toURI());
-			Logger.getLogger(this.getClass())
-			.debug("Watermark full path: " + _wartermark.getAbsolutePath());
-			this.uploadImageManagement.addWatermark(_tempFile, _wartermark, _image);
+//			// Add wartermark
+//			File _wartermark = new File(
+//					this.getClass().getClassLoader().getResource("watermark.png").toURI());
+//			Logger.getLogger(this.getClass())
+//			.debug("Watermark full path: " + _wartermark.getAbsolutePath());
+//			this.uploadImageManagement.addWatermark(_tempFile, _wartermark, _image);
 
 			// Response
 			return this.success(new UploadPortfolioResponse(_image.getName()));
