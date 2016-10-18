@@ -22,8 +22,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.lasso.rest.model.api.request.CreateNewOrderRequest;
 import com.lasso.rest.model.api.request.EditOrderRequest;
+import com.lasso.util.NumberUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the jobs database table.
  *
@@ -388,7 +388,7 @@ public class Job implements Serializable {
 	 *        the new budget
 	 */
 	public void setBudget(Double budget) {
-		this.budget = budget;
+		this.budget = NumberUtil.round(budget, 2);
 	}
 
 	/**
@@ -448,7 +448,7 @@ public class Job implements Serializable {
 	 *        the new discount
 	 */
 	public void setDiscount(Double discount) {
-		this.discount = discount;
+		this.discount = NumberUtil.round(discount, 2);
 	}
 
 	/**
@@ -458,7 +458,7 @@ public class Job implements Serializable {
 	 *        the new fee
 	 */
 	public void setFee(Double fee) {
-		this.fee = fee;
+		this.fee = NumberUtil.round(fee, 2);
 	}
 
 	/**

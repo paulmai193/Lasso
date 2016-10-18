@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.define.JobStageConstant;
 import com.lasso.exception.ObjectParamException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ConfirmOrderRequest.
  *
@@ -94,9 +93,9 @@ public class UpdateJobStageRequest extends BaseRequest {
 	public void setStage(Byte __stage) {
 		if (__stage != null) {
 			if (__stage.equals(JobStageConstant.JOB_STAGE_1ST_DRAFT.getCode())
-					|| (__stage.equals(JobStageConstant.JOB_STAGE_REVISED.getCode()))
-					|| (__stage.equals(JobStageConstant.JOB_STAGE_FINAL_ARTWORK.getCode()))
-					|| (__stage.equals(JobStageConstant.JOB_STAGE_COMPLETED.getCode()))) {
+			        || (__stage.equals(JobStageConstant.JOB_STAGE_REVISED.getCode()))
+			        || (__stage.equals(JobStageConstant.JOB_STAGE_FINAL_ARTWORK.getCode()))
+			        || (__stage.equals(JobStageConstant.JOB_STAGE_COMPLETED.getCode()))) {
 				this.stage = __stage;
 			}
 		}

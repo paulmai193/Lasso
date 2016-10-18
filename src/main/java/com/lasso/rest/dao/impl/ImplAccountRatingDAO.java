@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.lasso.rest.dao.AccountRatingDAO;
 import com.lasso.rest.model.datasource.AccountsRating;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ImplAccountRatingDAO.
  *

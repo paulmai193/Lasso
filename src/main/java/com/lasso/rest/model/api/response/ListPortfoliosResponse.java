@@ -18,7 +18,6 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ListPortfoliosResponse.
  *
@@ -129,7 +128,7 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(ListPortfoliosResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -158,13 +157,13 @@ class ListPortfolioSerializer extends JsonSerializer<ListPortfoliosResponse> {
 					if (!_portfolioImage.trim().isEmpty()) {
 						__gen.writeStartObject();
 						__gen.writeStringField("original",
-								__value.getPrefixUrl() + "/Original/" + _portfolioImage.trim());
+						        __value.getPrefixUrl() + "/Original/" + _portfolioImage.trim());
 						__gen.writeStringField("small",
-								__value.getPrefixUrl() + "/Small/" + _portfolioImage.trim());
+						        __value.getPrefixUrl() + "/Small/" + _portfolioImage.trim());
 						__gen.writeStringField("icon",
-								__value.getPrefixUrl() + "/Icon/" + _portfolioImage.trim());
+						        __value.getPrefixUrl() + "/Icon/" + _portfolioImage.trim());
 						__gen.writeStringField("retina",
-								__value.getPrefixUrl() + "/Retina/" + _portfolioImage.trim());
+						        __value.getPrefixUrl() + "/Retina/" + _portfolioImage.trim());
 						__gen.writeEndObject();
 					}
 					else {

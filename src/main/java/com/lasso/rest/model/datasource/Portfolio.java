@@ -21,6 +21,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lasso.rest.model.api.request.EditPortfolioRequest;
+import com.lasso.util.NumberUtil;
 
 /**
  * The persistent class for the portfolios database table.
@@ -252,7 +253,7 @@ public class Portfolio implements Serializable {
 	 *        the new amount
 	 */
 	public void setAmount(Double amount) {
-		this.amount = amount;
+		this.amount = NumberUtil.round(amount, 2);
 	}
 
 	/**

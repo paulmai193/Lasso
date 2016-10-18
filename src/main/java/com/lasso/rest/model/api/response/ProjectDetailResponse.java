@@ -18,7 +18,6 @@ import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Project;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ProjectDetailResponse.
  *
@@ -99,7 +98,7 @@ public class ProjectDetailResponse extends BaseResponse {
 	 *        the category
 	 */
 	public ProjectDetailResponse(String __prefixPortfolioUrl, String __prefixAvatarUrl,
-			Project __project, Portfolio __portfolio, Account __designer, Category __category) {
+	        Project __project, Portfolio __portfolio, Account __designer, Category __category) {
 		super();
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
 		this.prefixAvatarUrl = __prefixAvatarUrl;
@@ -168,7 +167,7 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 
 	@Override
 	public void serialize(ProjectDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 
 		__gen.writeObjectField("error", __value.isError());
@@ -183,14 +182,14 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 		__gen.writeStringField("category_title", __value.getCategory().getTitle());
 		__gen.writeNumberField("reward", __value.getDesigner().getRewards());
 		__gen.writeStringField("publish", "Published "
-				+ new SimpleDateFormat("dd MMM").format(__value.getProject().getCreated()) + ".");
+		        + new SimpleDateFormat("dd MMM").format(__value.getProject().getCreated()) + ".");
 
 		if (__value.getDesigner().getImage().isEmpty()) {
 			__gen.writeStringField("designer_avatar", "");
 		}
 		else {
 			__gen.writeStringField("designer_avatar",
-					__value.getPrefixAvatarUrl() + "/Small/" + __value.getDesigner().getImage());
+			        __value.getPrefixAvatarUrl() + "/Small/" + __value.getDesigner().getImage());
 		}
 		__gen.writeArrayFieldStart("images");
 		if (!__value.getPortfolio().getImage().isEmpty()) {
@@ -198,9 +197,9 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 				if (!_portfolioImage.trim().isEmpty()) {
 					__gen.writeStartObject();
 					__gen.writeStringField("original",
-							__value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
+					        __value.getPrefixPortfolioUrl() + "/Original/" + _portfolioImage);
 					__gen.writeStringField("small",
-							__value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage);
+					        __value.getPrefixPortfolioUrl() + "/Small/" + _portfolioImage);
 					__gen.writeEndObject();
 				}
 				else {

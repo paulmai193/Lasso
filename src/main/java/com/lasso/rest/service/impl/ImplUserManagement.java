@@ -57,7 +57,6 @@ import com.lasso.template.EmailTemplate;
 import com.lasso.util.EmailUtil;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ImplUserManagement.
  *

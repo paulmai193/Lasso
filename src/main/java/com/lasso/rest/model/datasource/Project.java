@@ -98,6 +98,7 @@ public class Project implements Serializable {
 		this.status = 1;
 		this.styleId = __portfolio.getStyleId();
 		this.title = __portfolio.getTitle();
+		this.typeId = 0;
 	}
 
 	/**

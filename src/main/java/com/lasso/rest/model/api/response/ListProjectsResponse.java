@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.rest.model.datasource.Project;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ListProjectsResponse.
  *
@@ -93,7 +92,7 @@ public class ListProjectsResponse extends BaseResponse {
 	 *        the suggests
 	 */
 	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl,
-			String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
+	        String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
 		super();
 		this.nextIndex = __nextIndex;
 		this.prefixProjectUrl = __prefixProjectUrl;
@@ -153,7 +152,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
 	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -166,7 +165,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-						__value.getPrefixProjectUrl());
+				        __value.getPrefixProjectUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
@@ -180,7 +179,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-						__value.getPrefixProjectUrl());
+				        __value.getPrefixProjectUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
@@ -194,7 +193,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 	}
 
 	private void serializeData(JsonGenerator __gen, Object[] __data, String __prefixAvatarUrl,
-			String __prefixProjectUrl) {
+	        String __prefixProjectUrl) {
 		try {
 			__gen.writeNumberField("project_id", ((Project) __data[0]).getId());
 			__gen.writeStringField("title", ((Project) __data[0]).getTitle());
@@ -207,13 +206,13 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("original",
-						__prefixProjectUrl + "/Original/" + ((Project) __data[0]).getImage());
+				        __prefixProjectUrl + "/Original/" + ((Project) __data[0]).getImage());
 				__gen.writeStringField("small",
-						__prefixProjectUrl + "/Small/" + ((Project) __data[0]).getImage());
+				        __prefixProjectUrl + "/Small/" + ((Project) __data[0]).getImage());
 				__gen.writeStringField("icon",
-						__prefixProjectUrl + "/Icon/" + ((Project) __data[0]).getImage());
+				        __prefixProjectUrl + "/Icon/" + ((Project) __data[0]).getImage());
 				__gen.writeStringField("retina",
-						__prefixProjectUrl + "/Retina/" + ((Project) __data[0]).getImage());
+				        __prefixProjectUrl + "/Retina/" + ((Project) __data[0]).getImage());
 			}
 			__gen.writeEndObject();
 
