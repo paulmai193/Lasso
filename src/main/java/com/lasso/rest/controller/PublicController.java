@@ -174,16 +174,23 @@ public class PublicController extends BaseController {
 	 * @param __contactUsRequest
 	 *        the contact us request
 	 * @return the response
+	 * @throws IOException 
+	 * @throws URISyntaxException 
+	 * @throws MessagingException 
+	 * @throws AddressException 
 	 */
 	@POST
 	@Path("/send/contactus")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response sendContactUs(ContactUsRequest __contactUsRequest) {
+	public Response sendContactUs(ContactUsRequest __contactUsRequest) throws URISyntaxException, IOException, AddressException, MessagingException {
 		__contactUsRequest.validate();
 		this.genericManagement.saveContact(__contactUsRequest.getEmail().getValue(),
 				__contactUsRequest.getPhone(), __contactUsRequest.getName(),
 				__contactUsRequest.getMessage(), Constant.SEND_CONTACT);
+		EmailTemplate _emailTemplate = new DesignerThanksEmail(__contactUsRequest.getName());
+		this.emailUtil.sendEmailByTemplate(__contactUsRequest.getEmailString(), "Thank you for feedback",
+				_emailTemplate.getContent(), RecipientType.TO, _emailTemplate.getTemplate());
 		return this.success();
 	}
 
