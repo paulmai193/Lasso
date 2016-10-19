@@ -93,7 +93,13 @@ public class Project implements Serializable {
 		this.categoryId = __portfolio.getCategoryId();
 		this.created = this.modified = new Date();
 		this.deleted = 0;
-		this.image = __portfolio.getImage().substring(0, __portfolio.getImage().indexOf(","));
+		String _portfolioImage = __portfolio.getImage();
+		if (_portfolioImage.contains(",")) {
+			this.image = _portfolioImage.substring(0, _portfolioImage.indexOf(","));
+		}
+		else {
+			this.image = _portfolioImage;
+		}
 		this.portfolioId = __portfolio.getId();
 		this.status = 1;
 		this.styleId = __portfolio.getStyleId();
