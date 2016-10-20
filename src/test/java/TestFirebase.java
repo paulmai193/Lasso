@@ -10,7 +10,6 @@ import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.impl.ImplMessageManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestFirebase.
  *

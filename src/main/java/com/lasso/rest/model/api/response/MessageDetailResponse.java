@@ -17,10 +17,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.JobConfirmationConstant;
 import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
+import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
@@ -114,7 +116,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 	@Override
 	public void serialize(MessageDetailResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -124,10 +126,22 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 		__gen.writeObjectFieldStart("data");
 		Job _job = (Job) __value.getOrderDetail().getData()[0];
-		if (_job.getPaid().equals((byte) 0)) {
+		@SuppressWarnings("unchecked")
+		List<JobsAccount> _designerJobs = (List<JobsAccount>) ((Object[]) __value.getOrderDetail()
+		        .getData()[1])[0];
+		JobsAccount _jobsAccount = null;
+		for (int _i = 0; _i < _designerJobs.size(); _i++) {
+			_jobsAccount = _designerJobs.get(_i);
+		}
+
+		if (_jobsAccount != null && _jobsAccount.getConfirm()
+		        .byteValue() == JobConfirmationConstant.JOB_REJECT.getCode()) {
+			__gen.writeStringField("action_status", "job_reject");
+		}
+		else if (_job.getPaid().equals((byte) 0)) {
 			__gen.writeStringField("action_status", "job_confirm");
 		}
-		else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+		else if (_job.getStage().byteValue() == JobStageConstant.JOB_STAGE_COMPLETED.getCode()) {
 			__gen.writeStringField("action_status", "job_completed");
 		}
 		else {
@@ -140,7 +154,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 		__gen.writeArrayFieldStart("messages");
 		__value.getMessageDatas().forEach(_data -> this.serializeMessages(__gen, _data,
-				__value.getOrderDetail().getPrefixAvatar()));
+		        __value.getOrderDetail().getPrefixAvatar()));
 		__gen.writeEndArray();
 
 		__gen.writeEndObject();
@@ -201,7 +215,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			__gen.writeStringField("objective", _job.getObjective());
 			__gen.writeStringField("asset_url", _job.getAssetsUrl());
 			__gen.writeStringField("further_information",
-					_job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
+			        _job.getFurtherInformation() == null ? "" : _job.getFurtherInformation());
 			__gen.writeArrayFieldStart("images");
 			if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
 				for (String _referenceImage : _job.getReference().trim().split(",")) {
@@ -216,7 +230,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			}
 			else {
 				__gen.writeStringField("avatar", __value.getOrderDetail().getPrefixAvatar()
-						+ "/Icon/" + _user.getImage().trim());
+				        + "/Icon/" + _user.getImage().trim());
 			}
 		}
 		catch (IOException _ex) {
@@ -225,7 +239,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 	}
 
 	private void serializeMessages(JsonGenerator __gen, Object[] __messageData,
-			String __prefixUrl) {
+	        String __prefixUrl) {
 		try {
 			Message _message = (Message) __messageData[0];
 			Account _sender = (Account) __messageData[1];
@@ -239,7 +253,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			}
 			else {
 				__gen.writeStringField("sender_avatar",
-						__prefixUrl + "/Icon/" + _sender.getImage().trim());
+				        __prefixUrl + "/Icon/" + _sender.getImage().trim());
 			}
 			DateFormat _dateFormat = new SimpleDateFormat("dd MMM, hh.mma");
 			__gen.writeStringField("message_time", _dateFormat.format(_message.getCreated()));

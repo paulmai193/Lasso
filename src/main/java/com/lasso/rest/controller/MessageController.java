@@ -35,7 +35,6 @@ import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MessageController.
  *
@@ -97,13 +96,13 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-				__idJob);
+		        __idJob);
 		Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-				null, _prefixJob, _prefixPortfolio);
+		        null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 

@@ -15,12 +15,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.JobConfirmationConstant;
 import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
+import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Message;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ListMessageResponse.
  *
@@ -110,7 +111,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 
 	@Override
 	public void serialize(ListMessageResponse __value, JsonGenerator __gen,
-			SerializerProvider __serializers) throws IOException, JsonProcessingException {
+	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -123,16 +124,22 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 			Message _message = (Message) __messageData[0];
 			Account _sender = (Account) __messageData[1];
 			Job _job = (Job) __messageData[2];
+			JobsAccount _jobsAccount = (JobsAccount) __messageData[3];
 			try {
 				__gen.writeStartObject();
 				__gen.writeNumberField("message_id", _message.getId());
 				__gen.writeStringField("message_title", _job.getDescription());
 				__gen.writeStringField("message_content", _message.getMessage());
 				__gen.writeNumberField("message_read", _message.getIsRead());
-				if (_job.getPaid().equals((byte) 0)) {
+				if (_jobsAccount.getConfirm().byteValue() == JobConfirmationConstant.JOB_REJECT
+				        .getCode()) {
+					__gen.writeStringField("action_status", "job_reject");
+				}
+				else if (_job.getPaid().equals((byte) 0)) {
 					__gen.writeStringField("action_status", "job_confirm");
 				}
-				else if (_job.getStage().equals(JobStageConstant.JOB_STAGE_COMPLETED)) {
+				else if (_job.getStage().byteValue() == JobStageConstant.JOB_STAGE_COMPLETED
+				        .getCode()) {
 					__gen.writeStringField("action_status", "job_completed");
 				}
 				else {
@@ -144,7 +151,7 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 				}
 				else {
 					__gen.writeStringField("sender_avatar",
-							__value.getPrefixUrl() + "/Icon/" + _sender.getImage());
+					        __value.getPrefixUrl() + "/Icon/" + _sender.getImage());
 				}
 				__gen.writeNumberField("job_id", _job.getId());
 				__gen.writeEndObject();

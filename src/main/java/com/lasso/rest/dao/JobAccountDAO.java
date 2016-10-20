@@ -38,22 +38,20 @@ public interface JobAccountDAO extends HibernateSession {
 	JobsAccount getByJobAndDesignerId(Integer __idJob, Integer __idDesigner);
 
 	/**
-	 * Gets the by job id.
+	 * Gets the accept by job id.
 	 *
-	 * @param __idJob
-	 *        the id job
+	 * @param __idJob the id job
 	 * @return the by job id
 	 */
-	JobsAccount getByJobId(int __idJob);
+	JobsAccount getAcceptByJobId(int __idJob);
 
 	/**
-	 * Gets the by offer id.
+	 * Gets the by job id.
 	 *
-	 * @param __idJob
-	 *        the id job
+	 * @param __idJob the id job
 	 * @return the by offer id
 	 */
-	List<JobsAccount> getByOfferId(int __idJob);
+	List<JobsAccount> getByJobId(int __idJob);
 
 	/**
 	 * Gets the by job and designer id.
