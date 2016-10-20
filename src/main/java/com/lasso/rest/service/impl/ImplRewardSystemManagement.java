@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lasso.define.Constant;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.CategoryDAO;
+import com.lasso.rest.dao.JobDAO;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.service.RewardSystemManagement;
@@ -28,6 +29,9 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	@Autowired
 	private CategoryDAO	categoryDAO;
 
+	@Autowired
+	private JobDAO		jobDAO;
+
 	/**
 	 * Sets the account DAO.
 	 *
@@ -44,6 +48,10 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	 */
 	public void setCategoryDAO(CategoryDAO __categoryDAO) {
 		this.categoryDAO = __categoryDAO;
+	}
+
+	public void setJobDAO(JobDAO __jobDAO) {
+		this.jobDAO = __jobDAO;
 	}
 
 	/*
@@ -78,6 +86,9 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 
 				// Browse category
 				_reward += this.updateBrowseCategory(__user);
+
+				// Breaf jobs
+				_reward += this.updateBriefJobReward(__user);
 			}
 			catch (Exception _ex) {
 				// Mean user not match some conditions of new reward. Break and update current
@@ -96,7 +107,7 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	 */
 	private int updateAvatarReward(Account __account) {
 		Preconditions
-		.checkArgument(__account.getImage() != null && !__account.getImage().isEmpty());
+		        .checkArgument(__account.getImage() != null && !__account.getImage().isEmpty());
 		return 1;
 	}
 
@@ -110,7 +121,7 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 		List<Category> _categories = this.categoryDAO.getCategories(-1, 0, "");
 		int _numberCategoryBrowsed = Constant.BROWSE_CATEGORY_STATISTIC.get(__account.getId());
 		if (__account.getRole().byteValue() == Constant.ROLE_DESIGNER
-				&& _numberCategoryBrowsed == _categories.size()) {
+		        && _numberCategoryBrowsed == _categories.size()) {
 			// Designer must browse all categories to get 1 more point
 			return 1;
 		}
@@ -135,25 +146,60 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	 */
 	private int updateProfileReward(Account __account) {
 		Preconditions
-		.checkArgument(__account.getEmail() != null && !__account.getEmail().isEmpty());
+		        .checkArgument(__account.getEmail() != null && !__account.getEmail().isEmpty());
 		Preconditions.checkArgument(__account.getHandphoneNumber() != null
-				&& !__account.getHandphoneNumber().isEmpty());
+		        && !__account.getHandphoneNumber().isEmpty());
 		Preconditions.checkArgument(__account.getName() != null && !__account.getName().isEmpty());
 		if (__account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
 			Preconditions.checkArgument(
-					__account.getAccountInfo() != null && !__account.getAccountInfo().isEmpty());
+			        __account.getAccountInfo() != null && !__account.getAccountInfo().isEmpty());
 			Preconditions.checkArgument(__account.getAlternativeContact() != null
-					&& !__account.getAlternativeContact().isEmpty());
+			        && !__account.getAlternativeContact().isEmpty());
 		}
 		else {
 			Preconditions.checkArgument(__account.getCompanyAddress() != null
-					&& !__account.getCompanyAddress().isEmpty());
+			        && !__account.getCompanyAddress().isEmpty());
 			Preconditions.checkArgument(
-					__account.getCompanyName() != null && !__account.getCompanyName().isEmpty());
+			        __account.getCompanyName() != null && !__account.getCompanyName().isEmpty());
 			Preconditions.checkArgument(__account.getCompanyTelephone() != null
-					&& !__account.getCompanyTelephone().isEmpty());
+			        && !__account.getCompanyTelephone().isEmpty());
 		}
 		return 1;
+	}
+
+	private int updateBriefJobReward(Account __user) {
+		int _numberJob = this.jobDAO.getListJobsOfUser(__user.getId()).size();
+		if (_numberJob == 0) {
+			throw new IllegalArgumentException();
+		}
+		else if (_numberJob <= 15) {
+			return _numberJob;
+		}
+		else if (_numberJob <= 80) {
+			int _n = 20, _m = 16;
+			float _f;
+			do {
+				_f = (_numberJob / _n);
+				_n += 5;
+				_m++;
+			}
+			while (_f > 1);
+			return _m;
+		}
+		else if (_numberJob <= 149) {
+			int _n = 90, _m = 28;
+			float _f;
+			do {
+				_f = (_numberJob / _n);
+				_n += 10;
+				_m++;
+			}
+			while (_f > 1);
+			return _m;
+		}
+		else {
+			return 36;
+		}
 	}
 
 }
