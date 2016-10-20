@@ -168,7 +168,7 @@ public final class Account implements Principal, Serializable {
 		if (__accountRegister instanceof DesignerRegisterRequest) {
 			// Designer
 			this.alternativeContact = ((DesignerRegisterRequest) __accountRegister)
-					.getAlternativeContact();
+			        .getAlternativeContact();
 			this.paymentMethod = ((DesignerRegisterRequest) __accountRegister).getPayment();
 		}
 		else if (__accountRegister instanceof UserRegisterRequest) {
@@ -409,7 +409,7 @@ public final class Account implements Principal, Serializable {
 	 *         Signals that an I/O exception has occurred.
 	 */
 	public AccountSettings getSettings()
-			throws JsonParseException, JsonMappingException, IOException {
+	        throws JsonParseException, JsonMappingException, IOException {
 		if (this.settings == null) {
 			return AccountSettings.createDefault();
 		}

@@ -31,6 +31,7 @@ import com.lasso.rest.model.api.response.MessageDetailResponse;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
+import com.lasso.rest.service.DesignerManagement;
 import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -67,9 +68,16 @@ public class MessageController extends BaseController {
 	@Autowired
 	private UserManagement		userManagement;
 
+	@Autowired
+	private DesignerManagement	designerManagement;
+
+	public void setDesignerManagement(DesignerManagement __designerManagement) {
+		this.designerManagement = __designerManagement;
+	}
+
 	/** The validate context. */
 	@Context
-	private SecurityContext		validateContext;
+	private SecurityContext validateContext;
 
 	/**
 	 * Gets the list message.
@@ -97,7 +105,13 @@ public class MessageController extends BaseController {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
 		        __idJob);
-		Object[] _orderData = this.userManagement.getOrderDataById(__idJob);
+		Object[] _orderData;
+		if (_account.getRole().byteValue() == Constant.ROLE_USER) {
+			_orderData = this.userManagement.getOrderDataById(__idJob);
+		}
+		else {
+			_orderData = this.designerManagement.getOrderDataForMessageById(_account, __idJob);
+		}
 		String _prefixAvatar = this.httpHost + this.avatarStoragePath;
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;

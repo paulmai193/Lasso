@@ -554,4 +554,50 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		}
 	}
 
+	@Override
+	public Object[] getOrderDataForMessageById(Account __designer, int __idJob) {
+		Job _job = this.jobDAO.getJobById(__idJob);
+		if (_job == null) {
+			throw new NotFoundException("Job not found");
+		}
+		List<Integer> _styleIds = new ArrayList<>();
+		this.jobStyleDAO.getListJobStylesByJobId(__idJob)
+		        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
+		List<Style> _styles = this.styleDAO.getListByByListIds(_styleIds);
+		if (_styleIds.isEmpty()) {
+			throw new NotFoundException("Styles not found");
+		}
+		Type _type = this.typeDAO.getTypeById(_job.getTypeId());
+		if (_type == null) {
+			throw new NotFoundException("Type not found");
+		}
+		Category _category = this.categoryDAO.getCategoryById(_job.getCategoryId());
+		if (_category == null) {
+			throw new NotFoundException("Category not found");
+		}
+		List<Object[]> _designersJobs = new ArrayList<>();
+		boolean _isReject = false;
+		for (JobsAccount _jobsAccount : this.jobAccountDAO.getByJobId(__idJob)) {
+			Account _designer = this.accountDAO.getAccountById(_jobsAccount.getAccountId());
+			if (_designer != null) {
+				List<Portfolio> _portfolios = this.portfolioDAO
+				        .getAllPortfoliosOfAccount(_designer);
+				_portfolios.stream().allMatch(
+				        _portfolio -> _portfolio.getCategoryId().equals(_category.getId()));
+
+				Object[] designerJob = { _jobsAccount, _designer,
+				        _portfolios.isEmpty() ? new Portfolio() : _portfolios.get(0) };
+				_designersJobs.add(designerJob);
+				if (_designer.getId().equals(__designer.getId()) && _jobsAccount.getConfirm()
+				        .byteValue() == JobConfirmationConstant.JOB_REJECT.getCode()) {
+					_isReject = true;
+				}
+			}
+		}
+		float _serviceFee = this.genericManagement.getServiceFee();
+		Object[] _orderData = { _job, _designersJobs, _styles, _type, _category, _serviceFee,
+		        _isReject };
+		return _orderData;
+	}
+
 }

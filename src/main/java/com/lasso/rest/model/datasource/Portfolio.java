@@ -129,6 +129,7 @@ public class Portfolio implements Serializable {
 		this.modified = __modified;
 		this.status = __status;
 		this.title = __title;
+		this.showInBrowse = 1;
 	}
 
 	/**

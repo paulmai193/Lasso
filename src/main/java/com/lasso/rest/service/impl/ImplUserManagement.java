@@ -706,7 +706,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			}
 		});
 		float _serviceFee = this.genericManagement.getServiceFee();
-		Object[] _orderData = { _job, _designersJobs, _styles, _type, _category, _serviceFee };
+		boolean _isReject = false; // Add this to avoid error of message detail
+		Object[] _orderData = { _job, _designersJobs, _styles, _type, _category, _serviceFee,
+		        _isReject };
 		return _orderData;
 	}
 

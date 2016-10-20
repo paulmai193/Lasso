@@ -142,6 +142,9 @@
 		<property name="emailUtil" ref="emailUtil" />
 		<property name="httpHost" ref="httpHost" />
 	</bean>
+	<bean id="rewardSystemManagement" class="com.lasso.rest.service.impl.ImplRewardSystemManagement">
+		<property name="accountDAO" ref="accountDAO" />
+	</bean>
 
 	<!-- Controller Layer -->
 	<bean id="accountController" class="com.lasso.rest.controller.AccountController"
@@ -158,6 +161,7 @@
 		<property name="accountManagement" ref="accountManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
 		<property name="genericManagement" ref="genericManagement" />
+		<property name="rewardSystemManagement" ref="rewardSystemManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
 		<property name="httpHost" ref="httpImageHost" />

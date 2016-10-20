@@ -17,12 +17,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lasso.define.JobConfirmationConstant;
 import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
-import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Message;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
@@ -126,16 +124,10 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 
 		__gen.writeObjectFieldStart("data");
 		Job _job = (Job) __value.getOrderDetail().getData()[0];
-		@SuppressWarnings("unchecked")
-		List<JobsAccount> _designerJobs = (List<JobsAccount>) ((Object[]) __value.getOrderDetail()
-		        .getData()[1])[0];
-		JobsAccount _jobsAccount = null;
-		for (int _i = 0; _i < _designerJobs.size(); _i++) {
-			_jobsAccount = _designerJobs.get(_i);
-		}
 
-		if (_jobsAccount != null && _jobsAccount.getConfirm()
-		        .byteValue() == JobConfirmationConstant.JOB_REJECT.getCode()) {
+		Boolean _isReject = (Boolean) __value.getOrderDetail().getData()[6];
+
+		if (_isReject != null && _isReject.booleanValue()) {
 			__gen.writeStringField("action_status", "job_reject");
 		}
 		else if (_job.getPaid().equals((byte) 0)) {
