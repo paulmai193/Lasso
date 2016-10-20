@@ -230,6 +230,20 @@ public class UploadController extends BaseController implements Feature {
 			// Save avatar name to account
 			this.accountManagement.changeAvatar(_account, _avatar.getName());
 
+			// Update reward system
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+						UploadController.this.rewardSystemManagement.updateDesignerReward(_account);
+					}
+					else {
+						UploadController.this.rewardSystemManagement.updateUserReward(_account);
+					}
+				}
+			}).start();
+
 			// Response
 			String _prefixUrl = this.httpHost + this.avatarStoragePath;
 			return this

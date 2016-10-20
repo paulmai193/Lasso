@@ -4,7 +4,9 @@
 package com.lasso.rest.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -30,11 +32,13 @@ import com.lasso.rest.model.api.response.ListProjectsResponse;
 import com.lasso.rest.model.api.response.ListSubCategoriesResponse;
 import com.lasso.rest.model.api.response.ListTypesResponse;
 import com.lasso.rest.model.api.response.ProjectDetailResponse;
+import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Banner;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.ProjectManagement;
+import com.lasso.rest.service.RewardSystemManagement;
 
 /**
  * The Class BrowseController.
@@ -48,40 +52,44 @@ import com.lasso.rest.service.ProjectManagement;
 public class BrowseController extends BaseController {
 
 	/** The avatar storage path. */
-	private String				avatarStoragePath;
+	private String					avatarStoragePath;
 
 	/** The category storage path. */
-	private String				bannerStoragePath;
+	private String					bannerStoragePath;
 
 	/** The category storage path. */
-	private String				categoryStoragePath;
+	private String					categoryStoragePath;
 
 	/** The http host. */
-	private String				httpHost;
+	private String					httpHost;
 
 	/** The portfolio storage path. */
-	private String				portfolioStoragePath;
+	private String					portfolioStoragePath;
 
 	/** The project management. */
 	@Autowired
-	private ProjectManagement	projectManagement;
+	private ProjectManagement		projectManagement;
 
 	/** The project storage path. */
-	private String				projectStoragePath;
+	private String					projectStoragePath;
 
 	/** The request. */
 	@Context
-	private HttpServletRequest	request;
+	private HttpServletRequest		request;
+
+	/** The reward system management. */
+	@Autowired
+	private RewardSystemManagement	rewardSystemManagement;
 
 	/** The style storage path. */
-	private String				styleStoragePath;
+	private String					styleStoragePath;
 
 	/** The type storage path. */
-	private String				typeStoragePath;
+	private String					typeStoragePath;
 
 	/** The validateContext. */
 	@Context
-	private SecurityContext		validateContext;
+	private SecurityContext			validateContext;
 
 	/**
 	 * Gets the banners.
@@ -111,7 +119,7 @@ public class BrowseController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index) {
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-				Constant.PAGE_SIZE, null);
+		        Constant.PAGE_SIZE, null);
 		String _prefixUrl = this.httpHost + this.categoryStoragePath;
 		return new ListCategoriesResponse(_prefixUrl, _categories, __index + Constant.PAGE_SIZE);
 	}
@@ -134,6 +142,29 @@ public class BrowseController extends BaseController {
 			throw new NotFoundException("Category not found");
 		}
 		else {
+			Account _account = (Account) this.validateContext.getUserPrincipal();
+			Set<Integer> _browsedCateogries = Constant.BROWSE_CATEGORY_STATISTIC
+			        .get(_account.getId());
+			if (_browsedCateogries == null) {
+				_browsedCateogries = new HashSet<>();
+			}
+			_browsedCateogries.add(_category.getId());
+			Constant.BROWSE_CATEGORY_STATISTIC.put(_account.getId(), _browsedCateogries);
+
+			// Update reward system
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+						BrowseController.this.rewardSystemManagement.updateDesignerReward(_account);
+					}
+					else {
+						BrowseController.this.rewardSystemManagement.updateUserReward(_account);
+					}
+				}
+			}).start();
+
 			return new CategoryResponse(_prefixUrl, _category);
 		}
 	}
@@ -154,11 +185,11 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		String _prefixPortfoliotUrl = this.httpHost + this.portfolioStoragePath;
 		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index,
-				Constant.PAGE_SIZE, __keyword, _prefixPortfoliotUrl, _prefixAvatarUrl);
+		        Constant.PAGE_SIZE, __keyword, _prefixPortfoliotUrl, _prefixAvatarUrl);
 	}
 
 	/**
@@ -177,7 +208,7 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListSubCategoriesResponse getListStyles(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes) {
 		List<Integer> _idTypes = new ArrayList<>();
 		String[] _strings = __idTypes == null ? "".split("") : __idTypes.split(",");
 		for (String _string : _strings) {
@@ -189,7 +220,7 @@ public class BrowseController extends BaseController {
 			}
 		}
 		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-				_idTypes, __index, Constant.PAGE_SIZE, null);
+		        _idTypes, __index, Constant.PAGE_SIZE, null);
 		String _prefixUrl = this.httpHost + this.styleStoragePath;
 		return new ListSubCategoriesResponse(_prefixUrl, _styles, __index + Constant.PAGE_SIZE);
 	}
@@ -208,9 +239,9 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListTypesResponse getListTypes(@QueryParam("category_id") int __idCategory,
-			@QueryParam("style_id") Integer __idStyle) {
+	        @QueryParam("style_id") Integer __idStyle) {
 		List<Type> _types = this.projectManagement.getListTypesByIdCategoryAndStyle(__idCategory,
-				__idStyle);
+		        __idStyle);
 		String _prefixTypetUrl = this.httpHost + this.typeStoragePath;
 		return new ListTypesResponse(_types, _prefixTypetUrl);
 	}
@@ -230,7 +261,7 @@ public class BrowseController extends BaseController {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		return this.projectManagement.getProjectDetailById(__idPortfotio, _prefixPortforlioUrl,
-				_prefixAvatarUrl);
+		        _prefixAvatarUrl);
 	}
 
 	/**
@@ -301,6 +332,15 @@ public class BrowseController extends BaseController {
 	 */
 	public void setProjectStoragePath(String __projectStoragePath) {
 		this.projectStoragePath = __projectStoragePath;
+	}
+
+	/**
+	 * Sets the reward system management.
+	 *
+	 * @param __rewardSystemManagement the new reward system management
+	 */
+	public void setRewardSystemManagement(RewardSystemManagement __rewardSystemManagement) {
+		this.rewardSystemManagement = __rewardSystemManagement;
 	}
 
 	/**

@@ -74,7 +74,7 @@ public class MessageController extends BaseController {
 
 	/** The validate context. */
 	@Context
-	private SecurityContext validateContext;
+	private SecurityContext		validateContext;
 
 	/**
 	 * Gets the list message.

@@ -612,7 +612,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 
 					@Override
 					public void run() {
-						Account _user = ImplDesignerManagement.this.accountDAO.getAccountById(_job.getAccountId());
+						Account _user = ImplDesignerManagement.this.accountDAO
+								.getAccountById(_job.getAccountId());
 						AccountSettings _accountSettings;
 						try {
 							_accountSettings = _user.getSettings();
@@ -629,7 +630,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 														__updateJobStageRequest.getStage())
 												.getName()));
 								_pushRequest.setTo(_user.getDeviceId());
-								ImplDesignerManagement.this.messageManagement.sendPush(_pushRequest);
+								ImplDesignerManagement.this.messageManagement
+								.sendPush(_pushRequest);
 							}
 						}
 						catch (Exception _ex) {

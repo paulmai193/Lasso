@@ -39,6 +39,7 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.DesignerManagement;
+import com.lasso.rest.service.RewardSystemManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 /**
@@ -56,17 +57,21 @@ public class PortfolioController extends BaseController {
 
 	/** The designer management. */
 	@Autowired
-	private DesignerManagement	designerManagement;
+	private DesignerManagement		designerManagement;
 
 	/** The http host. */
-	private String				httpHost;
+	private String					httpHost;
 
 	/** The portfolio storage path. */
-	private String				portfolioStoragePath;
+	private String					portfolioStoragePath;
+
+	/** The reward system management. */
+	@Autowired
+	private RewardSystemManagement	rewardSystemManagement;
 
 	/** The validateContext. */
 	@Context
-	private SecurityContext		validateContext;
+	private SecurityContext			validateContext;
 
 	/**
 	 * Creates the portfolio.
@@ -81,10 +86,20 @@ public class PortfolioController extends BaseController {
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createPortfolio(CreatePortfolioRequest __createPortfolioRequest)
-			throws IOException, UnirestException, URISyntaxException {
+	        throws IOException, UnirestException, URISyntaxException {
 		__createPortfolioRequest.validate();
 		Account _desiger = (Account) this.validateContext.getUserPrincipal();
 		this.designerManagement.createPortfolio(_desiger, __createPortfolioRequest);
+
+		// Update reward system
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				PortfolioController.this.rewardSystemManagement.updateDesignerReward(_desiger);
+			}
+		}).start();
+
 		return this.success();
 	}
 
@@ -108,7 +123,7 @@ public class PortfolioController extends BaseController {
 				try {
 					int __idPortfolio = Integer.parseInt(_sId);
 					Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger,
-							__idPortfolio);
+					        __idPortfolio);
 					if (_portfolio != null) {
 						this.designerManagement.deletePortfolio(_portfolio);
 					}
@@ -137,12 +152,12 @@ public class PortfolioController extends BaseController {
 	@Path("/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response editPortfolio(EditPortfolioRequest __editPortfolioRequest)
-			throws IOException, UnirestException, URISyntaxException {
+	        throws IOException, UnirestException, URISyntaxException {
 		__editPortfolioRequest.validate();
 		try {
 			Account _desiger = (Account) this.validateContext.getUserPrincipal();
 			Portfolio _portfolio = this.designerManagement.getPortfolio(_desiger,
-					__editPortfolioRequest.getId());
+			        __editPortfolioRequest.getId());
 			if (_portfolio == null) {
 				throw new NotFoundException("Portfolio not found");
 			}
@@ -170,7 +185,7 @@ public class PortfolioController extends BaseController {
 		for (Portfolio _portfolio : _portfolios) {
 			try {
 				Category _category = this.designerManagement
-						.getCategoryById(_portfolio.getCategoryId());
+				        .getCategoryById(_portfolio.getCategoryId());
 				if (_category == null) {
 					break;
 				}
@@ -179,7 +194,7 @@ public class PortfolioController extends BaseController {
 					break;
 				}
 				List<Type> _types = this.designerManagement
-						.getListTypesByIdPortfolio(_portfolio.getId());
+				        .getListTypesByIdPortfolio(_portfolio.getId());
 				if (_types.isEmpty()) {
 					break;
 				}
@@ -217,16 +232,16 @@ public class PortfolioController extends BaseController {
 			else {
 				try {
 					Category _category = this.designerManagement
-							.getCategoryById(_portfolio.getCategoryId());
+					        .getCategoryById(_portfolio.getCategoryId());
 					Style _style = this.designerManagement.getStyleById(_portfolio.getStyleId());
 					List<Type> _types = this.designerManagement
-							.getListTypesByIdPortfolio(_portfolio.getId());
+					        .getListTypesByIdPortfolio(_portfolio.getId());
 					if (_types.isEmpty()) {
 						throw new NotFoundException("Portfolio detail not found");
 					}
 					String _prefixUrl = this.httpHost + this.portfolioStoragePath;
 					return new PortfolioDetailResponse(_category, _portfolio, _prefixUrl, _style,
-							_types);
+					        _types);
 				}
 				catch (NullPointerException _ex) {
 					throw new NotFoundException("Portfolio detail not found", _ex);
@@ -263,6 +278,15 @@ public class PortfolioController extends BaseController {
 	 */
 	public void setPortfolioStoragePath(String __portfolioStoragePath) {
 		this.portfolioStoragePath = __portfolioStoragePath;
+	}
+
+	/**
+	 * Sets the reward system management.
+	 *
+	 * @param __rewardSystemManagement the new reward system management
+	 */
+	public void setRewardSystemManagement(RewardSystemManagement __rewardSystemManagement) {
+		this.rewardSystemManagement = __rewardSystemManagement;
 	}
 
 }

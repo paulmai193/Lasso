@@ -5,6 +5,7 @@ package com.lasso.rest.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -104,6 +105,23 @@ public class ImplJobAccountDAO implements JobAccountDAO {
 				.add(Restrictions.eq("accountId", __idDesigner))
 				.add(Restrictions.eq("confirm", JobConfirmationConstant.JOB_CONFIRM.getCode()))
 				.uniqueResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.lasso.rest.dao.JobAccountDAO#getListCompletedJobsAccountOfDesigner(java.lang.Integer)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<JobsAccount> getListCompletedJobsAccountOfDesigner(Integer __idDesigner) {
+		String _queryString = "from JobsAccount where accountId = :idDesigner and confirm = :confirm and jobId in (select jobId from Job where completed = :completed)";
+		Query _query = this.sessionFactory.getCurrentSession().createQuery(_queryString);
+		_query.setInteger("idDesigner", __idDesigner);
+		_query.setByte("confirm", JobConfirmationConstant.JOB_ACCEPT.getCode());
+		_query.setByte("completed", (byte) 1);
+		return _query.list();
 	}
 
 	/*

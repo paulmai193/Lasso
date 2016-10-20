@@ -64,6 +64,14 @@ public interface JobAccountDAO extends HibernateSession {
 	JobsAccount getConfirmByJobAndDesignerId(Integer __idJob, Integer __idDesigner);
 
 	/**
+	 * Gets the list completed jobs account of designer.
+	 *
+	 * @param __idDesigner the id designer
+	 * @return the list completed jobs account of designer
+	 */
+	List<JobsAccount> getListCompletedJobsAccountOfDesigner(Integer __idDesigner);
+
+	/**
 	 * Gets the list jobs account of designer.
 	 *
 	 * @param __idDesigner

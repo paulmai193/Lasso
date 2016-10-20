@@ -54,6 +54,7 @@ import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Country;
 import com.lasso.rest.service.AccountManagement;
 import com.lasso.rest.service.GenericManagement;
+import com.lasso.rest.service.RewardSystemManagement;
 
 /**
  * The Class AccountController.
@@ -68,28 +69,32 @@ public class AccountController extends BaseController {
 
 	/** The account management. */
 	@Autowired
-	private AccountManagement	accountManagement;
+	private AccountManagement		accountManagement;
 
 	/** The avatar storage path. */
-	private String				avatarStoragePath;
+	private String					avatarStoragePath;
 
 	/** The generic management. */
 	@Autowired
-	private GenericManagement	genericManagement;
+	private GenericManagement		genericManagement;
 
 	/** The http host. */
-	private String				httpHost;
+	private String					httpHost;
 
 	/** The http image host. */
-	private String				httpImageHost;
+	private String					httpImageHost;
 
 	/** The request. */
 	@Context
-	private HttpServletRequest	request;
+	private HttpServletRequest		request;
+
+	/** The reward system management. */
+	@Autowired
+	private RewardSystemManagement	rewardSystemManagement;
 
 	/** The validate context. */
 	@Context
-	private SecurityContext		validateContext;
+	private SecurityContext			validateContext;
 
 	/**
 	 * Change designer detail.
@@ -105,8 +110,17 @@ public class AccountController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_DESIGNER)
 	public Response changeDetailDesigner(
 			DesignerChangeDetailRequest __designerChangeDetailRequest) {
-		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
-				__designerChangeDetailRequest);
+		Account _designer = (Account) this.validateContext.getUserPrincipal();
+		Response _response = this.changeAccountDetail(
+				(Account) this.validateContext.getUserPrincipal(), __designerChangeDetailRequest);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				AccountController.this.rewardSystemManagement.updateDesignerReward(_designer);
+			}
+		}).start();
+		return _response;
 	}
 
 	/**
@@ -122,8 +136,16 @@ public class AccountController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE, roles = "" + Constant.ROLE_USER)
 	public Response changeDetailUser(UserChangeDetailRequest __userChangeDetailRequest) {
-		return this.changeAccountDetail((Account) this.validateContext.getUserPrincipal(),
-				__userChangeDetailRequest);
+		Account _user = (Account) this.validateContext.getUserPrincipal();
+		Response _response = this.changeAccountDetail(_user, __userChangeDetailRequest);
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				AccountController.this.rewardSystemManagement.updateUserReward(_user);
+			}
+		}).start();
+		return _response;
 	}
 
 	/**
@@ -451,6 +473,15 @@ public class AccountController extends BaseController {
 	 */
 	public void setHttpImageHost(String __httpImageHost) {
 		this.httpImageHost = __httpImageHost;
+	}
+
+	/**
+	 * Sets the reward system management.
+	 *
+	 * @param __rewardSystemManagement the new reward system management
+	 */
+	public void setRewardSystemManagement(RewardSystemManagement __rewardSystemManagement) {
+		this.rewardSystemManagement = __rewardSystemManagement;
 	}
 
 	/**

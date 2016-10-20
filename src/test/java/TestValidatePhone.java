@@ -4,7 +4,6 @@
  */
 import com.lasso.rest.model.variable.PhoneParam;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TestValidatePhone.
  *
@@ -19,7 +18,7 @@ public class TestValidatePhone {
 	 *        the arguments
 	 */
 	public static void main(String[] args) {
-		PhoneParam _phoneParam = new PhoneParam("(+65) 9636  9768 4355");
+		PhoneParam _phoneParam = new PhoneParam("(+65) 9639 1");
 		System.out.println(_phoneParam.toString());
 	}
 
