@@ -10,7 +10,6 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Project;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface PortfolioDAO.
  *
@@ -84,7 +83,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @return the list portfolios by condition
 	 */
 	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-			List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
+	        List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
 
 	/**
 	 * Update portfolio.
@@ -93,5 +92,9 @@ public interface PortfolioDAO extends HibernateSession {
 	 *        the portfolio
 	 */
 	void updatePortfolio(Portfolio __portfolio);
+
+	List<Portfolio> searchProjects(Integer __idStyle, String __keyword, int __offset, int __limit);
+
+	List<Portfolio> getRamdom(int __limit);
 
 }

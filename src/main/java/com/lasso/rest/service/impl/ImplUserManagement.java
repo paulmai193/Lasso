@@ -184,7 +184,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 				if (_designer.getRole().equals(Constant.ROLE_DESIGNER)) {
 					_jobsAccounts.add(new JobsAccount(_idDesigner, _job.getId()));
 
-					String _title = "New offer from " + __user.getName();
+					String _title = _job.getDescription();
 					String _content = "Hi, please check this offer.";
 					Message _message = new Message(__user.getId(), _job.getId(), _content, _title,
 					        _idDesigner);

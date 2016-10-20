@@ -30,7 +30,6 @@ import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
-import com.lasso.rest.model.datasource.Project;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.service.DesignerManagement;
@@ -211,36 +210,36 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				}
 			}
 
-			// Create project base on this portofolio
-			_portfolio.setId(_id);
-			Project _project = new Project(_portfolio);
-			this.projectDAO.saveProject(_project);
-			// Copy project images from 1st portfolio directory
-			// directory
-			for (String _tempFileName : __createPortfolioRequest.getImages()) {
-				// Copy original file
-				this.uploadImageManagement.copyImage(
-				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Original/"
-				                + _tempFileName),
-				        new File(_webContextStoragePath + this.projectStoragePath + "/Original/"));
-
-				// Copy icon file
-				this.uploadImageManagement.copyImage(
-				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Icon/"
-				                + _tempFileName),
-				        new File(_webContextStoragePath + this.projectStoragePath + "/Icon/"));
-				// Copy icon file
-				this.uploadImageManagement.copyImage(
-				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Small/"
-				                + _tempFileName),
-				        new File(_webContextStoragePath + this.projectStoragePath + "/Small/"));
-				// Copy icon file
-				this.uploadImageManagement.copyImage(
-				        new File(_webContextStoragePath + this.portfolioStoragePath + "/Retina/"
-				                + _tempFileName),
-				        new File(_webContextStoragePath + this.projectStoragePath + "/Retina/"));
-				break;
-			}
+			// // XXX Create project base on this portofolio
+			// _portfolio.setId(_id);
+			// Project _project = new Project(_portfolio);
+			// this.projectDAO.saveProject(_project);
+			// // Copy project images from 1st portfolio directory
+			// // directory
+			// for (String _tempFileName : __createPortfolioRequest.getImages()) {
+			// // Copy original file
+			// this.uploadImageManagement.copyImage(
+			// new File(_webContextStoragePath + this.portfolioStoragePath + "/Original/"
+			// + _tempFileName),
+			// new File(_webContextStoragePath + this.projectStoragePath + "/Original/"));
+			//
+			// // Copy icon file
+			// this.uploadImageManagement.copyImage(
+			// new File(_webContextStoragePath + this.portfolioStoragePath + "/Icon/"
+			// + _tempFileName),
+			// new File(_webContextStoragePath + this.projectStoragePath + "/Icon/"));
+			// // Copy icon file
+			// this.uploadImageManagement.copyImage(
+			// new File(_webContextStoragePath + this.portfolioStoragePath + "/Small/"
+			// + _tempFileName),
+			// new File(_webContextStoragePath + this.projectStoragePath + "/Small/"));
+			// // Copy icon file
+			// this.uploadImageManagement.copyImage(
+			// new File(_webContextStoragePath + this.portfolioStoragePath + "/Retina/"
+			// + _tempFileName),
+			// new File(_webContextStoragePath + this.projectStoragePath + "/Retina/"));
+			// break;
+			// }
 		}
 		finally {
 			// Remove temporary directory which were older than 2 days
@@ -265,13 +264,13 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 		__portfolio.setModified(new Date());
 		this.portfolioDAO.updatePortfolio(__portfolio);
 
-		// Delete relate project
-		Project _project = this.projectDAO.getProjectByIdPortfolio(__portfolio.getId());
-		if (_project != null) {
-			_project.setDeleted((byte) 1);
-			_project.setModified(new Date());
-			this.projectDAO.updateProject(_project);
-		}
+		// // XXX Delete relate project
+		// Project _project = this.projectDAO.getProjectByIdPortfolio(__portfolio.getId());
+		// if (_project != null) {
+		// _project.setDeleted((byte) 1);
+		// _project.setModified(new Date());
+		// this.projectDAO.updateProject(_project);
+		// }
 	}
 
 	/*

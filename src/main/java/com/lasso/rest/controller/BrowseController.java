@@ -111,7 +111,7 @@ public class BrowseController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index) {
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-				Constant.PAGE_SIZE, null);
+		        Constant.PAGE_SIZE, null);
 		String _prefixUrl = this.httpHost + this.categoryStoragePath;
 		return new ListCategoriesResponse(_prefixUrl, _categories, __index + Constant.PAGE_SIZE);
 	}
@@ -154,11 +154,11 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
+	        @QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
-		String _prefixProjectUrl = this.httpHost + this.projectStoragePath;
+		String _prefixPortfoliotUrl = this.httpHost + this.portfolioStoragePath;
 		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index,
-				Constant.PAGE_SIZE, __keyword, _prefixProjectUrl, _prefixAvatarUrl);
+		        Constant.PAGE_SIZE, __keyword, _prefixPortfoliotUrl, _prefixAvatarUrl);
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListSubCategoriesResponse getListStyles(@QueryParam("index") int __index,
-			@QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes) {
+	        @QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes) {
 		List<Integer> _idTypes = new ArrayList<>();
 		String[] _strings = __idTypes == null ? "".split("") : __idTypes.split(",");
 		for (String _string : _strings) {
@@ -189,7 +189,7 @@ public class BrowseController extends BaseController {
 			}
 		}
 		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-				_idTypes, __index, Constant.PAGE_SIZE, null);
+		        _idTypes, __index, Constant.PAGE_SIZE, null);
 		String _prefixUrl = this.httpHost + this.styleStoragePath;
 		return new ListSubCategoriesResponse(_prefixUrl, _styles, __index + Constant.PAGE_SIZE);
 	}
@@ -208,9 +208,9 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListTypesResponse getListTypes(@QueryParam("category_id") int __idCategory,
-			@QueryParam("style_id") Integer __idStyle) {
+	        @QueryParam("style_id") Integer __idStyle) {
 		List<Type> _types = this.projectManagement.getListTypesByIdCategoryAndStyle(__idCategory,
-				__idStyle);
+		        __idStyle);
 		String _prefixTypetUrl = this.httpHost + this.typeStoragePath;
 		return new ListTypesResponse(_types, _prefixTypetUrl);
 	}
@@ -218,7 +218,7 @@ public class BrowseController extends BaseController {
 	/**
 	 * Gets the project detail.
 	 *
-	 * @param __idProject
+	 * @param __idPortfotio
 	 *        the id project
 	 * @return the project detail
 	 */
@@ -226,11 +226,11 @@ public class BrowseController extends BaseController {
 	@Path("/project/detail")
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
-	public ProjectDetailResponse getProjectDetail(@QueryParam("id") int __idProject) {
+	public ProjectDetailResponse getProjectDetail(@QueryParam("id") int __idPortfotio) {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
-		return this.projectManagement.getProjectDetailById(__idProject, _prefixPortforlioUrl,
-				_prefixAvatarUrl);
+		return this.projectManagement.getProjectDetailById(__idPortfotio, _prefixPortforlioUrl,
+		        _prefixAvatarUrl);
 	}
 
 	/**

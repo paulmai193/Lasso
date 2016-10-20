@@ -44,7 +44,6 @@ import com.lasso.rest.service.GenericManagement;
 import com.lasso.rest.service.ProjectManagement;
 import com.lasso.rest.service.UploadImageManagement;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ImplProjectManagement.
  *
@@ -147,7 +146,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Category> getCategoriesByIndexAndKeyword(int __index, int __size,
-			String __keyword) {
+	        String __keyword) {
 		return this.categoryDAO.getCategories(__index, __size, __keyword);
 	}
 
@@ -260,7 +259,7 @@ public class ImplProjectManagement implements ProjectManagement {
 			List<Integer> _listIdTypes = new ArrayList<>();
 			// Get TypesStyle from Styles
 			this.typeStyleDAO.getTypesStylesByStyles(_styles)
-			.forEach(_typeStyle -> _listIdTypes.add(_typeStyle.getTypeId()));
+			        .forEach(_typeStyle -> _listIdTypes.add(_typeStyle.getTypeId()));
 
 			_types = this.typeDAO.getTypesByIdTypesAndCategory(_listIdTypes, _category);
 		}
@@ -280,7 +279,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	public List<Type> getListTypesByIdPortfolio(int __idPortfolio) {
 		// Get list portfolio type from id portfolio
 		List<PortfolioType> _portfolioTypes = this.portfolioTypeDAO
-				.getListByIdPortfolio(__idPortfolio);
+		        .getListByIdPortfolio(__idPortfolio);
 		List<Integer> _listIdsType = new ArrayList<>();
 		if (_portfolioTypes.isEmpty()) {
 			return new ArrayList<>();
@@ -337,15 +336,23 @@ public class ImplProjectManagement implements ProjectManagement {
 	 * java.lang.String, java.lang.String)
 	 */
 	@Override
-	public ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
-			String __prefixAvatarUrl) {
+	public ProjectDetailResponse getProjectDetailById(int __idPortfolio,
+	        String __prefixPortfolioUrl, String __prefixAvatarUrl) {
 		try {
-			Project _project = this.projectDAO.getProjectById(__idProject);
-			Category _category = this.categoryDAO.getCategoryById(_project.getCategoryId());
-			Portfolio _portfolio = this.portfolioDAO.getPortfolioByProject(_project);
+			// Project _project = this.projectDAO.getProjectById(__idProject);
+			// Category _category = this.categoryDAO.getCategoryById(_project.getCategoryId());
+			// Portfolio _portfolio = this.portfolioDAO.getPortfolioByProject(_project);
+			// Account _account = this.accountDAO.getAccountById(_portfolio.getAccountId());
+			// return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
+			// _portfolio, _account, _category);
+
+			// XXX New implement
+			Portfolio _portfolio = this.portfolioDAO.getPortfolioById(__idPortfolio);
+			Category _category = this.categoryDAO.getCategoryById(_portfolio.getCategoryId());
 			Account _account = this.accountDAO.getAccountById(_portfolio.getAccountId());
+			Project _project = null;
 			return new ProjectDetailResponse(__prefixPortfolioUrl, __prefixAvatarUrl, _project,
-					_portfolio, _account, _category);
+			        _portfolio, _account, _category);
 		}
 		catch (NullPointerException _ex) {
 			throw new NotFoundException("No detail information");
@@ -362,20 +369,20 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index,
-			int __size, String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl) {
+	        int __size, String __keyword, String __prefixPortfoliotUrl, String __prefixAvatarUrl) {
 		List<Object[]> _datas = new ArrayList<>(), _suggests = new ArrayList<>();
-		List<Project> _projects = this.projectDAO.searchProjects(__idStyle, __keyword, __index,
-				__size);
+		List<Portfolio> _projects = this.portfolioDAO.searchProjects(__idStyle, __keyword, __index,
+		        __size);
 		if (_projects.isEmpty() && __index == 0 && (__keyword != null && !__keyword.isEmpty())
-				&& __idStyle == 0) {
+		        && __idStyle == 0) {
 			this.getProjectsBySubCategoryAndKeyword_getData(_suggests,
-					this.projectDAO.getRamdom(__size));
+			        this.portfolioDAO.getRamdom(__size));
 		}
 		else {
 			this.getProjectsBySubCategoryAndKeyword_getData(_datas, _projects);
 		}
 		ListProjectsResponse _listProjectsResponse = new ListProjectsResponse(__index + __size,
-				__prefixProjectUrl, __prefixAvatarUrl, _datas, _suggests);
+		        __prefixPortfoliotUrl, __prefixAvatarUrl, _datas, _suggests);
 		return _listProjectsResponse;
 	}
 
@@ -407,7 +414,7 @@ public class ImplProjectManagement implements ProjectManagement {
 	 */
 	@Override
 	public List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, List<Integer> __idTypes,
-			int __index, int __size, String __keyword) {
+	        int __index, int __size, String __keyword) {
 		// Get Category from id
 		Category _category = this.categoryDAO.getCategoryById(__idCategory);
 		if (_category == null) {
@@ -681,23 +688,23 @@ public class ImplProjectManagement implements ProjectManagement {
 	 *
 	 * @param __datas
 	 *        the datas
-	 * @param __projects
+	 * @param __portfolios
 	 *        the projects
 	 * @return the projects by sub category and keyword get data
 	 */
 	private void getProjectsBySubCategoryAndKeyword_getData(List<Object[]> __datas,
-			List<Project> __projects) {
-		__projects.forEach(_project -> {
+	        List<Portfolio> __portfolios) {
+		__portfolios.forEach(_portfolio -> {
 			try {
-				Object[] _data = { _project, "" };
-				Account _account = this.accountDAO.getAccountById(_project.getAccountId());
+				Object[] _data = { _portfolio, "" };
+				Account _account = this.accountDAO.getAccountById(_portfolio.getAccountId());
 				_data[1] = _account.getImage();
 
 				__datas.add(_data);
 			}
 			catch (Exception _ex) {
-				Logger.getLogger(this.getClass()).warn("Problem with project " + _project.getId(),
-						_ex);
+				Logger.getLogger(this.getClass())
+				        .warn("Problem with portfolio " + _portfolio.getId(), _ex);
 			}
 		});
 	}

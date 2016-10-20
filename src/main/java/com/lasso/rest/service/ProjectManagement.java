@@ -13,7 +13,6 @@ import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ProjectManagement.
  *
@@ -101,7 +100,7 @@ public interface ProjectManagement {
 	 * @return the project by id
 	 */
 	ProjectDetailResponse getProjectDetailById(int __idProject, String __prefixPortfolioUrl,
-			String __prefixAvatarUrl);
+	        String __prefixAvatarUrl);
 
 	/**
 	 * Gets the projects by sub category and keyword.
@@ -114,14 +113,12 @@ public interface ProjectManagement {
 	 *        the size
 	 * @param __keyword
 	 *        the keyword
-	 * @param __prefixProjectUrl
-	 *        the prefix project url
 	 * @param __prefixAvatarUrl
 	 *        the prefix avatar url
 	 * @return the projects by sub category and keyword
 	 */
 	ListProjectsResponse getProjectsBySubCategoryAndKeyword(int __idStyle, int __index, int __size,
-			String __keyword, String __prefixProjectUrl, String __prefixAvatarUrl);
+	        String __keyword, String __prefixPortfoliotUrl, String __prefixAvatarUrl);
 
 	/**
 	 * Gets the style by id.
@@ -148,5 +145,5 @@ public interface ProjectManagement {
 	 * @return the sub categories start from index
 	 */
 	List<Style> getSubCategoriesByIndexAndKeyword(int __idCategory, List<Integer> __idTypes,
-			int __size, int __index, String __keyword);
+	        int __size, int __index, String __keyword);
 }

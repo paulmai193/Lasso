@@ -15,7 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lasso.rest.model.datasource.Project;
+import com.lasso.rest.model.datasource.Portfolio;
 
 /**
  * The Class ListProjectsResponse.
@@ -35,8 +35,7 @@ public class ListProjectsResponse extends BaseResponse {
 	/** The prefix avatar url. */
 	private String			prefixAvatarUrl;
 
-	/** The prefix project url. */
-	private String			prefixProjectUrl;
+	private String			prefixPortfolioUrl;
 
 	/** The suggests. */
 	private List<Object[]>	suggests;
@@ -82,8 +81,6 @@ public class ListProjectsResponse extends BaseResponse {
 	 *
 	 * @param __nextIndex
 	 *        the next index
-	 * @param __prefixProjectUrl
-	 *        the prefix project url
 	 * @param __prefixAvatarUrl
 	 *        the prefix avatar url
 	 * @param __datas
@@ -91,11 +88,11 @@ public class ListProjectsResponse extends BaseResponse {
 	 * @param __suggests
 	 *        the suggests
 	 */
-	public ListProjectsResponse(int __nextIndex, String __prefixProjectUrl,
+	public ListProjectsResponse(int __nextIndex, String __prefixPortfolioUrl,
 	        String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
 		super();
 		this.nextIndex = __nextIndex;
-		this.prefixProjectUrl = __prefixProjectUrl;
+		this.prefixPortfolioUrl = __prefixPortfolioUrl;
 		this.prefixAvatarUrl = __prefixAvatarUrl;
 		this.datas = __datas;
 		this.suggests = __suggests;
@@ -128,13 +125,8 @@ public class ListProjectsResponse extends BaseResponse {
 		return this.prefixAvatarUrl;
 	}
 
-	/**
-	 * Gets the prefix project url.
-	 *
-	 * @return the prefix project url
-	 */
-	public String getPrefixProjectUrl() {
-		return this.prefixProjectUrl;
+	public String getPrefixPortfolioUrl() {
+		return this.prefixPortfolioUrl;
 	}
 
 	/**
@@ -165,7 +157,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-				        __value.getPrefixProjectUrl());
+				        __value.getPrefixPortfolioUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
@@ -179,7 +171,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-				        __value.getPrefixProjectUrl());
+				        __value.getPrefixPortfolioUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
@@ -195,10 +187,15 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 	private void serializeData(JsonGenerator __gen, Object[] __data, String __prefixAvatarUrl,
 	        String __prefixProjectUrl) {
 		try {
-			__gen.writeNumberField("project_id", ((Project) __data[0]).getId());
-			__gen.writeStringField("title", ((Project) __data[0]).getTitle());
+			Portfolio _portfolio = (Portfolio) __data[0];
+			__gen.writeNumberField("project_id", _portfolio.getId());
+			__gen.writeStringField("title", _portfolio.getTitle());
+			String _portfolioImage = _portfolio.getImage();
+			if (_portfolioImage.contains(",")) {
+				_portfolioImage = _portfolioImage.substring(0, _portfolioImage.indexOf(","));
+			}
 			__gen.writeObjectFieldStart("images");
-			if (((Project) __data[0]).getImage().isEmpty()) {
+			if (_portfolio.getImage().isEmpty()) {
 				__gen.writeStringField("original", "");
 				__gen.writeStringField("small", "");
 				__gen.writeStringField("icon", "");
@@ -206,17 +203,15 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("original",
-				        __prefixProjectUrl + "/Original/" + ((Project) __data[0]).getImage());
-				__gen.writeStringField("small",
-				        __prefixProjectUrl + "/Small/" + ((Project) __data[0]).getImage());
-				__gen.writeStringField("icon",
-				        __prefixProjectUrl + "/Icon/" + ((Project) __data[0]).getImage());
-				__gen.writeStringField("retina",
-				        __prefixProjectUrl + "/Retina/" + ((Project) __data[0]).getImage());
+				        __prefixProjectUrl + "/Original/" + _portfolioImage);
+				__gen.writeStringField("small", __prefixProjectUrl + "/Small/" + _portfolioImage);
+				__gen.writeStringField("icon", __prefixProjectUrl + "/Icon/" + _portfolioImage);
+				__gen.writeStringField("retina", __prefixProjectUrl + "/Retina/" + _portfolioImage);
 			}
 			__gen.writeEndObject();
 
-			if (((String) __data[1]).isEmpty()) {
+			String _avatar = (String) __data[1];
+			if (_avatar == null || _avatar.isEmpty()) {
 				__gen.writeStringField("designer_avatar", "");
 			}
 			else {
