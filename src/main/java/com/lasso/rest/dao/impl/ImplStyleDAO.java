@@ -18,7 +18,6 @@ import com.lasso.rest.dao.StyleDAO;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.TypesStyle;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ImplStyleDAO.
  *
@@ -45,7 +44,7 @@ public class ImplStyleDAO implements StyleDAO {
 	@Override
 	public Style getById(int __styleId) {
 		return (Style) this.sessionFactory.getCurrentSession().createCriteria(Style.class)
-				.add(Restrictions.idEq(__styleId)).uniqueResult();
+		        .add(Restrictions.idEq(__styleId)).uniqueResult();
 	}
 
 	/*
@@ -61,8 +60,8 @@ public class ImplStyleDAO implements StyleDAO {
 		}
 		else {
 			Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Style.class)
-					.add(Restrictions.in("id", __styleIds)).add(Restrictions.eq("status", (byte) 1))
-					.add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("sort"));
+			        .add(Restrictions.in("id", __styleIds)).add(Restrictions.eq("status", (byte) 1))
+			        .add(Restrictions.eq("deleted", (byte) 0)).addOrder(Order.asc("sort"));
 			return _criteria.list();
 		}
 	}
@@ -77,7 +76,7 @@ public class ImplStyleDAO implements StyleDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Style> getStylesByTypesAndKeyword(List<TypesStyle> __typesStyles, int __offset,
-			int __limit, String __keyword) {
+	        int __limit, String __keyword) {
 		if (__typesStyles.size() == 0) {
 			return new ArrayList<>();
 		}
@@ -86,12 +85,12 @@ public class ImplStyleDAO implements StyleDAO {
 			_ids.add(_typesStyle.getStyleId());
 		}
 		Criteria _criteria = this.sessionFactory.getCurrentSession().createCriteria(Style.class)
-				.add(Restrictions.in("id", _ids));
+		        .add(Restrictions.in("id", _ids));
 		if (__keyword != null && !__keyword.isEmpty()) {
 			_criteria.add(Restrictions.like("title", __keyword, MatchMode.ANYWHERE));
 		}
 		_criteria.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		.addOrder(Order.asc("sort"));
+		        .addOrder(Order.asc("sort"));
 		if (__offset > -1) {
 			_criteria.setFirstResult(__offset).setMaxResults(__limit);
 		}

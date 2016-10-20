@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
@@ -133,7 +132,7 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 		else if (_job.getPaid().equals((byte) 0)) {
 			__gen.writeStringField("action_status", "job_confirm");
 		}
-		else if (_job.getStage().byteValue() == JobStageConstant.JOB_STAGE_COMPLETED.getCode()) {
+		else if (_job.getCompleted().byteValue() == 1) {
 			__gen.writeStringField("action_status", "job_completed");
 		}
 		else {

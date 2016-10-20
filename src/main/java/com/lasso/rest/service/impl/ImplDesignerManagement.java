@@ -19,12 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.define.JobConfirmationConstant;
+import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.api.request.ConfirmOfferRequest;
 import com.lasso.rest.model.api.request.CounterOfferRequest;
 import com.lasso.rest.model.api.request.CreatePortfolioRequest;
 import com.lasso.rest.model.api.request.EditPortfolioRequest;
 import com.lasso.rest.model.api.request.UpdateJobStageRequest;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.AccountSettings;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
@@ -32,6 +34,8 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.push.PushNotification;
+import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.DesignerManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
@@ -550,6 +554,36 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				_job.setStageDate(__updateJobStageRequest.getDeliveryDate());
 				_job.setModified(new Date());
 				this.jobDAO.updateJob(_job);
+
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						Account _user = accountDAO.getAccountById(_job.getAccountId());
+						AccountSettings _accountSettings;
+						try {
+							_accountSettings = _user.getSettings();
+
+							// Send push in-app
+							if (_accountSettings.getAppSettings().getStatus_update() != null
+							        && _accountSettings.getAppSettings().getStatus_update()
+							                .equals("on")) {
+								SendPushRequest _pushRequest = new SendPushRequest();
+								_pushRequest
+								        .setNotification(new PushNotification("Job update",
+								                "Job " + _job.getDescription() + " was updated "
+								                        + JobStageConstant.getByCode(
+								                                __updateJobStageRequest.getStage())
+								                                .getName()));
+								_pushRequest.setTo(_user.getDeviceId());
+								messageManagement.sendPush(_pushRequest);
+							}
+						}
+						catch (Exception _ex) {
+							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+						}
+					}
+				}).start();
 			}
 		}
 	}

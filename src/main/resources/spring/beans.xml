@@ -119,6 +119,7 @@
 		<property name="typeDAO" ref="typeDAO" />
 		<property name="genericManagement" ref="genericManagement" />
 		<property name="uploadImageManagement" ref="uploadImageManagement" />
+		<property name="messageManagement" ref="messageManagement" />
 		<property name="jobStoragePath" ref="jobStoragePath" />
 		<property name="temporaryStoragePath" ref="temporaryStoragePath" />
 	</bean>

@@ -1,10 +1,14 @@
 package com.lasso.rest.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lasso.define.Constant;
 import com.lasso.rest.dao.AccountDAO;
+import com.lasso.rest.dao.CategoryDAO;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.service.RewardSystemManagement;
 
 import jersey.repackaged.com.google.common.base.Preconditions;
@@ -12,10 +16,17 @@ import jersey.repackaged.com.google.common.base.Preconditions;
 public class ImplRewardSystemManagement implements RewardSystemManagement {
 
 	@Autowired
-	private AccountDAO accountDAO;
+	private AccountDAO	accountDAO;
+
+	@Autowired
+	private CategoryDAO	categoryDAO;
 
 	public void setAccountDAO(AccountDAO __accountDAO) {
 		this.accountDAO = __accountDAO;
+	}
+
+	public void setCategoryDAO(CategoryDAO __categoryDAO) {
+		this.categoryDAO = __categoryDAO;
 	}
 
 	@Override
@@ -29,6 +40,9 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 
 				// Complete profile
 				_reward += updateProfileReward(__user);
+
+				// Browse category
+				_reward += updateBrowseCategory(__user);
 			}
 			catch (Exception _ex) {
 				// Mean user not match some conditions of new reward. Break and update current
@@ -74,13 +88,25 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 		return 1;
 	}
 
-	// private int updateBrowseCategory(Account __account, boolean __mustAll) {
-	// if (__mustAll) {
-	//
-	// }
-	// else {
-	//
-	// }
-	// }
+	private int updateBrowseCategory(Account __account) {
+		List<Category> _categories = this.categoryDAO.getCategories(-1, 0, "");
+		int _numberCategoryBrowsed = Constant.BROWSE_CATEGORY_STATISTIC.get(__account.getId());
+		if (__account.getRole().byteValue() == Constant.ROLE_DESIGNER
+		        && _numberCategoryBrowsed == _categories.size()) {
+			// Designer must browse all categories to get 1 more point
+			return 1;
+		}
+		else if (_numberCategoryBrowsed == _categories.size()) {
+			// User must browse all categories to get 2 more point
+			return 2;
+		}
+		else if (_numberCategoryBrowsed == 4) {
+			// Designer must 4 categories to get 1 more point
+			return 1;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
+	}
 
 }

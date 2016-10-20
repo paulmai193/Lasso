@@ -50,7 +50,6 @@ import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
-import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.UserManagement;
 import com.lasso.template.DesignerNewOfferEmail;
 import com.lasso.template.EmailTemplate;
@@ -76,9 +75,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 	/** The http host. */
 	private String				httpHost;
 
-	/** The message management. */
-	@Autowired
-	private MessageManagement	messageManagement;
+	// /** The message management. */
+	// @Autowired
+	// private MessageManagement messageManagement;
 
 	/** The promo DAO. */
 	@Autowired
@@ -566,9 +565,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 					        .forEach(_jobStyle -> _styleIds.add(_jobStyle.getStyleId()));
 					List<Style> _styles = ImplUserManagement.this.styleDAO
 					        .getListByByListIds(_styleIds);
-					if (_styles.isEmpty()) {
-						return;
-					}
+					// if (_styles.isEmpty()) {
+					// return;
+					// }
 					Type _type = ImplUserManagement.this.typeDAO.getTypeById(_job.getTypeId());
 					if (_type == null) {
 						return;
@@ -776,15 +775,15 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 		this.httpHost = __httpHost;
 	}
 
-	/**
-	 * Sets the message management.
-	 *
-	 * @param __messageManagement
-	 *        the messageManagement to set
-	 */
-	public void setMessageManagement(MessageManagement __messageManagement) {
-		this.messageManagement = __messageManagement;
-	}
+	// /**
+	// * Sets the message management.
+	// *
+	// * @param __messageManagement
+	// * the messageManagement to set
+	// */
+	// public void setMessageManagement(MessageManagement __messageManagement) {
+	// this.messageManagement = __messageManagement;
+	// }
 
 	/**
 	 * Sets the promo DAO.

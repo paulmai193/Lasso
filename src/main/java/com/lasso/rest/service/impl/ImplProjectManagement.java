@@ -41,6 +41,7 @@ import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
 import com.lasso.rest.model.datasource.TypesStyle;
 import com.lasso.rest.service.GenericManagement;
+import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.ProjectManagement;
 import com.lasso.rest.service.UploadImageManagement;
 
@@ -118,6 +119,13 @@ public class ImplProjectManagement implements ProjectManagement {
 	/** The upload image management. */
 	@Autowired
 	protected UploadImageManagement	uploadImageManagement;
+
+	@Autowired
+	protected MessageManagement		messageManagement;
+
+	public void setMessageManagement(MessageManagement __messageManagement) {
+		this.messageManagement = __messageManagement;
+	}
 
 	/**
 	 * Gets the account DAO.
