@@ -53,7 +53,7 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws URISyntaxException the URI syntax exception
 	 */
 	void createPortfolio(Account __desiger, CreatePortfolioRequest __createPortfolioRequest)
-	        throws IOException, UnirestException, URISyntaxException;
+			throws IOException, UnirestException, URISyntaxException;
 
 	/**
 	 * Delete portfolio.
@@ -74,8 +74,8 @@ public interface DesignerManagement extends ProjectManagement {
 	 * @throws URISyntaxException the URI syntax exception
 	 */
 	void editPortfolio(Account __desiger, Portfolio __portfolio,
-	        EditPortfolioRequest __editPortfolioRequest)
-	        throws IOException, UnirestException, URISyntaxException;
+			EditPortfolioRequest __editPortfolioRequest)
+					throws IOException, UnirestException, URISyntaxException;
 
 	/**
 	 * Gets the all portfolios.
@@ -118,6 +118,15 @@ public interface DesignerManagement extends ProjectManagement {
 	Object[] getOfferDataById(Account __designer, int __idJob);
 
 	/**
+	 * Gets the order data for message by id.
+	 *
+	 * @param __designer the designer
+	 * @param __idJob the id job
+	 * @return the order data for message by id
+	 */
+	Object[] getOrderDataForMessageById(Account __designer, int __idJob);
+
+	/**
 	 * Gets the portfolio.
 	 *
 	 * @param __account
@@ -137,7 +146,5 @@ public interface DesignerManagement extends ProjectManagement {
 	 *        the update job stage request
 	 */
 	void updateStage(Account __designer, UpdateJobStageRequest __updateJobStageRequest);
-
-	Object[] getOrderDataForMessageById(Account __designer, int __idJob);
 
 }

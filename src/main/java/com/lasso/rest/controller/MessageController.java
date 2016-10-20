@@ -51,6 +51,10 @@ public class MessageController extends BaseController {
 	/** The avatar storage path. */
 	private String				avatarStoragePath;
 
+	/** The designer management. */
+	@Autowired
+	private DesignerManagement	designerManagement;
+
 	/** The http host. */
 	private String				httpHost;
 
@@ -67,13 +71,6 @@ public class MessageController extends BaseController {
 	/** The user management. */
 	@Autowired
 	private UserManagement		userManagement;
-
-	@Autowired
-	private DesignerManagement	designerManagement;
-
-	public void setDesignerManagement(DesignerManagement __designerManagement) {
-		this.designerManagement = __designerManagement;
-	}
 
 	/** The validate context. */
 	@Context
@@ -104,7 +101,7 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-		        __idJob);
+				__idJob);
 		Object[] _orderData;
 		if (_account.getRole().byteValue() == Constant.ROLE_USER) {
 			_orderData = this.userManagement.getOrderDataById(__idJob);
@@ -116,7 +113,7 @@ public class MessageController extends BaseController {
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-		        null, _prefixJob, _prefixPortfolio);
+				null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 
@@ -181,6 +178,15 @@ public class MessageController extends BaseController {
 	 */
 	public void setAvatarStoragePath(String __avatarStoragePath) {
 		this.avatarStoragePath = __avatarStoragePath;
+	}
+
+	/**
+	 * Sets the designer management.
+	 *
+	 * @param __designerManagement the new designer management
+	 */
+	public void setDesignerManagement(DesignerManagement __designerManagement) {
+		this.designerManagement = __designerManagement;
 	}
 
 	/**

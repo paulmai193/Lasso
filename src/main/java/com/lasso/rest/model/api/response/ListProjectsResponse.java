@@ -35,6 +35,7 @@ public class ListProjectsResponse extends BaseResponse {
 	/** The prefix avatar url. */
 	private String			prefixAvatarUrl;
 
+	/** The prefix portfolio url. */
 	private String			prefixPortfolioUrl;
 
 	/** The suggests. */
@@ -79,17 +80,14 @@ public class ListProjectsResponse extends BaseResponse {
 	/**
 	 * Instantiates a new list projects response.
 	 *
-	 * @param __nextIndex
-	 *        the next index
-	 * @param __prefixAvatarUrl
-	 *        the prefix avatar url
-	 * @param __datas
-	 *        the datas
-	 * @param __suggests
-	 *        the suggests
+	 * @param __nextIndex the next index
+	 * @param __prefixPortfolioUrl the prefix portfolio url
+	 * @param __prefixAvatarUrl the prefix avatar url
+	 * @param __datas the datas
+	 * @param __suggests the suggests
 	 */
 	public ListProjectsResponse(int __nextIndex, String __prefixPortfolioUrl,
-	        String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
+			String __prefixAvatarUrl, List<Object[]> __datas, List<Object[]> __suggests) {
 		super();
 		this.nextIndex = __nextIndex;
 		this.prefixPortfolioUrl = __prefixPortfolioUrl;
@@ -125,6 +123,11 @@ public class ListProjectsResponse extends BaseResponse {
 		return this.prefixAvatarUrl;
 	}
 
+	/**
+	 * Gets the prefix portfolio url.
+	 *
+	 * @return the prefix portfolio url
+	 */
 	public String getPrefixPortfolioUrl() {
 		return this.prefixPortfolioUrl;
 	}
@@ -144,7 +147,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 
 	@Override
 	public void serialize(ListProjectsResponse __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		__gen.writeStartObject();
 		__gen.writeObjectField("error", __value.isError());
 		if (__value.isError()) {
@@ -157,7 +160,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-				        __value.getPrefixPortfolioUrl());
+						__value.getPrefixPortfolioUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
@@ -171,7 +174,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			try {
 				__gen.writeStartObject();
 				this.serializeData(__gen, _data, __value.getPrefixAvatarUrl(),
-				        __value.getPrefixPortfolioUrl());
+						__value.getPrefixPortfolioUrl());
 				__gen.writeEndObject();
 			}
 			catch (IOException _ex) {
@@ -185,7 +188,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 	}
 
 	private void serializeData(JsonGenerator __gen, Object[] __data, String __prefixAvatarUrl,
-	        String __prefixProjectUrl) {
+			String __prefixProjectUrl) {
 		try {
 			Portfolio _portfolio = (Portfolio) __data[0];
 			__gen.writeNumberField("project_id", _portfolio.getId());
@@ -203,7 +206,7 @@ class ListProjectsSerializer extends JsonSerializer<ListProjectsResponse> {
 			}
 			else {
 				__gen.writeStringField("original",
-				        __prefixProjectUrl + "/Original/" + _portfolioImage);
+						__prefixProjectUrl + "/Original/" + _portfolioImage);
 				__gen.writeStringField("small", __prefixProjectUrl + "/Small/" + _portfolioImage);
 				__gen.writeStringField("icon", __prefixProjectUrl + "/Icon/" + _portfolioImage);
 				__gen.writeStringField("retina", __prefixProjectUrl + "/Retina/" + _portfolioImage);

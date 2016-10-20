@@ -65,6 +65,14 @@ public interface PortfolioDAO extends HibernateSession {
 	Portfolio getPortfolioOfAccount(Account __account, Integer __idPortfolio);
 
 	/**
+	 * Gets the ramdom.
+	 *
+	 * @param __limit the limit
+	 * @return the ramdom
+	 */
+	List<Portfolio> getRamdom(int __limit);
+
+	/**
 	 * Search portfolios.
 	 *
 	 * @param __offset
@@ -83,7 +91,18 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @return the list portfolios by condition
 	 */
 	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-	        List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
+			List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
+
+	/**
+	 * Search projects.
+	 *
+	 * @param __idStyle the id style
+	 * @param __keyword the keyword
+	 * @param __offset the offset
+	 * @param __limit the limit
+	 * @return the list
+	 */
+	List<Portfolio> searchProjects(Integer __idStyle, String __keyword, int __offset, int __limit);
 
 	/**
 	 * Update portfolio.
@@ -92,9 +111,5 @@ public interface PortfolioDAO extends HibernateSession {
 	 *        the portfolio
 	 */
 	void updatePortfolio(Portfolio __portfolio);
-
-	List<Portfolio> searchProjects(Integer __idStyle, String __keyword, int __offset, int __limit);
-
-	List<Portfolio> getRamdom(int __limit);
 
 }

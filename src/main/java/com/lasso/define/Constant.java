@@ -18,6 +18,12 @@ public class Constant {
 	/** The Constant ACC_NOT_ACTIVATE. */
 	public static final byte								ACC_NOT_ACTIVATE			= 0;
 
+	/**
+	 * The Constant BROWSE_CATEGORY_STATISTIC.
+	 * [Account ID - number categories browsed]
+	 */
+	public static final ConcurrentHashMap<Integer, Integer>	BROWSE_CATEGORY_STATISTIC	= new ConcurrentHashMap<>();
+
 	/** The Constant GENDER_FEMALE. */
 	public static final byte								GENDER_FEMALE				= 1;
 
@@ -38,11 +44,5 @@ public class Constant {
 
 	/** The Constant SEND_FEEDBACK. */
 	public static final byte								SEND_FEEDBACK				= 1;
-
-	/**
-	 * The Constant BROWSE_CATEGORY_STATISTIC.
-	 * [Account ID - number categories browsed]
-	 */
-	public static final ConcurrentHashMap<Integer, Integer>	BROWSE_CATEGORY_STATISTIC	= new ConcurrentHashMap<>();
 
 }

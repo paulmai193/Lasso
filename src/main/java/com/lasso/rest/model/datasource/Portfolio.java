@@ -72,6 +72,10 @@ public class Portfolio implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				modified;
 
+	/** The show in browse. */
+	@Column(name = "show_in_browse")
+	private byte				showInBrowse;
+
 	/** The status. */
 	private Byte				status;
 
@@ -81,9 +85,6 @@ public class Portfolio implements Serializable {
 
 	/** The title. */
 	private String				title;
-
-	@Column(name = "show_in_browse")
-	private byte				showInBrowse;
 
 	/**
 	 * Instantiates a new portfolio.
@@ -116,8 +117,8 @@ public class Portfolio implements Serializable {
 	 *        the title
 	 */
 	public Portfolio(double __amount, Date __created, int __accountId, int __categoryId,
-	        int __styleId, String __image, String __info, Date __modified, byte __status,
-	        String __title) {
+			int __styleId, String __image, String __info, Date __modified, byte __status,
+			String __title) {
 		super();
 		this.amount = __amount;
 		this.created = __created;
@@ -211,6 +212,15 @@ public class Portfolio implements Serializable {
 	 */
 	public Date getModified() {
 		return this.modified;
+	}
+
+	/**
+	 * Gets the show in browse.
+	 *
+	 * @return the showInBrowse
+	 */
+	public byte getShowInBrowse() {
+		return this.showInBrowse;
 	}
 
 	/**
@@ -331,6 +341,15 @@ public class Portfolio implements Serializable {
 	}
 
 	/**
+	 * Sets the show in browse.
+	 *
+	 * @param __showInBrowse the showInBrowse to set
+	 */
+	public void setShowInBrowse(byte __showInBrowse) {
+		this.showInBrowse = __showInBrowse;
+	}
+
+	/**
 	 * Sets the status.
 	 *
 	 * @param status
@@ -370,27 +389,13 @@ public class Portfolio implements Serializable {
 		this.setAmount(__editPortfolioRequest.getAmount());
 		this.setCategoryId(__editPortfolioRequest.getIdCategory());
 		String _image = Arrays.toString(__editPortfolioRequest.getImages().toArray()).replace(" ",
-		        "");
+				"");
 		_image = _image.substring(1, _image.length() - 1);
 		this.setImage(_image);
 		this.setInfo(__editPortfolioRequest.getInfo());
 		this.setModified(new Date());
 		this.setStyleId(__editPortfolioRequest.getIdStyle());
 		this.setTitle(__editPortfolioRequest.getTitle());
-	}
-
-	/**
-	 * @return the showInBrowse
-	 */
-	public byte getShowInBrowse() {
-		return this.showInBrowse;
-	}
-
-	/**
-	 * @param __showInBrowse the showInBrowse to set
-	 */
-	public void setShowInBrowse(byte __showInBrowse) {
-		this.showInBrowse = __showInBrowse;
 	}
 
 }

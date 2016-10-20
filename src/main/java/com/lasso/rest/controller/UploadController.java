@@ -73,19 +73,16 @@ public class UploadController extends BaseController implements Feature {
 	/** The http host. */
 	private String					httpHost;
 
+	/** The reward system management. */
+	@Autowired
+	private RewardSystemManagement	rewardSystemManagement;
+
 	/** The temporary storage path. */
 	private String					temporaryStoragePath;
 
 	/** The upload image management. */
 	@Autowired
 	private UploadImageManagement	uploadImageManagement;
-
-	@Autowired
-	private RewardSystemManagement	rewardSystemManagement;
-
-	public void setRewardSystemManagement(RewardSystemManagement __rewardSystemManagement) {
-		this.rewardSystemManagement = __rewardSystemManagement;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -151,6 +148,15 @@ public class UploadController extends BaseController implements Feature {
 	}
 
 	/**
+	 * Sets the reward system management.
+	 *
+	 * @param __rewardSystemManagement the new reward system management
+	 */
+	public void setRewardSystemManagement(RewardSystemManagement __rewardSystemManagement) {
+		this.rewardSystemManagement = __rewardSystemManagement;
+	}
+
+	/**
 	 * Sets the temporary storage path.
 	 *
 	 * @param __temporaryStoragePath
@@ -192,33 +198,33 @@ public class UploadController extends BaseController implements Feature {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@AccountAuthenticate
 	public Response uploadAvatar(@Context SecurityContext __context,
-	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-	        @FormDataParam("file") FormDataContentDisposition __fileMetaData)
-	        throws IOException, UnirestException {
+			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+			@FormDataParam("file") FormDataContentDisposition __fileMetaData)
+					throws IOException, UnirestException {
 		Account _account = (Account) __context.getUserPrincipal();
 		String _webContextStoragePath = this.genericManagement
-		        .loadWebContextStoragePath(_account.getAppSession());
+				.loadWebContextStoragePath(_account.getAppSession());
 		if (__fileStream == null && __fileMetaData == null) {
 			throw new ObjectParamException("Invalid file upload");
 		}
 		String _uploadedFileName = __fileMetaData.getFileName();
 		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
-		        _uploadedFileName.length());
+				_uploadedFileName.length());
 		File _avatar = new File(_webContextStoragePath + this.avatarStoragePath + "/Original/"
-		        + this.uploadImageManagement.generateImageName(_fileExtension));
+				+ this.uploadImageManagement.generateImageName(_fileExtension));
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _avatar, _fileExtension);
 
 			// Resize into 3 other size
 			File _icon = new File(
-			        _webContextStoragePath + this.avatarStoragePath + "/Icon/" + _avatar.getName());
+					_webContextStoragePath + this.avatarStoragePath + "/Icon/" + _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _icon, 45, 45);
 			File _small = new File(_webContextStoragePath + this.avatarStoragePath + "/Small/"
-			        + _avatar.getName());
+					+ _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _small, 90, 90);
 			File _retina = new File(_webContextStoragePath + this.avatarStoragePath + "/Retina/"
-			        + _avatar.getName());
+					+ _avatar.getName());
 			this.uploadImageManagement.resizeImage(_avatar, _retina, 180, 180);
 
 			// Save avatar name to account
@@ -227,10 +233,10 @@ public class UploadController extends BaseController implements Feature {
 			// Response
 			String _prefixUrl = this.httpHost + this.avatarStoragePath;
 			return this
-			        .success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
-			                _prefixUrl + "/Small/" + _avatar.getName(),
-			                _prefixUrl + "/Icon/" + _avatar.getName(),
-			                _prefixUrl + "/Retina/" + _avatar.getName()));
+					.success(new ChangeAvatarResponse(_prefixUrl + "/Original/" + _avatar.getName(),
+							_prefixUrl + "/Small/" + _avatar.getName(),
+							_prefixUrl + "/Icon/" + _avatar.getName(),
+							_prefixUrl + "/Retina/" + _avatar.getName()));
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new ChangeAvatarResponse(true, _ex.getMessage()), Status.BAD_REQUEST);
@@ -260,20 +266,20 @@ public class UploadController extends BaseController implements Feature {
 	@AccountAuthenticate
 	@AccountAllow(roles = "" + Constant.ROLE_USER, status = "" + Constant.ACC_ACTIVATE)
 	public Response uploadJob(@Context SecurityContext __context,
-	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-	        @FormDataParam("file") FormDataContentDisposition __fileMetaData)
-	        throws IOException, UnirestException {
+			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+			@FormDataParam("file") FormDataContentDisposition __fileMetaData)
+					throws IOException, UnirestException {
 		Account _user = (Account) __context.getUserPrincipal();
 		if (__fileStream == null && __fileMetaData == null) {
 			throw new ObjectParamException("Invalid file upload");
 		}
 		String _uploadedFileName = __fileMetaData.getFileName();
 		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
-		        _uploadedFileName.length());
+				_uploadedFileName.length());
 		File _image = new File(
-		        this.genericManagement.loadWebContextStoragePath(_user.getAppSession())
-		                + this.temporaryStoragePath + "/"
-		                + this.uploadImageManagement.generateImageName(_fileExtension));
+				this.genericManagement.loadWebContextStoragePath(_user.getAppSession())
+				+ this.temporaryStoragePath + "/"
+				+ this.uploadImageManagement.generateImageName(_fileExtension));
 		try {
 			// Save original file
 			this.uploadImageManagement.saveFile(__fileStream, _image, _fileExtension);
@@ -312,20 +318,20 @@ public class UploadController extends BaseController implements Feature {
 	@AccountAuthenticate
 	@AccountAllow(roles = "" + Constant.ROLE_DESIGNER, status = "" + Constant.ACC_ACTIVATE)
 	public Response uploadPortfolio(@Context SecurityContext __context,
-	        @Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
-	        @FormDataParam("file") FormDataContentDisposition __fileMetaData)
-	        throws IOException, UnirestException, URISyntaxException {
+			@Context HttpServletRequest __request, @FormDataParam("file") InputStream __fileStream,
+			@FormDataParam("file") FormDataContentDisposition __fileMetaData)
+					throws IOException, UnirestException, URISyntaxException {
 		Account _designer = (Account) __context.getUserPrincipal();
 		if (__fileStream == null && __fileMetaData == null) {
 			throw new ObjectParamException("Invalid file upload");
 		}
 		String _uploadedFileName = __fileMetaData.getFileName();
 		String _fileExtension = _uploadedFileName.substring(_uploadedFileName.lastIndexOf(".") + 1,
-		        _uploadedFileName.length());
+				_uploadedFileName.length());
 		File _image = new File(
-		        this.genericManagement.loadWebContextStoragePath(_designer.getAppSession())
-		                + this.temporaryStoragePath + "/"
-		                + this.uploadImageManagement.generateImageName(_fileExtension));
+				this.genericManagement.loadWebContextStoragePath(_designer.getAppSession())
+				+ this.temporaryStoragePath + "/"
+				+ this.uploadImageManagement.generateImageName(_fileExtension));
 		// File _tempFile = File.createTempFile("tmp", "." + _fileExtension);
 		try {
 			// Save original file
@@ -343,7 +349,7 @@ public class UploadController extends BaseController implements Feature {
 		}
 		catch (IllegalArgumentException _ex) {
 			return this.fail(new UploadPortfolioResponse(true, _ex.getMessage()),
-			        Status.BAD_REQUEST);
+					Status.BAD_REQUEST);
 		}
 		// finally {
 		// _tempFile.delete();

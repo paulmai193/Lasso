@@ -107,7 +107,7 @@ class ListJobsOfDesignerSerializer extends JsonSerializer<List<Object[]>> {
 
 	@Override
 	public void serialize(List<Object[]> __value, JsonGenerator __gen,
-	        SerializerProvider __serializers) throws IOException, JsonProcessingException {
+			SerializerProvider __serializers) throws IOException, JsonProcessingException {
 		DateFormat _dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		__gen.writeStartArray();
 		for (Object[] _objects : __value) {
