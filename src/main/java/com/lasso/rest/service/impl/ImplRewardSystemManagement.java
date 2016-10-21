@@ -3,6 +3,7 @@ package com.lasso.rest.service.impl;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -154,7 +155,7 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 				_reward += this.updateBriefJobReward(__user);
 			}
 			catch (Exception _ex) {
-				// Mean user not match some conditions of new reward. Break and update current
+				Logger.getLogger(getClass()).warn(_ex.getMessage(), _ex);
 			}
 
 			__user.setRewards(_reward);
@@ -169,9 +170,15 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	 * @return the int
 	 */
 	private int updateAvatarReward(Account __account) {
-		Preconditions
-		        .checkArgument(__account.getImage() != null && !__account.getImage().isEmpty());
-		return 1;
+		try {
+			Preconditions
+			        .checkArgument(__account.getImage() != null && !__account.getImage().isEmpty());
+			return 1;
+		}
+		catch (IllegalArgumentException _ex) {
+			throw new IllegalArgumentException("Not match condition of upload avatar to get reward",
+			        _ex);
+		}
 	}
 
 	/**
@@ -183,7 +190,7 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	private int updateBriefJobReward(Account __user) {
 		int _numberJob = this.jobDAO.getListJobsOfUser(__user.getId()).size();
 		if (_numberJob == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Not match condition of brief job to get reward");
 		}
 		else if (_numberJob <= 15) {
 			return _numberJob;
@@ -250,7 +257,8 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 			return 1;
 		}
 		else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+			        "Not match condition of browsed categories to get reward");
 		}
 	}
 
@@ -264,7 +272,8 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 		int _numberCompletedProjects = this.jobAccountDAO
 		        .getListCompletedJobsAccountOfDesigner(__account.getId()).size();
 		if (_numberCompletedProjects == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+			        "Not match condition of completed projects to get reward");
 		}
 		else if (_numberCompletedProjects <= 10) {
 			return _numberCompletedProjects;
@@ -316,7 +325,8 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 			}
 		}
 		else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+			        "Not match condition of uploaded portfolios to get reward");
 		}
 	}
 
@@ -327,26 +337,34 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	 * @return the int
 	 */
 	private int updateProfileReward(Account __account) {
-		Preconditions
-		        .checkArgument(__account.getEmail() != null && !__account.getEmail().isEmpty());
-		Preconditions.checkArgument(__account.getHandphoneNumber() != null
-		        && !__account.getHandphoneNumber().isEmpty());
-		Preconditions.checkArgument(__account.getName() != null && !__account.getName().isEmpty());
-		if (__account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
-			Preconditions.checkArgument(
-			        __account.getAccountInfo() != null && !__account.getAccountInfo().isEmpty());
-			Preconditions.checkArgument(__account.getAlternativeContact() != null
-			        && !__account.getAlternativeContact().isEmpty());
+		try {
+			Preconditions
+			        .checkArgument(__account.getEmail() != null && !__account.getEmail().isEmpty());
+			Preconditions.checkArgument(__account.getHandphoneNumber() != null
+			        && !__account.getHandphoneNumber().isEmpty());
+			Preconditions
+			        .checkArgument(__account.getName() != null && !__account.getName().isEmpty());
+			if (__account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+				Preconditions.checkArgument(__account.getAccountInfo() != null
+				        && !__account.getAccountInfo().isEmpty());
+				Preconditions.checkArgument(__account.getAlternativeContact() != null
+				        && !__account.getAlternativeContact().isEmpty());
+			}
+			else {
+				Preconditions.checkArgument(__account.getCompanyAddress() != null
+				        && !__account.getCompanyAddress().isEmpty());
+				Preconditions.checkArgument(__account.getCompanyName() != null
+				        && !__account.getCompanyName().isEmpty());
+				Preconditions.checkArgument(__account.getCompanyTelephone() != null
+				        && !__account.getCompanyTelephone().isEmpty());
+			}
+			return 1;
 		}
-		else {
-			Preconditions.checkArgument(__account.getCompanyAddress() != null
-			        && !__account.getCompanyAddress().isEmpty());
-			Preconditions.checkArgument(
-			        __account.getCompanyName() != null && !__account.getCompanyName().isEmpty());
-			Preconditions.checkArgument(__account.getCompanyTelephone() != null
-			        && !__account.getCompanyTelephone().isEmpty());
+		catch (IllegalArgumentException _ex) {
+			throw new IllegalArgumentException(
+			        "Not match condition of completed profile to get reward");
 		}
-		return 1;
+
 	}
 
 }
