@@ -12,9 +12,9 @@ public interface RewardSystemManagement {
 	/**
 	 * Update designer reward.
 	 *
-	 * @param __designer the designer
+	 * @param __account the account
 	 */
-	void updateDesignerReward(Account __designer);
+	void updateDesignerReward(Account __account);
 
 	/**
 	 * Update user reward.
