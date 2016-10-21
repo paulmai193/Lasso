@@ -56,7 +56,7 @@ public class ImplMessageManagement implements MessageManagement {
 	private EmailUtil		emailUtil;
 
 	/** The firebase api key. */
-	private String			firebaseApiKey	= "AIzaSyC_wC6A14jCGLuA1ARbwXHSuIoMJSsbo8g";
+	private String			firebaseApiKey;
 
 	/** The http host. */
 	private String			httpHost;
@@ -214,12 +214,13 @@ public class ImplMessageManagement implements MessageManagement {
 						__sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
 						_rootMessage.getTitle(), _idReceiver);
 				int _idMessage = this.messageDAO.saveMessage(_message);
+
+				// Send in seperate thread
+				Account _receiver = ImplMessageManagement.this.accountDAO.getAccountById(_idReceiver);
 				new Thread(new Runnable() {
 
 					@Override
 					public void run() {
-						Account _receiver = ImplMessageManagement.this.accountDAO
-								.getAccountById(_idReceiver);
 						try {
 							AccountSettings _accountSettings = _receiver.getSettings();
 
@@ -231,6 +232,13 @@ public class ImplMessageManagement implements MessageManagement {
 										new PushNotification(_message.getTitle(), _message.getMessage()));
 								_pushRequest.setTo(_receiver.getDeviceId());
 								ImplMessageManagement.this.sendPush(_pushRequest);
+							}
+							else {
+								Logger.getLogger(ImplMessageManagement.this.getClass())
+								.debug("Get message setting: "
+										+ _accountSettings.getAppSettings().getMessages() == null
+										? "null"
+												: _accountSettings.getAppSettings().getMessages());
 							}
 
 							// Send email
@@ -253,7 +261,8 @@ public class ImplMessageManagement implements MessageManagement {
 							}
 						}
 						catch (Exception _ex) {
-							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+							Logger.getLogger(ImplMessageManagement.this.getClass()).warn("Unwanted error",
+									_ex);
 						}
 					}
 				}).start();

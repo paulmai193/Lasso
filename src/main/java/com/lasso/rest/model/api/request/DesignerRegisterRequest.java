@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lasso.define.Constant;
 import com.lasso.exception.ObjectParamException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DesignerRegisterRequest.
  *

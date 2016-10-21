@@ -608,12 +608,12 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				_job.setModified(new Date());
 				this.jobDAO.updateJob(_job);
 
+				Account _user = ImplDesignerManagement.this.accountDAO
+						.getAccountById(_job.getAccountId());
 				new Thread(new Runnable() {
 
 					@Override
 					public void run() {
-						Account _user = ImplDesignerManagement.this.accountDAO
-								.getAccountById(_job.getAccountId());
 						AccountSettings _accountSettings;
 						try {
 							_accountSettings = _user.getSettings();

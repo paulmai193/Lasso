@@ -119,7 +119,7 @@ public class BrowseController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListCategoriesResponse getCategories(@QueryParam("index") int __index) {
 		List<Category> _categories = this.projectManagement.getCategoriesByIndexAndKeyword(__index,
-		        Constant.PAGE_SIZE, null);
+				Constant.PAGE_SIZE, null);
 		String _prefixUrl = this.httpHost + this.categoryStoragePath;
 		return new ListCategoriesResponse(_prefixUrl, _categories, __index + Constant.PAGE_SIZE);
 	}
@@ -162,11 +162,11 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListProjectsResponse getListProjectsBySubCategory(@QueryParam("index") int __index,
-	        @QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
+			@QueryParam("style_id") int __idStyle, @QueryParam("keyword") String __keyword) {
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		String _prefixPortfoliotUrl = this.httpHost + this.portfolioStoragePath;
 		return this.projectManagement.getProjectsBySubCategoryAndKeyword(__idStyle, __index,
-		        Constant.PAGE_SIZE, __keyword, _prefixPortfoliotUrl, _prefixAvatarUrl);
+				Constant.PAGE_SIZE, __keyword, _prefixPortfoliotUrl, _prefixAvatarUrl);
 	}
 
 	/**
@@ -185,7 +185,7 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListSubCategoriesResponse getListStyles(@QueryParam("index") int __index,
-	        @QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes) {
+			@QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes) {
 		Category _category = this.projectManagement.getCategoryById(__idCategory);
 		if (_category == null) {
 			throw new NotFoundException("Category not found");
@@ -202,11 +202,11 @@ public class BrowseController extends BaseController {
 				}
 			}
 			List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(
-			        __idCategory, _idTypes, __index, Constant.PAGE_SIZE, null);
+					__idCategory, _idTypes, __index, Constant.PAGE_SIZE, null);
 			String _prefixUrl = this.httpHost + this.styleStoragePath;
 			Account _account = (Account) this.validateContext.getUserPrincipal();
 			Set<Integer> _browsedCateogries = Constant.BROWSE_CATEGORY_STATISTIC
-			        .get(_account.getId());
+					.get(_account.getId());
 			if (_browsedCateogries == null) {
 				_browsedCateogries = new HashSet<>();
 			}
@@ -245,9 +245,9 @@ public class BrowseController extends BaseController {
 	@AccountAuthenticate
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListTypesResponse getListTypes(@QueryParam("category_id") int __idCategory,
-	        @QueryParam("style_id") Integer __idStyle) {
+			@QueryParam("style_id") Integer __idStyle) {
 		List<Type> _types = this.projectManagement.getListTypesByIdCategoryAndStyle(__idCategory,
-		        __idStyle);
+				__idStyle);
 		String _prefixTypetUrl = this.httpHost + this.typeStoragePath;
 		return new ListTypesResponse(_types, _prefixTypetUrl);
 	}
@@ -267,7 +267,7 @@ public class BrowseController extends BaseController {
 		String _prefixPortforlioUrl = this.httpHost + this.portfolioStoragePath;
 		String _prefixAvatarUrl = this.httpHost + this.avatarStoragePath;
 		return this.projectManagement.getProjectDetailById(__idPortfotio, _prefixPortforlioUrl,
-		        _prefixAvatarUrl);
+				_prefixAvatarUrl);
 	}
 
 	/**

@@ -12,7 +12,6 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DesignerActivateEmail.
  *
@@ -73,7 +72,7 @@ public class UserNewMessageEmail implements EmailTemplate {
 	@Override
 	public Map<String, File> getTemplate() {
 		Map<String, File> _mapTemplate = new HashMap<>();
-		_mapTemplate.put("logo.jpg", new File(this.template, "logo.jpg"));
+		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
 		_mapTemplate.put("img_01_user_thanks.jpg",
 				new File(this.template, "img_01_user_thanks.jpg"));
 		_mapTemplate.put("title_1_user_thanks.jpg",
@@ -98,7 +97,7 @@ public class UserNewMessageEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-				.getResource("/email-template/designer-message").toURI());
+				.getResource("/email-template/user-message").toURI());
 	}
 
 }
