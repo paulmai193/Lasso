@@ -142,29 +142,6 @@ public class BrowseController extends BaseController {
 			throw new NotFoundException("Category not found");
 		}
 		else {
-			Account _account = (Account) this.validateContext.getUserPrincipal();
-			Set<Integer> _browsedCateogries = Constant.BROWSE_CATEGORY_STATISTIC
-			        .get(_account.getId());
-			if (_browsedCateogries == null) {
-				_browsedCateogries = new HashSet<>();
-			}
-			_browsedCateogries.add(_category.getId());
-			Constant.BROWSE_CATEGORY_STATISTIC.put(_account.getId(), _browsedCateogries);
-
-			// Update reward system
-			new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
-						BrowseController.this.rewardSystemManagement.updateDesignerReward(_account);
-					}
-					else {
-						BrowseController.this.rewardSystemManagement.updateUserReward(_account);
-					}
-				}
-			}).start();
-
 			return new CategoryResponse(_prefixUrl, _category);
 		}
 	}
@@ -209,20 +186,49 @@ public class BrowseController extends BaseController {
 	@AccountAllow(status = "" + Constant.ACC_ACTIVATE)
 	public ListSubCategoriesResponse getListStyles(@QueryParam("index") int __index,
 	        @QueryParam("category_id") int __idCategory, @QueryParam("type_id") String __idTypes) {
-		List<Integer> _idTypes = new ArrayList<>();
-		String[] _strings = __idTypes == null ? "".split("") : __idTypes.split(",");
-		for (String _string : _strings) {
-			try {
-				_idTypes.add(Integer.parseInt(_string));
-			}
-			catch (Exception _ex) {
-				// Swallow this exception
-			}
+		Category _category = this.projectManagement.getCategoryById(__idCategory);
+		if (_category == null) {
+			throw new NotFoundException("Category not found");
 		}
-		List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(__idCategory,
-		        _idTypes, __index, Constant.PAGE_SIZE, null);
-		String _prefixUrl = this.httpHost + this.styleStoragePath;
-		return new ListSubCategoriesResponse(_prefixUrl, _styles, __index + Constant.PAGE_SIZE);
+		else {
+			List<Integer> _idTypes = new ArrayList<>();
+			String[] _strings = __idTypes == null ? "".split("") : __idTypes.split(",");
+			for (String _string : _strings) {
+				try {
+					_idTypes.add(Integer.parseInt(_string));
+				}
+				catch (Exception _ex) {
+					// Swallow this exception
+				}
+			}
+			List<Style> _styles = this.projectManagement.getSubCategoriesByIndexAndKeyword(
+			        __idCategory, _idTypes, __index, Constant.PAGE_SIZE, null);
+			String _prefixUrl = this.httpHost + this.styleStoragePath;
+			Account _account = (Account) this.validateContext.getUserPrincipal();
+			Set<Integer> _browsedCateogries = Constant.BROWSE_CATEGORY_STATISTIC
+			        .get(_account.getId());
+			if (_browsedCateogries == null) {
+				_browsedCateogries = new HashSet<>();
+			}
+			_browsedCateogries.add(_category.getId());
+			Constant.BROWSE_CATEGORY_STATISTIC.put(_account.getId(), _browsedCateogries);
+
+			// Update reward system
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					if (_account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+						BrowseController.this.rewardSystemManagement.updateDesignerReward(_account);
+					}
+					else {
+						BrowseController.this.rewardSystemManagement.updateUserReward(_account);
+					}
+				}
+			}).start();
+
+			return new ListSubCategoriesResponse(_prefixUrl, _styles, __index + Constant.PAGE_SIZE);
+		}
 	}
 
 	/**

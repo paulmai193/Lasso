@@ -252,13 +252,14 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 			// User must browse all categories to get 2 more point
 			return 2;
 		}
-		else if (_numberCategoryBrowsed == 4) {
+		else if (_numberCategoryBrowsed >= 4) {
 			// User must 4 categories to get 1 more point
 			return 1;
 		}
 		else {
 			throw new IllegalArgumentException(
-			        "Not match condition of browsed categories to get reward");
+			        "Not match condition of browsed categories (current is "
+			                + _numberCategoryBrowsed + ") to get reward");
 		}
 	}
 
