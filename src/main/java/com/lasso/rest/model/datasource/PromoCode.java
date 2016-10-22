@@ -12,12 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the promo_codes database table.
  *
@@ -25,7 +23,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "promo_codes")
-@NamedQuery(name = "PromoCode.findAll", query = "SELECT p FROM PromoCode p")
 public class PromoCode implements Serializable {
 
 	/** The Constant serialVersionUID. */

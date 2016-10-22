@@ -45,6 +45,7 @@
 		<mapping class="com.lasso.rest.model.datasource.PortfolioType"/>
 		<mapping class="com.lasso.rest.model.datasource.Portfolio"/>
 		<mapping class="com.lasso.rest.model.datasource.Project"/>
+		<mapping class="com.lasso.rest.model.datasource.PromoCode"/>
 		<mapping class="com.lasso.rest.model.datasource.Style"/>
 		<mapping class="com.lasso.rest.model.datasource.TypesStyle"/>
 		<mapping class="com.lasso.rest.model.datasource.Type"/>
