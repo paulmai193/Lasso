@@ -34,7 +34,9 @@ import com.lasso.rest.model.datasource.Portfolio;
 import com.lasso.rest.model.datasource.PortfolioType;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.push.PushJobDetailMessage;
 import com.lasso.rest.model.push.PushNotification;
+import com.lasso.rest.model.push.PushOrderDetailMessage;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.DesignerManagement;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -90,6 +92,37 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				_jobsAccount.setConfirm(__confirmOfferRequest.getStatus());
 				_jobsAccount.setModified(new Date());
 				this.jobAccountDAO.update(_jobsAccount);
+
+				// Send push
+				Account _user = ImplDesignerManagement.this.accountDAO
+						.getAccountById(_job.getAccountId());
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						AccountSettings _accountSettings;
+						try {
+							_accountSettings = _user.getSettings();
+
+							// Send push in-app
+							if (_accountSettings.getAppSettings().getStatus_update() != null
+									&& _accountSettings.getAppSettings().getStatus_update()
+									.equals("on")) {
+								SendPushRequest _pushRequest = new SendPushRequest();
+								_pushRequest.setNotification(new PushNotification(
+										"Confirm the order", "Designer " + __designer.getName()
+										+ " was confirm your order"));
+								_pushRequest.setData(new PushOrderDetailMessage(_job.getId()));
+								_pushRequest.setTo(_user.getDeviceId());
+								ImplDesignerManagement.this.messageManagement
+								.sendPush(_pushRequest);
+							}
+						}
+						catch (Exception _ex) {
+							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+						}
+					}
+				}).start();
 			}
 		}
 	}
@@ -131,6 +164,38 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				_jobsAccount.setConfirm(JobConfirmationConstant.JOB_CONFIRM.getCode());
 				_jobsAccount.setModified(new Date());
 				this.jobAccountDAO.update(_jobsAccount);
+
+				// Send push
+				Account _user = ImplDesignerManagement.this.accountDAO
+						.getAccountById(_job.getAccountId());
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						AccountSettings _accountSettings;
+						try {
+							_accountSettings = _user.getSettings();
+
+							// Send push in-app
+							if (_accountSettings.getAppSettings().getStatus_update() != null
+									&& _accountSettings.getAppSettings().getStatus_update()
+									.equals("on")) {
+								SendPushRequest _pushRequest = new SendPushRequest();
+								_pushRequest.setNotification(
+										new PushNotification("Counter offer for order",
+												"Designer " + __designer.getName()
+												+ " was counter offer your order"));
+								_pushRequest.setData(new PushOrderDetailMessage(_job.getId()));
+								_pushRequest.setTo(_user.getDeviceId());
+								ImplDesignerManagement.this.messageManagement
+								.sendPush(_pushRequest);
+							}
+						}
+						catch (Exception _ex) {
+							Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+						}
+					}
+				}).start();
 			}
 		}
 	}
@@ -608,6 +673,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				_job.setModified(new Date());
 				this.jobDAO.updateJob(_job);
 
+				// Send push
 				Account _user = ImplDesignerManagement.this.accountDAO
 						.getAccountById(_job.getAccountId());
 				new Thread(new Runnable() {
@@ -629,6 +695,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 												+ JobStageConstant.getByCode(
 														__updateJobStageRequest.getStage())
 												.getName()));
+								_pushRequest.setData(new PushJobDetailMessage(_job.getId()));
 								_pushRequest.setTo(_user.getDeviceId());
 								ImplDesignerManagement.this.messageManagement
 								.sendPush(_pushRequest);

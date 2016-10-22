@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -29,7 +30,11 @@ import com.lasso.rest.model.api.response.GetOrderResponse;
 import com.lasso.rest.model.api.response.ListMessageResponse;
 import com.lasso.rest.model.api.response.MessageDetailResponse;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.push.PushData;
+import com.lasso.rest.model.push.PushJobDetailMessage;
+import com.lasso.rest.model.push.PushMessageData;
 import com.lasso.rest.model.push.PushNotification;
+import com.lasso.rest.model.push.PushOrderDetailMessage;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.DesignerManagement;
 import com.lasso.rest.service.MessageManagement;
@@ -101,7 +106,7 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-				__idJob);
+		        __idJob);
 		Object[] _orderData;
 		if (_account.getRole().byteValue() == Constant.ROLE_USER) {
 			_orderData = this.userManagement.getOrderDataById(__idJob);
@@ -113,7 +118,7 @@ public class MessageController extends BaseController {
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-				null, _prefixJob, _prefixPortfolio);
+		        null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 
@@ -154,19 +159,40 @@ public class MessageController extends BaseController {
 	/**
 	 * Send test message.
 	 *
-	 * @param _token
-	 *        the token
-	 * @throws UnirestException
-	 *         the unirest exception
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
+	 * @param __token the token
+	 * @param __screen the screen
+	 * @throws UnirestException the unirest exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@POST
-	@Path("/send/test")
-	public void sendTestMessage(String _token) throws UnirestException, IOException {
+	@Path("/send/test/{screen}")
+	public void sendTestMessage(String __token, @PathParam("screen") int __screen)
+	        throws UnirestException, IOException {
 		SendPushRequest _pushRequest = new SendPushRequest();
-		_pushRequest.setNotification(new PushNotification("Test title", "Test body"));
-		_pushRequest.setTo(_token);
+		switch (__screen) {
+			case PushData.SCREEN_JOB_DETAIL:
+				_pushRequest.setNotification(
+				        new PushNotification("Test job detail", "Test job detail"));
+				_pushRequest.setData(new PushJobDetailMessage(1));
+				break;
+
+			case PushData.SCREEN_MESSAGE_DETAIL:
+				_pushRequest.setNotification(
+				        new PushNotification("Test message detail", "Test message detail"));
+				_pushRequest.setData(new PushMessageData(1));
+				break;
+
+			case PushData.SCREEN_ORDER_DETAIL:
+				_pushRequest.setNotification(
+				        new PushNotification("Test order detail", "Test order detail"));
+				_pushRequest.setData(new PushOrderDetailMessage(1));
+				break;
+
+			default:
+				_pushRequest.setNotification(new PushNotification("Test title", "Test body"));
+				break;
+		}
+		_pushRequest.setTo(__token);
 		this.messageManagement.sendPush(_pushRequest);
 	}
 

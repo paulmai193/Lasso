@@ -28,6 +28,7 @@ import com.lasso.rest.model.datasource.AccountSettings;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.JobsAccount;
 import com.lasso.rest.model.datasource.Message;
+import com.lasso.rest.model.push.PushMessageData;
 import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.MessageManagement;
@@ -95,10 +96,10 @@ public class ImplMessageManagement implements MessageManagement {
 			try {
 				Object[] _data = { null, null, null, null };// {message, sender, job, jobaccount}
 				Message _lastMessage = ImplMessageManagement.this.messageDAO
-				        .getLastMessageOfRoot(_rootMessage);
+						.getLastMessageOfRoot(_rootMessage);
 				_data[0] = _lastMessage == null ? _rootMessage : _lastMessage;
 				Account _sender = ImplMessageManagement.this.accountDAO
-				        .getAccountById(_rootMessage.getFromAccountId());
+						.getAccountById(_rootMessage.getFromAccountId());
 				_data[1] = _sender;
 				Job _job = ImplMessageManagement.this.jobDAO.getJobById(_rootMessage.getJobId());
 				Account _designer;
@@ -107,19 +108,19 @@ public class ImplMessageManagement implements MessageManagement {
 				}
 				else {
 					_designer = ImplMessageManagement.this.accountDAO
-					        .getAccountById(_rootMessage.getToAccountId());
+							.getAccountById(_rootMessage.getToAccountId());
 				}
 				JobsAccount _jobsAccount = ImplMessageManagement.this.jobAccountDAO
-				        .getByJobAndDesignerId(_job.getId(), _designer.getId());
+						.getByJobAndDesignerId(_job.getId(), _designer.getId());
 				if (_job != null && _jobsAccount != null) {
 					if (__account.getRole().equals(Constant.ROLE_DESIGNER)) {
 						_data[2] = _job;
 						_data[3] = _jobsAccount;
 					}
 					else if (_job.getPaid().byteValue() == (byte) 1
-					        && __account.getRole().equals(Constant.ROLE_USER)
-					        && _jobsAccount.getConfirm()
-					                .byteValue() == JobConfirmationConstant.JOB_ACCEPT.getCode()) {
+							&& __account.getRole().equals(Constant.ROLE_USER)
+							&& _jobsAccount.getConfirm()
+							.byteValue() == JobConfirmationConstant.JOB_ACCEPT.getCode()) {
 						_data[2] = _job;
 						_data[3] = _jobsAccount;
 					}
@@ -149,13 +150,13 @@ public class ImplMessageManagement implements MessageManagement {
 		Message _rootMessage;
 		if (__account.getRole().byteValue() == Constant.ROLE_DESIGNER) {
 			_rootMessage = this.messageDAO.getRootMessageOfReceiverByIdJob(__account.getId(),
-			        __idJob);
+					__idJob);
 		}
 		else {
 			JobsAccount _jobsAccount = this.jobAccountDAO.getAcceptByJobId(__idJob);
 			Account _designer = this.accountDAO.getAccountById(_jobsAccount.getAccountId());
 			_rootMessage = this.messageDAO.getRootMessageOfReceiverByIdJob(_designer.getId(),
-			        __idJob);
+					__idJob);
 		}
 		Job _job = this.jobDAO.getJobById(__idJob);
 		if (_job == null) {
@@ -172,7 +173,7 @@ public class ImplMessageManagement implements MessageManagement {
 
 			// Get return data
 			Account _sender = ImplMessageManagement.this.accountDAO
-			        .getAccountById(_message.getFromAccountId());
+					.getAccountById(_message.getFromAccountId());
 			if (_sender != null) {
 				Object[] _data = { _message, _sender };
 				_messageDatas.add(_data);
@@ -209,63 +210,64 @@ public class ImplMessageManagement implements MessageManagement {
 			throw new NotFoundException("Root message not found");
 		}
 		int _idReceiver = _rootMessage.getFromAccountId().equals(__sender.getId())
-		        ? _rootMessage.getToAccountId() : _rootMessage.getFromAccountId();
-		Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
-		        __sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
-		        _rootMessage.getTitle(), _idReceiver);
-		int _idMessage = this.messageDAO.saveMessage(_message);
+				? _rootMessage.getToAccountId() : _rootMessage.getFromAccountId();
+				Message _message = new Message(__sender.getId(), _rootMessage.getJobId(),
+						__sendMessageRequest.getMessage(), __sendMessageRequest.getIdRoot(),
+						_rootMessage.getTitle(), _idReceiver);
+				int _idMessage = this.messageDAO.saveMessage(_message);
 
-		// Send in seperate thread
-		Account _receiver = ImplMessageManagement.this.accountDAO.getAccountById(_idReceiver);
-		new Thread(new Runnable() {
+				// Send in seperate thread
+				Account _receiver = ImplMessageManagement.this.accountDAO.getAccountById(_idReceiver);
+				new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				try {
-					AccountSettings _accountSettings = _receiver.getSettings();
+					@Override
+					public void run() {
+						try {
+							AccountSettings _accountSettings = _receiver.getSettings();
 
-					// Send push in-app
-					if (_accountSettings.getAppSettings().getMessages() != null
-					        && _accountSettings.getAppSettings().getMessages().equals("on")) {
-						SendPushRequest _pushRequest = new SendPushRequest();
-						_pushRequest.setNotification(
-						        new PushNotification(_message.getTitle(), _message.getMessage()));
-						_pushRequest.setTo(_receiver.getDeviceId());
-						ImplMessageManagement.this.sendPush(_pushRequest);
-					}
-					else {
-						Logger.getLogger(ImplMessageManagement.this.getClass())
-						        .debug("Get message setting: "
-						                + _accountSettings.getAppSettings().getMessages() == null
-						                        ? "null"
-						                        : _accountSettings.getAppSettings().getMessages());
-					}
+							// Send push in-app
+							if (_accountSettings.getAppSettings().getMessages() != null
+									&& _accountSettings.getAppSettings().getMessages().equals("on")) {
+								SendPushRequest _pushRequest = new SendPushRequest();
+								_pushRequest.setNotification(
+										new PushNotification(_message.getTitle(), _message.getMessage()));
+								_pushRequest.setData(new PushMessageData(_message.getJobId()));
+								_pushRequest.setTo(_receiver.getDeviceId());
+								ImplMessageManagement.this.sendPush(_pushRequest);
+							}
+							else {
+								Logger.getLogger(ImplMessageManagement.this.getClass())
+								.debug("Get message setting: "
+										+ _accountSettings.getAppSettings().getMessages() == null
+										? "null"
+												: _accountSettings.getAppSettings().getMessages());
+							}
 
-					// Send email
-					if (_accountSettings.getEmailSettings().getMessages() != null
-					        && _accountSettings.getEmailSettings().getMessages().equals("on")) {
-						// TODO Notify email
-						EmailTemplate _emailTemplate;
-						String _link = ImplMessageManagement.this.httpHost + "/message-detail-"
-						        + _idMessage + ".html?device_id=" + _receiver.getDeviceId();
-						if (_receiver.getRole().byteValue() == Constant.ROLE_DESIGNER) {
-							_emailTemplate = new DesignerNewMessageEmail(_receiver.getName(),
-							        _link);
+							// Send email
+							if (_accountSettings.getEmailSettings().getMessages() != null
+									&& _accountSettings.getEmailSettings().getMessages().equals("on")) {
+								// Notify email
+								EmailTemplate _emailTemplate;
+								String _link = ImplMessageManagement.this.httpHost + "/message-detail-"
+										+ _idMessage + ".html?device_id=" + _receiver.getDeviceId();
+								if (_receiver.getRole().byteValue() == Constant.ROLE_DESIGNER) {
+									_emailTemplate = new DesignerNewMessageEmail(_receiver.getName(),
+											_link);
+								}
+								else {
+									_emailTemplate = new UserNewMessageEmail(_receiver.getName(), _link);
+								}
+								ImplMessageManagement.this.emailUtil.sendEmailByTemplate(
+										_receiver.getEmail(), "New Message", _emailTemplate.getContent(),
+										javax.mail.Message.RecipientType.TO, _emailTemplate.getTemplate());
+							}
 						}
-						else {
-							_emailTemplate = new UserNewMessageEmail(_receiver.getName(), _link);
+						catch (Exception _ex) {
+							Logger.getLogger(ImplMessageManagement.this.getClass()).warn("Unwanted error",
+									_ex);
 						}
-						ImplMessageManagement.this.emailUtil.sendEmailByTemplate(
-						        _receiver.getEmail(), "New Message", _emailTemplate.getContent(),
-						        javax.mail.Message.RecipientType.TO, _emailTemplate.getTemplate());
 					}
-				}
-				catch (Exception _ex) {
-					Logger.getLogger(ImplMessageManagement.this.getClass()).warn("Unwanted error",
-					        _ex);
-				}
-			}
-		}).start();
+				}).start();
 	}
 
 	/*
@@ -278,17 +280,17 @@ public class ImplMessageManagement implements MessageManagement {
 	@Override
 	public void sendPush(SendPushRequest __pushRequest) throws UnirestException, IOException {
 		if ((__pushRequest.getTo() != null && !__pushRequest.getTo().isEmpty())
-		        || (__pushRequest.getPushTokens() != null
-		                && !__pushRequest.getPushTokens().isEmpty())) {
+				|| (__pushRequest.getPushTokens() != null
+				&& !__pushRequest.getPushTokens().isEmpty())) {
 			Logger _logger = Logger.getLogger(this.getClass());
 			_logger.debug(
-			        "Send push request: " + new ObjectMapper().writeValueAsString(__pushRequest));
+					"Send push request: " + new ObjectMapper().writeValueAsString(__pushRequest));
 			final String _firebaseHost = "https://fcm.googleapis.com/fcm/send";
 			ObjectMapper _mapper = new ObjectMapper();
 			HttpResponse<String> _response = Unirest.post(_firebaseHost)
-			        .header("Content-Type", "application/json")
-			        .header("Authorization", "key=" + this.firebaseApiKey)
-			        .body(_mapper.writeValueAsString(__pushRequest)).asString();
+					.header("Content-Type", "application/json")
+					.header("Authorization", "key=" + this.firebaseApiKey)
+					.body(_mapper.writeValueAsString(__pushRequest)).asString();
 			_logger.info("Send push status: " + _response.getStatus());
 			_logger.info("Send push response: " + _response.getBody());
 			// SendPushResponse _pushResponse =

@@ -27,6 +27,10 @@ public class SendPushRequest {
 	@JsonProperty("notification")
 	private PushNotification	notification;
 
+	/** The priority. */
+	@JsonProperty("priority")
+	private int					priority	= 10;
+
 	/** The push tokens. */
 	@JsonProperty("registration_ids")
 	private List<String>		pushTokens;
@@ -34,9 +38,6 @@ public class SendPushRequest {
 	/** The to. */
 	@JsonProperty("to")
 	private String				to;
-
-	@JsonProperty("priority")
-	private int					priority	= 10;
 
 	/**
 	 * Instantiates a new send push request.
@@ -60,6 +61,15 @@ public class SendPushRequest {
 	 */
 	public PushNotification getNotification() {
 		return this.notification;
+	}
+
+	/**
+	 * Gets the priority.
+	 *
+	 * @return the priority
+	 */
+	public int getPriority() {
+		return this.priority;
 	}
 
 	/**
@@ -101,6 +111,15 @@ public class SendPushRequest {
 	}
 
 	/**
+	 * Sets the priority.
+	 *
+	 * @param __priority the priority to set
+	 */
+	public void setPriority(int __priority) {
+		this.priority = __priority;
+	}
+
+	/**
 	 * Sets the push tokens.
 	 *
 	 * @param __pushTokens
@@ -120,20 +139,6 @@ public class SendPushRequest {
 	public void setTo(String __to) {
 		this.to = __to;
 		this.pushTokens = null;
-	}
-
-	/**
-	 * @return the priority
-	 */
-	public int getPriority() {
-		return this.priority;
-	}
-
-	/**
-	 * @param __priority the priority to set
-	 */
-	public void setPriority(int __priority) {
-		this.priority = __priority;
 	}
 
 }

@@ -48,6 +48,7 @@ import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.PromoHistory;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.push.PushMessageData;
 import com.lasso.rest.model.push.PushNotification;
 import com.lasso.rest.model.push.SendPushRequest;
 import com.lasso.rest.service.RewardSystemManagement;
@@ -223,6 +224,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 								_pushRequest.setNotification(
 										new PushNotification(((Message) _push[1]).getTitle(),
 												((Message) _push[1]).getMessage()));
+								_pushRequest.setData(new PushMessageData(_job.getId()));
 								_pushRequest.setTo(_designer.getDeviceId());
 								ImplUserManagement.this.messageManagement.sendPush(_pushRequest);
 							}

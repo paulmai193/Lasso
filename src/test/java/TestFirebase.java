@@ -40,4 +40,16 @@ public class TestFirebase {
 
 class Data implements PushData {
 
+	@Override
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getScreen() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
