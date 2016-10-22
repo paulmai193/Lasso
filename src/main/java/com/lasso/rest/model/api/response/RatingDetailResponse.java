@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.AccountsRating;
 
@@ -116,7 +117,8 @@ class RatingDetailSerializer extends JsonSerializer<RatingDetailResponse> {
 			__gen.writeNumberField("designer_reward",
 					__designer.getRewards() == 0 ? 1 : __designer.getRewards());
 			__gen.writeObjectFieldStart("designer_avatar");
-			this.serializeImage(__gen, __prefixAvatar, __designer.getImage());
+			this.serializeImage(__gen, __prefixAvatar, __designer.getImage(),
+					__designer.getGender());
 			__gen.writeEndObject();
 		}
 		catch (Exception _ex) {
@@ -124,13 +126,28 @@ class RatingDetailSerializer extends JsonSerializer<RatingDetailResponse> {
 		}
 	}
 
-	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
+	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName,
+			Short __gender) {
 		try {
 			if (imageName == null || imageName.trim().isEmpty()) {
-				__gen.writeStringField("original", "");
-				__gen.writeStringField("small", "");
-				__gen.writeStringField("icon", "");
-				__gen.writeStringField("retina", "");
+				if (__gender == null) {
+					__gen.writeStringField("original", "");
+					__gen.writeStringField("small", "");
+					__gen.writeStringField("icon", "");
+					__gen.writeStringField("retina", "");
+				}
+				else if (__gender.shortValue() == Constant.GENDER_FEMALE) {
+					__gen.writeStringField("original", __prefixUrl + "/Original/female.jpg");
+					__gen.writeStringField("small", __prefixUrl + "/Small/female");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/female");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/female");
+				}
+				else {
+					__gen.writeStringField("original", __prefixUrl + "/Original/male.jpg");
+					__gen.writeStringField("small", __prefixUrl + "/Small/male");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/male");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/male");
+				}
 			}
 			else {
 				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());

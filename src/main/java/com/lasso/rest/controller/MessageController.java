@@ -106,7 +106,7 @@ public class MessageController extends BaseController {
 	public MessageDetailResponse getMessageDetail(@QueryParam("job_id") int __idJob) {
 		Account _account = (Account) this.validateContext.getUserPrincipal();
 		List<Object[]> _messageDatas = this.messageManagement.getMessagesDetailOfAccount(_account,
-		        __idJob);
+				__idJob);
 		Object[] _orderData;
 		if (_account.getRole().byteValue() == Constant.ROLE_USER) {
 			_orderData = this.userManagement.getOrderDataById(__idJob);
@@ -118,7 +118,7 @@ public class MessageController extends BaseController {
 		String _prefixJob = this.httpHost + this.jobStoragePath;
 		String _prefixPortfolio = this.httpHost + this.portfolioStoragePath;
 		GetOrderResponse _orderDetail = new GetOrderResponse(_orderData, _prefixAvatar, null, null,
-		        null, _prefixJob, _prefixPortfolio);
+				null, _prefixJob, _prefixPortfolio);
 		return new MessageDetailResponse(_orderDetail, _messageDatas);
 	}
 
@@ -167,24 +167,24 @@ public class MessageController extends BaseController {
 	@POST
 	@Path("/send/test/{screen}")
 	public void sendTestMessage(String __token, @PathParam("screen") int __screen)
-	        throws UnirestException, IOException {
+			throws UnirestException, IOException {
 		SendPushRequest _pushRequest = new SendPushRequest();
 		switch (__screen) {
 			case PushData.SCREEN_JOB_DETAIL:
 				_pushRequest.setNotification(
-				        new PushNotification("Test job detail", "Test job detail"));
+						new PushNotification("Test job detail", "Test job detail"));
 				_pushRequest.setData(new PushJobDetailMessage(1));
 				break;
 
 			case PushData.SCREEN_MESSAGE_DETAIL:
 				_pushRequest.setNotification(
-				        new PushNotification("Test message detail", "Test message detail"));
+						new PushNotification("Test message detail", "Test message detail"));
 				_pushRequest.setData(new PushMessageData(1));
 				break;
 
 			case PushData.SCREEN_ORDER_DETAIL:
 				_pushRequest.setNotification(
-				        new PushNotification("Test order detail", "Test order detail"));
+						new PushNotification("Test order detail", "Test order detail"));
 				_pushRequest.setData(new PushOrderDetailMessage(1));
 				break;
 

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.define.JobConfirmationConstant;
 import com.lasso.define.JobStageConstant;
 import com.lasso.rest.model.datasource.Account;
@@ -173,7 +174,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		__gen.writeNumberField("category_id", _category.getId());
 		__gen.writeStringField("title", _category.getTitle());
 		__gen.writeObjectFieldStart("images");
-		this.serializeImage(__gen, __value.getPrefixCategory(), _category.getImage());
+		this.serializeImage(__gen, __value.getPrefixCategory(), _category.getImage(), null);
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
@@ -201,7 +202,7 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
 			for (String _referenceImage : _job.getReference().trim().split(",")) {
 				__gen.writeStartObject();
-				this.serializeImage(__gen, __value.getPrefixJob(), _referenceImage);
+				this.serializeImage(__gen, __value.getPrefixJob(), _referenceImage, null);
 				__gen.writeEndObject();
 			}
 		}
@@ -245,7 +246,8 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 			__gen.writeNumberField("account_reward",
 					__account.getRewards() == 0 ? 1 : __account.getRewards());
 			__gen.writeObjectFieldStart("avatar");
-			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage());
+			GetOfferSerializer.this.serializeImage(__gen, __prefixUrl, __account.getImage(),
+					__account.getGender());
 			__gen.writeEndObject();
 		}
 		catch (IOException _ex) {
@@ -253,13 +255,28 @@ class GetOfferSerializer extends JsonSerializer<GetOfferResponse> {
 		}
 	}
 
-	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
+	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName,
+			Short __gender) {
 		try {
 			if (imageName == null || imageName.trim().isEmpty()) {
-				__gen.writeStringField("original", "");
-				__gen.writeStringField("small", "");
-				__gen.writeStringField("icon", "");
-				__gen.writeStringField("retina", "");
+				if (__gender == null) {
+					__gen.writeStringField("original", "");
+					__gen.writeStringField("small", "");
+					__gen.writeStringField("icon", "");
+					__gen.writeStringField("retina", "");
+				}
+				else if (__gender.shortValue() == Constant.GENDER_FEMALE) {
+					__gen.writeStringField("original", __prefixUrl + "/Original/female.jpg");
+					__gen.writeStringField("small", __prefixUrl + "/Small/female");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/female");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/female");
+				}
+				else {
+					__gen.writeStringField("original", __prefixUrl + "/Original/male.jpg");
+					__gen.writeStringField("small", __prefixUrl + "/Small/male");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/male");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/male");
+				}
 			}
 			else {
 				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Portfolio;
 
@@ -182,10 +183,18 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 			__gen.writeStringField("designer_name", __designer.getName());
 			__gen.writeObjectFieldStart("designer_avatar");
 			if (__designer.getImage() == null || __designer.getImage().trim().isEmpty()) {
-				__gen.writeStringField("original", "");
-				__gen.writeStringField("retina", "");
-				__gen.writeStringField("small", "");
-				__gen.writeStringField("icon", "");
+				if (__designer.getGender().shortValue() == Constant.GENDER_FEMALE) {
+					__gen.writeStringField("original", __prefixAvatarUrl + "/Original/female.jpg");
+					__gen.writeStringField("small", __prefixAvatarUrl + "/Small/female");
+					__gen.writeStringField("icon", __prefixAvatarUrl + "/Icon/female");
+					__gen.writeStringField("retina", __prefixAvatarUrl + "/Retina/female");
+				}
+				else {
+					__gen.writeStringField("original", __prefixAvatarUrl + "/Original/male.jpg");
+					__gen.writeStringField("small", __prefixAvatarUrl + "/Small/male");
+					__gen.writeStringField("icon", __prefixAvatarUrl + "/Icon/male");
+					__gen.writeStringField("retina", __prefixAvatarUrl + "/Retina/male");
+				}
 			}
 			else {
 				__gen.writeStringField("original",

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
@@ -217,7 +218,14 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			}
 			__gen.writeEndArray();
 			if (_user.getImage().trim().isEmpty()) {
-				__gen.writeStringField("avatar", "");
+				if (_user.getGender().shortValue() == Constant.GENDER_FEMALE) {
+					__gen.writeStringField("avatar",
+							__value.getOrderDetail().getPrefixAvatar() + "/Icon/female.jpg");
+				}
+				else {
+					__gen.writeStringField("avatar",
+							__value.getOrderDetail().getPrefixAvatar() + "/Icon/male.jpg");
+				}
 			}
 			else {
 				__gen.writeStringField("avatar", __value.getOrderDetail().getPrefixAvatar()
@@ -240,7 +248,12 @@ class MessageDetailSerializer extends JsonSerializer<MessageDetailResponse> {
 			__gen.writeNumberField("sender_id", _sender.getId());
 			__gen.writeStringField("sender_name", _sender.getName());
 			if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
-				__gen.writeStringField("sender_avatar", "");
+				if (_sender.getGender().shortValue() == Constant.GENDER_FEMALE) {
+					__gen.writeStringField("sender_avatar", __prefixUrl + "/Icon/female.jpg");
+				}
+				else {
+					__gen.writeStringField("sender_avatar", __prefixUrl + "/Icon/male.jpg");
+				}
 			}
 			else {
 				__gen.writeStringField("sender_avatar",

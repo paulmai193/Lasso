@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.lasso.define.Constant;
 import com.lasso.rest.model.datasource.Account;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LoginResponse.
  *
@@ -133,10 +132,18 @@ class LoginSerializer extends JsonSerializer<LoginResponse> {
 				__value.getAccount().getRewards() == 0 ? 1 : __value.getAccount().getRewards());
 		__gen.writeObjectFieldStart("avatar");
 		if (__value.getAccount().getImage() == null || __value.getAccount().getImage().isEmpty()) {
-			__gen.writeStringField("original", "");
-			__gen.writeStringField("small", "");
-			__gen.writeStringField("icon", "");
-			__gen.writeStringField("retina", "");
+			if (__value.getAccount().getGender().shortValue() == Constant.GENDER_FEMALE) {
+				__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/female.jpg");
+				__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/female");
+				__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/female");
+				__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/female");
+			}
+			else {
+				__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/male.jpg");
+				__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/male");
+				__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/male");
+				__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/male");
+			}
 		}
 		else {
 			__gen.writeStringField("original",

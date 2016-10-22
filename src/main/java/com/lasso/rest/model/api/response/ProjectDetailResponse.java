@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Portfolio;
@@ -185,7 +186,14 @@ class ProjectSerializer extends JsonSerializer<ProjectDetailResponse> {
 				+ new SimpleDateFormat("dd MMM").format(__value.getPortfolio().getCreated()) + ".");
 
 		if (__value.getDesigner().getImage().isEmpty()) {
-			__gen.writeStringField("designer_avatar", "");
+			if (__value.getDesigner().getGender().shortValue() == Constant.GENDER_FEMALE) {
+				__gen.writeStringField("designer_avatar",
+						__value.getPrefixAvatarUrl() + "/Small/female.jpg");
+			}
+			else {
+				__gen.writeStringField("designer_avatar",
+						__value.getPrefixAvatarUrl() + "/Small/male.jpg");
+			}
 		}
 		else {
 			__gen.writeStringField("designer_avatar",

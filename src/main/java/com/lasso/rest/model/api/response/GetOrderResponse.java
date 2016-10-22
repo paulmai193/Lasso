@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.define.JobConfirmationConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Category;
@@ -217,7 +218,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeNumberField("category_id", _category.getId());
 		__gen.writeStringField("title", _category.getTitle());
 		__gen.writeObjectFieldStart("images");
-		this.serializeImage(__gen, __value.getPrefixCategory(), _category.getImage());
+		this.serializeImage(__gen, __value.getPrefixCategory(), _category.getImage(), null);
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
@@ -229,7 +230,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 				__gen.writeStringField("title", __style.getTitle());
 				__gen.writeObjectFieldStart("images");
 				GetConfirmJobSerializer.this.serializeImage(__gen, __value.getPrefixStyle(),
-						__style.getImage());
+						__style.getImage(), null);
 				__gen.writeEndObject();
 				__gen.writeEndObject();
 			}
@@ -243,7 +244,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		__gen.writeNumberField("type_id", _type.getId());
 		__gen.writeStringField("type_title", _type.getTitle());
 		__gen.writeObjectFieldStart("image");
-		this.serializeImage(__gen, __value.getPrefixType(), _type.getImage());
+		this.serializeImage(__gen, __value.getPrefixType(), _type.getImage(), null);
 		__gen.writeEndObject();
 		__gen.writeEndObject();
 
@@ -251,7 +252,7 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		if (_job.getReference() != null && !_job.getReference().trim().isEmpty()) {
 			for (String _referenceImage : _job.getReference().trim().split(",")) {
 				__gen.writeStartObject();
-				this.serializeImage(__gen, __value.getPrefixJob(), _referenceImage);
+				this.serializeImage(__gen, __value.getPrefixJob(), _referenceImage, null);
 				__gen.writeEndObject();
 			}
 		}
@@ -317,12 +318,12 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 						_account.getRewards() == 0 ? 1 : _account.getRewards());
 				__gen.writeObjectFieldStart("designer_avatar");
 				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
-						_account.getImage());
+						_account.getImage(), _account.getGender());
 				__gen.writeEndObject();
 				__gen.writeObjectFieldStart("portfolio_image");
 				String _portfolioImage = _portfolio.getImage().split(",")[0];
 				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
-						_portfolioImage);
+						_portfolioImage, null);
 				__gen.writeEndObject();
 				__gen.writeEndObject();
 			}
@@ -346,12 +347,12 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 						_account.getRewards() == 0 ? 1 : _account.getRewards());
 				__gen.writeObjectFieldStart("designer_avatar");
 				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixAvatar,
-						_account.getImage());
+						_account.getImage(), _account.getGender());
 				__gen.writeEndObject();
 				__gen.writeObjectFieldStart("portfolio_image");
 				String _portfolioImage = _portfolio.getImage().split(",")[0];
 				GetConfirmJobSerializer.this.serializeImage(__gen, __prefixPortfolio,
-						_portfolioImage);
+						_portfolioImage, null);
 				__gen.writeEndObject();
 				__gen.writeNumberField("counter", _counter);
 				__gen.writeEndObject();
@@ -362,13 +363,28 @@ class GetConfirmJobSerializer extends JsonSerializer<GetOrderResponse> {
 		});
 	}
 
-	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName) {
+	private void serializeImage(JsonGenerator __gen, String __prefixUrl, String imageName,
+			Short __gender) {
 		try {
 			if (imageName == null || imageName.trim().isEmpty()) {
-				__gen.writeStringField("original", "");
-				__gen.writeStringField("small", "");
-				__gen.writeStringField("icon", "");
-				__gen.writeStringField("retina", "");
+				if (__gender == null) {
+					__gen.writeStringField("original", "");
+					__gen.writeStringField("small", "");
+					__gen.writeStringField("icon", "");
+					__gen.writeStringField("retina", "");
+				}
+				else if (__gender.shortValue() == Constant.GENDER_FEMALE) {
+					__gen.writeStringField("original", __prefixUrl + "/Original/female.jpg");
+					__gen.writeStringField("small", __prefixUrl + "/Small/female");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/female");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/female");
+				}
+				else {
+					__gen.writeStringField("original", __prefixUrl + "/Original/male.jpg");
+					__gen.writeStringField("small", __prefixUrl + "/Small/male");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/male");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/male");
+				}
 			}
 			else {
 				__gen.writeStringField("original", __prefixUrl + "/Original/" + imageName.trim());

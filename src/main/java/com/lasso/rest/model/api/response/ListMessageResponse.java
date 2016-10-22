@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.lasso.define.Constant;
 import com.lasso.define.JobConfirmationConstant;
 import com.lasso.rest.model.datasource.Account;
 import com.lasso.rest.model.datasource.Job;
@@ -145,7 +146,14 @@ class ListMessageSerializer extends JsonSerializer<ListMessageResponse> {
 				}
 				__gen.writeStringField("sender_name", _sender.getName());
 				if (_sender.getImage() == null || _sender.getImage().trim().isEmpty()) {
-					__gen.writeStringField("sender_avatar", "");
+					if (_sender.getGender().shortValue() == Constant.GENDER_FEMALE) {
+						__gen.writeStringField("sender_avatar",
+								__value.getPrefixUrl() + "/Icon/female.jpg");
+					}
+					else {
+						__gen.writeStringField("sender_avatar",
+								__value.getPrefixUrl() + "/Icon/male.jpg");
+					}
 				}
 				else {
 					__gen.writeStringField("sender_avatar",

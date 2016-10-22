@@ -255,8 +255,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 					// Add wartermark to original image
 					File _original = new File(_webContextStoragePath + this.portfolioStoragePath
 							+ "/Original/" + _tempFileName);
-					File _wartermark = new File(
-							this.getClass().getClassLoader().getResource("watermark.png").toURI());
+					File _wartermark = new File(_webContextStoragePath + "watermark.png");
 					Logger.getLogger(this.getClass())
 					.debug("Watermark full path: " + _wartermark.getAbsolutePath());
 					this.uploadImageManagement.addWatermark(_tempFile, _wartermark, _original);

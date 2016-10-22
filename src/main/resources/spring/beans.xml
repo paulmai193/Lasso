@@ -99,6 +99,7 @@
 		<property name="contactDAO" ref="contactDAO" />
 		<property name="configurationDAO" ref="configurationDAO" />
 		<property name="webContextStoragePath" ref="webContextStoragePath" />
+		<property name="httpHost" ref="httpHost" />
 	</bean>
 	<bean id="uploadImageManagement" class="com.lasso.rest.service.impl.ImplUploadImageManagement"
 		lazy-init="false" scope="singleton">
