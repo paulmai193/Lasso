@@ -12,19 +12,21 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DesignerThanksEmail.
  *
  * @author Paul Mai
  */
-public class DesignerThanksEmail implements EmailTemplate {
+public class DesignerThanksEmail extends BasicEmail implements EmailTemplate {
 
 	/** The first name. */
 	private String	firstName;
 
 	/** The template. */
 	private File	template;
+
+	public DesignerThanksEmail() {
+	}
 
 	/**
 	 * Instantiates a new designer thanks email.
@@ -55,7 +57,9 @@ public class DesignerThanksEmail implements EmailTemplate {
 		String[] _searchStrings = { "${FIRST-NAME}" };
 		String[] _replaceStrings = { this.firstName };
 
-		return StringUtils.replaceEach(_content, _searchStrings, _replaceStrings);
+		_content = StringUtils.replaceEach(_content, _searchStrings, _replaceStrings);
+
+		return this.setSocialLink(_content);
 	}
 
 	/*
@@ -71,9 +75,11 @@ public class DesignerThanksEmail implements EmailTemplate {
 		_mapTemplate.put("title_1_thanks.jpg", new File(this.template, "title_1_thanks.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
+		_mapTemplate.put("c1.jpg", new File(this.template, "c1.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
 		_mapTemplate.put("it.jpg", new File(this.template, "it.jpg"));
 		_mapTemplate.put("tw1.jpg", new File(this.template, "tw1.jpg"));
+		_mapTemplate.put("d2.jpg", new File(this.template, "d2.jpg"));
 		_mapTemplate.put("googleplay.jpg", new File(this.template, "googleplay.jpg"));
 		_mapTemplate.put("appstore.jpg", new File(this.template, "appstore.jpg"));
 		return _mapTemplate;
@@ -87,7 +93,7 @@ public class DesignerThanksEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-				.getResource("/email-template/designer-thanks-you").toURI());
+		        .getResource("/email-template/designer-thanks-you").toURI());
 	}
 
 }

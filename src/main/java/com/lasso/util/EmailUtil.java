@@ -36,7 +36,6 @@ import org.apache.log4j.Logger;
 
 import com.lasso.rest.service.GenericManagement;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EmailUtil.
  *
@@ -157,7 +156,7 @@ public final class EmailUtil {
 
 			@Override
 			public void accept(String __cid, File __image) {
-				// TODO Attach inline image
+				// Attach inline image
 				MimeBodyPart _mimeBodyPart = new MimeBodyPart();
 				try {
 					_mimeBodyPart.attachFile(__image);

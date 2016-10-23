@@ -236,5 +236,22 @@
 		lazy-init="false" scope="prototype">
 		<property name="genericManagement" ref="genericManagement" />
 	</bean>
-
+	
+	<!-- Email Template -->
+	<bean id="basicEmail" class="com.lasso.template.BasicEmail">
+		<property name="genericManagement" ref="genericManagement" />
+	</bean>
+	
+	<bean id="designerActivateEmail" class="com.lasso.template.DesignerActivateEmail" parent="basicEmail"/>
+	<bean id="designerCongratEmail" class="com.lasso.template.DesignerCongratEmail" parent="basicEmail"/>
+	<bean id="designerNewMessageEmail" class="com.lasso.template.DesignerNewMessageEmail" parent="basicEmail"/>
+	<bean id="designerNewOfferEmail" class="com.lasso.template.DesignerNewOfferEmail" parent="basicEmail"/>
+	<bean id="designerResetPasswordEmail" class="com.lasso.template.DesignerResetPasswordEmail" parent="basicEmail"/>
+	<bean id="designerThanksEmail" class="com.lasso.template.DesignerThanksEmail" parent="basicEmail"/>
+	<bean id="userActivateEmail" class="com.lasso.template.UserActivateEmail" parent="basicEmail"/>
+	<bean id="userCongratEmail" class="com.lasso.template.UserCongratEmail" parent="basicEmail"/>
+	<bean id="userNewMessageEmail" class="com.lasso.template.UserNewMessageEmail" parent="basicEmail"/>
+	<bean id="userResetPasswordEmail" class="com.lasso.template.UserResetPasswordEmail" parent="basicEmail"/>
+	<bean id="userResetThanksEmail" class="com.lasso.template.UserThanksEmail" parent="basicEmail"/>
+	
 </beans>

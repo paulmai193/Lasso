@@ -16,6 +16,9 @@ public interface PushData {
 	/** The Constant SCREEN_MESSAGE_DETAIL. */
 	public static final int	SCREEN_MESSAGE_DETAIL	= 1;
 
+	/** The Constant SCREEN_OFFER_DETAIL. */
+	public static final int	SCREEN_OFFER_DETAIL		= 4;
+
 	/** The Constant SCREEN_ORDER_DETAIL. */
 	public static final int	SCREEN_ORDER_DETAIL		= 2;
 

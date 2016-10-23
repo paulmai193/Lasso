@@ -263,13 +263,13 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 					// Resize into 3 other size
 					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
 							+ "/Icon/" + _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120, 184);
+					this.uploadImageManagement.resizeImage(_tempFile, _icon, 128, 241);
 					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
 							+ "/Small/" + _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _small, 182, 280);
+					this.uploadImageManagement.resizeImage(_tempFile, _small, 323, 611);
 					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
 							+ "/Retina/" + _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364, 560);
+					this.uploadImageManagement.resizeImage(_tempFile, _retina, 323, 611);
 				}
 				else {
 					Logger.getLogger(this.getClass())
@@ -392,13 +392,13 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 					// Resize into 3 other size
 					File _icon = new File(_webContextStoragePath + this.portfolioStoragePath
 							+ "/Icon/" + _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _icon, 120, 184);
+					this.uploadImageManagement.resizeImage(_tempFile, _icon, 128, 241);
 					File _small = new File(_webContextStoragePath + this.portfolioStoragePath
 							+ "/Small/" + _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _small, 182, 280);
+					this.uploadImageManagement.resizeImage(_tempFile, _small, 323, 611);
 					File _retina = new File(_webContextStoragePath + this.portfolioStoragePath
 							+ "/Retina/" + _tempFileName);
-					this.uploadImageManagement.resizeImage(_tempFile, _retina, 364, 560);
+					this.uploadImageManagement.resizeImage(_tempFile, _retina, 323, 611);
 				}
 				else {
 					Logger.getLogger(this.getClass())

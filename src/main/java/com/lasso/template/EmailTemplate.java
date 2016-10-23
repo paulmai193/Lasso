@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface EmailTemplate.
  *

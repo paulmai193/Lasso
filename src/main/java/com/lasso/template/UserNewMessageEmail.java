@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Paul Mai
  */
-public class UserNewMessageEmail implements EmailTemplate {
+public class UserNewMessageEmail extends BasicEmail implements EmailTemplate {
 
 	/** The first name. */
 	private String	firstName;
@@ -27,6 +27,9 @@ public class UserNewMessageEmail implements EmailTemplate {
 
 	/** The template. */
 	private File	template;
+
+	public UserNewMessageEmail() {
+	}
 
 	/**
 	 * Instantiates a new designer activate email.
@@ -41,7 +44,7 @@ public class UserNewMessageEmail implements EmailTemplate {
 	 *         Signals that an I/O exception has occurred.
 	 */
 	public UserNewMessageEmail(String __firstName, String __link)
-			throws URISyntaxException, IOException {
+	        throws URISyntaxException, IOException {
 		super();
 		this.firstName = __firstName;
 		this.link = __link;
@@ -61,7 +64,9 @@ public class UserNewMessageEmail implements EmailTemplate {
 		String[] _searchStrings = { "${FIRST-NAME}", "${MESSAGE_LINK}" };
 		String[] _replaceStrings = { this.firstName, this.link };
 
-		return StringUtils.replaceEach(_content, _searchStrings, _replaceStrings);
+		_content = StringUtils.replaceEach(_content, _searchStrings, _replaceStrings);
+
+		return this.setSocialLink(_content);
 	}
 
 	/*
@@ -74,15 +79,17 @@ public class UserNewMessageEmail implements EmailTemplate {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
 		_mapTemplate.put("img_01_user_thanks.jpg",
-				new File(this.template, "img_01_user_thanks.jpg"));
+		        new File(this.template, "img_01_user_thanks.jpg"));
 		_mapTemplate.put("title_1_user_thanks.jpg",
-				new File(this.template, "title_1_user_thanks.jpg"));
+		        new File(this.template, "title_1_user_thanks.jpg"));
 		// _mapTemplate.put("seeyou.jpg", new File(this.template,
 		// "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
+		_mapTemplate.put("c1.jpg", new File(this.template, "c1.jpg"));
 		_mapTemplate.put("fb.jpg", new File(this.template, "fb.jpg"));
 		_mapTemplate.put("it.jpg", new File(this.template, "it.jpg"));
 		_mapTemplate.put("tw1.jpg", new File(this.template, "tw1.jpg"));
+		_mapTemplate.put("d2.jpg", new File(this.template, "d2.jpg"));
 		_mapTemplate.put("googleplay.jpg", new File(this.template, "googleplay.jpg"));
 		_mapTemplate.put("appstore.jpg", new File(this.template, "appstore.jpg"));
 		_mapTemplate.put("footer.jpg", new File(this.template, "footer.jpg"));
@@ -97,7 +104,7 @@ public class UserNewMessageEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-				.getResource("/email-template/user-message").toURI());
+		        .getResource("/email-template/user-message").toURI());
 	}
 
 }
