@@ -28,15 +28,13 @@ public class DesignerThanksEmail extends BasicEmail implements EmailTemplate {
 	/**
 	 * Instantiates a new designer thanks email.
 	 *
-	 * @param __firstName
-	 *        the first name
-	 * @throws URISyntaxException
-	 *         the URI syntax exception
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
+	 * @param __firstName the first name
+	 * @param __mapConfig the map config
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DesignerThanksEmail(String __firstName, Map<String, String> __mapConfig)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		super(__mapConfig);
 		this.firstName = __firstName;
 		this.loadTemplate();
@@ -91,7 +89,7 @@ public class DesignerThanksEmail extends BasicEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/designer-thanks-you").toURI());
+				.getResource("/email-template/designer-thanks-you").toURI());
 	}
 
 }

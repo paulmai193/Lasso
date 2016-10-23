@@ -31,17 +31,14 @@ public class DesignerCongratEmail extends BasicEmail implements EmailTemplate {
 	/**
 	 * Instantiates a new designer activate email.
 	 *
-	 * @param __firstName
-	 *        the first name
-	 * @param __link
-	 *        the link
-	 * @throws URISyntaxException
-	 *         the URI syntax exception
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
+	 * @param __firstName the first name
+	 * @param __link the link
+	 * @param __mapConfig the map config
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DesignerCongratEmail(String __firstName, String __link, Map<String, String> __mapConfig)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		super(__mapConfig);
 		this.firstName = __firstName;
 		this.link = __link;
@@ -76,12 +73,12 @@ public class DesignerCongratEmail extends BasicEmail implements EmailTemplate {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_designer.jpg", new File(this.template, "logo_designer.jpg"));
 		_mapTemplate.put("img_01_congratulation.jpg",
-		        new File(this.template, "img_01_congratulation.jpg"));
+				new File(this.template, "img_01_congratulation.jpg"));
 		_mapTemplate.put("title_1_congratulation.jpg",
-		        new File(this.template, "title_1_congratulation.jpg"));
+				new File(this.template, "title_1_congratulation.jpg"));
 		_mapTemplate.put("bt3_designer.png", new File(this.template, "bt3_designer.png"));
 		_mapTemplate.put("img_02_congratulation.jpg",
-		        new File(this.template, "img_02_congratulation.jpg"));
+				new File(this.template, "img_02_congratulation.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("c1.jpg", new File(this.template, "c1.jpg"));
@@ -102,7 +99,7 @@ public class DesignerCongratEmail extends BasicEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/designer-congratulations").toURI());
+				.getResource("/email-template/designer-congratulations").toURI());
 	}
 
 }

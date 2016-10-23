@@ -31,17 +31,14 @@ public class DesignerResetPasswordEmail extends BasicEmail implements EmailTempl
 	/**
 	 * Instantiates a new designer reset password email.
 	 *
-	 * @param __firstName
-	 *        the first name
-	 * @param __resetLink
-	 *        the reset link
-	 * @throws URISyntaxException
-	 *         the URI syntax exception
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
+	 * @param __firstName the first name
+	 * @param __resetLink the reset link
+	 * @param __mapConfig the map config
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DesignerResetPasswordEmail(String __firstName, String __resetLink,
-	        Map<String, String> __mapConfig) throws URISyntaxException, IOException {
+			Map<String, String> __mapConfig) throws URISyntaxException, IOException {
 		super(__mapConfig);
 		this.firstName = __firstName;
 		this.resetLink = __resetLink;
@@ -98,7 +95,7 @@ public class DesignerResetPasswordEmail extends BasicEmail implements EmailTempl
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/designer-forgot-pass").toURI());
+				.getResource("/email-template/designer-forgot-pass").toURI());
 	}
 
 }

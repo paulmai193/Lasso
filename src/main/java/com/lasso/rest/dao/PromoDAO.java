@@ -44,14 +44,6 @@ public interface PromoDAO extends HibernateSession {
 	PromoHistory getPromoHistroyByJobId(int __idJob);
 
 	/**
-	 * Save promo history.
-	 *
-	 * @param __promoHistory
-	 *        the promo history
-	 */
-	void savePromoHistory(PromoHistory __promoHistory);
-
-	/**
 	 * Gets the promo histroy of account by promo code id.
 	 *
 	 * @param __idAccount the id account
@@ -59,5 +51,13 @@ public interface PromoDAO extends HibernateSession {
 	 * @return the promo histroy of account by promo code id
 	 */
 	List<PromoHistory> getPromoHistroyOfAccountByPromoCodeId(int __idAccount, int __idPromoCode);
+
+	/**
+	 * Save promo history.
+	 *
+	 * @param __promoHistory
+	 *        the promo history
+	 */
+	void savePromoHistory(PromoHistory __promoHistory);
 
 }

@@ -28,15 +28,13 @@ public class UserThanksEmail extends BasicEmail implements EmailTemplate {
 	/**
 	 * Instantiates a new user thanks email.
 	 *
-	 * @param __firstName
-	 *        the first name
-	 * @throws URISyntaxException
-	 *         the URI syntax exception
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
+	 * @param __firstName the first name
+	 * @param __mapConfig the map config
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public UserThanksEmail(String __firstName, Map<String, String> __mapConfig)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		super(__mapConfig);
 		this.firstName = __firstName;
 		this.loadTemplate();
@@ -70,9 +68,9 @@ public class UserThanksEmail extends BasicEmail implements EmailTemplate {
 		Map<String, File> _mapTemplate = new HashMap<>();
 		_mapTemplate.put("logo_user.jpg", new File(this.template, "logo_user.jpg"));
 		_mapTemplate.put("img_01_user_thanks.jpg",
-		        new File(this.template, "img_01_user_thanks.jpg"));
+				new File(this.template, "img_01_user_thanks.jpg"));
 		_mapTemplate.put("title_1_user_thanks.jpg",
-		        new File(this.template, "title_1_user_thanks.jpg"));
+				new File(this.template, "title_1_user_thanks.jpg"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("c1.jpg", new File(this.template, "c1.jpg"));
@@ -94,7 +92,7 @@ public class UserThanksEmail extends BasicEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/user-thanks-you").toURI());
+				.getResource("/email-template/user-thanks-you").toURI());
 	}
 
 }

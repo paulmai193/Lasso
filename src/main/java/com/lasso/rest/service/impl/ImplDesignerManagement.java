@@ -224,6 +224,13 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				throw new NotFoundException("Style not found");
 			}
 
+			// Check this style is unique
+			List<Portfolio> _portfolios = this.portfolioDAO.getPortfolioByStyle(_style.getId());
+			if (_portfolios.size() > 0) {
+				throw new ForbiddenException(
+						"This style was set in other portfolio. Please choose another.");
+			}
+
 			String _image = Arrays.toString(__createPortfolioRequest.getImages().toArray())
 					.replace(" ", "");
 			_image = _image.substring(1, _image.length() - 1);

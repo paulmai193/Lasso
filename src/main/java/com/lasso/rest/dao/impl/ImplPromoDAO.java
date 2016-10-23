@@ -36,10 +36,10 @@ public class ImplPromoDAO implements PromoDAO {
 	public PromoCode getPromoCodeByCode(String __promoCode) {
 		Date _date = new Date();
 		return (PromoCode) this.sessionFactory.getCurrentSession().createCriteria(PromoCode.class)
-		        .add(Restrictions.like("code", __promoCode))
-		        .add(Restrictions.le("startDate", _date)).add(Restrictions.ge("endDate", _date))
-		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
-		        .uniqueResult();
+				.add(Restrictions.like("code", __promoCode))
+				.add(Restrictions.le("startDate", _date)).add(Restrictions.ge("endDate", _date))
+				.add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+				.uniqueResult();
 	}
 
 	/*
@@ -60,18 +60,23 @@ public class ImplPromoDAO implements PromoDAO {
 	@Override
 	public PromoHistory getPromoHistroyByJobId(int __idJob) {
 		return (PromoHistory) this.sessionFactory.getCurrentSession()
-		        .createCriteria(PromoHistory.class).add(Restrictions.eq("jobId", __idJob))
-		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+				.createCriteria(PromoHistory.class).add(Restrictions.eq("jobId", __idJob))
+				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.lasso.rest.dao.PromoDAO#getPromoHistroyOfAccountByPromoCodeId(int, int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PromoHistory> getPromoHistroyOfAccountByPromoCodeId(int __idAccount,
-	        int __idPromoCode) {
+			int __idPromoCode) {
 		return this.sessionFactory.getCurrentSession().createCriteria(PromoHistory.class)
-		        .add(Restrictions.eq("promoCodeId", __idPromoCode))
-		        .add(Restrictions.eq("accountId", __idAccount))
-		        .add(Restrictions.eq("deleted", (byte) 0)).list();
+				.add(Restrictions.eq("promoCodeId", __idPromoCode))
+				.add(Restrictions.eq("accountId", __idAccount))
+				.add(Restrictions.eq("deleted", (byte) 0)).list();
 	}
 
 	/*

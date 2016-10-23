@@ -31,17 +31,14 @@ public class DesignerNewOfferEmail extends BasicEmail implements EmailTemplate {
 	/**
 	 * Instantiates a new designer activate email.
 	 *
-	 * @param __firstName
-	 *        the first name
-	 * @param __link
-	 *        the link
-	 * @throws URISyntaxException
-	 *         the URI syntax exception
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
+	 * @param __firstName the first name
+	 * @param __link the link
+	 * @param __mapConfig the map config
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public DesignerNewOfferEmail(String __firstName, String __link, Map<String, String> __mapConfig)
-	        throws URISyntaxException, IOException {
+			throws URISyntaxException, IOException {
 		super(__mapConfig);
 		this.firstName = __firstName;
 		this.link = __link;
@@ -98,7 +95,7 @@ public class DesignerNewOfferEmail extends BasicEmail implements EmailTemplate {
 	@Override
 	public void loadTemplate() throws URISyntaxException, IOException {
 		this.template = new File(this.getClass().getClassLoader()
-		        .getResource("/email-template/designer-offer").toURI());
+				.getResource("/email-template/designer-offer").toURI());
 	}
 
 }
