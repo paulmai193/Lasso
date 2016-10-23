@@ -3,6 +3,8 @@
  */
 package com.lasso.rest.dao;
 
+import java.util.List;
+
 import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.PromoHistory;
 
@@ -48,5 +50,14 @@ public interface PromoDAO extends HibernateSession {
 	 *        the promo history
 	 */
 	void savePromoHistory(PromoHistory __promoHistory);
+
+	/**
+	 * Gets the promo histroy of account by promo code id.
+	 *
+	 * @param __idAccount the id account
+	 * @param __idPromoCode the id promo code
+	 * @return the promo histroy of account by promo code id
+	 */
+	List<PromoHistory> getPromoHistroyOfAccountByPromoCodeId(int __idAccount, int __idPromoCode);
 
 }

@@ -25,9 +25,6 @@ public class DesignerThanksEmail extends BasicEmail implements EmailTemplate {
 	/** The template. */
 	private File	template;
 
-	public DesignerThanksEmail() {
-	}
-
 	/**
 	 * Instantiates a new designer thanks email.
 	 *
@@ -38,8 +35,9 @@ public class DesignerThanksEmail extends BasicEmail implements EmailTemplate {
 	 * @throws IOException
 	 *         Signals that an I/O exception has occurred.
 	 */
-	public DesignerThanksEmail(String __firstName) throws URISyntaxException, IOException {
-		super();
+	public DesignerThanksEmail(String __firstName, Map<String, String> __mapConfig)
+	        throws URISyntaxException, IOException {
+		super(__mapConfig);
 		this.firstName = __firstName;
 		this.loadTemplate();
 	}

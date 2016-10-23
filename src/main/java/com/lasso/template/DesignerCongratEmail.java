@@ -28,9 +28,6 @@ public class DesignerCongratEmail extends BasicEmail implements EmailTemplate {
 	/** The template. */
 	private File	template;
 
-	public DesignerCongratEmail() {
-	}
-
 	/**
 	 * Instantiates a new designer activate email.
 	 *
@@ -43,9 +40,9 @@ public class DesignerCongratEmail extends BasicEmail implements EmailTemplate {
 	 * @throws IOException
 	 *         Signals that an I/O exception has occurred.
 	 */
-	public DesignerCongratEmail(String __firstName, String __link)
+	public DesignerCongratEmail(String __firstName, String __link, Map<String, String> __mapConfig)
 	        throws URISyntaxException, IOException {
-		super();
+		super(__mapConfig);
 		this.firstName = __firstName;
 		this.link = __link;
 		this.loadTemplate();

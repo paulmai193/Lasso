@@ -28,9 +28,6 @@ public class UserResetPasswordEmail extends BasicEmail implements EmailTemplate 
 	/** The template. */
 	private File	template;
 
-	public UserResetPasswordEmail() {
-	}
-
 	/**
 	 * Instantiates a new user reset password email.
 	 *
@@ -43,9 +40,9 @@ public class UserResetPasswordEmail extends BasicEmail implements EmailTemplate 
 	 * @throws IOException
 	 *         Signals that an I/O exception has occurred.
 	 */
-	public UserResetPasswordEmail(String __firstName, String __resetLink)
-	        throws URISyntaxException, IOException {
-		super();
+	public UserResetPasswordEmail(String __firstName, String __resetLink,
+	        Map<String, String> __mapConfig) throws URISyntaxException, IOException {
+		super(__mapConfig);
 		this.firstName = __firstName;
 		this.resetLink = __resetLink;
 		this.loadTemplate();

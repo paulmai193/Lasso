@@ -28,9 +28,6 @@ public class DesignerResetPasswordEmail extends BasicEmail implements EmailTempl
 	/** The template. */
 	private File	template;
 
-	public DesignerResetPasswordEmail() {
-	}
-
 	/**
 	 * Instantiates a new designer reset password email.
 	 *
@@ -43,9 +40,9 @@ public class DesignerResetPasswordEmail extends BasicEmail implements EmailTempl
 	 * @throws IOException
 	 *         Signals that an I/O exception has occurred.
 	 */
-	public DesignerResetPasswordEmail(String __firstName, String __resetLink)
-	        throws URISyntaxException, IOException {
-		super();
+	public DesignerResetPasswordEmail(String __firstName, String __resetLink,
+	        Map<String, String> __mapConfig) throws URISyntaxException, IOException {
+		super(__mapConfig);
 		this.firstName = __firstName;
 		this.resetLink = __resetLink;
 		this.loadTemplate();
@@ -80,7 +77,7 @@ public class DesignerResetPasswordEmail extends BasicEmail implements EmailTempl
 		_mapTemplate.put("logo_designer.jpg", new File(this.template, "logo_designer.jpg"));
 		_mapTemplate.put("img_01_forgot.jpg", new File(this.template, "img_01_forgot.jpg"));
 		_mapTemplate.put("title_1_forgot.jpg", new File(this.template, "title_1_forgot.jpg"));
-		_mapTemplate.put("bt2.png", new File(this.template, "bt2.png"));
+		_mapTemplate.put("bt2_designer.png", new File(this.template, "bt2_designer.png"));
 		_mapTemplate.put("seeyou.jpg", new File(this.template, "seeyou.jpg"));
 		_mapTemplate.put("border.jpg", new File(this.template, "border.jpg"));
 		_mapTemplate.put("c1.jpg", new File(this.template, "c1.jpg"));

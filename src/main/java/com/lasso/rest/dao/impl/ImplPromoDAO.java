@@ -3,6 +3,9 @@
  */
 package com.lasso.rest.dao.impl;
 
+import java.util.Date;
+import java.util.List;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +34,12 @@ public class ImplPromoDAO implements PromoDAO {
 	 */
 	@Override
 	public PromoCode getPromoCodeByCode(String __promoCode) {
+		Date _date = new Date();
 		return (PromoCode) this.sessionFactory.getCurrentSession().createCriteria(PromoCode.class)
-				.add(Restrictions.like("code", __promoCode))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		        .add(Restrictions.like("code", __promoCode))
+		        .add(Restrictions.le("startDate", _date)).add(Restrictions.ge("endDate", _date))
+		        .add(Restrictions.eq("status", (byte) 1)).add(Restrictions.eq("deleted", (byte) 0))
+		        .uniqueResult();
 	}
 
 	/*
@@ -54,8 +60,18 @@ public class ImplPromoDAO implements PromoDAO {
 	@Override
 	public PromoHistory getPromoHistroyByJobId(int __idJob) {
 		return (PromoHistory) this.sessionFactory.getCurrentSession()
-				.createCriteria(PromoHistory.class).add(Restrictions.eq("job_id", __idJob))
-				.add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+		        .createCriteria(PromoHistory.class).add(Restrictions.eq("jobId", __idJob))
+		        .add(Restrictions.eq("deleted", (byte) 0)).uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PromoHistory> getPromoHistroyOfAccountByPromoCodeId(int __idAccount,
+	        int __idPromoCode) {
+		return this.sessionFactory.getCurrentSession().createCriteria(PromoHistory.class)
+		        .add(Restrictions.eq("promoCodeId", __idPromoCode))
+		        .add(Restrictions.eq("accountId", __idAccount))
+		        .add(Restrictions.eq("deleted", (byte) 0)).list();
 	}
 
 	/*

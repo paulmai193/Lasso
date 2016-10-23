@@ -28,9 +28,6 @@ public class DesignerActivateEmail extends BasicEmail implements EmailTemplate {
 	/** The template. */
 	private File	template;
 
-	public DesignerActivateEmail() {
-	}
-
 	/**
 	 * Instantiates a new designer activate email.
 	 *
@@ -43,9 +40,9 @@ public class DesignerActivateEmail extends BasicEmail implements EmailTemplate {
 	 * @throws IOException
 	 *         Signals that an I/O exception has occurred.
 	 */
-	public DesignerActivateEmail(String __firstName, String __activateLink)
-	        throws URISyntaxException, IOException {
-		super();
+	public DesignerActivateEmail(String __firstName, String __activateLink,
+	        Map<String, String> __mapConfig) throws URISyntaxException, IOException {
+		super(__mapConfig);
 		this.firstName = __firstName;
 		this.activateLink = __activateLink;
 		this.loadTemplate();

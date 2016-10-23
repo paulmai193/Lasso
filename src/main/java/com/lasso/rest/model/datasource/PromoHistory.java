@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-// TODO: Auto-generated Javadoc
 /**
  * The persistent class for the promo_histories database table.
  *
