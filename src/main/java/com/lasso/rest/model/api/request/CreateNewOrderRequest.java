@@ -7,6 +7,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -256,11 +257,18 @@ public class CreateNewOrderRequest extends BaseRequest {
 		if (this.budget == null || this.budget.doubleValue() <= 0) {
 			throw new ObjectParamException("Invalid budget");
 		}
-		if (this.submission == null || this.submission.compareTo(new Date()) < 0) {
-			throw new ObjectParamException("Invalid submission");
+		Calendar _currentTime = Calendar.getInstance();
+		_currentTime.set(Calendar.HOUR_OF_DAY, 0);
+		_currentTime.set(Calendar.MINUTE, 0);
+		_currentTime.set(Calendar.SECOND, 0);
+		_currentTime.set(Calendar.MILLISECOND, 0);
+		Date _currentDate = _currentTime.getTime();
+		if (this.submission == null || this.submission.compareTo(_currentDate) < 0) {
+			throw new ObjectParamException(
+			        "Invalid submission: " + this.submission + " - " + _currentDate);
 		}
 		if (this.lastSubmission == null || this.lastSubmission.compareTo(this.submission) < 0) {
-			throw new ObjectParamException("Invalid last submission");
+			throw new ObjectParamException("Invalid last submission: " + this.lastSubmission);
 		}
 		if (this.objective == null) {
 			throw new ObjectParamException("Invalid objective");
