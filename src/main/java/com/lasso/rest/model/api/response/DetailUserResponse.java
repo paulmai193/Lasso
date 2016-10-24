@@ -138,9 +138,9 @@ class UserDetailSerializer extends JsonSerializer<DetailUserResponse> {
 		if (__value.getAccount().getImage() == null || __value.getAccount().getImage().isEmpty()) {
 			if (__value.getAccount().getGender().shortValue() == Constant.GENDER_FEMALE) {
 				__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/female.jpg");
-				__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/female");
-				__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/female");
-				__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/female");
+				__gen.writeStringField("small", __value.getPrefixUrl() + "/Small/female.jpg");
+				__gen.writeStringField("icon", __value.getPrefixUrl() + "/Icon/female.jpg");
+				__gen.writeStringField("retina", __value.getPrefixUrl() + "/Retina/female.jpg");
 			}
 			else {
 				__gen.writeStringField("original", __value.getPrefixUrl() + "/Original/male.jpg");

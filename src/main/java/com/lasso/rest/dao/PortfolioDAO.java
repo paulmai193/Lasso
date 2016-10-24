@@ -99,7 +99,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @return the list portfolios by condition
 	 */
 	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-	        List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
+			List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
 
 	/**
 	 * Search projects.

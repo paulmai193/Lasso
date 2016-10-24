@@ -196,6 +196,7 @@
 	<bean id="manageOrderController" class="com.lasso.rest.controller.ManageOrderController"
 		lazy-init="false">
 		<property name="userManagement" ref="userManagement" />
+		<property name="messageManagement" ref="messageManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="categoryStoragePath" ref="categoryStoragePath" />
 		<property name="jobStoragePath" ref="jobStoragePath" />

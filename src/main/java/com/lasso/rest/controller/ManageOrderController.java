@@ -54,12 +54,17 @@ import com.lasso.rest.model.api.response.ListJobsOfUserResponse;
 import com.lasso.rest.model.api.response.OrderPaymentDetailResponse;
 import com.lasso.rest.model.api.response.RatingDetailResponse;
 import com.lasso.rest.model.datasource.Account;
+import com.lasso.rest.model.datasource.AccountSettings;
 import com.lasso.rest.model.datasource.AccountsRating;
 import com.lasso.rest.model.datasource.Category;
 import com.lasso.rest.model.datasource.Job;
 import com.lasso.rest.model.datasource.PromoCode;
 import com.lasso.rest.model.datasource.Style;
 import com.lasso.rest.model.datasource.Type;
+import com.lasso.rest.model.push.PushNotification;
+import com.lasso.rest.model.push.PushProjectDetailMessage;
+import com.lasso.rest.model.push.SendPushRequest;
+import com.lasso.rest.service.MessageManagement;
 import com.lasso.rest.service.RewardSystemManagement;
 import com.lasso.rest.service.UserManagement;
 import com.mashape.unirest.http.HttpResponse;
@@ -91,6 +96,10 @@ public class ManageOrderController extends BaseController {
 
 	/** The job storage path. */
 	private String					jobStoragePath;
+
+	/** The message management. */
+	@Autowired
+	private MessageManagement		messageManagement;
 
 	/** The paypal client id. */
 	private String					paypalClientId;
@@ -550,6 +559,35 @@ public class ManageOrderController extends BaseController {
 		if (_state.equals("approved")) {
 			Account _user = (Account) this.validateContext.getUserPrincipal();
 			this.userManagement.applyPaypal(_user.getId(), _idJob);
+
+			// Send push
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					AccountSettings _accountSettings;
+					try {
+						_accountSettings = _user.getSettings();
+
+						// Send push in-app
+						if (_accountSettings.getAppSettings().getStatus_update() != null
+								&& _accountSettings.getAppSettings().getStatus_update()
+								.equals("on")) {
+							SendPushRequest _pushRequest = new SendPushRequest();
+							_pushRequest.setNotification(
+									new PushNotification("You have an invitation to work",
+											"You have an invitation to work."));
+							_pushRequest.setData(new PushProjectDetailMessage(_idJob));
+							_pushRequest.setTo(_user.getDeviceId());
+							ManageOrderController.this.messageManagement.sendPush(_pushRequest);
+						}
+					}
+					catch (Exception _ex) {
+						Logger.getLogger(this.getClass()).warn("Unwanted error", _ex);
+					}
+				}
+			}).start();
+
 			return this.success();
 		}
 		else {
@@ -595,6 +633,15 @@ public class ManageOrderController extends BaseController {
 	 */
 	public void setJobStoragePath(String __jobStoragePath) {
 		this.jobStoragePath = __jobStoragePath;
+	}
+
+	/**
+	 * Sets the message management.
+	 *
+	 * @param __messageManagement the new message management
+	 */
+	public void setMessageManagement(MessageManagement __messageManagement) {
+		this.messageManagement = __messageManagement;
 	}
 
 	/**

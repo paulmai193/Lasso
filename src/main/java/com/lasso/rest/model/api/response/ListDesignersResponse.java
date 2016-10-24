@@ -185,15 +185,15 @@ class ListDesignerSerializer extends JsonSerializer<ListDesignersResponse> {
 			if (__designer.getImage() == null || __designer.getImage().trim().isEmpty()) {
 				if (__designer.getGender().shortValue() == Constant.GENDER_FEMALE) {
 					__gen.writeStringField("original", __prefixAvatarUrl + "/Original/female.jpg");
-					__gen.writeStringField("small", __prefixAvatarUrl + "/Small/female");
-					__gen.writeStringField("icon", __prefixAvatarUrl + "/Icon/female");
-					__gen.writeStringField("retina", __prefixAvatarUrl + "/Retina/female");
+					__gen.writeStringField("small", __prefixAvatarUrl + "/Small/female.jpg");
+					__gen.writeStringField("icon", __prefixAvatarUrl + "/Icon/female.jpg");
+					__gen.writeStringField("retina", __prefixAvatarUrl + "/Retina/female.jpg");
 				}
 				else {
 					__gen.writeStringField("original", __prefixAvatarUrl + "/Original/male.jpg");
-					__gen.writeStringField("small", __prefixAvatarUrl + "/Small/male");
-					__gen.writeStringField("icon", __prefixAvatarUrl + "/Icon/male");
-					__gen.writeStringField("retina", __prefixAvatarUrl + "/Retina/male");
+					__gen.writeStringField("small", __prefixAvatarUrl + "/Small/male.jpg");
+					__gen.writeStringField("icon", __prefixAvatarUrl + "/Icon/male.jpg");
+					__gen.writeStringField("retina", __prefixAvatarUrl + "/Retina/male.jpg");
 				}
 			}
 			else {

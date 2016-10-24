@@ -256,7 +256,7 @@ public class CreateNewOrderRequest extends BaseRequest {
 		if (this.budget == null || this.budget.doubleValue() <= 0) {
 			throw new ObjectParamException("Invalid budget");
 		}
-		if (this.submission == null) {
+		if (this.submission == null || this.submission.compareTo(new Date()) < 0) {
 			throw new ObjectParamException("Invalid submission");
 		}
 		if (this.lastSubmission == null || this.lastSubmission.compareTo(this.submission) < 0) {

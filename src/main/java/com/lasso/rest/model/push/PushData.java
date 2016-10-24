@@ -22,6 +22,9 @@ public interface PushData {
 	/** The Constant SCREEN_ORDER_DETAIL. */
 	public static final int	SCREEN_ORDER_DETAIL		= 2;
 
+	/** The Constant SCREEN_PROJECT_DETAIL. */
+	public static final int	SCREEN_PROJECT_DETAIL	= 5;
+
 	/**
 	 * Gets the id.
 	 *

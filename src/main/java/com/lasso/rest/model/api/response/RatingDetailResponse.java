@@ -138,15 +138,15 @@ class RatingDetailSerializer extends JsonSerializer<RatingDetailResponse> {
 				}
 				else if (__gender.shortValue() == Constant.GENDER_FEMALE) {
 					__gen.writeStringField("original", __prefixUrl + "/Original/female.jpg");
-					__gen.writeStringField("small", __prefixUrl + "/Small/female");
-					__gen.writeStringField("icon", __prefixUrl + "/Icon/female");
-					__gen.writeStringField("retina", __prefixUrl + "/Retina/female");
+					__gen.writeStringField("small", __prefixUrl + "/Small/female.jpg");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/female.jpg");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/female.jpg");
 				}
 				else {
 					__gen.writeStringField("original", __prefixUrl + "/Original/male.jpg");
-					__gen.writeStringField("small", __prefixUrl + "/Small/male");
-					__gen.writeStringField("icon", __prefixUrl + "/Icon/male");
-					__gen.writeStringField("retina", __prefixUrl + "/Retina/male");
+					__gen.writeStringField("small", __prefixUrl + "/Small/male.jpg");
+					__gen.writeStringField("icon", __prefixUrl + "/Icon/male.jpg");
+					__gen.writeStringField("retina", __prefixUrl + "/Retina/male.jpg");
 				}
 			}
 			else {

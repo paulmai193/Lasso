@@ -263,9 +263,10 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 										+ _job.getId() + ".html?device_id="
 										+ _designer.getDeviceId();
 								EmailTemplate _emailTemplate = new DesignerNewOfferEmail(
-										_designer.getName(), _link, ImplUserManagement.this.genericManagement.loadConfig());
+										_designer.getName(), _link,
+										ImplUserManagement.this.genericManagement.loadConfig());
 								ImplUserManagement.this.emailUtil.sendEmailByTemplate(
-										_designer.getEmail(), "New job offer",
+										_designer.getEmail(), "You have a new job",
 										_emailTemplate.getContent(),
 										javax.mail.Message.RecipientType.TO,
 										_emailTemplate.getTemplate());

@@ -197,7 +197,7 @@ public class EditOrderRequest extends BaseRequest {
 			// throw new ObjectParamException("Invalid reference");
 			this.reference = new ArrayList<>();
 		}
-		if (this.submission == null) {
+		if (this.submission == null || this.submission.compareTo(new Date()) < 0) {
 			throw new ObjectParamException("Invalid submission");
 		}
 		if (this.lastSubmission == null || this.lastSubmission.compareTo(this.submission) < 0) {
