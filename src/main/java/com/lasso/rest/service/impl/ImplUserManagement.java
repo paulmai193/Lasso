@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.ForbiddenException;
@@ -236,6 +237,7 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 			this.jobDAO.updateJob(_job);
 
 			// All setting success, send message to designer
+			Map<String, String> _mapConfig = genericManagement.loadConfig();
 			new Thread(new Runnable() {
 
 				@Override
@@ -249,9 +251,9 @@ public class ImplUserManagement extends ImplProjectManagement implements UserMan
 							if (_accountSettings.getAppSettings().getOffer() != null
 							        && _accountSettings.getAppSettings().getOffer().equals("on")) {
 								SendPushRequest _pushRequest = new SendPushRequest();
-								_pushRequest.setNotification(
-								        new PushNotification(((Message) _push[1]).getTitle(),
-								                ((Message) _push[1]).getMessage()));
+								_pushRequest.setNotification(new PushNotification(
+								        _mapConfig.get("EmailTemplate.designer_message_title"),
+								        _mapConfig.get("EmailTemplate.designer_message_desc")));
 								_pushRequest.setData(new PushOfferDetailMessage(_job.getId()));
 								_pushRequest.setTo(_designer.getDeviceId());
 								ImplUserManagement.this.messageManagement.sendPush(_pushRequest);

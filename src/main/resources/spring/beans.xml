@@ -91,8 +91,10 @@
 		lazy-init="false" scope="singleton">
 		<property name="emailUtil" ref="emailUtil" />
 		<property name="accountDAO" ref="accountDAO" />
+		<property name="messageDAO" ref="messageDAO" />
 		<property name="httpHost" ref="httpHost" />
 		<property name="genericManagement" ref="genericManagement" />
+		<property name="messageManagement" ref="messageManagement" />
 	</bean>
 	<bean id="genericManagement" class="com.lasso.rest.service.impl.ImplGenericManagement"
 		lazy-init="false" scope="singleton">
@@ -197,6 +199,7 @@
 		lazy-init="false">
 		<property name="userManagement" ref="userManagement" />
 		<property name="messageManagement" ref="messageManagement" />
+		<property name="genericManagement" ref="genericManagement" />
 		<property name="avatarStoragePath" ref="avatarStoragePath" />
 		<property name="categoryStoragePath" ref="categoryStoragePath" />
 		<property name="jobStoragePath" ref="jobStoragePath" />

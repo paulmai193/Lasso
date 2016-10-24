@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotFoundException;
@@ -94,6 +95,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				this.jobAccountDAO.update(_jobsAccount);
 
 				// Send push
+				Map<String, String> _mapConfig = genericManagement.loadConfig();
 				Account _user = ImplDesignerManagement.this.accountDAO
 				        .getAccountById(_job.getAccountId());
 				new Thread(new Runnable() {
@@ -110,8 +112,8 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 							                .equals("on")) {
 								SendPushRequest _pushRequest = new SendPushRequest();
 								_pushRequest.setNotification(new PushNotification(
-								        "Confirm the order", "Designer " + __designer.getName()
-								                + " was confirm your order"));
+								        _mapConfig.get("EmailTemplate.user_message_title"),
+								        _mapConfig.get("EmailTemplate.user_message_desc")));
 								_pushRequest.setData(new PushOrderDetailMessage(_job.getId()));
 								_pushRequest.setTo(_user.getDeviceId());
 								ImplDesignerManagement.this.messageManagement
@@ -166,6 +168,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				this.jobAccountDAO.update(_jobsAccount);
 
 				// Send push
+				Map<String, String> _mapConfig = genericManagement.loadConfig();
 				Account _user = ImplDesignerManagement.this.accountDAO
 				        .getAccountById(_job.getAccountId());
 				new Thread(new Runnable() {
@@ -181,10 +184,9 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 							        && _accountSettings.getAppSettings().getStatus_update()
 							                .equals("on")) {
 								SendPushRequest _pushRequest = new SendPushRequest();
-								_pushRequest.setNotification(
-								        new PushNotification("Counter offer for order",
-								                "Designer " + __designer.getName()
-								                        + " was counter offer your order"));
+								_pushRequest.setNotification(new PushNotification(
+								        _mapConfig.get("EmailTemplate.user_counter_title"),
+								        _mapConfig.get("EmailTemplate.user_counter_desc")));
 								_pushRequest.setData(new PushOrderDetailMessage(_job.getId()));
 								_pushRequest.setTo(_user.getDeviceId());
 								ImplDesignerManagement.this.messageManagement
@@ -654,6 +656,7 @@ public class ImplDesignerManagement extends ImplProjectManagement implements Des
 				this.jobDAO.updateJob(_job);
 
 				// Send push
+				Map<String, String> _mapConfig = genericManagement.loadConfig();
 				Account _user = ImplDesignerManagement.this.accountDAO
 				        .getAccountById(_job.getAccountId());
 				new Thread(new Runnable() {
