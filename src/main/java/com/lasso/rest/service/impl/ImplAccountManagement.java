@@ -77,19 +77,13 @@ public class ImplAccountManagement implements AccountManagement {
 	/** The http host. */
 	private String				httpHost;
 
+	/** The message DAO. */
+	@Autowired
+	private MessageDAO			messageDAO;
+
+	/** The message management. */
 	@Autowired
 	private MessageManagement	messageManagement;
-
-	public void setMessageManagement(MessageManagement __messageManagement) {
-		this.messageManagement = __messageManagement;
-	}
-
-	@Autowired
-	private MessageDAO messageDAO;
-
-	public void setMessageDAO(MessageDAO __messageDAO) {
-		this.messageDAO = __messageDAO;
-	}
 
 	/**
 	 * Instantiates a new impl account management.
@@ -229,13 +223,34 @@ public class ImplAccountManagement implements AccountManagement {
 				this.accountDAO.updateAccount(_tempAccount);
 			});
 
-			// generate push data
+			// Penerate token
 			String _token = RandomStringUtils.randomAlphanumeric(45);
 			_account.setAppSession(_token);
 			_account.setDeviceId(__pushToken);
 			this.accountDAO.updateAccount(_account);
 
 			_response = new LoginResponse(_token, _account, __prefixAvatarUrl);
+
+			List<Message> _messages = this.messageDAO
+			        .getListUnreadMessageOfAccount(_account.getId());
+			new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					_messages.forEach(_message -> {
+						SendPushRequest _pushRequest = new SendPushRequest();
+						_pushRequest.setNotification(
+						        new PushNotification(_message.getTitle(), _message.getMessage()));
+						_pushRequest.setTo(__pushToken);
+						try {
+							ImplAccountManagement.this.messageManagement.sendPush(_pushRequest);
+						}
+						catch (Exception _ex) {
+							Logger.getLogger(ImplAccountManagement.class);
+						}
+					});
+				}
+			}).start();
 		}
 
 		return _response;
@@ -401,6 +416,24 @@ public class ImplAccountManagement implements AccountManagement {
 		this.httpHost = __httpHost;
 	}
 
+	/**
+	 * Sets the message DAO.
+	 *
+	 * @param __messageDAO the new message DAO
+	 */
+	public void setMessageDAO(MessageDAO __messageDAO) {
+		this.messageDAO = __messageDAO;
+	}
+
+	/**
+	 * Sets the message management.
+	 *
+	 * @param __messageManagement the new message management
+	 */
+	public void setMessageManagement(MessageManagement __messageManagement) {
+		this.messageManagement = __messageManagement;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -497,7 +530,7 @@ public class ImplAccountManagement implements AccountManagement {
 						        new PushNotification(_message.getTitle(), _message.getMessage()));
 						_pushRequest.setTo(_account.getDeviceId());
 						try {
-							messageManagement.sendPush(_pushRequest);
+							ImplAccountManagement.this.messageManagement.sendPush(_pushRequest);
 						}
 						catch (Exception _ex) {
 							Logger.getLogger(this.getClass()).warn("Send push error", _ex);

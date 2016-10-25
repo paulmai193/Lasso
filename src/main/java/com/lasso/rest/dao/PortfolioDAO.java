@@ -54,15 +54,6 @@ public interface PortfolioDAO extends HibernateSession {
 	Portfolio getPortfolioByProject(Project __project);
 
 	/**
-	 * Gets the portfolio of account by style.
-	 *
-	 * @param __idStyle the id style
-	 * @param __idDesigner the id designer
-	 * @return the portfolio by style
-	 */
-	List<Portfolio> getPortfolioOfAccountByStyle(Integer __idStyle, Integer __idDesigner);
-
-	/**
 	 * Gets the portfolio of account.
 	 *
 	 * @param __account
@@ -72,6 +63,15 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @return the portfolio of account
 	 */
 	Portfolio getPortfolioOfAccount(Account __account, Integer __idPortfolio);
+
+	/**
+	 * Gets the portfolio of account by style.
+	 *
+	 * @param __idStyle the id style
+	 * @param __idDesigner the id designer
+	 * @return the portfolio by style
+	 */
+	List<Portfolio> getPortfolioOfAccountByStyle(Integer __idStyle, Integer __idDesigner);
 
 	/**
 	 * Gets the ramdom.
@@ -100,7 +100,7 @@ public interface PortfolioDAO extends HibernateSession {
 	 * @return the list portfolios by condition
 	 */
 	List<Portfolio> searchPortfolios(int __offset, int __limit, int __idCategory,
-	        List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
+			List<Integer> __idsStyle, List<PortfolioType> __portfolioTypes, double __budgetCompare);
 
 	/**
 	 * Search projects.

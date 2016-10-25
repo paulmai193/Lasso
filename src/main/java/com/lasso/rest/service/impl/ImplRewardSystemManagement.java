@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lasso.define.Constant;
+import com.lasso.define.JobStepConstant;
 import com.lasso.rest.dao.AccountDAO;
 import com.lasso.rest.dao.CategoryDAO;
 import com.lasso.rest.dao.JobAccountDAO;
@@ -188,7 +189,11 @@ public class ImplRewardSystemManagement implements RewardSystemManagement {
 	 * @return the int
 	 */
 	private int updateBriefJobReward(Account __user) {
-		int _numberJob = this.jobDAO.getListJobsOfUser(__user.getId()).size();
+		int _numberJob = (int) this.jobDAO.getListJobsOfUser(__user.getId()).stream().filter(
+		        _job -> _job.getStep().byteValue() == JobStepConstant.JOB_STEP_PAY.getStepCode()
+		                || _job.getStep().byteValue() == JobStepConstant.JOB_STEP_COMPLETE
+		                        .getStepCode())
+		        .count();
 		if (_numberJob == 0) {
 			throw new IllegalArgumentException("Not match condition of brief job to get reward");
 		}

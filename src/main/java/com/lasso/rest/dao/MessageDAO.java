@@ -61,6 +61,14 @@ public interface MessageDAO extends HibernateSession {
 	List<Message> getListRootMessageByIdRSender(Integer __idSender);
 
 	/**
+	 * Gets the list unread message of account.
+	 *
+	 * @param __idAccount the id account
+	 * @return the list unread message of account
+	 */
+	List<Message> getListUnreadMessageOfAccount(Integer __idAccount);
+
+	/**
 	 * Gets the message by id.
 	 *
 	 * @param __idMessage
